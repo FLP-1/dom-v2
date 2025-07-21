@@ -1,0 +1,2183 @@
+{
+  "summary": {
+    "totalCorrections": 308,
+    "filesProcessed": 4,
+    "errorsFixed": 98520,
+    "timeSaved": 616,
+    "categories": {
+      "naming": 6,
+      "structure": 155,
+      "imports": 9,
+      "documentation": 103,
+      "performance": 34,
+      "security": 1,
+      "accessibility": 0,
+      "testing": 0
+    }
+  },
+  "corrections": [
+    {
+      "file": "achieve-100-percent.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 525,
+      "timestamp": "2025-07-21T21:16:36.064Z"
+    },
+    {
+      "file": "achieve-100-percent.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.066Z"
+    },
+    {
+      "file": "achieve-100-percent.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 81,
+      "timestamp": "2025-07-21T21:16:36.066Z"
+    },
+    {
+      "file": "achieve-100-percent.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.066Z"
+    },
+    {
+      "file": "add-all-ignores.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 350,
+      "timestamp": "2025-07-21T21:16:36.069Z"
+    },
+    {
+      "file": "add-ignores-careful.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.073Z"
+    },
+    {
+      "file": "add-ignores-careful.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 13,
+      "timestamp": "2025-07-21T21:16:36.073Z"
+    },
+    {
+      "file": "analyze-improvements.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 560,
+      "timestamp": "2025-07-21T21:16:36.077Z"
+    },
+    {
+      "file": "analyze-improvements.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.077Z"
+    },
+    {
+      "file": "analyze-improvements.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 138,
+      "timestamp": "2025-07-21T21:16:36.077Z"
+    },
+    {
+      "file": "audit-decisions.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 805,
+      "timestamp": "2025-07-21T21:16:36.082Z"
+    },
+    {
+      "file": "audit-decisions.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 12,
+      "timestamp": "2025-07-21T21:16:36.082Z"
+    },
+    {
+      "file": "audit-decisions.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 12,
+      "timestamp": "2025-07-21T21:16:36.082Z"
+    },
+    {
+      "file": "check-user-profiles.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 455,
+      "timestamp": "2025-07-21T21:16:36.083Z"
+    },
+    {
+      "file": "check-user-profiles.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 2,
+      "timestamp": "2025-07-21T21:16:36.083Z"
+    },
+    {
+      "file": "check-user-profiles.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.083Z"
+    },
+    {
+      "file": "check-versions.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 875,
+      "timestamp": "2025-07-21T21:16:36.085Z"
+    },
+    {
+      "file": "check-versions.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 8,
+      "timestamp": "2025-07-21T21:16:36.085Z"
+    },
+    {
+      "file": "check-versions.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 134,
+      "timestamp": "2025-07-21T21:16:36.085Z"
+    },
+    {
+      "file": "check-versions.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 12,
+      "timestamp": "2025-07-21T21:16:36.085Z"
+    },
+    {
+      "file": "collect-feedback.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 840,
+      "timestamp": "2025-07-21T21:16:36.087Z"
+    },
+    {
+      "file": "collect-feedback.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 2,
+      "timestamp": "2025-07-21T21:16:36.087Z"
+    },
+    {
+      "file": "collect-feedback.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 116,
+      "timestamp": "2025-07-21T21:16:36.087Z"
+    },
+    {
+      "file": "collect-feedback.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 8,
+      "timestamp": "2025-07-21T21:16:36.088Z"
+    },
+    {
+      "file": "correct-final-14.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 560,
+      "timestamp": "2025-07-21T21:16:36.092Z"
+    },
+    {
+      "file": "correct-final-14.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.092Z"
+    },
+    {
+      "file": "correct-final-14.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 116,
+      "timestamp": "2025-07-21T21:16:36.092Z"
+    },
+    {
+      "file": "correct-final-14.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.094Z"
+    },
+    {
+      "file": "declare-100-percent.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 910,
+      "timestamp": "2025-07-21T21:16:36.098Z"
+    },
+    {
+      "file": "declare-100-percent.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 52,
+      "timestamp": "2025-07-21T21:16:36.098Z"
+    },
+    {
+      "file": "expand-validations.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1225,
+      "timestamp": "2025-07-21T21:16:36.100Z"
+    },
+    {
+      "file": "expand-validations.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 12,
+      "timestamp": "2025-07-21T21:16:36.101Z"
+    },
+    {
+      "file": "expand-validations.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 288,
+      "timestamp": "2025-07-21T21:16:36.101Z"
+    },
+    {
+      "file": "expand-validations.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.101Z"
+    },
+    {
+      "file": "final-100-percent-complete.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 595,
+      "timestamp": "2025-07-21T21:16:36.103Z"
+    },
+    {
+      "file": "final-100-percent-complete.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.103Z"
+    },
+    {
+      "file": "final-100-percent-complete.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 175,
+      "timestamp": "2025-07-21T21:16:36.103Z"
+    },
+    {
+      "file": "final-100-percent-complete.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.103Z"
+    },
+    {
+      "file": "final-100-percent.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 560,
+      "timestamp": "2025-07-21T21:16:36.108Z"
+    },
+    {
+      "file": "final-100-percent.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 5,
+      "timestamp": "2025-07-21T21:16:36.108Z"
+    },
+    {
+      "file": "final-100-percent.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 137,
+      "timestamp": "2025-07-21T21:16:36.108Z"
+    },
+    {
+      "file": "final-100-percent.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.108Z"
+    },
+    {
+      "file": "final-100-simple.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 455,
+      "timestamp": "2025-07-21T21:16:36.111Z"
+    },
+    {
+      "file": "final-100-simple.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.111Z"
+    },
+    {
+      "file": "final-100-simple.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 50,
+      "timestamp": "2025-07-21T21:16:36.111Z"
+    },
+    {
+      "file": "final-100-simple.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.111Z"
+    },
+    {
+      "file": "fix-final-issues.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 700,
+      "timestamp": "2025-07-21T21:16:36.115Z"
+    },
+    {
+      "file": "fix-final-issues.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 5,
+      "timestamp": "2025-07-21T21:16:36.115Z"
+    },
+    {
+      "file": "fix-final-issues.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 212,
+      "timestamp": "2025-07-21T21:16:36.115Z"
+    },
+    {
+      "file": "fix-final-issues.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 20,
+      "timestamp": "2025-07-21T21:16:36.115Z"
+    },
+    {
+      "file": "fix-naming-issues.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 595,
+      "timestamp": "2025-07-21T21:16:36.117Z"
+    },
+    {
+      "file": "fix-naming-issues.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 7,
+      "timestamp": "2025-07-21T21:16:36.117Z"
+    },
+    {
+      "file": "fix-naming-issues.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 349,
+      "timestamp": "2025-07-21T21:16:36.117Z"
+    },
+    {
+      "file": "fix-naming-issues.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.117Z"
+    },
+    {
+      "file": "fix-real-problems.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 490,
+      "timestamp": "2025-07-21T21:16:36.118Z"
+    },
+    {
+      "file": "fix-real-problems.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.118Z"
+    },
+    {
+      "file": "fix-real-problems.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 85,
+      "timestamp": "2025-07-21T21:16:36.118Z"
+    },
+    {
+      "file": "fix-real-problems.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.118Z"
+    },
+    {
+      "file": "fix-remaining-issues.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 665,
+      "timestamp": "2025-07-21T21:16:36.120Z"
+    },
+    {
+      "file": "fix-remaining-issues.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 6,
+      "timestamp": "2025-07-21T21:16:36.120Z"
+    },
+    {
+      "file": "fix-remaining-issues.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 154,
+      "timestamp": "2025-07-21T21:16:36.120Z"
+    },
+    {
+      "file": "fix-remaining-issues.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 20,
+      "timestamp": "2025-07-21T21:16:36.120Z"
+    },
+    {
+      "file": "fix-validation-errors.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 350,
+      "timestamp": "2025-07-21T21:16:36.123Z"
+    },
+    {
+      "file": "fix-validation-errors.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.123Z"
+    },
+    {
+      "file": "fix-validation-errors.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 13,
+      "timestamp": "2025-07-21T21:16:36.124Z"
+    },
+    {
+      "file": "fix-validation-scripts.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1820,
+      "timestamp": "2025-07-21T21:16:36.126Z"
+    },
+    {
+      "file": "fix-validation-scripts.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 6,
+      "timestamp": "2025-07-21T21:16:36.126Z"
+    },
+    {
+      "file": "fix-validation-scripts.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 368,
+      "timestamp": "2025-07-21T21:16:36.127Z"
+    },
+    {
+      "file": "fix-validation-scripts.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.127Z"
+    },
+    {
+      "file": "implement-improvements.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1155,
+      "timestamp": "2025-07-21T21:16:36.130Z"
+    },
+    {
+      "file": "implement-improvements.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.130Z"
+    },
+    {
+      "file": "implement-improvements.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 351,
+      "timestamp": "2025-07-21T21:16:36.130Z"
+    },
+    {
+      "file": "improve-documentation.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 490,
+      "timestamp": "2025-07-21T21:16:36.132Z"
+    },
+    {
+      "file": "improve-documentation.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.132Z"
+    },
+    {
+      "file": "improve-documentation.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 77,
+      "timestamp": "2025-07-21T21:16:36.132Z"
+    },
+    {
+      "file": "improve-documentation.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.132Z"
+    },
+    {
+      "file": "metrics-adoption.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1225,
+      "timestamp": "2025-07-21T21:16:36.134Z"
+    },
+    {
+      "file": "metrics-adoption.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.134Z"
+    },
+    {
+      "file": "metrics-adoption.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 164,
+      "timestamp": "2025-07-21T21:16:36.134Z"
+    },
+    {
+      "file": "optimize-commands.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1470,
+      "timestamp": "2025-07-21T21:16:36.135Z"
+    },
+    {
+      "file": "optimize-commands.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.136Z"
+    },
+    {
+      "file": "optimize-commands.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 255,
+      "timestamp": "2025-07-21T21:16:36.136Z"
+    },
+    {
+      "file": "optimize-commands.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.136Z"
+    },
+    {
+      "file": "phase4-init.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1120,
+      "timestamp": "2025-07-21T21:16:36.137Z"
+    },
+    {
+      "file": "phase4-init.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 2,
+      "timestamp": "2025-07-21T21:16:36.138Z"
+    },
+    {
+      "file": "phase4-init.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 8,
+      "timestamp": "2025-07-21T21:16:36.138Z"
+    },
+    {
+      "file": "phase5-metrics.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 910,
+      "timestamp": "2025-07-21T21:16:36.142Z"
+    },
+    {
+      "file": "phase5-metrics.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 2,
+      "timestamp": "2025-07-21T21:16:36.142Z"
+    },
+    {
+      "file": "phase5-metrics.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 156,
+      "timestamp": "2025-07-21T21:16:36.142Z"
+    },
+    {
+      "file": "phase5-setup.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 945,
+      "timestamp": "2025-07-21T21:16:36.145Z"
+    },
+    {
+      "file": "phase5-setup.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.145Z"
+    },
+    {
+      "file": "phase5-setup.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 596,
+      "timestamp": "2025-07-21T21:16:36.145Z"
+    },
+    {
+      "file": "pre-commit-hook.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1050,
+      "timestamp": "2025-07-21T21:16:36.147Z"
+    },
+    {
+      "file": "pre-commit-hook.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 5,
+      "timestamp": "2025-07-21T21:16:36.147Z"
+    },
+    {
+      "file": "pre-commit-hook.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 153,
+      "timestamp": "2025-07-21T21:16:36.147Z"
+    },
+    {
+      "file": "prepare-next-phase.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 945,
+      "timestamp": "2025-07-21T21:16:36.149Z"
+    },
+    {
+      "file": "prepare-next-phase.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 253,
+      "timestamp": "2025-07-21T21:16:36.150Z"
+    },
+    {
+      "file": "quick-fix-validations.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 595,
+      "timestamp": "2025-07-21T21:16:36.151Z"
+    },
+    {
+      "file": "quick-fix-validations.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.151Z"
+    },
+    {
+      "file": "quick-metrics.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 315,
+      "timestamp": "2025-07-21T21:16:36.152Z"
+    },
+    {
+      "file": "quick-metrics.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 24,
+      "timestamp": "2025-07-21T21:16:36.153Z"
+    },
+    {
+      "file": "quick-status.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 350,
+      "timestamp": "2025-07-21T21:16:36.154Z"
+    },
+    {
+      "file": "quick-status.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 23,
+      "timestamp": "2025-07-21T21:16:36.154Z"
+    },
+    {
+      "file": "quick-validate.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 315,
+      "timestamp": "2025-07-21T21:16:36.158Z"
+    },
+    {
+      "file": "quick-validate.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 25,
+      "timestamp": "2025-07-21T21:16:36.158Z"
+    },
+    {
+      "file": "test-critical-thinking-system.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 2240,
+      "timestamp": "2025-07-21T21:16:36.161Z"
+    },
+    {
+      "file": "test-critical-thinking-system.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.161Z"
+    },
+    {
+      "file": "test-critical-thinking-system.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.161Z"
+    },
+    {
+      "file": "test-improvements.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 875,
+      "timestamp": "2025-07-21T21:16:36.165Z"
+    },
+    {
+      "file": "test-improvements.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 7,
+      "timestamp": "2025-07-21T21:16:36.165Z"
+    },
+    {
+      "file": "test-improvements.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 209,
+      "timestamp": "2025-07-21T21:16:36.165Z"
+    },
+    {
+      "file": "update-phase5-metrics.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 525,
+      "timestamp": "2025-07-21T21:16:36.167Z"
+    },
+    {
+      "file": "update-phase5-metrics.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.167Z"
+    },
+    {
+      "file": "update-phase5-metrics.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 168,
+      "timestamp": "2025-07-21T21:16:36.167Z"
+    },
+    {
+      "file": "update-phase5-metrics.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 31,
+      "timestamp": "2025-07-21T21:16:36.167Z"
+    },
+    {
+      "file": "usage-metrics.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 805,
+      "timestamp": "2025-07-21T21:16:36.169Z"
+    },
+    {
+      "file": "usage-metrics.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 215,
+      "timestamp": "2025-07-21T21:16:36.169Z"
+    },
+    {
+      "file": "validate-accessibility.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.170Z"
+    },
+    {
+      "file": "validate-accessibility.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.170Z"
+    },
+    {
+      "file": "validate-accessibility.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 26,
+      "timestamp": "2025-07-21T21:16:36.170Z"
+    },
+    {
+      "file": "validate-critical-thinking-enforcement.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 245,
+      "timestamp": "2025-07-21T21:16:36.174Z"
+    },
+    {
+      "file": "validate-critical-thinking.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 735,
+      "timestamp": "2025-07-21T21:16:36.177Z"
+    },
+    {
+      "file": "validate-critical-thinking.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 6,
+      "timestamp": "2025-07-21T21:16:36.177Z"
+    },
+    {
+      "file": "validate-critical-thinking.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 16,
+      "timestamp": "2025-07-21T21:16:36.177Z"
+    },
+    {
+      "file": "validate-documentation.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.179Z"
+    },
+    {
+      "file": "validate-documentation.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 2,
+      "timestamp": "2025-07-21T21:16:36.179Z"
+    },
+    {
+      "file": "validate-documentation.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 26,
+      "timestamp": "2025-07-21T21:16:36.179Z"
+    },
+    {
+      "file": "validate-impact.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 770,
+      "timestamp": "2025-07-21T21:16:36.183Z"
+    },
+    {
+      "file": "validate-impact.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 179,
+      "timestamp": "2025-07-21T21:16:36.183Z"
+    },
+    {
+      "file": "validate-naming-final.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 770,
+      "timestamp": "2025-07-21T21:16:36.185Z"
+    },
+    {
+      "file": "validate-naming-final.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 7,
+      "timestamp": "2025-07-21T21:16:36.185Z"
+    },
+    {
+      "file": "validate-naming-final.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 388,
+      "timestamp": "2025-07-21T21:16:36.185Z"
+    },
+    {
+      "file": "validate-naming-final.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.185Z"
+    },
+    {
+      "file": "validate-naming-simple.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 770,
+      "timestamp": "2025-07-21T21:16:36.191Z"
+    },
+    {
+      "file": "validate-naming-simple.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 7,
+      "timestamp": "2025-07-21T21:16:36.192Z"
+    },
+    {
+      "file": "validate-naming-simple.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 388,
+      "timestamp": "2025-07-21T21:16:36.193Z"
+    },
+    {
+      "file": "validate-naming-simple.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.193Z"
+    },
+    {
+      "file": "validate-naming.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 2170,
+      "timestamp": "2025-07-21T21:16:36.197Z"
+    },
+    {
+      "file": "validate-naming.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 13,
+      "timestamp": "2025-07-21T21:16:36.197Z"
+    },
+    {
+      "file": "validate-naming.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 722,
+      "timestamp": "2025-07-21T21:16:36.197Z"
+    },
+    {
+      "file": "validate-naming.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 12,
+      "timestamp": "2025-07-21T21:16:36.198Z"
+    },
+    {
+      "file": "validate-performance.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.199Z"
+    },
+    {
+      "file": "validate-performance.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.199Z"
+    },
+    {
+      "file": "validate-performance.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 26,
+      "timestamp": "2025-07-21T21:16:36.199Z"
+    },
+    {
+      "file": "validate-phase5.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1540,
+      "timestamp": "2025-07-21T21:16:36.201Z"
+    },
+    {
+      "file": "validate-phase5.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 5,
+      "timestamp": "2025-07-21T21:16:36.201Z"
+    },
+    {
+      "file": "validate-phase5.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 157,
+      "timestamp": "2025-07-21T21:16:36.201Z"
+    },
+    {
+      "file": "validate-rules-enhanced.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1645,
+      "timestamp": "2025-07-21T21:16:36.204Z"
+    },
+    {
+      "file": "validate-rules-enhanced.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 14,
+      "timestamp": "2025-07-21T21:16:36.204Z"
+    },
+    {
+      "file": "validate-rules-enhanced.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 165,
+      "timestamp": "2025-07-21T21:16:36.204Z"
+    },
+    {
+      "file": "validate-rules.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1120,
+      "timestamp": "2025-07-21T21:16:36.211Z"
+    },
+    {
+      "file": "validate-rules.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 8,
+      "timestamp": "2025-07-21T21:16:36.211Z"
+    },
+    {
+      "file": "validate-security.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.214Z"
+    },
+    {
+      "file": "validate-security.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 2,
+      "timestamp": "2025-07-21T21:16:36.214Z"
+    },
+    {
+      "file": "validate-security.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 26,
+      "timestamp": "2025-07-21T21:16:36.214Z"
+    },
+    {
+      "file": "validate-structure.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.216Z"
+    },
+    {
+      "file": "validate-structure.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 2,
+      "timestamp": "2025-07-21T21:16:36.216Z"
+    },
+    {
+      "file": "validate-structure.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 26,
+      "timestamp": "2025-07-21T21:16:36.216Z"
+    },
+    {
+      "file": "validate-structure.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.216Z"
+    },
+    {
+      "file": "validate-testing.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.217Z"
+    },
+    {
+      "file": "validate-testing.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.217Z"
+    },
+    {
+      "file": "validate-testing.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 26,
+      "timestamp": "2025-07-21T21:16:36.217Z"
+    },
+    {
+      "file": "notification-list.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 5,
+      "timestamp": "2025-07-21T21:16:36.234Z"
+    },
+    {
+      "file": "notification-list.tsx",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.235Z"
+    },
+    {
+      "file": "notification-list.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 154,
+      "timestamp": "2025-07-21T21:16:36.235Z"
+    },
+    {
+      "file": "profile-selector.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.236Z"
+    },
+    {
+      "file": "profile-selector.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 154,
+      "timestamp": "2025-07-21T21:16:36.236Z"
+    },
+    {
+      "file": "regional-selector.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.238Z"
+    },
+    {
+      "file": "regional-selector.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 147,
+      "timestamp": "2025-07-21T21:16:36.238Z"
+    },
+    {
+      "file": "use-profile-adaptation.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 13,
+      "timestamp": "2025-07-21T21:16:36.242Z"
+    },
+    {
+      "file": "use-profile-adaptation.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 150,
+      "timestamp": "2025-07-21T21:16:36.242Z"
+    },
+    {
+      "file": "use-profile-adaptation.ts",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 32,
+      "timestamp": "2025-07-21T21:16:36.242Z"
+    },
+    {
+      "file": "dashboard-screen.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.245Z"
+    },
+    {
+      "file": "dashboard-screen.tsx",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 30,
+      "timestamp": "2025-07-21T21:16:36.245Z"
+    },
+    {
+      "file": "dashboard-screen.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 134,
+      "timestamp": "2025-07-21T21:16:36.246Z"
+    },
+    {
+      "file": "login-screen.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.248Z"
+    },
+    {
+      "file": "login-screen.tsx",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 30,
+      "timestamp": "2025-07-21T21:16:36.248Z"
+    },
+    {
+      "file": "login-screen.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 130,
+      "timestamp": "2025-07-21T21:16:36.248Z"
+    },
+    {
+      "file": "notifications-screen.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.250Z"
+    },
+    {
+      "file": "notifications-screen.tsx",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 15,
+      "timestamp": "2025-07-21T21:16:36.250Z"
+    },
+    {
+      "file": "notifications-screen.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 137,
+      "timestamp": "2025-07-21T21:16:36.250Z"
+    },
+    {
+      "file": "simple-dashboard.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.252Z"
+    },
+    {
+      "file": "simple-dashboard.tsx",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.252Z"
+    },
+    {
+      "file": "simple-dashboard.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 139,
+      "timestamp": "2025-07-21T21:16:36.252Z"
+    },
+    {
+      "file": "tasks-screen.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 10,
+      "timestamp": "2025-07-21T21:16:36.255Z"
+    },
+    {
+      "file": "tasks-screen.tsx",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 40,
+      "timestamp": "2025-07-21T21:16:36.256Z"
+    },
+    {
+      "file": "tasks-screen.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 132,
+      "timestamp": "2025-07-21T21:16:36.256Z"
+    },
+    {
+      "file": "critical-thinking-validation.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 210,
+      "timestamp": "2025-07-21T21:16:36.260Z"
+    },
+    {
+      "file": "device-optimization.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.263Z"
+    },
+    {
+      "file": "device-optimization.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 145,
+      "timestamp": "2025-07-21T21:16:36.263Z"
+    },
+    {
+      "file": "device-optimization.ts",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 163,
+      "timestamp": "2025-07-21T21:16:36.263Z"
+    },
+    {
+      "file": "generic-functions.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 35,
+      "timestamp": "2025-07-21T21:16:36.265Z"
+    },
+    {
+      "file": "generic-functions.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.265Z"
+    },
+    {
+      "file": "generic-functions.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 153,
+      "timestamp": "2025-07-21T21:16:36.265Z"
+    },
+    {
+      "file": "generic-functions.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 366,
+      "timestamp": "2025-07-21T21:16:36.265Z"
+    },
+    {
+      "file": "intelligent-notifications.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.267Z"
+    },
+    {
+      "file": "intelligent-notifications.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 155,
+      "timestamp": "2025-07-21T21:16:36.268Z"
+    },
+    {
+      "file": "intelligent-notifications.ts",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 39,
+      "timestamp": "2025-07-21T21:16:36.268Z"
+    },
+    {
+      "file": "messages.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 148,
+      "timestamp": "2025-07-21T21:16:36.269Z"
+    },
+    {
+      "file": "regional-adaptation.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.275Z"
+    },
+    {
+      "file": "regional-adaptation.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 148,
+      "timestamp": "2025-07-21T21:16:36.276Z"
+    },
+    {
+      "file": "regional-adaptation.ts",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 64,
+      "timestamp": "2025-07-21T21:16:36.276Z"
+    },
+    {
+      "file": "simple-notifications.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 7,
+      "timestamp": "2025-07-21T21:16:36.277Z"
+    },
+    {
+      "file": "simple-notifications.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 150,
+      "timestamp": "2025-07-21T21:16:36.278Z"
+    },
+    {
+      "file": "simple-notifications.ts",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 34,
+      "timestamp": "2025-07-21T21:16:36.278Z"
+    },
+    {
+      "file": "theme-provider.tsx",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.281Z"
+    },
+    {
+      "file": "theme-provider.tsx",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 20,
+      "timestamp": "2025-07-21T21:16:36.281Z"
+    },
+    {
+      "file": "theme-provider.tsx",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 155,
+      "timestamp": "2025-07-21T21:16:36.281Z"
+    },
+    {
+      "file": "theme-provider.tsx",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 214,
+      "timestamp": "2025-07-21T21:16:36.281Z"
+    },
+    {
+      "file": "user-profiles.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 167,
+      "timestamp": "2025-07-21T21:16:36.283Z"
+    },
+    {
+      "file": "database.ts",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.298Z"
+    },
+    {
+      "file": "database.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 144,
+      "timestamp": "2025-07-21T21:16:36.298Z"
+    },
+    {
+      "file": "database.ts",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 88,
+      "timestamp": "2025-07-21T21:16:36.298Z"
+    },
+    {
+      "file": "index-browser.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 11,
+      "timestamp": "2025-07-21T21:16:36.303Z"
+    },
+    {
+      "file": "index.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.337Z"
+    },
+    {
+      "file": "edge-esm.js",
+      "description": "Converter let para const quando apropriado",
+      "category": "naming",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.347Z"
+    },
+    {
+      "file": "edge-esm.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.347Z"
+    },
+    {
+      "file": "edge-esm.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 208,
+      "timestamp": "2025-07-21T21:16:36.348Z"
+    },
+    {
+      "file": "edge-esm.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 5144,
+      "timestamp": "2025-07-21T21:16:36.349Z"
+    },
+    {
+      "file": "edge-esm.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.349Z"
+    },
+    {
+      "file": "edge.js",
+      "description": "Converter let para const quando apropriado",
+      "category": "naming",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.353Z"
+    },
+    {
+      "file": "edge.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.353Z"
+    },
+    {
+      "file": "edge.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 208,
+      "timestamp": "2025-07-21T21:16:36.355Z"
+    },
+    {
+      "file": "edge.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 5186,
+      "timestamp": "2025-07-21T21:16:36.358Z"
+    },
+    {
+      "file": "edge.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.359Z"
+    },
+    {
+      "file": "index-browser.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 12,
+      "timestamp": "2025-07-21T21:16:36.364Z"
+    },
+    {
+      "file": "index-browser.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 1023,
+      "timestamp": "2025-07-21T21:16:36.364Z"
+    },
+    {
+      "file": "library.d.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.367Z"
+    },
+    {
+      "file": "library.js",
+      "description": "Converter let para const quando apropriado",
+      "category": "naming",
+      "count": 27,
+      "timestamp": "2025-07-21T21:16:36.379Z"
+    },
+    {
+      "file": "library.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 140,
+      "timestamp": "2025-07-21T21:16:36.380Z"
+    },
+    {
+      "file": "library.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 262,
+      "timestamp": "2025-07-21T21:16:36.381Z"
+    },
+    {
+      "file": "library.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 5668,
+      "timestamp": "2025-07-21T21:16:36.384Z"
+    },
+    {
+      "file": "library.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.384Z"
+    },
+    {
+      "file": "react-native.js",
+      "description": "Converter let para const quando apropriado",
+      "category": "naming",
+      "count": 51,
+      "timestamp": "2025-07-21T21:16:36.395Z"
+    },
+    {
+      "file": "react-native.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.396Z"
+    },
+    {
+      "file": "react-native.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 218,
+      "timestamp": "2025-07-21T21:16:36.398Z"
+    },
+    {
+      "file": "react-native.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 5438,
+      "timestamp": "2025-07-21T21:16:36.400Z"
+    },
+    {
+      "file": "react-native.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 18,
+      "timestamp": "2025-07-21T21:16:36.401Z"
+    },
+    {
+      "file": "wasm-compiler-edge.js",
+      "description": "Converter let para const quando apropriado",
+      "category": "naming",
+      "count": 63,
+      "timestamp": "2025-07-21T21:16:36.413Z"
+    },
+    {
+      "file": "wasm-compiler-edge.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.413Z"
+    },
+    {
+      "file": "wasm-compiler-edge.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 282,
+      "timestamp": "2025-07-21T21:16:36.415Z"
+    },
+    {
+      "file": "wasm-compiler-edge.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 5386,
+      "timestamp": "2025-07-21T21:16:36.417Z"
+    },
+    {
+      "file": "wasm-compiler-edge.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 30,
+      "timestamp": "2025-07-21T21:16:36.419Z"
+    },
+    {
+      "file": "wasm-compiler-edge.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.419Z"
+    },
+    {
+      "file": "wasm-engine-edge.js",
+      "description": "Converter let para const quando apropriado",
+      "category": "naming",
+      "count": 42,
+      "timestamp": "2025-07-21T21:16:36.430Z"
+    },
+    {
+      "file": "wasm-engine-edge.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.430Z"
+    },
+    {
+      "file": "wasm-engine-edge.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 214,
+      "timestamp": "2025-07-21T21:16:36.431Z"
+    },
+    {
+      "file": "wasm-engine-edge.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 3669,
+      "timestamp": "2025-07-21T21:16:36.433Z"
+    },
+    {
+      "file": "wasm-engine-edge.js",
+      "description": "Otimizar loops for tradicionais",
+      "category": "performance",
+      "count": 24,
+      "timestamp": "2025-07-21T21:16:36.434Z"
+    },
+    {
+      "file": "wasm-engine-edge.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.434Z"
+    },
+    {
+      "file": "wasm.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 11,
+      "timestamp": "2025-07-21T21:16:36.437Z"
+    },
+    {
+      "file": "critical-thinking-middleware.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 5,
+      "timestamp": "2025-07-21T21:16:36.439Z"
+    },
+    {
+      "file": "server.ts",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 350,
+      "timestamp": "2025-07-21T21:16:36.443Z"
+    },
+    {
+      "file": "server.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 11,
+      "timestamp": "2025-07-21T21:16:36.443Z"
+    },
+    {
+      "file": "server.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 143,
+      "timestamp": "2025-07-21T21:16:36.444Z"
+    },
+    {
+      "file": "server.ts",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 23,
+      "timestamp": "2025-07-21T21:16:36.444Z"
+    },
+    {
+      "file": "validation.ts",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.446Z"
+    },
+    {
+      "file": "validation.ts",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 130,
+      "timestamp": "2025-07-21T21:16:36.446Z"
+    },
+    {
+      "file": "analise-training-project-em-development.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 46,
+      "timestamp": "2025-07-21T21:16:36.484Z"
+    },
+    {
+      "file": "exemplo-personalizacao.md",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 35,
+      "timestamp": "2025-07-21T21:16:36.498Z"
+    },
+    {
+      "file": "exemplo-personalizacao.md",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 4,
+      "timestamp": "2025-07-21T21:16:36.498Z"
+    },
+    {
+      "file": "exemplo-personalizacao.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 125,
+      "timestamp": "2025-07-21T21:16:36.498Z"
+    },
+    {
+      "file": "guia-pensamento-critico.md",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.506Z"
+    },
+    {
+      "file": "guia-pensamento-critico.md",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 32,
+      "timestamp": "2025-07-21T21:16:36.506Z"
+    },
+    {
+      "file": "guia-rapido-diretivas-criticas.md",
+      "description": "Converter TODO para JSDoc",
+      "category": "structure",
+      "count": 6,
+      "timestamp": "2025-07-21T21:16:36.511Z"
+    },
+    {
+      "file": "guia-rapido-diretivas-criticas.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 226,
+      "timestamp": "2025-07-21T21:16:36.511Z"
+    },
+    {
+      "file": "padroes-nomenclatura.md",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 6,
+      "timestamp": "2025-07-21T21:16:36.515Z"
+    },
+    {
+      "file": "padroes-nomenclatura.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 48,
+      "timestamp": "2025-07-21T21:16:36.515Z"
+    },
+    {
+      "file": "prompts-estruturados-ia.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 36,
+      "timestamp": "2025-07-21T21:16:36.541Z"
+    },
+    {
+      "file": "relatorio-implementacao-nomenclatura.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 24,
+      "timestamp": "2025-07-21T21:16:36.559Z"
+    },
+    {
+      "file": "sistema-garantia-diretivas.md",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.583Z"
+    },
+    {
+      "file": "sistema-pensamento-critico-implementado.md",
+      "description": "Limpar imports desnecessários",
+      "category": "imports",
+      "count": 32,
+      "timestamp": "2025-07-21T21:16:36.585Z"
+    },
+    {
+      "file": "training-diretivas-criticas.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 50,
+      "timestamp": "2025-07-21T21:16:36.593Z"
+    },
+    {
+      "file": "workshop-adocao-phase2.md",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 46,
+      "timestamp": "2025-07-21T21:16:36.600Z"
+    },
+    {
+      "file": "automation-engine.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.603Z"
+    },
+    {
+      "file": "automation-engine.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 144,
+      "timestamp": "2025-07-21T21:16:36.603Z"
+    },
+    {
+      "file": "auto-corrector.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 245,
+      "timestamp": "2025-07-21T21:16:36.604Z"
+    },
+    {
+      "file": "auto-corrector.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 9,
+      "timestamp": "2025-07-21T21:16:36.604Z"
+    },
+    {
+      "file": "auto-corrector.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 157,
+      "timestamp": "2025-07-21T21:16:36.604Z"
+    },
+    {
+      "file": "auto-corrector.js",
+      "description": "Remover eval() por segurança",
+      "category": "security",
+      "count": 94,
+      "timestamp": "2025-07-21T21:16:36.604Z"
+    },
+    {
+      "file": "run-auto-corrections.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1295,
+      "timestamp": "2025-07-21T21:16:36.608Z"
+    },
+    {
+      "file": "run-auto-corrections.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 11,
+      "timestamp": "2025-07-21T21:16:36.608Z"
+    },
+    {
+      "file": "run-auto-corrections.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 168,
+      "timestamp": "2025-07-21T21:16:36.608Z"
+    },
+    {
+      "file": "run-auto-corrections.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 204,
+      "timestamp": "2025-07-21T21:16:36.608Z"
+    },
+    {
+      "file": "run-auto-corrections.js",
+      "description": "Converter forEach para map quando apropriado",
+      "category": "performance",
+      "count": 12,
+      "timestamp": "2025-07-21T21:16:36.608Z"
+    },
+    {
+      "file": "simple-test.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 245,
+      "timestamp": "2025-07-21T21:16:36.612Z"
+    },
+    {
+      "file": "simple-test.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 133,
+      "timestamp": "2025-07-21T21:16:36.612Z"
+    },
+    {
+      "file": "test-automation.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 385,
+      "timestamp": "2025-07-21T21:16:36.613Z"
+    },
+    {
+      "file": "test-automation.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 146,
+      "timestamp": "2025-07-21T21:16:36.613Z"
+    },
+    {
+      "file": "test-automation.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 26,
+      "timestamp": "2025-07-21T21:16:36.613Z"
+    },
+    {
+      "file": "dashboard-interface.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1120,
+      "timestamp": "2025-07-21T21:16:36.616Z"
+    },
+    {
+      "file": "dashboard-interface.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 3,
+      "timestamp": "2025-07-21T21:16:36.616Z"
+    },
+    {
+      "file": "dashboard-interface.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 155,
+      "timestamp": "2025-07-21T21:16:36.616Z"
+    },
+    {
+      "file": "dashboard-manager.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 70,
+      "timestamp": "2025-07-21T21:16:36.617Z"
+    },
+    {
+      "file": "dashboard-manager.js",
+      "description": "Padronizar arrow functions",
+      "category": "structure",
+      "count": 1,
+      "timestamp": "2025-07-21T21:16:36.617Z"
+    },
+    {
+      "file": "dashboard-manager.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 137,
+      "timestamp": "2025-07-21T21:16:36.617Z"
+    },
+    {
+      "file": "test-dashboard.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 350,
+      "timestamp": "2025-07-21T21:16:36.618Z"
+    },
+    {
+      "file": "test-dashboard.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 134,
+      "timestamp": "2025-07-21T21:16:36.618Z"
+    },
+    {
+      "file": "test-dashboard.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 25,
+      "timestamp": "2025-07-21T21:16:36.618Z"
+    },
+    {
+      "file": "advanced-pipeline.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 1050,
+      "timestamp": "2025-07-21T21:16:36.621Z"
+    },
+    {
+      "file": "advanced-pipeline.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 171,
+      "timestamp": "2025-07-21T21:16:36.621Z"
+    },
+    {
+      "file": "cicd-pipeline.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 105,
+      "timestamp": "2025-07-21T21:16:36.624Z"
+    },
+    {
+      "file": "cicd-pipeline.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 165,
+      "timestamp": "2025-07-21T21:16:36.624Z"
+    },
+    {
+      "file": "practical-example.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 2590,
+      "timestamp": "2025-07-21T21:16:36.626Z"
+    },
+    {
+      "file": "practical-example.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 182,
+      "timestamp": "2025-07-21T21:16:36.627Z"
+    },
+    {
+      "file": "test-advanced-pipeline.js",
+      "description": "Adicionar timestamp aos logs",
+      "category": "structure",
+      "count": 455,
+      "timestamp": "2025-07-21T21:16:36.628Z"
+    },
+    {
+      "file": "test-advanced-pipeline.js",
+      "description": "Padronizar JSDoc fileoverview",
+      "category": "documentation",
+      "count": 189,
+      "timestamp": "2025-07-21T21:16:36.628Z"
+    },
+    {
+      "file": "test-advanced-pipeline.js",
+      "description": "Adicionar JSDoc para funções",
+      "category": "documentation",
+      "count": 32,
+      "timestamp": "2025-07-21T21:16:36.628Z"
+    }
+  ],
+  "recommendations": [
+    "📝 Considerar implementar ESLint para nomenclatura",
+    "📚 Implementar JSDoc automático",
+    "⚡ Revisar padrões de performance",
+    "🔒 Implementar auditoria de segurança"
+  ],
+  "timestamp": "2025-07-21T21:16:36.630Z"
+}

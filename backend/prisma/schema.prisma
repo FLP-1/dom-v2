@@ -1,0 +1,286 @@
+/**
+ * @fileoverview Schema do Prisma para o projeto DOM v2
+ * @description Define os modelos de dados para gestão doméstica
+ * @author Equipe DOM v2
+ * @version 2.0.0
+ * @since 2024-01-01
+ */
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Organização (Grupos)
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  type        OrganizationType
+  status      OrganizationStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  userOrganizations UserOrganization[]
+  tasks             Task[]
+  notifications     Notification[]
+
+  @@map("organizations")
+}
+
+enum OrganizationType {
+  HOUSEHOLD    // Residência
+  BUSINESS     // Empresa
+  FAMILY       // Família
+  COMMUNITY    // Comunidade
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+// Modelos de Usuário
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  profile   UserProfile
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  tasks             Task[]
+  notifications     Notification[]
+  userOrganizations UserOrganization[]
+  employer          Employer? @relation("EmployerUser")
+  employee          Employee? @relation("EmployeeUser")
+  family            Family?   @relation("FamilyUser")
+  partner           Partner?  @relation("PartnerUser")
+  admin             Admin?    @relation("AdminUser")
+  owner             Owner?    @relation("OwnerUser")
+
+  @@map("users")
+}
+
+enum UserProfile {
+  EMPLOYER    // Empregadores (mulheres 35-50 anos)
+  EMPLOYEE    // Empregados Domésticos (mulheres 30-60 anos)
+  FAMILY      // Familiares (15-70 anos)
+  PARTNER     // Parceiros (donos de negócios)
+  SUBORDINATE // Subordinados (funcionários dos parceiros)
+  ADMIN       // Administradores (suporte técnico)
+  OWNER       // Donos (fundadores)
+}
+
+// Relacionamento Usuário-Organização (Multi-grupo)
+model UserOrganization {
+  id             String         @id @default(cuid())
+  userId         String
+  organizationId String
+  role           UserRole       @default(MEMBER)
+  status         UserOrgStatus  @default(ACTIVE)
+  joinedAt       DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  // Relacionamentos
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@map("user_organizations")
+}
+
+enum UserRole {
+  OWNER      // Dono da organização
+  ADMIN      // Administrador
+  MANAGER    // Gerente
+  MEMBER     // Membro
+  GUEST      // Convidado
+}
+
+enum UserOrgStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING
+}
+
+// Modelo de Notificações
+model Notification {
+  id             String             @id @default(cuid())
+  type           NotificationType
+  title          String
+  message        String
+  priority       NotificationPriority
+  status         NotificationStatus @default(UNREAD)
+  organizationId String
+  userId         String?
+  metadata       Json?              // Dados adicionais em JSON
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  // Relacionamentos
+  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("notifications")
+}
+
+enum NotificationType {
+  TASK_REMINDER
+  PAYMENT_DUE
+  SYSTEM_UPDATE
+  HELP_TIP
+  TASK_ASSIGNED
+  TASK_COMPLETED
+  PAYMENT_RECEIVED
+  SYSTEM_ALERT
+}
+
+enum NotificationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+  ARCHIVED
+}
+
+// Modelo de Tarefas
+model Task {
+  id             String      @id @default(cuid())
+  title          String
+  description    String?
+  priority       TaskPriority
+  status         TaskStatus
+  dueDate        DateTime?
+  assignedTo     String?
+  createdBy      String
+  organizationId String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  // Relacionamentos
+  user           User        @relation(fields: [createdBy], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("tasks")
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+// Modelos específicos por perfil
+model Employer {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  companyName String?
+  cpf         String   @unique
+  address     String?
+  phone       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  user        User     @relation("EmployerUser", fields: [userId], references: [id])
+  employees   Employee[]
+
+  @@map("employers")
+}
+
+model Employee {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  employerId  String
+  cpf         String   @unique
+  pis         String?  @unique
+  address     String?
+  phone       String?
+  salary      Decimal?
+  startDate   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  user        User     @relation("EmployeeUser", fields: [userId], references: [id])
+  employer    Employer @relation(fields: [employerId], references: [id])
+
+  @@map("employees")
+}
+
+model Family {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  relation  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  user      User     @relation("FamilyUser", fields: [userId], references: [id])
+
+  @@map("families")
+}
+
+model Partner {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  companyName String
+  cnpj        String   @unique
+  address     String?
+  phone       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  user        User     @relation("PartnerUser", fields: [userId], references: [id])
+
+  @@map("partners")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  role      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  user      User     @relation("AdminUser", fields: [userId], references: [id])
+
+  @@map("admins")
+}
+
+model Owner {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  user      User     @relation("OwnerUser", fields: [userId], references: [id])
+
+  @@map("owners")
+}

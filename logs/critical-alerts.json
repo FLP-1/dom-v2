@@ -1,0 +1,194 @@
+[
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:41.096Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 2,
+      "timestamp": "2025-07-21T20:45:41.105Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 2,
+      "timestamp": "2025-07-21T20:45:41.113Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 2,
+      "timestamp": "2025-07-21T20:45:41.117Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 2,
+      "timestamp": "2025-07-21T20:45:41.126Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 2,
+      "timestamp": "2025-07-21T20:45:41.130Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:41.133Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:41.144Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 6,
+      "timestamp": "2025-07-21T20:45:41.147Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:53.304Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:53.363Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:53.402Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:53.438Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:53.447Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 1,
+      "timestamp": "2025-07-21T20:45:53.457Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  },
+  {
+    "type": "CRITICAL_THINKING_VIOLATION",
+    "severity": "HIGH",
+    "message": "🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO DETECTADA",
+    "details": {
+      "action": "DECISION",
+      "failedChecks": 6,
+      "timestamp": "2025-07-21T20:45:53.479Z"
+    },
+    "requiredAction": "Correção obrigatória antes de prosseguir",
+    "mandatory": true
+  }
+]

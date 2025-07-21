@@ -1,0 +1,632 @@
+[
+  {
+    "timestamp": "2025-07-21T20:45:41.096Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sistema de validação",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": true,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": true,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.105Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem fonte verificada",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "sourceVerified",
+        "message": "Fonte deve ser verificada, confiável e documentada",
+        "details": {
+          "hasSource": false,
+          "source": {
+            "verified": false,
+            "url": null
+          }
+        }
+      },
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": true,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": true,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.113Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem questionar suposições",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "assumptionsQuestioned",
+        "message": "Suposições devem ser identificadas, questionadas e validadas",
+        "details": {
+          "hasAssumptions": false,
+          "hasQuestioning": false,
+          "hasValidation": false,
+          "assumptions": {
+            "identified": false,
+            "questioned": false,
+            "validated": false
+          }
+        }
+      },
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": true,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": true,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.117Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem testar lógica",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "logicTested",
+        "message": "Lógica deve ser testada, validada e consistente",
+        "details": {
+          "hasLogic": false,
+          "hasValidation": false,
+          "hasConsistency": false,
+          "logic": {
+            "tested": false,
+            "validated": false,
+            "consistent": false
+          }
+        }
+      },
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": true,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": true,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.126Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem considerar alternativas",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "alternativesConsidered",
+        "message": "Alternativas devem ser consideradas com múltiplas perspectivas",
+        "details": {
+          "hasAlternatives": false,
+          "hasPerspectives": false,
+          "hasCreativity": false,
+          "alternatives": {
+            "considered": false,
+            "perspectives": false,
+            "creative": false
+          }
+        }
+      },
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": true,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": true,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.130Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem transparência",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "transparencyMaintained",
+        "message": "Motivos devem ser transparentes, justificados e claros",
+        "details": {
+          "hasTransparency": false,
+          "hasJustification": false,
+          "hasClarity": false,
+          "transparent": {
+            "documented": false,
+            "justified": false,
+            "clear": false
+          }
+        }
+      },
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": true,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": true,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.133Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem honestidade",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": false,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": false,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.144Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar validação simples",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": true,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": true,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:41.147Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar com múltiplas violações",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "sourceVerified",
+        "message": "Fonte deve ser verificada, confiável e documentada",
+        "details": {
+          "hasSource": false,
+          "source": {
+            "verified": false,
+            "url": null
+          }
+        }
+      },
+      {
+        "check": "assumptionsQuestioned",
+        "message": "Suposições devem ser identificadas, questionadas e validadas",
+        "details": {
+          "hasAssumptions": false,
+          "hasQuestioning": false,
+          "hasValidation": false,
+          "assumptions": {
+            "identified": false,
+            "questioned": false,
+            "validated": false
+          }
+        }
+      },
+      {
+        "check": "logicTested",
+        "message": "Lógica deve ser testada, validada e consistente",
+        "details": {
+          "hasLogic": false,
+          "hasValidation": false,
+          "hasConsistency": false,
+          "logic": {
+            "tested": false,
+            "validated": false,
+            "consistent": false
+          }
+        }
+      },
+      {
+        "check": "alternativesConsidered",
+        "message": "Alternativas devem ser consideradas com múltiplas perspectivas",
+        "details": {
+          "hasAlternatives": false,
+          "hasPerspectives": false,
+          "hasCreativity": false,
+          "alternatives": {
+            "considered": false,
+            "perspectives": false,
+            "creative": false
+          }
+        }
+      },
+      {
+        "check": "transparencyMaintained",
+        "message": "Motivos devem ser transparentes, justificados e claros",
+        "details": {
+          "hasTransparency": false,
+          "hasJustification": false,
+          "hasClarity": false,
+          "transparent": {
+            "documented": false,
+            "justified": false,
+            "clear": false
+          }
+        }
+      },
+      {
+        "check": "honestyMaintained",
+        "message": "Erros e incertezas devem ser declarados honestamente",
+        "details": {
+          "hasHonesty": false,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": false,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.304Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem fonte verificada",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "sourceVerified",
+        "message": "Fonte deve ser verificada, confiável e documentada",
+        "details": {
+          "hasSource": false,
+          "source": {
+            "verified": false,
+            "url": null
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.363Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem questionar suposições",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "assumptionsQuestioned",
+        "message": "Suposições devem ser identificadas, questionadas e validadas",
+        "details": {
+          "hasAssumptions": false,
+          "hasQuestioning": false,
+          "hasValidation": false,
+          "assumptions": {
+            "identified": false,
+            "questioned": false,
+            "validated": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.402Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem testar lógica",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "logicTested",
+        "message": "Lógica deve ser testada, validada e consistente",
+        "details": {
+          "hasLogic": false,
+          "hasValidation": false,
+          "hasConsistency": false,
+          "logic": {
+            "tested": false,
+            "validated": false,
+            "consistent": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.438Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem considerar alternativas",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "alternativesConsidered",
+        "message": "Alternativas devem ser consideradas com múltiplas perspectivas",
+        "details": {
+          "hasAlternatives": false,
+          "hasPerspectives": false,
+          "hasCreativity": false,
+          "alternatives": {
+            "considered": false,
+            "perspectives": false,
+            "creative": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.447Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem transparência",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "transparencyMaintained",
+        "message": "Motivos devem ser transparentes, justificados e claros",
+        "details": {
+          "hasTransparency": false,
+          "hasJustification": false,
+          "hasClarity": false,
+          "transparent": {
+            "documented": false,
+            "justified": false,
+            "clear": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.457Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sem honestidade",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "honestyMaintained",
+        "message": "Honestidade deve ser declarada (erros e incertezas são opcionais)",
+        "details": {
+          "hasHonesty": false,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": false,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.479Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar com múltiplas violações",
+      "data": {}
+    },
+    "context": {},
+    "failedChecks": [
+      {
+        "check": "sourceVerified",
+        "message": "Fonte deve ser verificada, confiável e documentada",
+        "details": {
+          "hasSource": false,
+          "source": {
+            "verified": false,
+            "url": null
+          }
+        }
+      },
+      {
+        "check": "assumptionsQuestioned",
+        "message": "Suposições devem ser identificadas, questionadas e validadas",
+        "details": {
+          "hasAssumptions": false,
+          "hasQuestioning": false,
+          "hasValidation": false,
+          "assumptions": {
+            "identified": false,
+            "questioned": false,
+            "validated": false
+          }
+        }
+      },
+      {
+        "check": "logicTested",
+        "message": "Lógica deve ser testada, validada e consistente",
+        "details": {
+          "hasLogic": false,
+          "hasValidation": false,
+          "hasConsistency": false,
+          "logic": {
+            "tested": false,
+            "validated": false,
+            "consistent": false
+          }
+        }
+      },
+      {
+        "check": "alternativesConsidered",
+        "message": "Alternativas devem ser consideradas com múltiplas perspectivas",
+        "details": {
+          "hasAlternatives": false,
+          "hasPerspectives": false,
+          "hasCreativity": false,
+          "alternatives": {
+            "considered": false,
+            "perspectives": false,
+            "creative": false
+          }
+        }
+      },
+      {
+        "check": "transparencyMaintained",
+        "message": "Motivos devem ser transparentes, justificados e claros",
+        "details": {
+          "hasTransparency": false,
+          "hasJustification": false,
+          "hasClarity": false,
+          "transparent": {
+            "documented": false,
+            "justified": false,
+            "clear": false
+          }
+        }
+      },
+      {
+        "check": "honestyMaintained",
+        "message": "Honestidade deve ser declarada (erros e incertezas são opcionais)",
+        "details": {
+          "hasHonesty": false,
+          "hasErrors": false,
+          "hasUncertainty": false,
+          "honest": {
+            "declared": false,
+            "errors": false,
+            "uncertainty": false
+          }
+        }
+      }
+    ],
+    "required": "Correção obrigatória antes de prosseguir",
+    "severity": "HIGH"
+  }
+]

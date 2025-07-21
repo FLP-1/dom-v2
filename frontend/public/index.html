@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Sistema de Gestão Doméstica</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+        #root {
+            width: 100%;
+            height: 100vh;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 18px;
+            color: #666;
+        }
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .login-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .login-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-group {
+            text-align: left;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #007AFF;
+        }
+        .login-button {
+            background-color: #007AFF;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+        .login-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .test-credentials {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        .test-credentials strong {
+            color: #333;
+        }
+        .notification-item {
+            padding: 12px;
+            margin: 8px 0;
+            background-color: #f8f9fa;
+            border-left: 4px solid #007AFF;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notification-item.high {
+            border-left-color: #ff3b30;
+        }
+        .notification-item.medium {
+            border-left-color: #ff9500;
+        }
+        .notification-item.low {
+            border-left-color: #34c759;
+        }
+        .notification-remove {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #007AFF;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007AFF;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="login-container">
+            <div class="login-card">
+                <h1 class="login-title">🚀 DOM v2</h1>
+                <p class="login-subtitle">Sistema de Gestão Doméstica</p>
+                
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" for="cpf">CPF</label>
+                        <input 
+                            type="text" 
+                            id="cpf" 
+                            class="form-input" 
+                            placeholder="Digite seu CPF"
+                            value="59876913700"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="password">Senha</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="form-input" 
+                            placeholder="Digite sua senha"
+                            value="123456"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        Entrar no Sistema
+                    </button>
+                </form>
+                
+                <div class="test-credentials">
+                    <strong>Credenciais de Teste:</strong><br>
+                    CPF: 59876913700<br>
+                    Senha: 123456
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Sistema de notificações persistente
+        let notifications = JSON.parse(localStorage.getItem('dom_v2_notifications') || '[]');
+        let dashboardStats = {
+            tasks: { active: 0, completed: 0, total: 0 },
+            notifications: { unread: 0, total: 0 },
+            users: { total: 0 },
+            system: { version: '2.0.0', status: 'operational' }
+        };
+        let currentView = 'dashboard'; // 'dashboard' ou 'notification-detail'
+        let selectedNotification = null;
+
+        // Função para salvar notificações
+        function saveNotifications() {
+            localStorage.setItem('dom_v2_notifications', JSON.stringify(notifications));
+        }
+
+        // Função genérica para adicionar notificação (reutilizável)
+        function addNotification(type, customMessage = null) {
+            // Usar a função genérica do repositório
+            const notification = createSystemNotification(type, customMessage);
+            
+            if (notification) {
+                // Verificar se já existe uma notificação similar recente (últimos 5 segundos)
+                const now = Date.now();
+                const fiveSecondsAgo = now - 5000;
+                const recentSimilarNotification = notifications.find(n => {
+                    try {
+                        return n.type === type && 
+                               new Date(n.createdAt).getTime() > fiveSecondsAgo;
+                    } catch (error) {
+                        console.error('Erro ao verificar notificação recente:', error);
+                        return false;
+                    }
+                });
+
+                if (recentSimilarNotification) {
+                    console.log('Notificação similar já existe, evitando duplicação');
+                    return;
+                }
+
+                notifications.unshift(notification);
+                saveNotifications();
+                updateDashboard();
+            }
+        }
+
+        // Função genérica para criar notificações do sistema (repositório)
+        function createSystemNotification(type, customMessage = null, options = {}) {
+            // Validação de entrada
+            if (!type || typeof type !== 'string') {
+                console.error('Tipo de notificação inválido:', type);
+                return null;
+            }
+
+            const messages = {
+                'TASK_REMINDER': 'Lembrete: Você tem tarefas pendentes para hoje',
+                'PAYMENT_DUE': 'Pagamento vencendo: Há pagamentos que vencem em breve',
+                'SYSTEM_UPDATE': 'Sistema atualizado: Novas funcionalidades disponíveis',
+                'HELP_TIP': 'Dica: Use o botão + para criar novas tarefas rapidamente',
+                'PURCHASE_REMINDER': 'Lembrete: Há compras pendentes para hoje',
+                'TASK_COMPLETED': 'Tarefa concluída com sucesso',
+                'PAYMENT_RECEIVED': 'Pagamento recebido com sucesso',
+                'PURCHASE_COMPLETED': 'Compra realizada com sucesso',
+                'EMPLOYEE_ASSIGNED': 'Funcionário designado para tarefa',
+                'DEADLINE_APPROACHING': 'Prazo se aproximando'
+            };
+
+            const priorities = {
+                'TASK_REMINDER': 'medium',
+                'PAYMENT_DUE': 'high',
+                'SYSTEM_UPDATE': 'low',
+                'HELP_TIP': 'low',
+                'PURCHASE_REMINDER': 'medium',
+                'TASK_COMPLETED': 'low',
+                'PAYMENT_RECEIVED': 'low',
+                'PURCHASE_COMPLETED': 'low',
+                'EMPLOYEE_ASSIGNED': 'medium',
+                'DEADLINE_APPROACHING': 'high'
+            };
+
+            // Verificar se o tipo é válido
+            if (!messages[type]) {
+                console.error('Tipo de notificação não reconhecido:', type);
+                return null;
+            }
+
+            try {
+                // Gerar ID único com timestamp + random para evitar duplicatas
+                const uniqueId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+                
+                const notification = {
+                    id: uniqueId,
+                    type: type,
+                    title: type.replace(/_/g, ' '),
+                    message: customMessage || messages[type],
+                    priority: priorities[type] || 'low',
+                    createdAt: new Date().toISOString(),
+                    read: false,
+                    ...options // Permite adicionar campos extras
+                };
+
+                console.log('Notificação criada com sucesso:', notification.title);
+                return notification;
+            } catch (error) {
+                console.error('Erro ao criar notificação:', error);
+                return null;
+            }
+        }
+
+        // Função para remover notificação
+        function removeNotification(id) {
+            notifications = notifications.filter(n => n.id !== id);
+            saveNotifications();
+            updateDashboard();
+        }
+
+        // Função para marcar como lida
+        function markAsRead(id) {
+            notifications = notifications.map(n => 
+                n.id === id ? { ...n, read: true } : n
+            );
+            saveNotifications();
+            updateDashboard();
+        }
+
+        // Função para mostrar detalhes da notificação
+        function showNotificationDetail(notification) {
+            selectedNotification = notification;
+            currentView = 'notification-detail';
+            updateDashboard();
+        }
+
+        // Função para voltar ao dashboard
+        function backToDashboard() {
+            currentView = 'dashboard';
+            selectedNotification = null;
+            updateDashboard();
+        }
+
+        // Função para mostrar todas as notificações
+        function showAllNotifications() {
+            currentView = 'all-notifications';
+            updateDashboard();
+        }
+
+        // Função para voltar ao dashboard principal
+        function backToMainDashboard() {
+            currentView = 'dashboard';
+            updateDashboard();
+        }
+
+        // Função para carregar estatísticas do backend
+        async function loadDashboardStats() {
+            try {
+                const response = await fetch('http://localhost:3001/api/dashboard/stats');
+                if (response.ok) {
+                    const data = await response.json();
+                    dashboardStats = data.stats;
+                }
+            } catch (error) {
+                console.log('Backend não disponível, usando dados locais');
+            }
+            updateDashboard();
+        }
+
+        // Função para atualizar dashboard
+        function updateDashboard() {
+            const root = document.getElementById('root');
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const highPriorityCount = notifications.filter(n => n.priority === 'high' && !n.read).length;
+
+            if (currentView === 'notification-detail' && selectedNotification) {
+                // Tela de detalhes da notificação
+                root.innerHTML = `
+                    <div style="padding: 20px; background-color: #f5f5f5; min-height: 100vh; font-family: Arial, sans-serif;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h1 style="color: #333; margin: 0;">📋 Detalhes da Notificação</h1>
+                            <button onclick="backToDashboard()" style="padding: 10px 20px; background-color: #007AFF; color: white; border: none; border-radius: 5px; cursor: pointer;">← Voltar</button>
+                        </div>
+                        
+                        <div style="padding: 30px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <div style="border-left: 6px solid ${selectedNotification.priority === 'high' ? '#ff3b30' : selectedNotification.priority === 'medium' ? '#ff9500' : '#34c759'}; padding-left: 20px; margin-bottom: 20px;">
+                                <h2 style="color: #333; margin-top: 0;">${selectedNotification.title}</h2>
+                                <p style="font-size: 18px; color: #666; margin-bottom: 10px;">${selectedNotification.message}</p>
+                                <p style="color: #999; font-size: 14px;">
+                                    <strong>Criada em:</strong> ${new Date(selectedNotification.createdAt).toLocaleString('pt-BR')}
+                                </p>
+                                <p style="color: #999; font-size: 14px;">
+                                    <strong>Prioridade:</strong> 
+                                    <span style="color: ${selectedNotification.priority === 'high' ? '#ff3b30' : selectedNotification.priority === 'medium' ? '#ff9500' : '#34c759'}; font-weight: bold;">
+                                        ${selectedNotification.priority.toUpperCase()}
+                                    </span>
+                                </p>
+                                <p style="color: #999; font-size: 14px;">
+                                    <strong>Status:</strong> 
+                                    <span style="color: ${selectedNotification.read ? '#34c759' : '#ff9500'}; font-weight: bold;">
+                                        ${selectedNotification.read ? 'LIDA' : 'NÃO LIDA'}
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                ${!selectedNotification.read ? 
+                                    `<button onclick="markAsRead(${selectedNotification.id}); backToDashboard();" style="padding: 12px 24px; background-color: #007AFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Marcar como Lida</button>` : ''
+                                }
+                                <button onclick="removeNotification(${selectedNotification.id}); backToDashboard();" style="padding: 12px 24px; background-color: #ff3b30; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Remover Notificação</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            if (currentView === 'all-notifications') {
+                // Tela de todas as notificações
+                root.innerHTML = `
+                    <div style="padding: 20px; background-color: #f5f5f5; min-height: 100vh; font-family: Arial, sans-serif;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h1 style="color: #333; margin: 0;">🔔 Todas as Notificações (${notifications.length})</h1>
+                            <button onclick="backToMainDashboard()" style="padding: 10px 20px; background-color: #007AFF; color: white; border: none; border-radius: 5px; cursor: pointer;">← Voltar ao Dashboard</button>
+                        </div>
+                        
+                        <div style="padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            ${notifications.length === 0 ? 
+                                '<p style="text-align: center; color: #666; font-style: italic;">Nenhuma notificação</p>' :
+                                notifications.map(notification => `
+                                    <div class="notification-item ${notification.priority}" style="${notification.read ? 'opacity: 0.7;' : ''} cursor: pointer; margin-bottom: 10px; padding: 15px; border-radius: 8px; background-color: #f8f9fa; border-left: 4px solid ${notification.priority === 'high' ? '#ff3b30' : notification.priority === 'medium' ? '#ff9500' : '#34c759'};" onclick="showNotificationDetail(${JSON.stringify(notification).replace(/"/g, '&quot;')})">
+                                        <div style="flex: 1;">
+                                            <strong>${notification.title}</strong><br>
+                                            <small>${notification.message}</small><br>
+                                            <small style="color: #999;">${new Date(notification.createdAt).toLocaleString('pt-BR')}</small>
+                                        </div>
+                                        <div style="display: flex; gap: 5px;" onclick="event.stopPropagation();">
+                                            ${!notification.read ? 
+                                                `<button onclick="markAsRead(${notification.id})" style="background: #007AFF; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">Lida</button>` : ''
+                                            }
+                                            <button onclick="removeNotification(${notification.id})" class="notification-remove">Remover</button>
+                                        </div>
+                                    </div>
+                                `).join('')
+                            }
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Dashboard principal
+            root.innerHTML = `
+                <div style="padding: 20px; background-color: #f5f5f5; min-height: 100vh; font-family: Arial, sans-serif;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <h1 style="color: #333; margin: 0;">🏠 Dashboard DOM v2</h1>
+                        <button onclick="showLogin()" style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Sair</button>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">${dashboardStats.tasks.active}</div>
+                            <div class="stat-label">Tarefas Ativas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${unreadCount}</div>
+                            <div class="stat-label">Notificações</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${highPriorityCount}</div>
+                            <div class="stat-label">Alta Prioridade</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${dashboardStats.users.total}</div>
+                            <div class="stat-label">Usuários</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div style="padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3 style="color: #333; margin-top: 0;">👤 Perfil do Usuário</h3>
+                            <p><strong>Nome:</strong> Maria Silva</p>
+                            <p><strong>CPF:</strong> 59876913700</p>
+                            <p><strong>Perfil:</strong> EMPLOYER</p>
+                            <p><strong>Status:</strong> <span style="color: #34c759;">✅ Ativo</span></p>
+                        </div>
+                        
+                        <div style="padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3 style="color: #333; margin-top: 0;">📊 Estatísticas do Sistema</h3>
+                            <p><strong>Versão:</strong> ${dashboardStats.system.version}</p>
+                            <p><strong>Status:</strong> <span style="color: #34c759;">✅ ${dashboardStats.system.status}</span></p>
+                            <p><strong>Tarefas Totais:</strong> ${dashboardStats.tasks.total}</p>
+                            <p><strong>Concluídas:</strong> ${dashboardStats.tasks.completed}</p>
+                        </div>
+                        
+                        <div style="padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3 style="color: #333; margin-top: 0;">🔔 Sistema de Notificações</h3>
+                            <p>📱 <strong>${notifications.length}</strong> notificações</p>
+                            <p>📖 <strong>${notifications.filter(n => n.read).length}</strong> lidas</p>
+                            <p>📌 <strong>${notifications.filter(n => !n.read).length}</strong> não lidas</p>
+                            <p>🚨 <strong>${notifications.filter(n => n.priority === 'high').length}</strong> alta prioridade</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <h3 style="color: #333; margin-top: 0;">🧪 Testar Notificações</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                            <button onclick="addNotification('TASK_REMINDER')" style="padding: 10px 20px; background-color: #007AFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Lembrete</button>
+                            <button onclick="addNotification('PAYMENT_DUE')" style="padding: 10px 20px; background-color: #ff9500; color: white; border: none; border-radius: 5px; cursor: pointer;">Pagamento</button>
+                            <button onclick="addNotification('SYSTEM_UPDATE')" style="padding: 10px 20px; background-color: #34c759; color: white; border: none; border-radius: 5px; cursor: pointer;">Atualização</button>
+                            <button onclick="addNotification('HELP_TIP')" style="padding: 10px 20px; background-color: #5856d6; color: white; border: none; border-radius: 5px; cursor: pointer;">Dica</button>
+                        </div>
+                        
+                        <div id="notifications" style="margin-top: 15px;">
+                            ${notifications.length === 0 ? 
+                                '<p style="text-align: center; color: #666; font-style: italic;">Nenhuma notificação</p>' :
+                                notifications.slice(0, 5).map(notification => `
+                                    <div class="notification-item ${notification.priority}" style="${notification.read ? 'opacity: 0.7;' : ''} cursor: pointer;" onclick="showNotificationDetail(${JSON.stringify(notification).replace(/"/g, '&quot;')})">
+                                        <div style="flex: 1;">
+                                            <strong>${notification.title}</strong><br>
+                                            <small>${notification.message}</small><br>
+                                            <small style="color: #999;">${new Date(notification.createdAt).toLocaleString('pt-BR')}</small>
+                                        </div>
+                                        <div style="display: flex; gap: 5px;" onclick="event.stopPropagation();">
+                                            ${!notification.read ? 
+                                                `<button onclick="markAsRead(${notification.id})" style="background: #007AFF; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">Lida</button>` : ''
+                                            }
+                                            <button onclick="removeNotification(${notification.id})" class="notification-remove">Remover</button>
+                                        </div>
+                                    </div>
+                                `).join('')
+                            }
+                            ${notifications.length > 5 ? 
+                                `<div style="text-align: center; margin-top: 10px;">
+                                    <button onclick="showAllNotifications()" style="padding: 8px 16px; background-color: #007AFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                        Ver mais ${notifications.length - 5} notificações
+                                    </button>
+                                </div>` : ''
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Sistema de login conectado ao backend
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const cpf = document.getElementById('cpf').value;
+            const password = document.getElementById('password').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            loginButton.disabled = true;
+            loginButton.textContent = 'Entrando...';
+            
+            try {
+                const response = await fetch('http://localhost:3001/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ cpf, password })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Login bem-sucedido:', data);
+                    await loadDashboardStats();
+                } else {
+                    const errorData = await response.json();
+                    alert(`Erro no login: ${errorData.error}`);
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Entrar no Sistema';
+                }
+            } catch (error) {
+                console.log('Backend não disponível, usando login local');
+                // Fallback para login local
+                if (cpf === '59876913700' && password === '123456') {
+                    await loadDashboardStats();
+                } else {
+                    alert('CPF ou senha incorretos. Use as credenciais de teste.');
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Entrar no Sistema';
+                }
+            }
+        });
+        
+        function showLogin() {
+            location.reload();
+        }
+
+        function showAllNotifications() {
+            currentView = 'notifications-list';
+            updateDashboard();
+        }
+    </script>
+</body>
+</html> 

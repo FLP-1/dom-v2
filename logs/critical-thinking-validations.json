@@ -1,0 +1,36 @@
+[
+  {
+    "timestamp": "2025-07-21T20:45:53.265Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar sistema de validação"
+    },
+    "context": {},
+    "passedChecks": [
+      "sourceVerified",
+      "assumptionsQuestioned",
+      "logicTested",
+      "alternativesConsidered",
+      "transparencyMaintained",
+      "honestyMaintained"
+    ],
+    "status": "SUCCESS"
+  },
+  {
+    "timestamp": "2025-07-21T20:45:53.463Z",
+    "action": {
+      "type": "DECISION",
+      "description": "Implementar validação simples"
+    },
+    "context": {},
+    "passedChecks": [
+      "sourceVerified",
+      "assumptionsQuestioned",
+      "logicTested",
+      "alternativesConsidered",
+      "transparencyMaintained",
+      "honestyMaintained"
+    ],
+    "status": "SUCCESS"
+  }
+]

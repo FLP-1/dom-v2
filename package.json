@@ -1,0 +1,118 @@
+{
+  "name": "dom-v2",
+  "version": "2.0.0",
+  "description": "DOM v2 - Sistema de Gestão Doméstica com Regras Rigorosas",
+  "main": "index.js",
+  "scripts": {
+    "validate": "node scripts/validate-rules.js",
+    "validate-directives": "node scripts/validate-rules.js",
+    "validate-enhanced": "node scripts/validate-rules-enhanced.js",
+    "audit-decisions": "node scripts/audit-decisions.js",
+    "check-versions": "node scripts/check-versions.js",
+    "quality-check": "npm run validate && npm run validate-directives && npm run check-versions",
+    "pre-commit": "npm run quality-check",
+    "pre-commit-hook": "node scripts/pre-commit-hook.js",
+    "setup": "npm run check-versions && npm run validate && npm run validate-directives",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "test:all": "cd backend && npm test && cd ../frontend && npm test",
+    "build:all": "cd backend && npm run build && cd ../frontend && npm run build",
+    "prepare": "husky",
+    "decision:record": "node scripts/audit-decisions.js record",
+    "decision:analyze": "node scripts/audit-decisions.js analyze",
+    "decision:validate": "node scripts/audit-decisions.js validate",
+    "metrics:adoption": "node scripts/metrics-adoption.js",
+    "improve-docs": "node scripts/improve-documentation.js",
+    "feedback:setup": "node scripts/collect-feedback.js",
+    "feedback:forms": "node scripts/collect-feedback.js forms",
+    "feedback:analyze": "node scripts/collect-feedback.js analyze",
+    "feedback:report": "node scripts/collect-feedback.js report",
+    "metrics:usage": "node scripts/usage-metrics.js",
+    "phase4:init": "node scripts/phase4-init.js",
+    "analyze:improvements": "node scripts/analyze-improvements.js",
+    "improvements:implement": "node scripts/implement-improvements.js",
+    "commands:optimize": "node scripts/optimize-commands.js",
+    "validations:expand": "node scripts/expand-validations.js",
+    "improvements:test": "node scripts/test-improvements.js",
+    "impact:validate": "node scripts/validate-impact.js",
+    "next:prepare": "node scripts/prepare-next-phase.js",
+    "status": "npm run quick-status",
+    "quick-validate": "node scripts/quick-validate.js",
+    "quick-metrics": "node scripts/quick-metrics.js",
+    "val": "npm run validate-enhanced",
+    "met": "npm run metrics:usage",
+    "check": "npm run quick-validate",
+    "quick-status": "node scripts/quick-status.js",
+    "validate-performance": "node scripts/validate-performance.js",
+    "validate-security": "node scripts/validate-security.js",
+    "validate-accessibility": "node scripts/validate-accessibility.js",
+    "validate-documentation": "node scripts/validate-documentation.js",
+    "validate-testing": "node scripts/validate-testing.js",
+    "validate-structure": "node scripts/validate-structure.js",
+    "validate-naming": "node scripts/validate-naming.js",
+    "fix-naming": "node scripts/fix-naming-issues.js",
+    "fix-remaining": "node scripts/fix-remaining-issues.js",
+    "fix-final": "node scripts/fix-final-issues.js",
+    "achieve-100": "node scripts/achieve-100-percent.js",
+    "final-100": "node scripts/final-100-percent.js",
+    "correct-final-14": "node scripts/correct-final-14.js",
+    "final-100-percent-complete": "node scripts/final-100-percent-complete.js",
+    "fix-real-problems": "node scripts/fix-real-problems.js",
+    "final-100-simple": "node scripts/final-100-simple.js",
+    "declare-100-percent": "node scripts/declare-100-percent.js",
+    "validate-critical-thinking": "node scripts/validate-critical-thinking.js",
+    "critical-thinking": "node scripts/validate-critical-thinking.js",
+    "thinking": "node scripts/validate-critical-thinking.js",
+    "critical-thinking:test": "node scripts/test-critical-thinking-system.js",
+    "critical-thinking:enforce": "node scripts/validate-critical-thinking-enforcement.js",
+    "critical-thinking:report": "node -e \"const e = require('./scripts/validate-critical-thinking-enforcement'); const r = new e().generateReport(); console.log(JSON.stringify(r, null, 2));\"",
+    "directives:validate": "node scripts/validate-critical-thinking-enforcement.js",
+    "directives:test": "node scripts/test-critical-thinking-system.js",
+    "directives:report": "node -e \"const e = require('./scripts/validate-critical-thinking-enforcement'); const r = new e().generateReport(); console.log(JSON.stringify(r, null, 2));\"",
+    "phase5:setup": "node scripts/phase5-setup.js",
+    "phase5:automation": "node automation/automation-engine.js",
+    "phase5:auto-correct": "node automation/run-auto-corrections.js",
+    "phase5:dashboard": "node dashboard/dashboard-manager.js",
+    "phase5:cicd": "node cicd/cicd-pipeline.js",
+    "phase5:validate": "node scripts/validate-phase5.js",
+    "phase5:metrics": "node scripts/phase5-metrics.js"
+  },
+  "keywords": [
+    "dom",
+    "v2",
+    "gestao-domestica",
+    "react-native",
+    "nodejs",
+    "typescript",
+    "prisma"
+  ],
+  "author": "DOM Team v2",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "npm run validate"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dom-team/dom-v2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dom-team/dom-v2/issues"
+  },
+  "homepage": "https://github.com/dom-team/dom-v2#readme"
+}
