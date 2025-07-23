@@ -37,8 +37,8 @@ import {
 ```javascript
 // ✅ CORRETO - Com fonte confiável
 const validation = validateInformationSource(
-    "PostgreSQL é mais robusto que SQLite para produção",
-    "Documentação oficial PostgreSQL vs SQLite",
+    "PostgreSQL é mais robusto para produção",
+"Documentação oficial PostgreSQL",
     "official"
 );
 
@@ -59,7 +59,7 @@ const badValidation = validateInformationSource(
 ```javascript
 // ✅ CORRETO - Múltiplas alternativas
 const alternatives = validateAlternatives(
-    ['PostgreSQL', 'MySQL', 'SQLite'],
+    ['PostgreSQL', 'MySQL'],
     'PostgreSQL',
     'Melhor suporte a transações e integridade referencial'
 );
@@ -130,11 +130,11 @@ const decision = {
         source: 'Documentação oficial',
         sourceType: 'official'
     },
-    alternatives: ['PostgreSQL', 'MySQL', 'SQLite'],
+    alternatives: ['PostgreSQL', 'MySQL'],
     assumptions: ['Produção crítica', 'Dados importantes'],
     logic: 'Teste de performance realizado',
     testCases: ['Carga alta', 'Concorrência'],
-    contrapoints: ['MySQL é mais rápido', 'SQLite é mais simples']
+    contrapoints: ['MySQL é mais rápido']
 };
 
 const checklist = criticalThinkingChecklist(decision);

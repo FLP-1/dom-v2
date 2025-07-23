@@ -1,13 +1,13 @@
 /**
- * @fileoverview Configuração do banco de dados DOM v2
- * @description Cliente Prisma e configurações de conexão
+ * @fileoverview Configuração do banco de dados DOM v2 (PRISMA VERSION)
+ * @description Cliente Prisma real para PostgreSQL
  * @author DOM Team v2
  * @version 2.0.0
  */
 
-import { PrismaClient } from './generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
-// Cliente Prisma global
+// Cliente Prisma global (real)
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
@@ -33,7 +33,7 @@ export async function connectDatabase() {
 export async function disconnectDatabase() {
   try {
     await prisma.$disconnect();
-    console.log(`[${new Date().toISOString()}] ` + '🔌 Desconectado do banco de dados');
+    console.log(`[${new Date().toISOString()}] ` + '🔌 Desconectado do banco de dados PostgreSQL');
   } catch (error) {
     console.error('❌ Erro ao desconectar do banco:', error);
   }
@@ -43,8 +43,8 @@ export async function disconnectDatabase() {
 export async function checkDatabaseHealth() {
   try {
     await prisma.$queryRaw`SELECT 1`;
-    return { status: 'healthy', message: 'Banco de dados funcionando' };
+    return { status: 'healthy', message: 'PostgreSQL operacional' };
   } catch (error) {
-    return { status: 'unhealthy', message: 'Erro na conexão com banco', error };
+    return { status: 'unhealthy', message: 'Erro na conexão com PostgreSQL', error };
   }
 } 

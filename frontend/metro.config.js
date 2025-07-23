@@ -18,15 +18,56 @@ const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const config = {
   resolver: {
     platforms: ['ios', 'android', 'native', 'web'],
-    alias: {
-      // Ignorar módulos problemáticos do React DevTools
-      '../../src/private/devsupport/rndevtools/ReactDevToolsSettingsManager': false,
-      'react-devtools-core': false,
-      'react-devtools': false,
-      'react-native/Libraries/Core/setUpReactDevTools': false,
-    },
-    blacklistRE: /node_modules\/react-native\/Libraries\/Core\/setUpReactDevTools\.js/,
     resolverMainFields: ['react-native', 'browser', 'main'],
+    resolveRequest: (context, moduleName, platform) => {
+      // Intercepta o require problemático do ReactDevToolsSettingsManager
+      if (moduleName.includes('ReactDevToolsSettingsManager')) {
+        return {
+          type: 'empty'
+        };
+      }
+      
+      // Para web, usar index.web.js como entry point
+      if (platform === 'web' && moduleName === './index.js') {
+        return {
+          filePath: require.resolve('./index.web.js'),
+          type: 'sourceFile'
+        };
+      }
+      
+      // Resolver problemas de React Native Web
+      if (moduleName === 'react-native') {
+        return {
+          filePath: require.resolve('react-native-web'),
+          type: 'sourceFile'
+        };
+      }
+      
+      // Mockar módulos nativos que não existem no web
+      const nativeModulesToMock = [
+        'DevSettings',
+        'NativeModules',
+        'NativeEventEmitter',
+        'PlatformConstants'
+      ];
+      
+      if (nativeModulesToMock.includes(moduleName)) {
+        return {
+          type: 'empty'
+        };
+      }
+      
+      // Interceptar TurboModuleRegistry para web
+      if (platform === 'web' && moduleName.includes('TurboModuleRegistry')) {
+        return {
+          type: 'sourceFile',
+          filePath: require.resolve('./src/utils/turbo-module-mock.js')
+        };
+      }
+      
+      // Resolve normalmente outros módulos
+      return context.resolveRequest(context, moduleName, platform);
+    }
   },
   transformer: {
     getTransformOptions: async () => ({

@@ -17,7 +17,7 @@ import {
     View,
 } from 'react-native';
 import { useTheme, useStyles } from '../utils/theme-provider';
-import { MESSAGES } from '../utils/messages';
+import { getMessage } from '../utils/messages';
 import { ProfileSelector } from '../components/profile-selector';
 import { RegionalSelector } from '../components/regional-selector';
 import { useRegionalAdaptation } from '../utils/regional-adaptation';
@@ -38,13 +38,15 @@ interface DashboardScreenProps {
   onLogout: () => void;
   onNavigateToTasks: () => void;
   onNavigateToNotifications: () => void;
+  onNavigateToPayroll: () => void;
 }
 
 export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   user,
   onLogout,
   onNavigateToTasks,
-  onNavigateToNotifications
+  onNavigateToNotifications,
+  onNavigateToPayroll
 }) => {
   const { profile } = useTheme();
   const { region, messages: regionalMessages } = useRegionalAdaptation();
@@ -89,7 +91,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         <View style={styles.welcomeCard}>
           <Text style={styles.welcomeTitle}>{welcomeMessage}</Text>
           <Text style={styles.userName}>{user.name}</Text>
-          <Text style={styles.userProfile}>{MESSAGES.USER_PROFILE[profile.type]}</Text>
+          <Text style={styles.userProfile}>{profile.type}</Text>
         </View>
 
         <View style={styles.statsContainer}>
@@ -113,6 +115,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
             <Text style={styles.actionButtonText}>Ver Notificações</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity style={styles.actionButton} onPress={onNavigateToPayroll}>
+            <Text style={styles.actionButtonText}>Folha de Pagamento</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionButtonText}>Meu Perfil</Text>
           </TouchableOpacity>
@@ -121,7 +127,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         <View style={styles.infoCard}>
           <Text style={styles.infoTitle}>Informações do Sistema</Text>
           <Text style={styles.infoText}>• Versão: 2.0.0</Text>
-          <Text style={styles.infoText}>• Perfil: {MESSAGES.USER_PROFILE[profile.type]}</Text>
+          <Text style={styles.infoText}>• Perfil: {profile.type}</Text>
           <Text style={styles.infoText}>• Região: {region}</Text>
           <Text style={styles.infoText}>• Dispositivo: {deviceType}</Text>
           <Text style={styles.infoText}>• Notificações: {notifications.length}</Text>

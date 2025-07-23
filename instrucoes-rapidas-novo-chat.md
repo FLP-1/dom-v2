@@ -1,68 +1,71 @@
-# 🚀 INSTRUÇÕES RÁPIDAS PARA NOVO CHAT - DOM v2
+# 🚀 **INSTRUÇÕES RÁPIDAS - NOVO CHAT DOM v2**
 
-## 🎯 **CONTEXTO ESSENCIAL**
+## 🎯 **COMANDO INICIAL PARA NOVO CHAT:**
 
-**Você é o desenvolvedor do projeto DOM v2 - Sistema de Gestão Doméstica.**
-
-### **STATUS ATUAL:**
-- ✅ **Fase 4 CONCLUÍDA COM SUCESSO TOTAL**
-- ✅ **Todas as métricas excedidas (99% adoção, 97% qualidade)**
-- ✅ **Sistema de pensamento crítico 100% funcional**
-- ✅ **Validações expandidas 100% funcionando**
-- 🚀 **Próximo: Fase 5 - Automação Avançada**
-
-### **TECNOLOGIAS:**
-- Frontend: React Native + TypeScript
-- Backend: Node.js + Express + TypeScript + Prisma
-- Banco: PostgreSQL (NÃO SQLite)
-- Scripts: JavaScript (Node.js)
-
-## 🧠 **DIRETIVAS CRÍTICAS (OBRIGATÓRIAS)**
-1. **NÃO PRESUMA** - Busque certeza e fontes
-2. **SEJA CRÍTICO** - Questione sempre
-3. **QUESTIONE SUPOSIÇÕES** - Não assuma verdades
-4. **MÚLTIPLAS PERSPECTIVAS** - Seja cético e criativo
-5. **TESTE A LÓGICA** - Avalie se faz sentido
-6. **PRIORIZE VERDADE** - Reporte erros claramente
-
-## 💻 **COMANDOS ESSENCIAIS**
-```powershell
-Set-Location C:\dom-v2; npm run validate
-Set-Location C:\dom-v2; npm run validate-critical-thinking
-Set-Location C:\dom-v2; npm run quick-status
-Set-Location C:\dom-v2; npm run quick-metrics
 ```
-
-## 📁 **ARQUIVOS CRÍTICOS**
-- `docs/fase-4-concluida-success.md` - Conclusão da Fase 4
-- `docs/diretivas-pensamento-critico.md` - Sistema crítico
-- `docs/status-atual-project.md` - Status completo
-- `frontend/src/utils/generic-functions.js` - Funções genéricas
-
-## 🎯 **PRÓXIMOS PASSOS**
-1. **Fase 5 - Automação Avançada**
-2. **CI/CD automatizado**
-3. **Testes E2E**
-4. **Deploy automatizado**
-5. **Monitoramento em tempo real**
-
-## 📋 **REGRAS RÍGIDAS**
-- **SEMPRE especificar diretório nos comandos PowerShell**
-- **Simplicidade extrema** (não over-engineering)
-- **Desenvolvimento exclusivo pela IA**
-- **Pensamento crítico obrigatório**
-- **Responder em português do Brasil**
-
-## 🏆 **CONQUISTAS PRINCIPAIS**
-- ✅ Sistema de pensamento crítico implementado
-- ✅ Validações expandidas (100% funcionando)
-- ✅ Qualidade da documentação: 97.0%
-- ✅ Adoção geral: 99.0%
-- ✅ ROI: 741.1%
+Carregue o contexto completo do projeto DOM v2 e continue o desenvolvimento de onde paramos. 
+Aplique pensamento crítico rigoroso e siga as diretivas do projeto.
+```
 
 ---
 
-**COPIE ESTE DOCUMENTO NO INÍCIO DO NOVO CHAT PARA CONTINUIDADE PERFEITA!**
+## 📋 **CHECKLIST INICIAL:**
 
-**Status:** ✅ **FASE 4 CONCLUÍDA COM SUCESSO TOTAL**  
-**Próximo:** Fase 5 - Automação Avançada 
+### **1. Verificar Status Atual**
+```powershell
+# Backend
+cd C:\dom-v2\backend
+npx tsc --noEmit
+
+# Frontend  
+cd C:\dom-v2\frontend
+npx tsc --noEmit
+```
+
+### **2. Testar APIs**
+```powershell
+# Health Check
+Invoke-RestMethod -Uri "http://localhost:3001/health" -Method GET
+
+# Dashboard
+Invoke-RestMethod -Uri "http://localhost:3001/api/dashboard" -Method GET
+```
+
+### **3. Iniciar Servidores**
+```powershell
+# Backend
+cd C:\dom-v2\backend
+$env:DATABASE_URL="postgresql://postgres:FLP*2025@localhost:5432/db_dom"
+node dist/server-prisma.js
+
+# Frontend (novo terminal)
+cd C:\dom-v2\frontend
+npm start
+```
+
+---
+
+## 🎯 **STATUS ATUAL:**
+- ✅ **Build 100% bem-sucedido**
+- ✅ **Zero erros TypeScript**
+- ✅ **APIs funcionando**
+- ✅ **Pronto para continuidade**
+
+---
+
+## 📁 **ARQUIVOS CRÍTICOS:**
+- `contexto-completo-novo-chat.md` - Contexto completo
+- `docs/build-completo-dom-v2.md` - Relatório do build
+- `backend/dist/` - Arquivos compilados
+- `frontend/src/` - Código fonte TypeScript
+
+---
+
+## 🚀 **PRÓXIMOS PASSOS SUGERIDOS:**
+1. **Deploy para produção**
+2. **Testes automatizados**
+3. **Melhorias de UX/UI**
+4. **Novas funcionalidades**
+5. **Otimizações de performance**
+
+**Status:** ✅ **PRONTO PARA CONTINUIDADE** 

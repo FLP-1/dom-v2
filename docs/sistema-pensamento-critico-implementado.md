@@ -130,7 +130,7 @@ import {
 // Validar decisão antes de implementar
 const decision = {
     source: { information: "PostgreSQL é melhor", source: "Documentação oficial", sourceType: "official" },
-    alternatives: ['PostgreSQL', 'MySQL', 'SQLite'],
+    alternatives: ['PostgreSQL', 'MySQL'],
     assumptions: ['Produção crítica'],
     logic: 'Teste realizado',
     testCases: ['Carga alta'],

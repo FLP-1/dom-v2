@@ -11,7 +11,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '../utils/theme-provider';
 import { UserProfileType } from '../utils/user-profiles';
-import { MESSAGES } from '../utils/messages';
+import { getMessage } from '../utils/messages';
 
 interface ProfileSelectorProps {
   visible?: boolean;
@@ -44,7 +44,7 @@ export const ProfileSelector: React.FC<ProfileSelectorProps> = ({ visible = true
               styles.profileText,
               profile.type === profileType && styles.activeProfileText
             ]}>
-              {MESSAGES.USER_PROFILE[profileType]}
+              {profileType}
             </Text>
           </TouchableOpacity>
         ))}
@@ -53,7 +53,7 @@ export const ProfileSelector: React.FC<ProfileSelectorProps> = ({ visible = true
       <View style={styles.infoContainer}>
         <Text style={styles.infoTitle}>Perfil Atual:</Text>
         <Text style={styles.infoText}>
-          {MESSAGES.USER_PROFILE[profile.type]}
+          {profile.type}
         </Text>
         <Text style={styles.infoSubtext}>
           Experiência: {profile.experience} | 

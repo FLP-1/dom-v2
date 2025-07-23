@@ -12,223 +12,167 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Iniciando seed do banco de dados...');
 
-  // Limpar dados existentes
-  await prisma.notification.deleteMany();
-  await prisma.task.deleteMany();
-  await prisma.userOrganization.deleteMany();
-  await prisma.organization.deleteMany();
-  await prisma.user.deleteMany();
-
-  console.log('🧹 Dados anteriores removidos');
-
-  // 1. Criar Organizações
-  const householdOrg = await prisma.organization.create({
-    data: {
-      name: 'Residência Silva',
-      description: 'Casa da família Silva',
-      type: 'HOUSEHOLD',
-      status: 'ACTIVE'
-    }
-  });
-
-  const businessOrg = await prisma.organization.create({
-    data: {
-      name: 'Empresa Santos Ltda',
-      description: 'Empresa de limpeza',
-      type: 'BUSINESS',
-      status: 'ACTIVE'
-    }
-  });
-
-  console.log('🏢 Organizações criadas');
-
-  // 2. Criar Usuários
-  const mariaUser = await prisma.user.create({
-    data: {
-      email: 'maria.silva@email.com',
-      name: 'Maria Silva',
-      profile: 'EMPLOYER'
-    }
-  });
-
-  const anaUser = await prisma.user.create({
-    data: {
-      email: 'ana.santos@email.com',
-      name: 'Ana Santos',
-      profile: 'EMPLOYEE'
-    }
-  });
-
-  const joaoUser = await prisma.user.create({
-    data: {
-      email: 'joao.oliveira@email.com',
-      name: 'João Oliveira',
-      profile: 'FAMILY'
-    }
-  });
-
-  console.log('👥 Usuários criados');
-
-  // 3. Relacionar Usuários com Organizações
-  await prisma.userOrganization.createMany({
-    data: [
-      {
-        userId: mariaUser.id,
-        organizationId: householdOrg.id,
-        role: 'OWNER',
-        status: 'ACTIVE'
-      },
-      {
-        userId: anaUser.id,
-        organizationId: householdOrg.id,
-        role: 'MEMBER',
-        status: 'ACTIVE'
-      },
-      {
-        userId: joaoUser.id,
-        organizationId: householdOrg.id,
-        role: 'MEMBER',
-        status: 'ACTIVE'
-      },
-      {
-        userId: anaUser.id,
-        organizationId: businessOrg.id,
-        role: 'ADMIN',
-        status: 'ACTIVE'
+  // Criar dados de exemplo para Budget
+  const budgets = await Promise.all([
+    prisma.budget.create({
+      data: {
+        name: 'Orçamento Mensal - Janeiro 2025',
+        amount: 5000,
+        spent: 3200,
+        category: 'Geral',
+        startDate: new Date('2025-01-01'),
+        endDate: new Date('2025-01-31'),
+        status: 'active'
       }
-    ]
-  });
-
-  console.log('🔗 Usuários relacionados às organizações');
-
-  // 4. Criar Tarefas
-  await prisma.task.createMany({
-    data: [
-      {
-        title: 'Limpar cozinha',
-        description: 'Limpar pia, fogão e organizar armários',
-        priority: 'MEDIUM',
-        status: 'PENDING',
-        dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        assignedTo: anaUser.id,
-        createdBy: mariaUser.id,
-        organizationId: householdOrg.id
-      },
-      {
-        title: 'Lavar roupas',
-        description: 'Lavar, passar e organizar roupas da semana',
-        priority: 'HIGH',
-        status: 'IN_PROGRESS',
-        dueDate: new Date(Date.now() + 12 * 60 * 60 * 1000),
-        assignedTo: anaUser.id,
-        createdBy: mariaUser.id,
-        organizationId: householdOrg.id
-      },
-      {
-        title: 'Organizar documentos',
-        description: 'Organizar documentos da empresa',
-        priority: 'LOW',
-        status: 'PENDING',
-        dueDate: new Date(Date.now() + 48 * 60 * 60 * 1000),
-        assignedTo: anaUser.id,
-        createdBy: anaUser.id,
-        organizationId: businessOrg.id
+    }),
+    prisma.budget.create({
+      data: {
+        name: 'Orçamento Alimentação',
+        amount: 1500,
+        spent: 1200,
+        category: 'Alimentação',
+        startDate: new Date('2025-01-01'),
+        endDate: new Date('2025-01-31'),
+        status: 'active'
       }
-    ]
-  });
-
-  console.log('📋 Tarefas criadas');
-
-  // 5. Criar Notificações
-  await prisma.notification.createMany({
-    data: [
-      {
-        type: 'TASK_REMINDER',
-        title: 'Lembrete de Tarefa',
-        message: 'Você tem tarefas pendentes para hoje',
-        priority: 'MEDIUM',
-        status: 'UNREAD',
-        organizationId: householdOrg.id,
-        userId: anaUser.id
-      },
-      {
-        type: 'HELP_TIP',
-        title: 'Dica do Sistema',
-        message: 'Use o botão + para criar novas tarefas rapidamente',
-        priority: 'LOW',
-        status: 'UNREAD',
-        organizationId: householdOrg.id,
-        userId: mariaUser.id
-      },
-      {
-        type: 'SYSTEM_UPDATE',
-        title: 'Atualização do Sistema',
-        message: 'Novas funcionalidades disponíveis',
-        priority: 'LOW',
-        status: 'READ',
-        organizationId: householdOrg.id,
-        userId: joaoUser.id
-      },
-      {
-        type: 'PAYMENT_DUE',
-        title: 'Pagamento Vencendo',
-        message: 'Há pagamentos que vencem em breve',
-        priority: 'HIGH',
-        status: 'UNREAD',
-        organizationId: businessOrg.id,
-        userId: anaUser.id
+    }),
+    prisma.budget.create({
+      data: {
+        name: 'Orçamento Transporte',
+        amount: 800,
+        spent: 600,
+        category: 'Transporte',
+        startDate: new Date('2025-01-01'),
+        endDate: new Date('2025-01-31'),
+        status: 'active'
       }
-    ]
-  });
+    })
+  ]);
 
-  console.log('🔔 Notificações criadas');
+  console.log(`✅ Criados ${budgets.length} orçamentos`);
 
-  // 6. Criar perfis específicos
-  await prisma.employer.create({
-    data: {
-      userId: mariaUser.id,
-      companyName: 'Residência Silva',
-      cpf: '59876913700',
-      address: 'Rua das Flores, 123',
-      phone: '(11) 99999-9999'
-    }
-  });
+  // Criar dados de exemplo para Employee
+  const employees = await Promise.all([
+    prisma.employee.create({
+      data: {
+        name: 'Maria Silva',
+        cpf: '123.456.789-00',
+        position: 'Empregada Doméstica',
+        salary: 1500.00,
+        status: 'active'
+      }
+    }),
+    prisma.employee.create({
+      data: {
+        name: 'João Santos',
+        cpf: '987.654.321-00',
+        position: 'Jardineiro',
+        salary: 1200.00,
+        status: 'active'
+      }
+    })
+  ]);
 
-  await prisma.employee.create({
-    data: {
-      userId: anaUser.id,
-      employerId: (await prisma.employer.findFirst())!.id,
-      cpf: '12345678901',
-      pis: '12345678901',
-      address: 'Rua do Trabalho, 456',
-      phone: '(11) 88888-8888',
-      salary: 1500.00,
-      startDate: new Date('2024-01-01')
-    }
-  });
+  console.log(`✅ Criados ${employees.length} funcionários`);
 
-  await prisma.family.create({
-    data: {
-      userId: joaoUser.id,
-      relation: 'Filho'
-    }
-  });
+  // Criar dados de exemplo para Payroll
+  const payrolls = await Promise.all([
+    prisma.payroll.create({
+      data: {
+        employeeId: 'EMP001',
+        employeeName: 'João Silva',
+        baseSalary: 3000,
+        overtimeHours: 10,
+        overtimeRate: 1.5,
+        bonuses: 500,
+        deductions: 100,
+        inss: 313.61,
+        irrf: 127.50,
+        fgts: 240,
+        netSalary: 2958.89,
+        grossSalary: 3500,
+        month: 7,
+        year: 2025,
+        status: 'pending',
+        employee_id: employees[0].id
+      }
+    }),
+    prisma.payroll.create({
+      data: {
+        employeeId: 'EMP002',
+        employeeName: 'Maria Santos',
+        baseSalary: 4500,
+        overtimeHours: 5,
+        overtimeRate: 1.5,
+        bonuses: 300,
+        deductions: 150,
+        inss: 470.42,
+        irrf: 191.25,
+        fgts: 360,
+        netSalary: 4388.33,
+        grossSalary: 5175,
+        month: 7,
+        year: 2025,
+        status: 'approved',
+        employee_id: employees[1].id
+      }
+    })
+  ]);
 
-  console.log('👤 Perfis específicos criados');
+  console.log(`✅ Criados ${payrolls.length} registros de folha de pagamento`);
 
-  console.log('✅ Seed concluído com sucesso!');
-  console.log('\n📊 Dados criados:');
-  console.log('- 2 Organizações');
-  console.log('- 3 Usuários');
-  console.log('- 4 Relacionamentos Usuário-Organização');
-  console.log('- 3 Tarefas');
-  console.log('- 4 Notificações');
-  console.log('- 3 Perfis específicos');
+  // Criar dados de exemplo para Payment
+  const payments = await Promise.all([
+    prisma.payment.create({
+      data: {
+        amount: 1500.00,
+        description: 'Pagamento de serviços domésticos',
+        status: 'pending',
+        dueDate: new Date('2025-07-25')
+      }
+    }),
+    prisma.payment.create({
+      data: {
+        amount: 800.00,
+        description: 'Pagamento de limpeza',
+        status: 'completed',
+        dueDate: new Date('2025-07-20')
+      }
+    })
+  ]);
+
+  console.log(`✅ Criados ${payments.length} pagamentos`);
+
+  // Criar dados de exemplo para Purchase
+  const purchases = await Promise.all([
+    prisma.purchase.create({
+      data: {
+        title: 'Produtos de Limpeza',
+        description: 'Detergente, sabão em pó, desinfetante',
+        amount: 150.00,
+        status: 'pending',
+        category: 'Limpeza'
+      }
+    }),
+    prisma.purchase.create({
+      data: {
+        title: 'Material de Escritório',
+        description: 'Papel, canetas, grampeador',
+        amount: 80.00,
+        status: 'approved',
+        category: 'Escritório'
+      }
+    })
+  ]);
+
+  console.log(`✅ Criados ${purchases.length} compras`);
+
+  console.log('🎉 Seed concluído com sucesso!');
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Erro no seed:', e);
+    console.error('❌ Erro durante o seed:', e);
     process.exit(1);
   })
   .finally(async () => {

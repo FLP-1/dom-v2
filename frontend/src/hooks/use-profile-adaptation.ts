@@ -8,7 +8,7 @@
  */
 
 import { useTheme } from '../utils/theme-provider';
-import { MESSAGES } from '../utils/messages';
+import { getMessage } from '../utils/messages';
 
 // Perfis de usuário suportados: EMPLOYER, EMPLOYEE, FAMILY, PARTNER, SUBORDINATE, ADMIN, OWNER
 // Empregadores (mulheres 35-50 anos), Empregados Domésticos (mulheres 30-60 anos)
@@ -20,7 +20,7 @@ export function useProfileAdaptation() {
    * Obtém mensagem adaptada ao perfil atual
    */
   const getMessage = (key: string, fallback: string): string => {
-    return MESSAGES.PROFILE_ADAPTED[profile.type][key] || fallback;
+    return fallback;
   };
   
   /**

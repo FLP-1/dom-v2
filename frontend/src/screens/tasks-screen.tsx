@@ -18,7 +18,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { TASK_MESSAGES, GENERAL_MESSAGES } from '../utils/messages';
+import { getMessage } from '../utils/messages';
 
 // Componente Tooltip simples
 interface TooltipProps {
@@ -61,7 +61,7 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
-    priority: 'medium' as const,
+    priority: 'medium' as 'low' | 'medium' | 'high',
   });
   const [showTitleTooltip, setShowTitleTooltip] = useState(false);
   const [showDescriptionTooltip, setShowDescriptionTooltip] = useState(false);
@@ -76,7 +76,7 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
         setTasks(data.tasks);
       }
     } catch (error) {
-      Alert.alert(GENERAL_MESSAGES.ERROR, TASK_MESSAGES.ERROR_LOAD_TASKS);
+      Alert.alert('Erro', 'Erro ao carregar tarefas.');
     } finally {
       setLoading(false);
     }
@@ -85,7 +85,7 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
   // Criar nova tarefa
   const createTask = async () => {
     if (!newTask.title.trim()) {
-      Alert.alert(GENERAL_MESSAGES.ERROR, TASK_MESSAGES.ERROR_EMPTY_TITLE);
+      Alert.alert('Erro', 'O título da tarefa é obrigatório.');
       return;
     }
 
@@ -104,12 +104,12 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
         setTasks([...tasks, data.task]);
         setShowModal(false);
         setNewTask({ title: '', description: '', priority: 'medium' });
-        Alert.alert(GENERAL_MESSAGES.SUCCESS, TASK_MESSAGES.SUCCESS_CREATE_TASK);
+        Alert.alert('Sucesso', 'Tarefa criada com sucesso!');
       } else {
-        Alert.alert(GENERAL_MESSAGES.ERROR, data.error || TASK_MESSAGES.ERROR_CREATE_TASK);
+        Alert.alert('Erro', data.error || 'Erro ao criar tarefa.');
       }
     } catch (error) {
-      Alert.alert(GENERAL_MESSAGES.ERROR, TASK_MESSAGES.ERROR_CREATE_TASK);
+      Alert.alert('Erro', 'Erro ao criar tarefa.');
     }
   };
 
@@ -132,19 +132,19 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
         ));
       }
     } catch (error) {
-      Alert.alert(GENERAL_MESSAGES.ERROR, TASK_MESSAGES.ERROR_UPDATE_TASK);
+      Alert.alert('Erro', 'Erro ao atualizar tarefa.');
     }
   };
 
   // Remover tarefa
   const deleteTask = async (taskId: string) => {
     Alert.alert(
-      GENERAL_MESSAGES.REMOVE_TASK,
-      TASK_MESSAGES.CONFIRM_DELETE_TASK,
+      'Remover Tarefa',
+      'Tem certeza que deseja remover esta tarefa?',
       [
-        { text: GENERAL_MESSAGES.CANCEL, style: 'cancel' },
+        { text: 'Cancelar', style: 'cancel' },
         {
-          text: GENERAL_MESSAGES.REMOVE,
+          text: 'Remover',
           style: 'destructive',
           onPress: async () => {
             try {
@@ -154,10 +154,10 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
 
               if (response.ok) {
                 setTasks(tasks.filter(t => t.id !== taskId));
-                Alert.alert(GENERAL_MESSAGES.SUCCESS, TASK_MESSAGES.SUCCESS_DELETE_TASK);
+                Alert.alert('Sucesso', 'Tarefa removida com sucesso!');
               }
             } catch (error) {
-              Alert.alert(GENERAL_MESSAGES.ERROR, TASK_MESSAGES.ERROR_DELETE_TASK);
+              Alert.alert('Erro', 'Erro ao remover tarefa.');
             }
           },
         },
@@ -180,9 +180,9 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
 
   const getPriorityText = (priority: string) => {
     switch (priority) {
-      case 'high': return GENERAL_MESSAGES.PRIORITY_HIGH;
-      case 'medium': return GENERAL_MESSAGES.PRIORITY_MEDIUM;
-      case 'low': return GENERAL_MESSAGES.PRIORITY_LOW;
+      case 'high': return 'Alta';
+      case 'medium': return 'Média';
+      case 'low': return 'Baixa';
       default: return priority;
     }
   };
@@ -198,7 +198,7 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
           <View style={styles.placeholder} />
         </View>
         <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>{TASK_MESSAGES.LOADING_TASKS}</Text>
+          <Text style={styles.loadingText}>Carregando tarefas...</Text>
         </View>
       </View>
     );
@@ -208,9 +208,9 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← {GENERAL_MESSAGES.BACK}</Text>
+          <Text style={styles.backButtonText}>← Voltar</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{GENERAL_MESSAGES.TASKS}</Text>
+                  <Text style={styles.headerTitle}>Tarefas</Text>
         <TouchableOpacity onPress={() => setShowModal(true)} style={styles.addButton}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
@@ -219,9 +219,9 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
       <ScrollView style={styles.content}>
         {tasks.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>{TASK_MESSAGES.EMPTY_TASKS}</Text>
+            <Text style={styles.emptyText}>Nenhuma tarefa encontrada</Text>
             <TouchableOpacity onPress={() => setShowModal(true)} style={styles.createButton}>
-              <Text style={styles.createButtonText}>{TASK_MESSAGES.CREATE_FIRST_TASK}</Text>
+              <Text style={styles.createButtonText}>Criar primeira tarefa</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -258,7 +258,7 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
                   onPress={() => toggleTaskStatus(task)}
                 >
                   <Text style={styles.statusButtonText}>
-                    {task.status === 'active' ? GENERAL_MESSAGES.MARK_COMPLETED : GENERAL_MESSAGES.MARK_ACTIVE}
+                    {task.status === 'active' ? 'Marcar como concluída' : 'Marcar como ativa'}
                   </Text>
                 </TouchableOpacity>
 
@@ -266,7 +266,7 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
                   style={styles.deleteButton}
                   onPress={() => deleteTask(task.id)}
                 >
-                  <Text style={styles.deleteButtonText}>{GENERAL_MESSAGES.REMOVE}</Text>
+                  <Text style={styles.deleteButtonText}>Remover</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -283,15 +283,15 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>{GENERAL_MESSAGES.NEW_TASK}</Text>
+            <Text style={styles.modalTitle}>Nova Tarefa</Text>
 
             <Tooltip 
               visible={showTitleTooltip} 
-              text={TASK_MESSAGES.TOOLTIP_TITLE}
+              text="Digite um título para a tarefa"
             >
               <TextInput
                 style={styles.modalInput}
-                placeholder={GENERAL_MESSAGES.TASK_TITLE}
+                placeholder="Título da tarefa"
                 value={newTask.title}
                 onChangeText={(text) => setNewTask({ ...newTask, title: text })}
                 onFocus={() => setShowTitleTooltip(true)}
@@ -301,11 +301,11 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
 
             <Tooltip 
               visible={showDescriptionTooltip} 
-              text={TASK_MESSAGES.TOOLTIP_DESCRIPTION}
+              text="Digite uma descrição para a tarefa"
             >
               <TextInput
                 style={[styles.modalInput, styles.textArea]}
-                placeholder={GENERAL_MESSAGES.DESCRIPTION}
+                placeholder="Descrição da tarefa"
                 value={newTask.description}
                 onChangeText={(text) => setNewTask({ ...newTask, description: text })}
                 multiline
@@ -316,7 +316,7 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
             </Tooltip>
 
             <View style={styles.priorityContainer}>
-              <Text style={styles.priorityLabel}>{GENERAL_MESSAGES.PRIORITY}</Text>
+              <Text style={styles.priorityLabel}>Prioridade</Text>
               <View style={styles.priorityButtons}>
                 {(['low', 'medium', 'high'] as const).map(priority => (
                   <TouchableOpacity
@@ -343,14 +343,14 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
                 style={styles.cancelButton}
                 onPress={() => setShowModal(false)}
               >
-                <Text style={styles.cancelButtonText}>{GENERAL_MESSAGES.CANCEL}</Text>
+                <Text style={styles.cancelButtonText}>Cancelar</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.saveButton}
                 onPress={createTask}
               >
-                <Text style={styles.saveButtonText}>{GENERAL_MESSAGES.CREATE}</Text>
+                <Text style={styles.saveButtonText}>Criar</Text>
               </TouchableOpacity>
             </View>
           </View>

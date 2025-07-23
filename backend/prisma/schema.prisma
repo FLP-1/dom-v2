@@ -1,11 +1,3 @@
-/**
- * @fileoverview Schema do Prisma para o projeto DOM v2
- * @description Define os modelos de dados para gestão doméstica
- * @author Equipe DOM v2
- * @version 2.0.0
- * @since 2024-01-01
- */
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -16,271 +8,234 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo de Organização (Grupos)
-model Organization {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  type        OrganizationType
-  status      OrganizationStatus @default(ACTIVE)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relacionamentos
-  userOrganizations UserOrganization[]
-  tasks             Task[]
-  notifications     Notification[]
-
-  @@map("organizations")
-}
-
-enum OrganizationType {
-  HOUSEHOLD    // Residência
-  BUSINESS     // Empresa
-  FAMILY       // Família
-  COMMUNITY    // Comunidade
-}
-
-enum OrganizationStatus {
-  ACTIVE
-  INACTIVE
-  SUSPENDED
-}
-
-// Modelos de Usuário
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  profile   UserProfile
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome             String             @db.VarChar(255)
+  nickname         String?            @unique @db.VarChar(20)
+  cpf              String             @unique @db.VarChar(11)
+  email            String             @unique @db.VarChar(255)
+  user_photo       Bytes?
+  senha_hash       String             @db.VarChar(255)
+  data_criacao     DateTime?          @default(now()) @db.Timestamp(6)
+  data_atualizacao DateTime?          @default(now()) @db.Timestamp(6)
+  celular          String?            @db.VarChar(20)
+  perfil           String?            @default("empregador") @db.VarChar(20)
+  ativo            Boolean?           @default(true)
+  ultimo_login     DateTime?          @db.Timestamp(6)
+  plataformas      Json?              @default("[]") @db.Json
+  permissoes       Json?              @default("[]") @db.Json
+  user_group_roles user_group_roles[]
+  user_sessions    user_sessions[]
+  budgets          Budget[]
+  payrolls         Payroll[]
+  employees        Employee[]
+  payments         Payment[]
+  purchases        Purchase[]
 
-  // Relacionamentos
-  tasks             Task[]
-  notifications     Notification[]
-  userOrganizations UserOrganization[]
-  employer          Employer? @relation("EmployerUser")
-  employee          Employee? @relation("EmployeeUser")
-  family            Family?   @relation("FamilyUser")
-  partner           Partner?  @relation("PartnerUser")
-  admin             Admin?    @relation("AdminUser")
-  owner             Owner?    @relation("OwnerUser")
-
+  @@index([ativo], map: "idx_users_ativo")
+  @@index([cpf], map: "idx_users_cpf")
+  @@index([email], map: "idx_users_email")
   @@map("users")
 }
 
-enum UserProfile {
-  EMPLOYER    // Empregadores (mulheres 35-50 anos)
-  EMPLOYEE    // Empregados Domésticos (mulheres 30-60 anos)
-  FAMILY      // Familiares (15-70 anos)
-  PARTNER     // Parceiros (donos de negócios)
-  SUBORDINATE // Subordinados (funcionários dos parceiros)
-  ADMIN       // Administradores (suporte técnico)
-  OWNER       // Donos (fundadores)
-}
-
-// Relacionamento Usuário-Organização (Multi-grupo)
-model UserOrganization {
-  id             String         @id @default(cuid())
-  userId         String
-  organizationId String
-  role           UserRole       @default(MEMBER)
-  status         UserOrgStatus  @default(ACTIVE)
-  joinedAt       DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-
-  // Relacionamentos
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, organizationId])
-  @@map("user_organizations")
-}
-
-enum UserRole {
-  OWNER      // Dono da organização
-  ADMIN      // Administrador
-  MANAGER    // Gerente
-  MEMBER     // Membro
-  GUEST      // Convidado
-}
-
-enum UserOrgStatus {
-  ACTIVE
-  INACTIVE
-  SUSPENDED
-  PENDING
-}
-
-// Modelo de Notificações
 model Notification {
-  id             String             @id @default(cuid())
-  type           NotificationType
-  title          String
-  message        String
-  priority       NotificationPriority
-  status         NotificationStatus @default(UNREAD)
-  organizationId String
-  userId         String?
-  metadata       Json?              // Dados adicionais em JSON
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
+  id               String    @id @default(cuid()) @db.VarChar(50)
+  tipo             String    @db.VarChar(50)
+  titulo           String    @db.VarChar(200)
+  mensagem         String
+  destinatario_id  String    @db.VarChar(50)
+  remetente_id     String?   @db.VarChar(50)
+  lida             Boolean?
+  data_criacao     DateTime? @db.Timestamp(6)
+  data_leitura     DateTime? @db.Timestamp(6)
+  dados_extras     Json?     @db.Json
+  prioridade       String?   @db.VarChar(20)
+  categoria        String?   @db.VarChar(50)
+  ativo            Boolean?
+  data_atualizacao DateTime? @db.Timestamp(6)
 
-  // Relacionamentos
-  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user           User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
-
+  @@index([id], map: "ix_notifications_id")
   @@map("notifications")
 }
 
-enum NotificationType {
-  TASK_REMINDER
-  PAYMENT_DUE
-  SYSTEM_UPDATE
-  HELP_TIP
-  TASK_ASSIGNED
-  TASK_COMPLETED
-  PAYMENT_RECEIVED
-  SYSTEM_ALERT
-}
-
-enum NotificationPriority {
-  LOW
-  MEDIUM
-  HIGH
-  URGENT
-}
-
-enum NotificationStatus {
-  UNREAD
-  READ
-  ARCHIVED
-}
-
-// Modelo de Tarefas
 model Task {
-  id             String      @id @default(cuid())
-  title          String
-  description    String?
-  priority       TaskPriority
-  status         TaskStatus
-  dueDate        DateTime?
-  assignedTo     String?
-  createdBy      String
-  organizationId String
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  id               String    @id @default(cuid()) @db.VarChar(50)
+  titulo           String    @db.VarChar(200)
+  descricao        String?
+  status           String    @db.VarChar(20)
+  prioridade       Int?
+  data_criacao     DateTime? @db.Timestamp(6)
+  data_limite      DateTime? @db.Timestamp(6)
+  data_conclusao   DateTime? @db.Timestamp(6)
+  criador_id       String    @db.Uuid
+  responsavel_id   String?   @db.Uuid
+  categoria        String?   @db.VarChar(50)
+  tags             Json?     @db.Json
+  anexos           Json?     @db.Json
+  comentarios      Json?     @db.Json
+  ativo            Boolean?
+  data_atualizacao DateTime? @db.Timestamp(6)
 
-  // Relacionamentos
-  user           User        @relation(fields: [createdBy], references: [id])
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-
+  @@index([id], map: "ix_tasks_id")
   @@map("tasks")
 }
 
-enum TaskPriority {
-  LOW
-  MEDIUM
-  HIGH
-  URGENT
+model groups {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome             String             @db.VarChar(255)
+  data_criacao     DateTime?          @default(now()) @db.Timestamp(6)
+  data_atualizacao DateTime?          @default(now()) @db.Timestamp(6)
+  descricao        String?
+  tipo             String?            @db.VarChar(50)
+  ativo            Boolean            @default(true)
+  user_group_roles user_group_roles[]
+  user_sessions    user_sessions[]
 }
 
-enum TaskStatus {
-  PENDING
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_group_roles {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String    @db.Uuid
+  group_id   String    @db.Uuid
+  role       String    @db.VarChar(50)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  ativo      Boolean   @default(true)
+  groups     groups    @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, group_id])
+  @@index([group_id], map: "idx_user_group_roles_group_id")
+  @@index([user_id], map: "idx_user_group_roles_user_id")
 }
 
-// Modelos específicos por perfil
-model Employer {
-  id          String   @id @default(cuid())
-  userId      String   @unique
-  companyName String?
-  cpf         String   @unique
-  address     String?
-  phone       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_sessions {
+  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                 String    @db.Uuid
+  session_token           String    @unique @db.VarChar(255)
+  active_group_id         String?   @db.Uuid
+  active_role             String?   @db.VarChar(50)
+  expires_at              DateTime  @db.Timestamp(6)
+  created_at              DateTime? @default(now()) @db.Timestamp(6)
+  updated_at              DateTime? @default(now()) @db.Timestamp(6)
+  active_context_group_id String?   @db.Uuid
+  active_context_role     String?   @db.VarChar(50)
+  user_agent              String?   @db.VarChar(255)
+  ip_address              String?   @db.VarChar(50)
+  groups                  groups?   @relation(fields: [active_group_id], references: [id], onUpdate: NoAction)
+  users                   User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  // Relacionamentos
-  user        User     @relation("EmployerUser", fields: [userId], references: [id])
-  employees   Employee[]
-
-  @@map("employers")
+  @@index([session_token], map: "idx_user_sessions_token")
+  @@index([user_id], map: "idx_user_sessions_user_id")
 }
 
+// Modelo Budget - Orçamentos
+model Budget {
+  id          String   @id @default(cuid()) @db.VarChar(50)
+  name        String   @db.VarChar(200)
+  amount      Float
+  spent       Float    @default(0)
+  category    String   @db.VarChar(100)
+  startDate   DateTime @db.Timestamp(6)
+  endDate     DateTime @db.Timestamp(6)
+  status      String   @default("active") @db.VarChar(20)
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  user_id     String?  @db.Uuid
+  user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
+
+  @@index([user_id], map: "idx_budgets_user_id")
+  @@index([status], map: "idx_budgets_status")
+  @@index([category], map: "idx_budgets_category")
+  @@map("budgets")
+}
+
+// Modelo Payroll - Folha de Pagamento
+model Payroll {
+  id            String   @id @default(cuid()) @db.VarChar(50)
+  employeeId    String   @db.VarChar(50)
+  employeeName  String   @db.VarChar(200)
+  baseSalary    Float
+  overtimeHours Float    @default(0)
+  overtimeRate  Float    @default(1.5)
+  bonuses       Float    @default(0)
+  deductions    Float    @default(0)
+  inss          Float    @default(0)
+  irrf          Float    @default(0)
+  fgts          Float    @default(0)
+  netSalary     Float    @default(0)
+  grossSalary   Float    @default(0)
+  month         Int
+  year          Int
+  status        String   @default("pending") @db.VarChar(20)
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime @default(now()) @db.Timestamp(6)
+  user_id       String?  @db.Uuid
+  user          User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  employee_id   String?  @db.VarChar(50)
+  employee      Employee? @relation(fields: [employee_id], references: [id], onDelete: SetNull)
+
+  @@index([user_id], map: "idx_payrolls_user_id")
+  @@index([status], map: "idx_payrolls_status")
+  @@index([employeeId], map: "idx_payrolls_employee_id")
+  @@index([month, year], map: "idx_payrolls_month_year")
+  @@map("payrolls")
+}
+
+// Modelo Employee - Funcionários
 model Employee {
-  id          String   @id @default(cuid())
-  userId      String   @unique
-  employerId  String
-  cpf         String   @unique
-  pis         String?  @unique
-  address     String?
-  phone       String?
-  salary      Decimal?
-  startDate   DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String   @id @default(cuid()) @db.VarChar(50)
+  name        String   @db.VarChar(200)
+  cpf         String   @unique @db.VarChar(14)
+  position    String   @db.VarChar(100)
+  salary      Float
+  status      String   @default("active") @db.VarChar(20)
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  user_id     String?  @db.Uuid
+  user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  payrolls    Payroll[]
 
-  // Relacionamentos
-  user        User     @relation("EmployeeUser", fields: [userId], references: [id])
-  employer    Employer @relation(fields: [employerId], references: [id])
-
+  @@index([user_id], map: "idx_employees_user_id")
+  @@index([status], map: "idx_employees_status")
+  @@index([cpf], map: "idx_employees_cpf")
   @@map("employees")
 }
 
-model Family {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  relation  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Modelo Payment - Pagamentos
+model Payment {
+  id          String   @id @default(cuid()) @db.VarChar(50)
+  amount      Float
+  description String   @db.VarChar(500)
+  status      String   @default("pending") @db.VarChar(20)
+  dueDate     DateTime @db.Timestamp(6)
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  user_id     String?  @db.Uuid
+  user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
-  // Relacionamentos
-  user      User     @relation("FamilyUser", fields: [userId], references: [id])
-
-  @@map("families")
+  @@index([user_id], map: "idx_payments_user_id")
+  @@index([status], map: "idx_payments_status")
+  @@index([dueDate], map: "idx_payments_due_date")
+  @@map("payments")
 }
 
-model Partner {
-  id          String   @id @default(cuid())
-  userId      String   @unique
-  companyName String
-  cnpj        String   @unique
-  address     String?
-  phone       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+// Modelo Purchase - Compras
+model Purchase {
+  id          String   @id @default(cuid()) @db.VarChar(50)
+  title       String   @db.VarChar(200)
+  description String?  @db.Text
+  amount      Float
+  status      String   @default("pending") @db.VarChar(20)
+  category    String?  @db.VarChar(100)
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  user_id     String?  @db.Uuid
+  user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
-  // Relacionamentos
-  user        User     @relation("PartnerUser", fields: [userId], references: [id])
-
-  @@map("partners")
-}
-
-model Admin {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relacionamentos
-  user      User     @relation("AdminUser", fields: [userId], references: [id])
-
-  @@map("admins")
-}
-
-model Owner {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relacionamentos
-  user      User     @relation("OwnerUser", fields: [userId], references: [id])
-
-  @@map("owners")
+  @@index([user_id], map: "idx_purchases_user_id")
+  @@index([status], map: "idx_purchases_status")
+  @@index([category], map: "idx_purchases_category")
+  @@map("purchases")
 }

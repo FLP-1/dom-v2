@@ -1,0 +1,241 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome             String             @db.VarChar(255)
+  nickname         String?            @unique @db.VarChar(20)
+  cpf              String             @unique @db.VarChar(11)
+  email            String             @unique @db.VarChar(255)
+  user_photo       Bytes?
+  senha_hash       String             @db.VarChar(255)
+  data_criacao     DateTime?          @default(now()) @db.Timestamp(6)
+  data_atualizacao DateTime?          @default(now()) @db.Timestamp(6)
+  celular          String?            @db.VarChar(20)
+  perfil           String?            @default("empregador") @db.VarChar(20)
+  ativo            Boolean?           @default(true)
+  ultimo_login     DateTime?          @db.Timestamp(6)
+  plataformas      Json?              @default("[]") @db.Json
+  permissoes       Json?              @default("[]") @db.Json
+  user_group_roles user_group_roles[]
+  user_sessions    user_sessions[]
+  budgets          Budget[]
+  payrolls         Payroll[]
+  employees        Employee[]
+  payments         Payment[]
+  purchases        Purchase[]
+
+  @@index([ativo], map: "idx_users_ativo")
+  @@index([cpf], map: "idx_users_cpf")
+  @@index([email], map: "idx_users_email")
+  @@map("users")
+}
+
+model Notification {
+  id               String    @id @default(cuid()) @db.VarChar(50)
+  tipo             String    @db.VarChar(50)
+  titulo           String    @db.VarChar(200)
+  mensagem         String
+  destinatario_id  String    @db.VarChar(50)
+  remetente_id     String?   @db.VarChar(50)
+  lida             Boolean?
+  data_criacao     DateTime? @db.Timestamp(6)
+  data_leitura     DateTime? @db.Timestamp(6)
+  dados_extras     Json?     @db.Json
+  prioridade       String?   @db.VarChar(20)
+  categoria        String?   @db.VarChar(50)
+  ativo            Boolean?
+  data_atualizacao DateTime? @db.Timestamp(6)
+
+  @@index([id], map: "ix_notifications_id")
+  @@map("notifications")
+}
+
+model Task {
+  id               String    @id @default(cuid()) @db.VarChar(50)
+  titulo           String    @db.VarChar(200)
+  descricao        String?
+  status           String    @db.VarChar(20)
+  prioridade       Int?
+  data_criacao     DateTime? @db.Timestamp(6)
+  data_limite      DateTime? @db.Timestamp(6)
+  data_conclusao   DateTime? @db.Timestamp(6)
+  criador_id       String    @db.Uuid
+  responsavel_id   String?   @db.Uuid
+  categoria        String?   @db.VarChar(50)
+  tags             Json?     @db.Json
+  anexos           Json?     @db.Json
+  comentarios      Json?     @db.Json
+  ativo            Boolean?
+  data_atualizacao DateTime? @db.Timestamp(6)
+
+  @@index([id], map: "ix_tasks_id")
+  @@map("tasks")
+}
+
+model groups {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome             String             @db.VarChar(255)
+  data_criacao     DateTime?          @default(now()) @db.Timestamp(6)
+  data_atualizacao DateTime?          @default(now()) @db.Timestamp(6)
+  descricao        String?
+  tipo             String?            @db.VarChar(50)
+  ativo            Boolean            @default(true)
+  user_group_roles user_group_roles[]
+  user_sessions    user_sessions[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_group_roles {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String    @db.Uuid
+  group_id   String    @db.Uuid
+  role       String    @db.VarChar(50)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  ativo      Boolean   @default(true)
+  groups     groups    @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, group_id])
+  @@index([group_id], map: "idx_user_group_roles_group_id")
+  @@index([user_id], map: "idx_user_group_roles_user_id")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_sessions {
+  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                 String    @db.Uuid
+  session_token           String    @unique @db.VarChar(255)
+  active_group_id         String?   @db.Uuid
+  active_role             String?   @db.VarChar(50)
+  expires_at              DateTime  @db.Timestamp(6)
+  created_at              DateTime? @default(now()) @db.Timestamp(6)
+  updated_at              DateTime? @default(now()) @db.Timestamp(6)
+  active_context_group_id String?   @db.Uuid
+  active_context_role     String?   @db.VarChar(50)
+  user_agent              String?   @db.VarChar(255)
+  ip_address              String?   @db.VarChar(50)
+  groups                  groups?   @relation(fields: [active_group_id], references: [id], onUpdate: NoAction)
+  users                   User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([session_token], map: "idx_user_sessions_token")
+  @@index([user_id], map: "idx_user_sessions_user_id")
+}
+
+// Modelo Budget - Orçamentos
+model Budget {
+  id        String   @id @default(cuid()) @db.VarChar(50)
+  name      String   @db.VarChar(200)
+  amount    Float
+  spent     Float    @default(0)
+  category  String   @db.VarChar(100)
+  startDate DateTime @db.Timestamp(6)
+  endDate   DateTime @db.Timestamp(6)
+  status    String   @default("active") @db.VarChar(20)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @default(now()) @db.Timestamp(6)
+  user_id   String?  @db.Uuid
+  user      User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
+
+  @@index([user_id], map: "idx_budgets_user_id")
+  @@index([status], map: "idx_budgets_status")
+  @@index([category], map: "idx_budgets_category")
+  @@map("budgets")
+}
+
+// Modelo Payroll - Folha de Pagamento
+model Payroll {
+  id            String    @id @default(cuid()) @db.VarChar(50)
+  employeeId    String    @db.VarChar(50)
+  employeeName  String    @db.VarChar(200)
+  baseSalary    Float
+  overtimeHours Float     @default(0)
+  overtimeRate  Float     @default(1.5)
+  bonuses       Float     @default(0)
+  deductions    Float     @default(0)
+  inss          Float     @default(0)
+  irrf          Float     @default(0)
+  fgts          Float     @default(0)
+  netSalary     Float     @default(0)
+  grossSalary   Float     @default(0)
+  month         Int
+  year          Int
+  status        String    @default("pending") @db.VarChar(20)
+  createdAt     DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime  @default(now()) @db.Timestamp(6)
+  user_id       String?   @db.Uuid
+  user          User?     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  employee_id   String?   @db.VarChar(50)
+  employee      Employee? @relation(fields: [employee_id], references: [id], onDelete: SetNull)
+
+  @@index([user_id], map: "idx_payrolls_user_id")
+  @@index([status], map: "idx_payrolls_status")
+  @@index([employeeId], map: "idx_payrolls_employee_id")
+  @@index([month, year], map: "idx_payrolls_month_year")
+  @@map("payrolls")
+}
+
+// Modelo Employee - Funcionários
+model Employee {
+  id        String    @id @default(cuid()) @db.VarChar(50)
+  name      String    @db.VarChar(200)
+  cpf       String    @unique @db.VarChar(14)
+  position  String    @db.VarChar(100)
+  salary    Float
+  status    String    @default("active") @db.VarChar(20)
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt DateTime  @default(now()) @db.Timestamp(6)
+  user_id   String?   @db.Uuid
+  user      User?     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  payrolls  Payroll[]
+
+  @@index([user_id], map: "idx_employees_user_id")
+  @@index([status], map: "idx_employees_status")
+  @@index([cpf], map: "idx_employees_cpf")
+  @@map("employees")
+}
+
+// Modelo Payment - Pagamentos
+model Payment {
+  id          String   @id @default(cuid()) @db.VarChar(50)
+  amount      Float
+  description String   @db.VarChar(500)
+  status      String   @default("pending") @db.VarChar(20)
+  dueDate     DateTime @db.Timestamp(6)
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  user_id     String?  @db.Uuid
+  user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
+
+  @@index([user_id], map: "idx_payments_user_id")
+  @@index([status], map: "idx_payments_status")
+  @@index([dueDate], map: "idx_payments_due_date")
+  @@map("payments")
+}
+
+// Modelo Purchase - Compras
+model Purchase {
+  id          String   @id @default(cuid()) @db.VarChar(50)
+  title       String   @db.VarChar(200)
+  description String?  @db.Text
+  amount      Float
+  status      String   @default("pending") @db.VarChar(20)
+  category    String?  @db.VarChar(100)
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  user_id     String?  @db.Uuid
+  user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
+
+  @@index([user_id], map: "idx_purchases_user_id")
+  @@index([status], map: "idx_purchases_status")
+  @@index([category], map: "idx_purchases_category")
+  @@map("purchases")
+}

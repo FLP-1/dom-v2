@@ -16,7 +16,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { LOGIN_MESSAGES, GENERAL_MESSAGES } from '../utils/messages';
+import { getMessage } from '../utils/messages';
 
 // Componente Tooltip simples
 interface TooltipProps {
@@ -69,7 +69,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
 
   const handleLogin = async () => {
     if (!cpf || !password) {
-      Alert.alert(GENERAL_MESSAGES.ERROR, LOGIN_MESSAGES.ERROR_EMPTY_FIELDS);
+      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
@@ -89,10 +89,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       if (response.ok) {
         onLogin(data.user);
       } else {
-        Alert.alert(GENERAL_MESSAGES.ERROR, data.error || LOGIN_MESSAGES.ERROR_LOGIN);
+        Alert.alert('Erro', data.error || 'Erro ao fazer login. Tente novamente.');
       }
     } catch (error) {
-      Alert.alert(GENERAL_MESSAGES.ERROR, LOGIN_MESSAGES.ERROR_CONNECTION);
+      Alert.alert('Erro', 'Erro de conexão. Verifique sua internet.');
     } finally {
       setLoading(false);
     }
@@ -107,7 +107,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         <View style={styles.form}>
           <Tooltip 
             visible={showCpfTooltip} 
-            text={LOGIN_MESSAGES.TOOLTIP_CPF}
+            text="Digite seu CPF no formato: 000.000.000-00"
           >
             <TextInput
               style={styles.input}
@@ -123,7 +123,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
 
           <Tooltip 
             visible={showPasswordTooltip} 
-            text={LOGIN_MESSAGES.TOOLTIP_PASSWORD}
+            text="Digite sua senha com pelo menos 6 caracteres"
           >
             <TextInput
               style={styles.input}

@@ -16,7 +16,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useSimpleNotifications, SimpleNotificationType } from '../utils/simple-notifications';
 
 interface User {
   id: string;
@@ -30,6 +29,8 @@ interface SimpleDashboardProps {
   onLogout: () => void;
   onNavigateToTasks: () => void;
   onNavigateToNotifications: () => void;
+  onNavigateToBudget: () => void;
+  onNavigateToPayroll: () => void;
 }
 
 export const SimpleDashboard: React.FC<SimpleDashboardProps> = ({
@@ -37,9 +38,9 @@ export const SimpleDashboard: React.FC<SimpleDashboardProps> = ({
   onLogout,
   onNavigateToTasks,
   onNavigateToNotifications,
+  onNavigateToBudget,
+  onNavigateToPayroll,
 }) => {
-  const { notifications, unreadCount, addNotification } = useSimpleNotifications();
-
   const handleLogout = () => {
     Alert.alert(
       'Sair',
@@ -51,15 +52,10 @@ export const SimpleDashboard: React.FC<SimpleDashboardProps> = ({
     );
   };
 
-  // Função para testar notificações
-  const testNotification = (type: SimpleNotificationType) => {
-    addNotification(type);
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Dashboard</Text>
+        <Text style={styles.headerTitle}>Dashboard DOM v2</Text>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Sair</Text>
         </TouchableOpacity>
@@ -79,78 +75,38 @@ export const SimpleDashboard: React.FC<SimpleDashboardProps> = ({
           </View>
 
           <View style={styles.statCard}>
-            <Text style={styles.statNumber}>{unreadCount}</Text>
+            <Text style={styles.statNumber}>0</Text>
             <Text style={styles.statLabel}>Notificações</Text>
           </View>
         </View>
 
         <View style={styles.actionsContainer}>
           <TouchableOpacity style={styles.actionButton} onPress={onNavigateToTasks}>
-            <Text style={styles.actionButtonText}>Ver Tarefas</Text>
+            <Text style={styles.actionButtonText}>📋 Ver Tarefas</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.actionButton} onPress={onNavigateToNotifications}>
-            <Text style={styles.actionButtonText}>Ver Notificações</Text>
+            <Text style={styles.actionButtonText}>🔔 Ver Notificações</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionButton}>
-            <Text style={styles.actionButtonText}>Meu Perfil</Text>
+          <TouchableOpacity style={styles.actionButton} onPress={onNavigateToBudget}>
+            <Text style={styles.actionButtonText}>💰 Orçamento</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionButton} onPress={onNavigateToPayroll}>
+            <Text style={styles.actionButtonText}>💼 Folha de Pagamento</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>Informações do Sistema</Text>
-          <Text style={styles.infoText}>• Versão: 2.0.0</Text>
-          <Text style={styles.infoText}>• Perfil: {user.profile}</Text>
-          <Text style={styles.infoText}>• Notificações: {notifications.length}</Text>
+          <Text style={styles.infoTitle}>Sistema DOM v2</Text>
+          <Text style={styles.infoText}>
+            Sistema de gestão doméstica com micro-frontends funcionais.
+          </Text>
+          <Text style={styles.infoText}>
+            Backend: Porta 3001 | Frontend: Porta 8081
+          </Text>
         </View>
-
-        {/* Seção de Teste de Notificações */}
-        <View style={styles.notificationsCard}>
-          <Text style={styles.infoTitle}>Testar Notificações</Text>
-          <View style={styles.notificationButtons}>
-            <TouchableOpacity 
-              style={styles.notificationButton} 
-              onPress={() => testNotification('TASK_REMINDER')}
-            >
-              <Text style={styles.notificationButtonText}>Lembrete</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.notificationButton} 
-              onPress={() => testNotification('PAYMENT_DUE')}
-            >
-              <Text style={styles.notificationButtonText}>Pagamento</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.notificationButton} 
-              onPress={() => testNotification('HELP_TIP')}
-            >
-              <Text style={styles.notificationButtonText}>Dica</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Resumo de Notificações */}
-        {notifications.length > 0 && (
-          <View style={styles.notificationsList}>
-            <Text style={styles.infoTitle}>Últimas Notificações</Text>
-            {notifications.slice(0, 3).map((notification) => (
-              <View key={notification.id} style={styles.notificationItem}>
-                <Text style={styles.notificationTitle}>{notification.title}</Text>
-                <Text style={styles.notificationMessage}>{notification.message}</Text>
-                <Text style={styles.notificationPriority}>Prioridade: {notification.priority}</Text>
-              </View>
-            ))}
-            {notifications.length > 3 && (
-              <TouchableOpacity 
-                style={styles.viewMoreButton}
-                onPress={onNavigateToNotifications}
-              >
-                <Text style={styles.viewMoreButtonText}>Ver mais ({notifications.length - 3})</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        )}
       </ScrollView>
     </View>
   );
@@ -173,12 +129,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#eee',
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
   logoutButton: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     paddingVertical: 8,
     backgroundColor: '#ff3b30',
     borderRadius: 6,
@@ -205,19 +161,19 @@ const styles = StyleSheet.create({
   },
   welcomeTitle: {
     fontSize: 18,
-    color: '#666',
+    fontWeight: 'bold',
+    color: '#333',
     marginBottom: 8,
   },
   userName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 4,
-  },
-  userProfile: {
     fontSize: 16,
     color: '#007AFF',
     fontWeight: '600',
+    marginBottom: 4,
+  },
+  userProfile: {
+    fontSize: 14,
+    color: '#666',
   },
   statsContainer: {
     flexDirection: 'row',
@@ -238,13 +194,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   statNumber: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#007AFF',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   statLabel: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666',
     textAlign: 'center',
   },
@@ -252,16 +208,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   actionButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    alignItems: 'center',
+    padding: 20,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   actionButtonText: {
-    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
   },
   infoCard: {
     backgroundColor: '#fff',
@@ -275,91 +236,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   infoTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   infoText: {
     fontSize: 14,
     color: '#666',
-    marginBottom: 4,
-  },
-  notificationsCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  notificationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 12,
-  },
-  notificationButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-    minWidth: 80,
-    alignItems: 'center',
-  },
-  notificationButtonText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  notificationsList: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  notificationItem: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 8,
-    borderLeftWidth: 4,
-    borderLeftColor: '#007AFF',
-  },
-  notificationTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
-  },
-  notificationMessage: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
-  },
-  notificationPriority: {
-    fontSize: 10,
-    color: '#999',
-    marginBottom: 8,
-  },
-  viewMoreButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  viewMoreButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
+    marginBottom: 5,
   },
 }); 

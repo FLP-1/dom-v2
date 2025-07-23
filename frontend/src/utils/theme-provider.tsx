@@ -8,6 +8,7 @@
  */
 
 import React, { createContext, useContext, ReactNode } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { 
   getPersonalizationConfig, 
   UserProfile, 
@@ -210,14 +211,14 @@ export function useStyles() {
 // Interfaces para os componentes temáticos
 interface ThemedViewProps {
   children: ReactNode;
-  style?: React.CSSProperties;
+  style?: any;
   [key: string]: unknown;
 }
 
 interface ThemedTextProps {
   children: ReactNode;
   variant?: 'small' | 'medium' | 'large' | 'xlarge' | 'secondary';
-  style?: React.CSSProperties;
+  style?: any;
   [key: string]: unknown;
 }
 
@@ -225,8 +226,8 @@ interface ThemedButtonProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary';
   onPress?: () => void;
-  style?: React.CSSProperties;
-  textStyle?: React.CSSProperties;
+  style?: any;
+  textStyle?: any;
   [key: string]: unknown;
 }
 
@@ -235,9 +236,9 @@ export function ThemedView({ children, style, ...props }: ThemedViewProps) {
   const styles = useStyles();
   
   return (
-    <div style={[styles.layout.container, style]} {...props}>
+    <View style={[styles.layout.container, style]} {...props}>
       {children}
-    </div>
+    </View>
   );
 }
 
@@ -246,9 +247,9 @@ export function ThemedText({ children, variant = 'medium', style, ...props }: Th
   const styles = useStyles();
   
   return (
-    <span style={[styles.typography[variant], style]} {...props}>
+    <Text style={[styles.typography[variant], style]} {...props}>
       {children}
-    </span>
+    </Text>
   );
 }
 
@@ -264,14 +265,14 @@ export function ThemedButton({
   const styles = useStyles();
   
   return (
-    <button 
+    <TouchableOpacity 
       style={[styles.layout.button[variant], style]} 
-      onClick={onPress}
+      onPress={onPress}
       {...props}
     >
-      <span style={[styles.layout.button.text, textStyle]}>
+      <Text style={[styles.layout.button.text, textStyle]}>
         {children}
-      </span>
-    </button>
+      </Text>
+    </TouchableOpacity>
   );
 } 

@@ -12,12 +12,26 @@ import express from 'express';
 import { validateCPF, validatePassword } from './utils/validation';
 import { prisma, connectDatabase, disconnectDatabase, checkDatabaseHealth } from './database';
 
+// Importar rotas das lacunas críticas
+import paymentsRouter from './routes/payments';
+import purchasesRouter from './routes/purchases';
+import employeesRouter from './routes/employees';
+import budgetsRouter from './routes/budgets';
+import payrollRouter from './routes/payroll';
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware básico
 app.use(cors());
 app.use(express.json());
+
+// Rotas das lacunas críticas
+app.use('/api', paymentsRouter);
+app.use('/api', purchasesRouter);
+app.use('/api', employeesRouter);
+app.use('/api/budgets', budgetsRouter);
+app.use('/api/payroll', payrollRouter);
 
 // Configuração do servidor
 
@@ -112,7 +126,7 @@ app.post('/api/auth/login', async (req, res) => {
         email: user.email,
         profile: user.profile
       },
-      organizations: userOrganizations.map(uo => ({
+      organizations: userOrganizations.map((uo: any) => ({
         id: uo.organization.id,
         name: uo.organization.name,
         type: uo.organization.type,
