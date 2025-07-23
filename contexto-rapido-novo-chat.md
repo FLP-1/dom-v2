@@ -1,70 +1,166 @@
-# 🚀 CONTEXTO RÁPIDO - DOM v2 (NOVO CHAT)
+# Contexto Rápido - DOM v2 - Novo Chat
 
-## 🎯 **INFORMAÇÕES CRÍTICAS:**
-- **Projeto:** DOM v2 - Sistema de Gestão Doméstica
-- **Status:** React Native Web 100% Funcional
-- **Data:** 22/07/2025 20:15
-- **Objetivo:** Continuidade do desenvolvimento
+## 🎯 **RESUMO EXECUTIVO**
 
-## ✅ **SUCESSO ALCANÇADO:**
+**Projeto:** DOM v2 - Sistema empresarial brasileiro  
+**Status:** ✅ **100% OPERACIONAL**  
+**Foco:** Expansão da biblioteca de componentes e funcionalidades brasileiras  
+**Estratégia:** Simplicidade extrema e foco no mercado brasileiro  
 
-### **PROBLEMA CRÍTICO RESOLVIDO:**
-- ✅ **React Native Web funcionando no navegador**
-- ✅ **Erro DevSettings eliminado completamente**
-- ✅ **TurboModuleRegistry mockado no Metro**
-- ✅ **Sistema 100% operacional**
+---
 
-### **ARQUITETURA FUNCIONAL:**
-- **Backend:** Express.js (porta 3001) - APIs REST
-- **Frontend:** React Native Web (porta 3000) - Metro (porta 8081)
-- **Micro-frontends:** Budget e Payroll implementados
-- **Mock Data:** Sistema operacional sem Prisma
+## 🚀 **STATUS ATUAL**
 
-## 🚀 **COMANDOS PARA INICIAR:**
+### **✅ SISTEMA FUNCIONANDO:**
+- **Backend:** Node.js + Express + TypeScript + Prisma + PostgreSQL
+- **Frontend Web:** React Native Web (localhost:3000)
+- **Frontend Mobile:** React Native
+- **CI/CD Pipeline:** Corrigido e funcionando
+- **Banco de Dados:** PostgreSQL configurado e populado
+- **Micro-frontends:** Budget, Payroll, Tasks operacionais
 
-```powershell
-# 1. Backend
-cd C:\dom-v2\backend; npm run start:simple
+### **✅ INFRAESTRUTURA RESOLVIDA:**
+- Dependências instaladas e compatíveis
+- Scripts de execução funcionais
+- Metro Bundler configurado
+- Conflitos React Native Web resolvidos
 
-# 2. Metro (Frontend)
-cd C:\dom-v2\frontend; npm start
+---
 
-# 3. Servidor Web
-cd C:\dom-v2\frontend; node server-web.js
+## 🎯 **PRÓXIMOS PASSOS PRIORITÁRIOS**
 
-# 4. Teste de saúde
-Invoke-WebRequest -Uri "http://localhost:3001/health" -Method GET
+### **1. EXPANDIR BIBLIOTECA DE COMPONENTES**
+```typescript
+// Componentes Prioritários
+interface PriorityComponents {
+  table: 'TableComponent';           // Tabelas de dados
+  chart: 'ChartComponent';           // Gráficos e relatórios
+  modal: 'ModalComponent';           // Modais
+  cpfCnpj: 'CPFCNPJInput';           // Input brasileiro
+}
 ```
 
-## 📱 **URLS DE ACESSO:**
-- **React Native Web:** http://localhost:3000/react-native
-- **Versão Simplificada:** http://localhost:3000
-- **Backend APIs:** http://localhost:3001/api/payroll
+### **2. ELIMINAR VALORES HARDCODED**
+- URLs e endpoints
+- Configurações de negócio
+- Cores e temas
 
-## 🎯 **PRÓXIMOS PASSOS:**
-1. **Desenvolvimento de micro-frontends**
-2. **Implementação de funcionalidades avançadas**
-3. **Testes automatizados**
-4. **Otimizações de performance**
+### **3. FUNCIONALIDADES BRASILEIRAS BÁSICAS**
+- Trabalhista (carteira, férias, 13º)
+- Fiscal (CPF/CNPJ, CEP)
+- Relatórios (RAIS, CAGED)
 
-## 🚨 **DIRETIVA CRÍTICA - UPGRADES:**
-**NUNCA FAZER UPGRADE DE VERSÕES MAJOR SEM NECESSIDADE CRÍTICA**
-- React 18.2.0 + React Native 0.80.1 = ESTÁVEL E FUNCIONANDO
-- Prioridade: Desenvolvimento > Perfeição técnica
-- Verificar `docs/registro-decisoes-criticas.md` antes de upgrades
+---
 
-## 🛡️ **PROCESSO AUTOMATIZADO DE GARANTIA:**
-**SISTEMA DE PROTEÇÃO AUTOMÁTICA IMPLEMENTADO**
-- Verificação automática: `npm run check-diretivas`
-- Bloqueio de commits com violações
-- Relatórios automáticos em `logs/`
-- Hook Git: `.git/hooks/pre-commit`
-- Documentação: `docs/processo-garantia-diretivas.md`
+## 🛠️ **COMANDOS ESSENCIAIS**
 
-## 📋 **DOCUMENTAÇÃO ESSENCIAL:**
-- `docs/status-atual-novo-chat.md` - Status completo
-- `docs/continuidade-desenvolvimento-hibrido.md` - Plano estratégico
-- `docs/sistema-garantia-diretivas.md` - Diretivas obrigatórias
+### **📋 INICIAR SISTEMA:**
+```powershell
+cd C:\dom-v2
+.\run-dom-v2.ps1
+```
 
-## 🎉 **RESULTADO:**
-**O DOM v2 está 100% funcional com React Native Web renderizando corretamente no navegador!** 
+### **📋 VERIFICAR SERVIÇOS:**
+- Backend: http://localhost:3001
+- Frontend Web: http://localhost:3000
+- Metro: http://localhost:8081
+
+### **📋 ESTRUTURA IMPORTANTE:**
+```
+dom-v2/
+├── backend/          # APIs e banco
+├── frontend/         # Interface
+├── docs/            # Documentação
+└── scripts/         # Automação
+```
+
+---
+
+## 🎯 **ESTRATÉGIA DE DESENVOLVIMENTO**
+
+### **✅ PRINCÍPIOS:**
+1. **Simplicidade Extrema** - Não adicionar complexidade desnecessária
+2. **Foco no Brasil** - Diferencial competitivo claro
+3. **Implementação Gradual** - Uma melhoria por vez
+4. **Validação Contínua** - Testar cada mudança
+
+### **❌ EVITAR:**
+1. **Arquitetura complexa** - Sistema atual funciona
+2. **Cache complexo** - Prematuro para o volume atual
+3. **Lazy loading complexo** - Desnecessário agora
+4. **Over-engineering** - Manter simplicidade
+
+---
+
+## 📊 **MÉTRICAS DE SUCESSO**
+
+### **🎯 TÉCNICAS:**
+- Performance: <2s carregamento
+- Bundle Size: <500KB
+- Test Coverage: >90%
+- Build Time: <5 minutos
+
+### **🎯 NEGÓCIO:**
+- Funcionalidades brasileiras: 100% básicas
+- Tempo de desenvolvimento: 50% redução
+- Qualidade: 80% redução em bugs
+- Satisfação: >90% usuários
+
+---
+
+## 🚨 **PROBLEMAS CONHECIDOS**
+
+### **✅ RESOLVIDOS:**
+- Conflito React Native Web
+- CI/CD Pipeline
+- Dependências incompatíveis
+- Metro Bundler
+
+### **⚠️ ATENÇÃO:**
+- Manter simplicidade extrema
+- Não adicionar complexidade desnecessária
+- Focar no mercado brasileiro
+- Implementar gradualmente
+
+---
+
+## 📋 **PRIMEIRA AÇÃO RECOMENDADA**
+
+**Implementar TableComponent:**
+```typescript
+// Localização: frontend/src/components/ui/TableComponent.tsx
+interface TableComponentProps {
+  data: any[];
+  columns: string[];
+  onRowClick?: (row: any) => void;
+}
+
+export const TableComponent: React.FC<TableComponentProps> = ({ data, columns, onRowClick }) => {
+  // Implementação simples e funcional
+};
+```
+
+**Justificativa:** Base para todas as outras funcionalidades e impacto imediato na produtividade.
+
+---
+
+## 📞 **DOCUMENTAÇÃO DISPONÍVEL**
+
+### **📁 ARQUIVOS IMPORTANTES:**
+- `status-atual-novo-chat.md` - Status completo
+- `instrucoes-novo-chat.md` - Instruções detalhadas
+- `comando-inicial-novo-chat.md` - Comando para novo chat
+- `docs/` - Documentação técnica completa
+
+### **📁 ESTRUTURA DO PROJETO:**
+- `backend/src/` - Código do backend
+- `frontend/src/` - Código do frontend
+- `backend/prisma/` - Schema e migrações
+- `docs/` - Documentação técnica
+
+---
+
+**Autor:** DOM Team v2  
+**Data:** 23 de Julho de 2025  
+**Versão:** 2.0.0  
+**Status:** ✅ Pronto para Continuidade 

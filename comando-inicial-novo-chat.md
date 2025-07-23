@@ -1,89 +1,61 @@
-# 🚀 **COMANDO INICIAL - NOVO CHAT DOM v2**
+# Comando Inicial para Novo Chat - DOM v2
 
-## 📋 **COMANDO PARA COPIAR E COLAR NO NOVO CHAT:**
+## 🎯 **COMANDO PARA COPIAR E COLAR NO NOVO CHAT:**
 
 ```
-Carregue o contexto completo do projeto DOM v2 e continue o desenvolvimento de onde paramos. 
+Carregue todo o contexto do projeto DOM v2 e continue o desenvolvimento de onde paramos. 
 
-STATUS ATUAL:
-- ✅ Build 100% bem-sucedido (23/07/2025)
-- ✅ Zero erros TypeScript
-- ✅ APIs funcionando corretamente
-- ✅ 100% padronização TypeScript
-- ✅ Integração frontend-backend operacional
+CONTEXTO ATUAL:
+- Sistema funcional e estável (backend + frontend web + mobile)
+- CI/CD pipeline corrigido e funcionando
+- Banco de dados PostgreSQL configurado e populado
+- Micro-frontends operacionais (Budget, Payroll, Tasks)
+- Foco estratégico: mercado brasileiro e simplicidade extrema
 
-ARQUIVOS DE CONTEXTO:
-- contexto-completo-novo-chat.md
-- docs/build-completo-dom-v2.md
-- instrucoes-rapidas-novo-chat.md
+PRÓXIMOS PASSOS PRIORITÁRIOS:
+1. Expandir biblioteca de componentes (TableComponent, ChartComponent, ModalComponent, CPFCNPJInput)
+2. Eliminar valores hardcoded residuais
+3. Implementar funcionalidades brasileiras básicas (trabalhista e fiscal)
 
-PRÓXIMOS PASSOS SUGERIDOS:
-1. Deploy para produção
-2. Testes automatizados
-3. Melhorias de UX/UI
-4. Novas funcionalidades
-5. Otimizações de performance
+ESTRATÉGIA:
+- Simplicidade extrema (não adicionar complexidade desnecessária)
+- Foco no mercado brasileiro (diferencial competitivo)
+- Implementação gradual (uma melhoria por vez)
+- Validação contínua (testar cada mudança)
 
-Aplique pensamento crítico rigoroso e siga as diretivas do projeto. Use PowerShell com diretórios específicos.
-```
+COMANDOS PARA INICIAR:
+cd C:\dom-v2
+.\run-dom-v2.ps1
 
----
+DOCUMENTAÇÃO DISPONÍVEL:
+- status-atual-novo-chat.md (status completo)
+- instrucoes-novo-chat.md (instruções detalhadas)
+- docs/ (documentação técnica completa)
 
-## 🎯 **VERIFICAÇÃO RÁPIDA:**
-
-```powershell
-# 1. Verificar build
-cd C:\dom-v2\backend; npx tsc --noEmit
-cd C:\dom-v2\frontend; npx tsc --noEmit
-
-# 2. Testar APIs
-Invoke-RestMethod -Uri "http://localhost:3001/health" -Method GET
-Invoke-RestMethod -Uri "http://localhost:3001/api/dashboard" -Method GET
-
-# 3. Iniciar servidores (se necessário)
-cd C:\dom-v2\backend; $env:DATABASE_URL="postgresql://postgres:FLP*2025@localhost:5432/db_dom"; node dist/server-prisma.js
-cd C:\dom-v2\frontend; npm start
+Aplique pensamento crítico rigoroso e siga as diretivas do projeto. O sistema está 100% operacional, agora precisamos expandir funcionalidades mantendo a simplicidade.
 ```
 
 ---
 
-## 📁 **ARQUIVOS ESSENCIAIS:**
+## 📋 **INSTRUÇÕES ADICIONAIS:**
 
-### **Contexto Completo:**
-- `contexto-completo-novo-chat.md` - Contexto detalhado
-- `docs/build-completo-dom-v2.md` - Relatório do build
-- `instrucoes-rapidas-novo-chat.md` - Instruções rápidas
+### **🎯 APÓS COPIAR O COMANDO:**
+1. Cole no novo chat
+2. Aguarde o carregamento do contexto
+3. Verifique se o sistema está funcionando
+4. Comece pela expansão da biblioteca de componentes
 
-### **Código Fonte:**
-- `backend/src/` - Código TypeScript do backend
-- `frontend/src/` - Código TypeScript do frontend
-- `backend/dist/` - Arquivos compilados
-- `backend/prisma/` - Schema e migrações
+### **📊 STATUS ESPERADO:**
+- Backend: http://localhost:3001 ✅
+- Frontend Web: http://localhost:3000 ✅
+- Metro Bundler: http://localhost:8081 ✅
 
-### **Configurações:**
-- `backend/package.json` - Dependências backend
-- `frontend/package.json` - Dependências frontend
-- `backend/tsconfig.json` - Configuração TypeScript backend
-- `frontend/tsconfig.json` - Configuração TypeScript frontend
+### **🎯 PRIMEIRA AÇÃO:**
+Implementar **TableComponent** em `frontend/src/components/ui/` seguindo os padrões existentes.
 
 ---
 
-## 🎯 **STATUS FINAL:**
-
-**Projeto DOM v2 está:**
-- ✅ **100% funcional**
-- ✅ **Build bem-sucedido**
-- ✅ **Zero erros**
-- ✅ **Pronto para continuidade**
-- ✅ **Base sólida** para próximas fases
-
-**Próximo chat deve:**
-1. **Carregar este contexto**
-2. **Verificar status atual**
-3. **Continuar desenvolvimento**
-4. **Aplicar pensamento crítico**
-5. **Manter padrões estabelecidos**
-
----
-
-**🚀 PRONTO PARA NOVO CHAT - CONTINUIDADE PERFEITA** 
+**Autor:** DOM Team v2  
+**Data:** 23 de Julho de 2025  
+**Versão:** 2.0.0  
+**Status:** ✅ Comando Pronto 

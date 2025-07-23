@@ -1,138 +1,195 @@
-# 🚀 INSTRUÇÕES PARA NOVO CHAT - DOM v2
+# Instruções para Novo Chat - DOM v2
 
-## 📋 **COMANDO INICIAL PARA O NOVO CHAT**
+## 🎯 **CONTEXTO RÁPIDO**
 
-**Copie e cole este comando no novo chat:**
-
-```
-Carregue todo o contexto do projeto DOM v2 e continue o desenvolvimento de onde paramos. Aplique pensamento crítico e siga as diretivas do projeto. O projeto está na Fase 5 - 100% concluída, com estratégia de integridade de dados implementada. Próximos passos: corrigir Tasks API (erro UUID), implementar Dashboard funcional, integrar frontend com dados reais.
-```
-
----
-
-## 🎯 **PONTOS CRÍTICOS PARA O NOVO CHAT**
-
-### **✅ ESTADO ATUAL**
-- **Estratégia de integridade de dados** implementada com sucesso
-- **Seed integrado** funcionando e validado
-- **100% de integridade referencial** garantida
-- **APIs funcionais** retornando dados reais
-- **Documentação completa** criada
-
-### **⚠️ PROBLEMAS PENDENTES**
-1. **Tasks API** - Erro de UUID (responsavel_id)
-2. **Dashboard API** - Métodos undefined no controller
-
-### **🎯 PRÓXIMOS PASSOS**
-1. Corrigir Tasks API
-2. Implementar Dashboard funcional
-3. Integrar frontend com dados reais
-4. Implementar CRUD completo
+**Projeto:** DOM v2 - Sistema empresarial brasileiro  
+**Status:** ✅ Sistema funcional e estável  
+**Foco:** Expansão da biblioteca de componentes e funcionalidades brasileiras  
+**Estratégia:** Simplicidade extrema e foco no mercado brasileiro  
 
 ---
 
-## ⚙️ **COMANDOS ESSENCIAIS**
+## 🚀 **COMANDOS PARA INICIAR**
 
-### **🚀 EXECUTAR SEED INTEGRADO**
+### **📋 1. VERIFICAR STATUS ATUAL:**
 ```powershell
-cd C:\dom-v2\backend
-$env:DATABASE_URL="postgresql://postgres:FLP*2025@localhost:5432/db_dom"
-npx prisma generate
-npx tsc prisma/seed-integrated.ts --outDir dist --target es2020 --module commonjs --esModuleInterop --skipLibCheck
-node dist/seed-integrated.js
+# Diretório: C:\dom-v2
+cd C:\dom-v2
+
+# Verificar se o sistema está rodando
+Get-Process | Where-Object {$_.ProcessName -like "*node*"}
 ```
 
-### **🌐 INICIAR SERVIDORES**
+### **📋 2. INICIAR SISTEMA COMPLETO:**
 ```powershell
-# Backend
-cd C:\dom-v2\backend
-$env:DATABASE_URL="postgresql://postgres:FLP*2025@localhost:5432/db_dom"
-node dist/server-prisma.js
-
-# Frontend
-cd C:\dom-v2\frontend
-npm start
-
-# Servidor Web
-cd C:\dom-v2\frontend
-node server-web.js
+# Executar sistema completo
+.\run-dom-v2.ps1
 ```
 
-### **🧪 TESTAR APIS**
+### **📋 3. VERIFICAR SERVIÇOS:**
+- **Backend:** http://localhost:3001
+- **Frontend Web:** http://localhost:3000
+- **Metro Bundler:** http://localhost:8081
+
+---
+
+## 📊 **STATUS ATUAL DO PROJETO**
+
+### **✅ FUNCIONANDO:**
+- Backend (Node.js + Express + TypeScript + Prisma + PostgreSQL)
+- Frontend Web (React Native Web)
+- Frontend Mobile (React Native)
+- CI/CD Pipeline
+- Banco de Dados
+- Micro-frontends (Budget, Payroll, Tasks)
+
+### **🎯 PRÓXIMOS PASSOS PRIORITÁRIOS:**
+1. **Expandir Biblioteca de Componentes**
+2. **Eliminar Valores Hardcoded**
+3. **Implementar Funcionalidades Brasileiras Básicas**
+
+---
+
+## 🛠️ **ESTRUTURA DO PROJETO**
+
+### **📁 DIRETÓRIOS PRINCIPAIS:**
+```
+dom-v2/
+├── backend/          # Node.js + Express + Prisma
+├── frontend/         # React Native + React Native Web
+├── docs/            # Documentação completa
+├── scripts/         # Scripts de automação
+└── logs/            # Logs do sistema
+```
+
+### **📁 ARQUIVOS IMPORTANTES:**
+- `status-atual-novo-chat.md` - Status completo do projeto
+- `run-dom-v2.ps1` - Script de execução principal
+- `setup-database.ps1` - Configuração do banco
+- `docs/` - Toda documentação técnica
+
+---
+
+## 🎯 **PRÓXIMO PASSO IMEDIATO**
+
+### **📋 EXPANDIR BIBLIOTECA DE COMPONENTES:**
+
+#### **Componentes Prioritários:**
+1. **TableComponent** - Para exibição de dados
+2. **ChartComponent** - Para gráficos e relatórios
+3. **ModalComponent** - Para interações
+4. **CPFCNPJInput** - Para formulários brasileiros
+
+#### **Localização:**
+```
+frontend/src/components/ui/
+```
+
+#### **Estrutura Recomendada:**
+```typescript
+// Exemplo de componente
+interface TableComponentProps {
+  data: any[];
+  columns: string[];
+  onRowClick?: (row: any) => void;
+}
+
+export const TableComponent: React.FC<TableComponentProps> = ({ data, columns, onRowClick }) => {
+  // Implementação
+};
+```
+
+---
+
+## 📋 **CHECKLIST DE VERIFICAÇÃO**
+
+### **✅ ANTES DE COMEÇAR:**
+- [ ] Sistema está rodando (backend + frontend)
+- [ ] Banco de dados conectado
+- [ ] Dependências instaladas
+- [ ] Documentação lida
+
+### **✅ AO IMPLEMENTAR:**
+- [ ] Seguir padrões existentes
+- [ ] Manter simplicidade extrema
+- [ ] Testar funcionalidade
+- [ ] Documentar mudanças
+
+### **✅ AO FINALIZAR:**
+- [ ] Testes funcionais
+- [ ] Performance adequada
+- [ ] Código limpo
+- [ ] Documentação atualizada
+
+---
+
+## 🎯 **ESTRATÉGIA DE DESENVOLVIMENTO**
+
+### **✅ PRINCÍPIOS:**
+1. **Simplicidade Extrema** - Não adicionar complexidade desnecessária
+2. **Foco no Brasil** - Diferencial competitivo claro
+3. **Implementação Gradual** - Uma melhoria por vez
+4. **Validação Contínua** - Testar cada mudança
+
+### **❌ EVITAR:**
+1. **Arquitetura complexa** - Sistema atual funciona
+2. **Cache complexo** - Prematuro para o volume atual
+3. **Lazy loading complexo** - Desnecessário agora
+4. **Over-engineering** - Manter simplicidade
+
+---
+
+## 📊 **MÉTRICAS DE SUCESSO**
+
+### **🎯 TÉCNICAS:**
+- Performance: <2s carregamento
+- Bundle Size: <500KB
+- Test Coverage: >90%
+- Build Time: <5 minutos
+
+### **🎯 NEGÓCIO:**
+- Funcionalidades brasileiras: 100% básicas
+- Tempo de desenvolvimento: 50% redução
+- Qualidade: 80% redução em bugs
+- Satisfação: >90% usuários
+
+---
+
+## 🚨 **PROBLEMAS CONHECIDOS**
+
+### **✅ RESOLVIDOS:**
+- Conflito React Native Web
+- CI/CD Pipeline
+- Dependências incompatíveis
+- Metro Bundler
+
+### **⚠️ ATENÇÃO:**
+- Manter simplicidade extrema
+- Não adicionar complexidade desnecessária
+- Focar no mercado brasileiro
+- Implementar gradualmente
+
+---
+
+## 📞 **SUPORTE**
+
+### **📋 DOCUMENTAÇÃO DISPONÍVEL:**
+- `docs/` - Documentação técnica completa
+- `status-atual-novo-chat.md` - Status atual
+- `README.md` - Documentação principal
+
+### **📋 COMANDOS DE EMERGÊNCIA:**
 ```powershell
-curl http://localhost:3001/api/budgets
-curl http://localhost:3001/api/employees
-curl http://localhost:3001/api/payroll
+# Parar todos os serviços
+Get-Process | Where-Object {$_.ProcessName -like "*node*"} | Stop-Process
+
+# Reiniciar sistema
+.\run-dom-v2.ps1
 ```
 
 ---
 
-## 📚 **DOCUMENTAÇÃO ESSENCIAL**
-
-### **📁 ARQUIVOS IMPORTANTES**
-- `docs/estrategia-integridade-dados.md` - Estratégia técnica
-- `docs/guia-uso-seed-integrado.md` - Guia prático
-- `backend/prisma/seed-integrated.ts` - Seed integrado
-- `backend/prisma/schema.prisma` - Schema do banco
-
-### **🎯 INFORMAÇÕES CRÍTICAS**
-- **PostgreSQL** configurado e funcionando
-- **Prisma ORM** implementado e validado
-- **Integridade referencial** 100% garantida
-- **Zero violações** de constraints
-
----
-
-## 🧠 **DIRETIVAS FUNDAMENTAIS**
-
-### **🎯 REGRAS OBRIGATÓRIAS**
-1. **Sempre usar PowerShell** com diretórios específicos
-2. **Aplicar pensamento crítico** antes de implementar
-3. **Pesquisar** antes de tomar decisões técnicas
-4. **Documentar** todas as mudanças importantes
-5. **Testar** após cada implementação
-
-### **🛡️ GARANTIAS**
-- ✅ **Zero violações de constraints**
-- ✅ **100% de integridade referencial**
-- ✅ **Dados sempre em estado válido**
-- ✅ **APIs retornando dados reais**
-
----
-
-## 📊 **DADOS DISPONÍVEIS**
-
-### **👥 USUÁRIOS (2)**
-- João Silva (Administrador)
-- Maria Santos (Usuário comum)
-
-### **👷 FUNCIONÁRIOS (3)**
-- Ana Costa, Pedro Oliveira, Lucia Ferreira
-
-### **💰 DADOS COMPLETOS**
-- 3 orçamentos, 3 folhas de pagamento
-- 3 pagamentos, 3 compras
-- 3 notificações, 3 tarefas
-
----
-
-## 🎯 **OBJETIVO DO NOVO CHAT**
-
-**Continuar o desenvolvimento mantendo:**
-- ✅ **100% de integridade** dos dados
-- ✅ **Base sólida** estabelecida
-- ✅ **Qualidade** do código
-- ✅ **Documentação** atualizada
-
-**Focar em:**
-- 🔧 Corrigir Tasks API
-- 📊 Implementar Dashboard
-- 🎨 Integrar frontend
-- 📱 CRUD completo
-
----
-
-*Instruções criadas em: 2025-01-23*  
-*Versão: 1.0.0*  
-*Autor: DOM Team v2*  
-*Status: ✅ Pronto para Novo Chat* 
+**Autor:** DOM Team v2  
+**Data:** 23 de Julho de 2025  
+**Versão:** 2.0.0  
+**Status:** ✅ Pronto para Continuidade 
