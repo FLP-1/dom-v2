@@ -1,0 +1,158 @@
+{
+  "timestamp": "2025-07-22T12:58:23.902Z",
+  "testResults": {
+    "systems": {
+      "automation": {
+        "success": true,
+        "message": "Sistema de automação funcionando",
+        "details": "Engine de automação encontrado e válido"
+      },
+      "dashboard": {
+        "success": true,
+        "message": "Dashboard funcionando",
+        "details": "Manager de dashboard encontrado e válido"
+      },
+      "cicd": {
+        "success": true,
+        "message": "Pipeline CI/CD funcionando",
+        "details": "Pipeline de CI/CD encontrado e válido"
+      },
+      "predictive": {
+        "success": true,
+        "message": "Análise preditiva funcionando",
+        "details": "Sistema de análise preditiva encontrado e válido"
+      },
+      "personalization": {
+        "success": true,
+        "message": "Sistema de personalização funcionando",
+        "details": "Sistema de personalização encontrado e válido"
+      },
+      "backend": {
+        "success": true,
+        "message": "Backend funcionando",
+        "details": "Servidor Express encontrado com rotas"
+      },
+      "frontend": {
+        "success": false,
+        "message": "Erro: Arquivo App.tsx não encontrado",
+        "error": "Arquivo App.tsx não encontrado"
+      }
+    },
+    "lacunasCriticas": {
+      "payments": {
+        "success": true,
+        "message": "Sistema de pagamentos: 4/4 arquivos válidos",
+        "details": [
+          {
+            "file": "backend/src/routes/payments.ts",
+            "valid": true
+          },
+          {
+            "file": "backend/src/controllers/payment-controller.ts",
+            "valid": true
+          },
+          {
+            "file": "backend/src/models/Payment.ts",
+            "valid": true
+          },
+          {
+            "file": "frontend/src/screens/payments-screen.tsx",
+            "valid": true
+          }
+        ]
+      },
+      "purchases": {
+        "success": true,
+        "message": "Sistema de compras: 4/4 arquivos válidos",
+        "details": [
+          {
+            "file": "backend/src/routes/purchases.ts",
+            "valid": true
+          },
+          {
+            "file": "backend/src/controllers/purchase-controller.ts",
+            "valid": true
+          },
+          {
+            "file": "backend/src/models/Purchase.ts",
+            "valid": true
+          },
+          {
+            "file": "frontend/src/screens/purchases-screen.tsx",
+            "valid": true
+          }
+        ]
+      },
+      "employees": {
+        "success": true,
+        "message": "Gestão de funcionários: 4/4 arquivos válidos",
+        "details": [
+          {
+            "file": "backend/src/routes/employees.ts",
+            "valid": true
+          },
+          {
+            "file": "backend/src/controllers/employee-controller.ts",
+            "valid": true
+          },
+          {
+            "file": "backend/src/models/Employee.ts",
+            "valid": true
+          },
+          {
+            "file": "frontend/src/screens/employees-screen.tsx",
+            "valid": true
+          }
+        ]
+      }
+    },
+    "integration": {
+      "success": true,
+      "message": "Integração: 3/3 sistemas integrados",
+      "details": [
+        {
+          "name": "Payments",
+          "integrated": true
+        },
+        {
+          "name": "Purchases",
+          "integrated": true
+        },
+        {
+          "name": "Employees",
+          "integrated": true
+        }
+      ]
+    },
+    "performance": {
+      "success": true,
+      "message": "Performance: 8KB média por arquivo",
+      "details": [
+        {
+          "file": "backend/src/server.ts",
+          "sizeKB": 12,
+          "status": "OK"
+        },
+        {
+          "file": "automation/automation-engine.js",
+          "sizeKB": 1,
+          "status": "OK"
+        },
+        {
+          "file": "dashboard/dashboard-manager.js",
+          "sizeKB": 11,
+          "status": "OK"
+        }
+      ]
+    },
+    "summary": {}
+  },
+  "summary": {
+    "totalSystems": 7,
+    "workingSystems": 6,
+    "totalLacunas": 3,
+    "workingLacunas": 3,
+    "integrationWorking": true,
+    "performanceGood": true
+  }
+}

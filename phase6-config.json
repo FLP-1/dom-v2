@@ -1,0 +1,42 @@
+{
+  "name": "Fase 6 - Expansão e Otimizações Avançadas",
+  "startDate": "2025-07-22T12:06:04.135Z",
+  "duration": "8 semanas",
+  "objectives": [
+    "P6-1: Expansão de Funcionalidades (Semanas 1-2)",
+    "P6-2: Otimizações Avançadas (Semanas 3-4)",
+    "P6-3: Integração com IoT (Semanas 5-6)",
+    "P6-4: Mobile App Nativo (Semanas 7-8)",
+    "P6-5: Cloud Native (Semanas 9-10)"
+  ],
+  "metrics": {
+    "expansion": {
+      "target": 90,
+      "current": 0
+    },
+    "optimization": {
+      "target": 85,
+      "current": 0
+    },
+    "iot": {
+      "target": 80,
+      "current": 0
+    },
+    "mobile": {
+      "target": 95,
+      "current": 0
+    },
+    "cloud": {
+      "target": 100,
+      "current": 0
+    },
+    "productivity": {
+      "target": 70,
+      "current": 0
+    },
+    "satisfaction": {
+      "target": 9.9,
+      "current": 0
+    }
+  }
+}

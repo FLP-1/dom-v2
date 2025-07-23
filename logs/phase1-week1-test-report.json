@@ -1,0 +1,169 @@
+{
+  "timestamp": "2025-07-22T01:15:54.137Z",
+  "phase": "Fase 1 - Fundação",
+  "week": "Semana 1 - Qualidade de Código",
+  "tests": [
+    {
+      "category": "Sistema de Mensagens",
+      "name": "Arquivo messages.ts existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.147Z"
+    },
+    {
+      "category": "Sistema de Mensagens",
+      "name": "Sistema de mensagens inicializado",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.147Z"
+    },
+    {
+      "category": "Sistema de Mensagens",
+      "name": "Mensagens de autenticação carregadas",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.147Z"
+    },
+    {
+      "category": "Sistema de Mensagens",
+      "name": "Mensagens de tarefas carregadas",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.148Z"
+    },
+    {
+      "category": "Sistema de Mensagens",
+      "name": "Mensagens de validação carregadas",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.148Z"
+    },
+    {
+      "category": "Sistema de Configuração",
+      "name": "Arquivo config.ts existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.148Z"
+    },
+    {
+      "category": "Sistema de Configuração",
+      "name": "Sistema de configuração inicializado",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.149Z"
+    },
+    {
+      "category": "Sistema de Configuração",
+      "name": "Configurações de API carregadas",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.149Z"
+    },
+    {
+      "category": "Sistema de Configuração",
+      "name": "Configurações de segurança carregadas",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.149Z"
+    },
+    {
+      "category": "Sistema de Configuração",
+      "name": "Configurações de UI carregadas",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.149Z"
+    },
+    {
+      "category": "Componentes Reutilizáveis",
+      "name": "Componente Button existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.150Z"
+    },
+    {
+      "category": "Componentes Reutilizáveis",
+      "name": "Componente Input existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.150Z"
+    },
+    {
+      "category": "Componentes Reutilizáveis",
+      "name": "Componente Card existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.151Z"
+    },
+    {
+      "category": "Componentes Reutilizáveis",
+      "name": "Índice de componentes UI existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.151Z"
+    },
+    {
+      "category": "Componentes Reutilizáveis",
+      "name": "Componente Button com variantes",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.152Z"
+    },
+    {
+      "category": "Componentes Reutilizáveis",
+      "name": "Componente Input com tipos",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.153Z"
+    },
+    {
+      "category": "Componentes Reutilizáveis",
+      "name": "Componente Card com variantes",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.153Z"
+    },
+    {
+      "category": "Sistema de Validação",
+      "name": "Arquivo validation.ts existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.154Z"
+    },
+    {
+      "category": "Sistema de Validação",
+      "name": "Sistema de validação inicializado",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.155Z"
+    },
+    {
+      "category": "Sistema de Validação",
+      "name": "Validação de CPF implementada",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.156Z"
+    },
+    {
+      "category": "Sistema de Validação",
+      "name": "Validação de email implementada",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.156Z"
+    },
+    {
+      "category": "Sistema de Validação",
+      "name": "Validação de senha implementada",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.157Z"
+    },
+    {
+      "category": "Arquitetura de Código",
+      "name": "Índice de utilitários existe",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.158Z"
+    },
+    {
+      "category": "Arquitetura de Código",
+      "name": "Estrutura de pastas organizada",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.158Z"
+    },
+    {
+      "category": "Arquitetura de Código",
+      "name": "Documentação nos arquivos",
+      "passed": true,
+      "timestamp": "2025-07-22T01:15:54.160Z"
+    },
+    {
+      "category": "Arquitetura de Código",
+      "name": "Padrões internacionais (sem acentos)",
+      "passed": false,
+      "timestamp": "2025-07-22T01:15:54.160Z"
+    }
+  ],
+  "summary": {
+    "total": 26,
+    "passed": 25,
+    "failed": 1,
+    "score": 96
+  }
+}

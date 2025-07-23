@@ -57,13 +57,13 @@ const config = {
         };
       }
       
-      // Interceptar TurboModuleRegistry para web
-      if (platform === 'web' && moduleName.includes('TurboModuleRegistry')) {
-        return {
-          type: 'sourceFile',
-          filePath: require.resolve('./src/utils/turbo-module-mock.js')
-        };
-      }
+      // Interceptar TurboModuleRegistry para web - REMOVIDO
+      // if (platform === 'web' && moduleName.includes('TurboModuleRegistry')) {
+      //   return {
+      //     type: 'sourceFile',
+      //     filePath: require.resolve('./src/utils/turbo-module-mock.ts')
+      //   };
+      // }
       
       // Resolve normalmente outros módulos
       return context.resolveRequest(context, moduleName, platform);

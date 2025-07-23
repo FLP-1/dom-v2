@@ -10,7 +10,9 @@
     "start:web": "react-native start --port 8081",
     "web": "react-native run-web",
     "test": "jest",
-    "build:web": "react-native bundle --platform web --dev false --entry-file index.web.js --bundle-output web-build/index.bundle --assets-dest web-build"
+    "build:web": "npx react-native bundle --platform web --dev false --entry-file index.web.js --bundle-output web-build/index.bundle --assets-dest web-build",
+    "start:web": "npx react-native start --port 8081",
+    "web": "npx react-native run-web"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
@@ -26,7 +28,7 @@
     "react-native": "0.80.1",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.13.1",
-    "react-native-web": "^0.19.10",
+    "react-native-web": "0.19.10",
     "react-test-renderer": "^18.2.0",
     "typescript": "^5.4.5"
   },

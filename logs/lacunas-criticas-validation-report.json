@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-22T12:58:50.263Z",
+  "validationResults": {
+    "payments": {
+      "valid": true,
+      "files": [
+        "backend/src/routes/payments.ts",
+        "backend/src/controllers/payment-controller.ts",
+        "backend/src/models/Payment.ts",
+        "frontend/src/screens/payments-screen.tsx"
+      ],
+      "errors": []
+    },
+    "purchases": {
+      "valid": true,
+      "files": [
+        "backend/src/routes/purchases.ts",
+        "backend/src/controllers/purchase-controller.ts",
+        "backend/src/models/Purchase.ts",
+        "frontend/src/screens/purchases-screen.tsx"
+      ],
+      "errors": []
+    },
+    "employees": {
+      "valid": true,
+      "files": [
+        "backend/src/routes/employees.ts",
+        "backend/src/controllers/employee-controller.ts",
+        "backend/src/models/Employee.ts",
+        "frontend/src/screens/employees-screen.tsx"
+      ],
+      "errors": []
+    }
+  },
+  "summary": {
+    "totalSystems": 3,
+    "validSystems": 3,
+    "totalFiles": 12,
+    "totalErrors": 0
+  }
+}
