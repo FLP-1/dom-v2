@@ -8,7 +8,51 @@
  */
 
 import React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Importar AsyncStorage de forma segura para React Native Web
+let AsyncStorage: any;
+try {
+  AsyncStorage = require('@react-native-async-storage/async-storage').default;
+} catch (error) {
+  // Fallback para web usando localStorage
+  AsyncStorage = {
+    getItem: async (key: string) => {
+      try {
+        return localStorage.getItem(key);
+      } catch (error) {
+        console.warn('AsyncStorage getItem error:', error);
+        return null;
+      }
+    },
+    setItem: async (key: string, value: string) => {
+      try {
+        localStorage.setItem(key, value);
+        return null;
+      } catch (error) {
+        console.warn('AsyncStorage setItem error:', error);
+        throw error;
+      }
+    },
+    removeItem: async (key: string) => {
+      try {
+        localStorage.removeItem(key);
+        return null;
+      } catch (error) {
+        console.warn('AsyncStorage removeItem error:', error);
+        throw error;
+      }
+    },
+    clear: async () => {
+      try {
+        localStorage.clear();
+        return null;
+      } catch (error) {
+        console.warn('AsyncStorage clear error:', error);
+        throw error;
+      }
+    }
+  };
+}
 
 // Tipos de notificação simples
 export type SimpleNotificationType = 

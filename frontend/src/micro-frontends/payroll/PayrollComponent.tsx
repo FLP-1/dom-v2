@@ -17,6 +17,7 @@ import {
   StyleSheet,
   ActivityIndicator
 } from 'react-native';
+import ApiClient from '../../utils/api-client';
 
 interface PayrollItem {
   id: string;
@@ -89,13 +90,12 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
 
   const loadPayrolls = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/payroll');
-      const data = await response.json();
+      const response = await ApiClient.get('/api/payroll');
 
-      if (response.ok) {
-        setPayrolls(data.payrolls);
+      if (response.success) {
+        setPayrolls(response.data.payrolls);
       } else {
-        Alert.alert('Erro', 'Erro ao carregar folhas de pagamento');
+        Alert.alert('Erro', response.error || 'Erro ao carregar folhas de pagamento');
       }
     } catch (error) {
       Alert.alert('Erro', 'Erro de conexão');
@@ -106,11 +106,12 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
 
   const loadStats = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/payroll/stats');
-      const data = await response.json();
+      const response = await ApiClient.get('/api/payroll/stats');
 
-      if (response.ok) {
-        setStats(data.stats);
+      if (response.success) {
+        setStats(response.data.stats);
+      } else {
+        console.error('Erro ao carregar estatísticas:', response.error);
       }
     } catch (error) {
       console.error('Erro ao carregar estatísticas:', error);
@@ -130,26 +131,18 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/payroll/calculate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          baseSalary,
-          overtimeHours,
-          overtimeRate,
-          bonuses,
-          deductions
-        }),
+      const response = await ApiClient.post('/api/payroll/calculate', {
+        baseSalary,
+        overtimeHours,
+        overtimeRate,
+        bonuses,
+        deductions
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setCalculation(data.calculation);
+      if (response.success) {
+        setCalculation(response.data.calculation);
       } else {
-        Alert.alert('Erro', data.error || 'Erro ao calcular folha de pagamento');
+        Alert.alert('Erro', response.error || 'Erro ao calcular folha de pagamento');
       }
     } catch (error) {
       Alert.alert('Erro', 'Erro de conexão');
@@ -158,20 +151,14 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
 
   const updatePayrollStatus = async (id: string, status: 'pending' | 'approved' | 'paid') => {
     try {
-      const response = await fetch(`http://localhost:3001/api/payroll/${id}/status`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status }),
-      });
+      const response = await ApiClient.put(`/api/payroll/${id}/status`, { status });
 
-      if (response.ok) {
+      if (response.success) {
         loadPayrolls();
         loadStats();
         Alert.alert('Sucesso', 'Status atualizado com sucesso');
       } else {
-        Alert.alert('Erro', 'Erro ao atualizar status');
+        Alert.alert('Erro', response.error || 'Erro ao atualizar status');
       }
     } catch (error) {
       Alert.alert('Erro', 'Erro de conexão');

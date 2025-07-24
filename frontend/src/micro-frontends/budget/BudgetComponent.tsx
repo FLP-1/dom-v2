@@ -10,6 +10,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import ApiClient from '../../utils/api-client';
 
 interface Budget {
   id: string;
@@ -33,11 +34,12 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
   // Carregar orçamentos
   const loadBudgets = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/budgets');
-      const data = await response.json();
+      const response = await ApiClient.get('/api/budgets');
       
-      if (data.success) {
-        setBudgets(data.data);
+      if (response.success) {
+        setBudgets(response.data.data);
+      } else {
+        Alert.alert('Erro', response.error || 'Não foi possível carregar os orçamentos');
       }
     } catch (error) {
       console.error('Erro ao carregar orçamentos:', error);
@@ -58,19 +60,13 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
         endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       };
 
-      const response = await fetch('http://localhost:3001/api/budgets', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(sampleBudget),
-      });
-
-      const data = await response.json();
+      const response = await ApiClient.post('/api/budgets', sampleBudget);
       
-      if (data.success) {
+      if (response.success) {
         Alert.alert('Sucesso', 'Orçamento criado com sucesso!');
         loadBudgets();
+      } else {
+        Alert.alert('Erro', response.error || 'Não foi possível criar o orçamento');
       }
     } catch (error) {
       console.error('Erro ao criar orçamento:', error);

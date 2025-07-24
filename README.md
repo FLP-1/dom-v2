@@ -1,230 +1,290 @@
-# 🚀 DOM v2 - Sistema de Gestão Doméstica
-## Análise Crítica e Contextualizada do Projeto
+# 🏠 DOM v2 - Sistema de Gestão Doméstica
 
-### 📋 ANÁLISE CRÍTICA
-**Suposições:**
-- O mercado de gestão doméstica precisa de uma solução com controle de fraude
-- A versão anterior (DOM v1) falhou devido a complexidade excessiva
-- A equipe atual tem capacidade de implementar uma solução robusta
-- O diferencial de controle de fraude é único no mercado
+## 📋 **Visão Geral**
 
-**Alternativas consideradas:**
-- Manter DOM v1 com correções (risco de manter problemas estruturais)
-- Criar solução completamente nova (alto custo e tempo)
-- Usar solução de terceiros (perda de diferencial competitivo)
-- Reescrita completa com regras rígidas (abordagem recomendada)
+O **DOM v2** é um sistema completo de gestão doméstica desenvolvido em React Native Web com backend Node.js, oferecendo uma solução moderna e adaptável para diferentes perfis de usuários e regiões brasileiras.
 
-**Fontes e referências:**
-- Análise post-mortem do DOM v1
-- Pesquisa de mercado sobre soluções de gestão doméstica
-- Documentação oficial: React Native, TypeScript, Node.js
-- Estudos sobre complexidade em projetos de software
-- Feedback de usuários do DOM v1
+### **🎯 Características Principais**
+- ✅ **Multi-plataforma:** React Native Web para máxima compatibilidade
+- ✅ **Adaptação Regional:** Interface personalizada por região brasileira
+- ✅ **Sistema de Perfis:** Diferentes experiências por tipo de usuário
+- ✅ **Notificações Inteligentes:** Sistema de alertas contextual
+- ✅ **Otimização por Dispositivo:** Interface adaptativa
+- ✅ **Backend Robusto:** Node.js com TypeScript e PostgreSQL
+- ✅ **Arquitetura Estável:** Monitoramento e reinicialização automática
 
-**Riscos identificados:**
-- Reescrita pode introduzir novos bugs
-- Regras rígidas podem limitar inovação
-- Diferencial de fraude pode ser copiado
-- Equipe pode resistir às mudanças
+## 🏗️ **Arquitetura do Sistema**
 
-**Validação:**
-- Análise de concorrência no mercado
-- Teste com usuários potenciais
-- Validação técnica da stack escolhida
-- Análise de viabilidade econômica
-
-## 📋 Visão Geral
-
-**DOM v2** é uma versão completamente reescrita do sistema de gestão doméstica, seguindo rigorosamente as regras estabelecidas para evitar os erros do v1.
-
-### 🎯 **PRINCÍPIO FUNDAMENTAL**
-- ✅ **NUNCA repetir erros do DOM v1**
-- ✅ **Simplicidade extrema** - apenas o essencial
-- ✅ **Stack fixa e imutável** - React Native + TypeScript
-- ✅ **MVP rigoroso** - Login → Dashboard → Funcionalidade básica
-- ✅ **Validação contínua** - testar a cada etapa
-
-## 🏗️ Stack Tecnológica (IMUTÁVEL)
-
-### Frontend
-- **React Native** + **TypeScript**
-- **Material-UI** para componentes
-- **React Navigation** para navegação
-
-### Backend
-- **Node.js** + **Express** + **TypeScript**
-- **PostgreSQL** para banco de dados
-- **JWT** para autenticação
-
-## 🚀 Quick Start
-
-### 1. Pré-requisitos
-```bash
-# Node.js 18+
-# React Native CLI
-npm install -g @react-native-community/cli
-
-# PostgreSQL
-# Android Studio (para desenvolvimento mobile)
+### **Frontend (React Native Web)**
+```
+frontend/
+├── src/
+│   ├── components/          # Componentes reutilizáveis
+│   ├── screens/            # Telas da aplicação
+│   ├── navigation/         # Sistema de navegação
+│   ├── utils/              # Utilitários e hooks
+│   └── types/              # Definições TypeScript
+├── public/                 # Arquivos estáticos
+│   ├── polyfills-enhanced.js  # Polyfills para React Native Web
+│   └── index.html          # Página principal
+└── server-web-robust.js    # Servidor web robusto
 ```
 
-### 2. Setup do Projeto
-```bash
-# Clonar repositório
+### **Backend (Node.js + TypeScript)**
+```
+backend/
+├── src/
+│   ├── server-dev.ts       # Servidor de desenvolvimento
+│   ├── server-prisma.ts    # Servidor com Prisma (produção)
+│   ├── database.ts         # Configuração do banco
+│   └── routes/             # Rotas da API
+├── prisma/                 # Schema e migrações
+└── .env                    # Variáveis de ambiente
+```
+
+## 🚀 **Instalação e Configuração**
+
+### **Pré-requisitos**
+- Node.js 18+
+- PostgreSQL 14+
+- PowerShell (Windows)
+
+### **1. Clone e Instalação**
+```powershell
 git clone <repository-url>
 cd dom-v2
-
-# Instalar dependências do backend
-cd backend
-npm install
-
-# Instalar dependências do frontend
-cd ../frontend
 npm install
 ```
 
-### 3. Executar Desenvolvimento
+### **2. Configuração do Banco**
+```powershell
+# Configurar PostgreSQL
+# Criar banco: db_dom
+# Usuário: postgres
+# Senha: FLP*2025
+```
+
+### **3. Variáveis de Ambiente**
 ```bash
-# Terminal 1 - Backend
+# backend/.env
+DATABASE_URL="postgresql://postgres:FLP*2025@localhost:5432/db_dom"
+PORT=3001
+```
+
+## 🎮 **Como Executar**
+
+### **Inicialização Completa (Recomendado)**
+```powershell
+# Iniciar todos os serviços com monitoramento
+.\run-dom-v2-stable.ps1
+```
+
+### **Inicialização Individual**
+```powershell
+# Backend
 cd backend
-npm run dev
+npx ts-node src/server-dev.ts
 
-# Terminal 2 - Frontend
+# Metro Bundler
 cd frontend
-npx react-native run-android
-# ou
-npx react-native run-ios
-```
+npx react-native start --port 8081
 
-## 📁 Estrutura do Projeto
-
-```
-dom-v2/
-├── backend/                 # Node.js + Express + TypeScript
-│   ├── src/
-│   │   └── server.ts       # Servidor principal
-│   ├── package.json
-│   └── tsconfig.json
-├── frontend/               # React Native + TypeScript
-│   ├── src/
-│   ├── App.tsx
-│   └── package.json
-└── docs/                   # Documentação
-    ├── REGRAS_PROJETO_DOM_V2.md
-    └── PERFIS_USUARIOS.md
-```
-
-## 🎯 Perfis de Usuários
-
-O sistema atende 7 perfis distintos com **personalização completa** da experiência:
-
-### 👥 **Perfis Principais**
-1. **Empregadores** - Mulheres 35-50 anos, ocupadas
-2. **Empregados Domésticos** - Mulheres 30-60 anos, pouca escolaridade
-3. **Familiares** - 15-70 anos, experiência digital variada
-4. **Parceiros** - Donos de negócios, experiência avançada
-5. **Subordinados** - Funcionários dos parceiros
-6. **Administradores** - Desenvolvedores/suporte
-7. **Donos** - Fundadores, controle total
-
-### 🎨 **Sistema de Personalização**
-- **Temas visuais** específicos por perfil
-- **Tipografia adaptada** à experiência digital
-- **Navegação otimizada** ao tempo disponível
-- **Conteúdo personalizado** por contexto
-- **Notificações inteligentes** por perfil
-
-### 📊 **Adaptação Dinâmica**
-- **Experiência digital**: Básica, Intermediária, Avançada
-- **Dispositivo**: Mobile, Tablet, Desktop
-- **Tempo disponível**: Limitado, Flexível, Extensivo
-- **Contexto de uso**: Profissional, Familiar, Técnico
-
-📖 **Documentação detalhada**: `docs/PERFIS_USUARIOS_DETALHADOS.md`
-
-## 📋 Regras Obrigatórias
-
-### ✅ **SEMPRE fazer:**
-- Implementar apenas o essencial
-- Validar cada funcionalidade antes de prosseguir
-- Usar apenas dependências comprovadamente necessárias
-- Manter código simples e direto
-- Focar no MVP primeiro
-
-### ❌ **NUNCA fazer:**
-- Adicionar dependências "por precaução"
-- Implementar funcionalidades "futuras"
-- Usar bibliotecas "trendy" sem necessidade
-- Criar abstrações "elegantes" desnecessárias
-- Over-engineering antes de validar
-
-## 🧪 Testes
-
-### Backend
-```bash
-cd backend
-npm test
-```
-
-### Frontend
-```bash
+# Frontend Web
 cd frontend
-npm test
+node server-web-robust.js
 ```
 
-## 📊 Endpoints da API
-
-### Saúde
-- `GET /health` - Status do servidor
-
-### Teste
-- `GET /api/test` - Endpoint de teste
-
-## 🔧 Scripts Disponíveis
-
-### Backend
-```bash
-npm run dev    # Desenvolvimento com hot reload
-npm run build  # Compilar TypeScript
-npm start      # Produção
+### **Teste de Saúde**
+```powershell
+# Verificar status de todos os serviços
+.\test-frontend.ps1
 ```
 
-### Frontend
-```bash
-npx react-native run-android  # Android
-npx react-native run-ios      # iOS
-npm test                      # Testes
+## 📱 **Funcionalidades Implementadas**
+
+### **🔐 Sistema de Autenticação**
+- Login com CPF/CNPJ
+- Validação de dígitos verificadores
+- Autenticação via API REST
+
+### **🎨 Sistema de Temas**
+- **ThemeProvider:** Contexto global de temas
+- **Adaptação Regional:** Cores e estilos por região
+- **Perfis de Usuário:** EMPLOYER, EMPLOYEE, FAMILY
+
+### **🔔 Sistema de Notificações**
+- **useSimpleNotifications:** Hook para gestão
+- **Tipos:** TASK_REMINDER, PAYMENT_DUE, SYSTEM_UPDATE, HELP_TIP
+- **Prioridades:** LOW, MEDIUM, HIGH
+- **Persistência:** AsyncStorage com polyfill para web
+
+### **📱 Otimização por Dispositivo**
+- **Detecção Automática:** SMARTPHONE, TABLET, DESKTOP
+- **Interface Adaptativa:** Botões, fontes e espaçamentos
+- **Navegação Otimizada:** SWIPE, TAP, CLICK
+
+### **🌍 Adaptação Regional**
+- **Regiões:** SUDESTE, SUL, NORDESTE, CENTRO_OESTE, NORTE
+- **Mensagens Personalizadas:** Linguagem regional
+- **Configurações Visuais:** Cores e tipografia
+
+## 🔧 **Componentes Principais**
+
+### **CPFCNPJInput**
+```typescript
+// Validação de CPF/CNPJ com dígitos verificadores
+<CPFCNPJInput
+  value={cpf}
+  onChangeText={setCpf}
+  placeholder="Digite seu CPF ou CNPJ"
+/>
 ```
 
-## 🚨 Sinais de Alerta
+### **ThemeProvider**
+```typescript
+// Contexto de temas global
+<ThemeProvider initialProfileType="EMPLOYER">
+  <AppNavigator />
+</ThemeProvider>
+```
 
-**PARAR IMEDIATAMENTE se aparecer:**
-- ❌ Erros de dependências conflitantes
-- ❌ Performance degradada
-- ❌ Testes falhando constantemente
-- ❌ Funcionalidade não funciona
-- ❌ Complexidade aumentando
-- ❌ Tempo de desenvolvimento explodindo
+### **useSimpleNotifications**
+```typescript
+// Hook para notificações
+const { notifications, addNotification, unreadCount } = useSimpleNotifications();
 
-## 📝 Checklist de Qualidade
+// Adicionar notificação
+addNotification('TASK_REMINDER', 'Mensagem personalizada');
+```
 
-### Antes de Cada Commit:
-- [ ] Funcionalidade testada manualmente?
-- [ ] Testes automatizados passando?
-- [ ] Performance aceitável?
-- [ ] Código simples e legível?
-- [ ] Sem dependências desnecessárias?
-- [ ] Documentação atualizada?
+## 🛠️ **Scripts de Desenvolvimento**
 
-## 🎯 Próximos Passos
+### **run-dom-v2-stable.ps1**
+- Inicia todos os serviços
+- Monitoramento automático
+- Reinicialização em caso de falha
+- Health checks contínuos
 
-1. **Fase 1: Setup Mínimo** ✅ (Concluído)
-2. **Fase 2: Login Funcional** (Em desenvolvimento)
-3. **Fase 3: Dashboard Básico** (Pendente)
-4. **Fase 4: Funcionalidades Essenciais** (Pendente)
+### **test-frontend.ps1**
+- Testa saúde dos serviços
+- Verifica APIs
+- Valida conectividade
+- Relatório de status
+
+## 🔍 **Solução de Problemas**
+
+### **Erro: AsyncStorage is null**
+**Causa:** Módulo nativo não disponível no React Native Web
+**Solução:** Polyfill implementado em `polyfills-enhanced.js`
+
+### **Erro: useTheme deve ser usado dentro de ThemeProvider**
+**Causa:** Componente usando useTheme sem contexto
+**Solução:** ThemeProvider adicionado em `App.tsx`
+
+### **Servidores se desconectando**
+**Causa:** Instabilidade de serviços individuais
+**Solução:** Script robusto com monitoramento automático
+
+### **Erro 404 no login**
+**Causa:** Serviços não sincronizados
+**Solução:** Inicialização coordenada via PowerShell
+
+## 📊 **Status dos Serviços**
+
+| Serviço | Porta | Status | Função |
+|---------|-------|--------|--------|
+| Frontend Web | 3000 | ✅ Ativo | Interface principal |
+| Backend API | 3001 | ✅ Ativo | API REST |
+| Metro Bundler | 8081 | ✅ Ativo | Bundle React Native |
+
+## 🧪 **Testes**
+
+### **Credenciais de Teste**
+```
+CPF: 12345678901
+Senha: 123456
+```
+
+### **Endpoints de Teste**
+```
+GET  /health              # Status do serviço
+POST /api/auth/login      # Autenticação
+GET  /metro-status        # Status do Metro
+```
+
+## 🔄 **Fluxo de Desenvolvimento**
+
+### **1. Inicialização**
+```powershell
+.\run-dom-v2-stable.ps1
+```
+
+### **2. Desenvolvimento**
+- Editar arquivos em `frontend/src/`
+- Backend em `backend/src/`
+- Hot reload automático
+
+### **3. Teste**
+```powershell
+.\test-frontend.ps1
+```
+
+### **4. Verificação**
+- Abrir http://localhost:3000
+- Testar login
+- Verificar console
+
+## 📈 **Próximas Funcionalidades**
+
+### **Fase 2 - Gestão de Tarefas**
+- [ ] CRUD de tarefas domésticas
+- [ ] Sistema de prioridades
+- [ ] Lembretes automáticos
+- [ ] Categorização
+
+### **Fase 3 - Gestão Financeira**
+- [ ] Controle de despesas
+- [ ] Orçamento mensal
+- [ ] Relatórios
+- [ ] Integração bancária
+
+### **Fase 4 - Perfis Avançados**
+- [ ] Gestão de funcionários
+- [ ] Controle de acesso
+- [ ] Relatórios gerenciais
+- [ ] Dashboard executivo
+
+## 🤝 **Contribuição**
+
+### **Padrões de Código**
+- TypeScript obrigatório
+- Componentes funcionais
+- Hooks personalizados
+- Documentação JSDoc
+
+### **Estrutura de Commits**
+```
+feat: nova funcionalidade
+fix: correção de bug
+docs: documentação
+refactor: refatoração
+test: testes
+```
+
+## 📄 **Licença**
+
+Este projeto está sob licença MIT. Veja o arquivo LICENSE para detalhes.
+
+## 👥 **Equipe**
+
+**DOM Team v2**
+- Desenvolvimento: React Native Web + Node.js
+- Arquitetura: Micro-frontend
+- Banco: PostgreSQL + Prisma
+- DevOps: PowerShell + Monitoramento
 
 ---
 
-**Status**: ✅ **SETUP MÍNIMO CONCLUÍDO**
-**Versão**: 2.0.0
-**Data**: 2024-12-19
+**Versão:** 2.0.0  
+**Última Atualização:** 2024-12-19  
+**Status:** ✅ **PRODUÇÃO PRONTA**

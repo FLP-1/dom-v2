@@ -17,6 +17,7 @@ import {
     View,
 } from 'react-native';
 import { getMessage } from '../utils/messages';
+import ApiClient from '../utils/api-client';
 
 // Componente Tooltip simples
 interface TooltipProps {
@@ -76,20 +77,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cpf, password }),
-      });
+      const response = await ApiClient.post('/api/auth/login', { cpf, password });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        onLogin(data.user);
+      if (response.success) {
+        onLogin(response.data.user);
       } else {
-        Alert.alert('Erro', data.error || 'Erro ao fazer login. Tente novamente.');
+        Alert.alert('Erro', response.error || 'Erro ao fazer login. Tente novamente.');
       }
     } catch (error) {
       Alert.alert('Erro', 'Erro de conexão. Verifique sua internet.');

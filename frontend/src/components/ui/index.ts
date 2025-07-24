@@ -30,7 +30,64 @@ export type {
   CardFooterProps 
 } from './Card';
 
+// Componente Table
+export { default as Table } from './Table';
+export type { 
+  TableProps, 
+  TableColumn, 
+  TableRowProps, 
+  TableHeaderProps 
+} from './Table';
+
+// Componente Modal
+export { 
+  default as Modal, 
+  ModalHeader, 
+  ModalFooter 
+} from './Modal';
+export type { 
+  ModalProps, 
+  ModalHeaderProps, 
+  ModalFooterProps 
+} from './Modal';
+
+// Componente CPFCNPJInput
+export { default as CPFCNPJInput } from './CPFCNPJInput';
+export type { CPFCNPJInputProps } from './CPFCNPJInput';
+
+// Componente CEPInput
+export { default as CEPInput } from './CEPInput';
+export type { CEPInputProps, Address } from './CEPInput';
+
+// Componente Chart
+export { 
+  default as Chart, 
+  BarChart, 
+  PieChart 
+} from './Chart';
+export type { 
+  ChartProps, 
+  ChartData, 
+  BarChartProps, 
+  PieChartProps 
+} from './Chart';
+
+// Componente Toast
+export { default as Toast } from './Toast';
+export type { 
+  ToastProps, 
+  ToastType, 
+  ToastSize, 
+  ToastPosition 
+} from './Toast';
+
 // Re-exportar todos os componentes
 export * from './Button';
 export * from './Input';
-export * from './Card'; 
+export * from './Card';
+export * from './Table';
+export * from './Modal';
+export * from './CPFCNPJInput';
+export * from './CEPInput';
+export * from './Chart';
+export * from './Toast'; 

@@ -19,6 +19,7 @@ import {
     View,
 } from 'react-native';
 import { getMessage } from '../utils/messages';
+import ApiClient from '../utils/api-client';
 
 // Componente Tooltip simples
 interface TooltipProps {
@@ -69,11 +70,12 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
   // Carregar tarefas
   const loadTasks = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/tasks');
-      const data = await response.json();
+      const response = await ApiClient.get('/api/tasks');
 
-      if (response.ok) {
-        setTasks(data.tasks);
+      if (response.success) {
+        setTasks(response.data.tasks);
+      } else {
+        Alert.alert('Erro', response.error || 'Erro ao carregar tarefas.');
       }
     } catch (error) {
       Alert.alert('Erro', 'Erro ao carregar tarefas.');
@@ -90,23 +92,15 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newTask),
-      });
+      const response = await ApiClient.post('/api/tasks', newTask);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setTasks([...tasks, data.task]);
+      if (response.success) {
+        setTasks([...tasks, response.data.task]);
         setShowModal(false);
         setNewTask({ title: '', description: '', priority: 'medium' });
         Alert.alert('Sucesso', 'Tarefa criada com sucesso!');
       } else {
-        Alert.alert('Erro', data.error || 'Erro ao criar tarefa.');
+        Alert.alert('Erro', response.error || 'Erro ao criar tarefa.');
       }
     } catch (error) {
       Alert.alert('Erro', 'Erro ao criar tarefa.');
@@ -118,18 +112,14 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
     const newStatus = task.status === 'active' ? 'completed' : 'active';
 
     try {
-      const response = await fetch(`http://localhost:3001/api/tasks/${task.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      const response = await ApiClient.put(`/api/tasks/${task.id}`, { status: newStatus });
 
-      if (response.ok) {
+      if (response.success) {
         setTasks(tasks.map(t =>
           t.id === task.id ? { ...t, status: newStatus } : t
         ));
+      } else {
+        Alert.alert('Erro', response.error || 'Erro ao atualizar tarefa.');
       }
     } catch (error) {
       Alert.alert('Erro', 'Erro ao atualizar tarefa.');
@@ -148,13 +138,13 @@ export const TasksScreen: React.FC<TasksScreenProps> = ({ onBack }) => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://localhost:3001/api/tasks/${taskId}`, {
-                method: 'DELETE',
-              });
+              const response = await ApiClient.delete(`/api/tasks/${taskId}`);
 
-              if (response.ok) {
+              if (response.success) {
                 setTasks(tasks.filter(t => t.id !== taskId));
                 Alert.alert('Sucesso', 'Tarefa removida com sucesso!');
+              } else {
+                Alert.alert('Erro', response.error || 'Erro ao remover tarefa.');
               }
             } catch (error) {
               Alert.alert('Erro', 'Erro ao remover tarefa.');

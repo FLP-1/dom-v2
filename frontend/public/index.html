@@ -40,108 +40,18 @@
             // Aguardar um tempo para o React Native Web carregar
             setTimeout(function() {
                 const rootElement = document.getElementById('root');
-                const loadingElement = document.getElementById('loading-fallback');
+                const loadingElement = rootElement.querySelector('.loading');
                 
-                // Se o root ainda estiver vazio, mostrar loading
-                if (rootElement && rootElement.children.length === 0) {
-                    loadingElement.style.display = 'flex';
+                // Se o root ainda estiver vazio, manter loading
+                if (rootElement && rootElement.children.length === 1 && loadingElement) {
+                    console.log('Aguardando React Native Web carregar...');
                 }
             }, 3000); // 3 segundos de timeout
         });
     </script>
     
-    <!-- Polyfills para React Native Web -->
-    <script>
-        // Interceptar erros antes de qualquer coisa
-        window.addEventListener('error', function(event) {
-            if (event.error && event.error.message && event.error.message.includes('DevSettings')) {
-                console.log('🛡️ Interceptando erro DevSettings - aplicando polyfill...');
-                event.preventDefault();
-                
-                // Aplicar polyfills imediatamente
-                if (!window.DevSettings) {
-                    window.DevSettings = {
-                        addMenuItem: () => {},
-                        reload: () => {},
-                        setHotLoadingEnabled: () => {},
-                        setIsShakeToShowDevMenuEnabled: () => {}
-                    };
-                }
-                
-                if (!window.TurboModuleRegistry) {
-                    window.TurboModuleRegistry = {
-                        getEnforcing: (name) => {
-                            if (name === 'DevSettings') {
-                                return window.DevSettings;
-                            }
-                            return {};
-                        },
-                        get: (name) => {
-                            if (name === 'DevSettings') {
-                                return window.DevSettings;
-                            }
-                            return null;
-                        }
-                    };
-                }
-                
-                console.log('✅ Polyfills aplicados após interceptação');
-                return false;
-            }
-        });
-        
-        // Configurar React Native Web para web
-        window.__fbBatchedBridgeConfig = {
-            remoteModuleConfig: [],
-            localModuleConfig: []
-        };
-        
-        // Polyfills necessários
-        if (typeof global === 'undefined') {
-            window.global = window;
-        }
-        
-        if (typeof process === 'undefined') {
-            window.process = { env: { NODE_ENV: 'development' } };
-        }
-        
-        // Mockar módulos nativos problemáticos
-        window.DevSettings = {
-            addMenuItem: () => {},
-            reload: () => {},
-            setHotLoadingEnabled: () => {},
-            setIsShakeToShowDevMenuEnabled: () => {}
-        };
-        
-        window.NativeModules = {
-            DevSettings: window.DevSettings
-        };
-        
-        window.NativeEventEmitter = class {
-            constructor() {}
-            addListener() { return { remove: () => {} }; }
-            removeAllListeners() {}
-            emit() {}
-        };
-        
-        // Configurar TurboModuleRegistry
-        window.TurboModuleRegistry = {
-            getEnforcing: (name) => {
-                if (name === 'DevSettings') {
-                    return window.DevSettings;
-                }
-                return {};
-            },
-            get: (name) => {
-                if (name === 'DevSettings') {
-                    return window.DevSettings;
-                }
-                return null;
-            }
-        };
-        
-        console.log('✅ Polyfills carregados com sucesso');
-    </script>
+        <!-- Polyfills aprimorados para React Native Web -->
+    <script src="polyfills-enhanced.js"></script>
     
     <!-- Bundle do React Native Web -->
     <script src="http://localhost:8081/index.bundle?platform=web&dev=true"></script>

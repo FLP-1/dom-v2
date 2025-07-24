@@ -1,8 +1,8 @@
-// Servidor simples para desenvolvimento DOM v2
-// Sem dependência de banco para desenvolvimento rápido
+// Servidor de desenvolvimento DOM v2 - TypeScript
+// Seguindo as diretrizes do projeto e melhores práticas
 
 import cors from 'cors';
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,25 +12,25 @@ app.use(cors());
 app.use(express.json());
 
 // Middleware de logging
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`📨 ${req.method} ${req.path} - ${new Date().toISOString()}`);
   next();
 });
 
 // Endpoint de saúde
-app.get('/health', (req, res) => {
+app.get('/health', (req: Request, res: Response) => {
   console.log('🏥 Health check solicitado');
   res.json({
     status: 'ok',
     version: '2.0.0',
-    message: 'DOM v2 - Servidor Simples para Desenvolvimento',
+    message: 'DOM v2 - Servidor de Desenvolvimento TypeScript',
     database: 'none',
     features: 'basic'
   });
 });
 
 // Endpoint de teste
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (req: Request, res: Response) => {
   console.log('🧪 Teste solicitado');
   res.json({
     message: 'API DOM v2 funcionando',
@@ -40,7 +40,7 @@ app.get('/api/test', (req, res) => {
 });
 
 // Endpoint de login SIMPLES
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', (req: Request, res: Response) => {
   console.log('🔐 Login solicitado');
   const { cpf, password } = req.body;
 
@@ -73,7 +73,7 @@ app.post('/api/auth/login', async (req, res) => {
     });
   }
 
-  console.log('✅ Login realizado com sucesso (modo simples)');
+  console.log('✅ Login realizado com sucesso (modo desenvolvimento)');
 
   // Retornar dados simulados
   res.json({
@@ -96,7 +96,7 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 // Endpoints simulados para desenvolvimento
-app.get('/api/budgets', (req, res) => {
+app.get('/api/budgets', (req: Request, res: Response) => {
   res.json({
     budgets: [
       { id: 1, name: 'Orçamento Teste', amount: 10000 }
@@ -104,7 +104,7 @@ app.get('/api/budgets', (req, res) => {
   });
 });
 
-app.get('/api/payroll', (req, res) => {
+app.get('/api/payroll', (req: Request, res: Response) => {
   res.json({
     payroll: [
       { id: 1, employee: 'João Silva', salary: 3000 }
@@ -112,7 +112,7 @@ app.get('/api/payroll', (req, res) => {
   });
 });
 
-app.get('/api/employees', (req, res) => {
+app.get('/api/employees', (req: Request, res: Response) => {
   res.json({
     employees: [
       { id: 1, name: 'João Silva', position: 'Desenvolvedor' }
@@ -121,7 +121,7 @@ app.get('/api/employees', (req, res) => {
 });
 
 // Middleware de erro
-app.use((err: any, req: any, res: any, next: any) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error('❌ Erro no servidor:', err);
   res.status(500).json({
     error: 'Erro interno do servidor',
@@ -130,7 +130,7 @@ app.use((err: any, req: any, res: any, next: any) => {
 });
 
 // Rota 404
-app.use('*', (req, res) => {
+app.use('*', (req: Request, res: Response) => {
   console.log('❌ Rota não encontrada:', req.originalUrl);
   res.status(404).json({
     error: 'Rota não encontrada',
@@ -140,7 +140,7 @@ app.use('*', (req, res) => {
 
 // Iniciar servidor
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Servidor simples rodando na porta ${PORT}`);
+  console.log(`🚀 Servidor de desenvolvimento TypeScript rodando na porta ${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
   console.log(`🔐 Auth API: http://localhost:${PORT}/api/auth/login`);
   console.log(`💰 Budget API: http://localhost:${PORT}/api/budgets`);

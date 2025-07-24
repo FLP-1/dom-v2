@@ -11,6 +11,7 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
+import ApiClient from '../../utils/api-client';
 
 interface Task {
   id: string;
@@ -47,11 +48,12 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
   // Carregar tarefas
   const loadTasks = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/tasks');
-      const data = await response.json();
+      const response = await ApiClient.get('/api/tasks');
       
-      if (data.success) {
-        setTasks(data.data);
+      if (response.success) {
+        setTasks(response.data.data);
+      } else {
+        Alert.alert('Erro', response.error || 'Não foi possível carregar as tarefas');
       }
     } catch (error) {
       console.error('Erro ao carregar tarefas:', error);
@@ -64,17 +66,9 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
   // Criar nova tarefa
   const createTask = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newTask),
-      });
-
-      const data = await response.json();
+      const response = await ApiClient.post('/api/tasks', newTask);
       
-      if (data.success) {
+      if (response.success) {
         Alert.alert('Sucesso', 'Tarefa criada com sucesso!');
         setShowCreateForm(false);
         setNewTask({
@@ -87,6 +81,8 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
           responsavel_id: '550e8400-e29b-41d4-a716-446655440001'
         });
         loadTasks();
+      } else {
+        Alert.alert('Erro', response.error || 'Não foi possível criar a tarefa');
       }
     } catch (error) {
       console.error('Erro ao criar tarefa:', error);
@@ -97,18 +93,13 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
   // Marcar tarefa como concluída
   const completeTask = async (taskId: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/tasks/${taskId}/complete`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await response.json();
+      const response = await ApiClient.put(`/api/tasks/${taskId}/complete`);
       
-      if (data.success) {
+      if (response.success) {
         Alert.alert('Sucesso', 'Tarefa marcada como concluída!');
         loadTasks();
+      } else {
+        Alert.alert('Erro', response.error || 'Não foi possível completar a tarefa');
       }
     } catch (error) {
       console.error('Erro ao completar tarefa:', error);
