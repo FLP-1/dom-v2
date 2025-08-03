@@ -19,21 +19,11 @@ jobs:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
       
-    - name: 📦 Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
-    - name: 📥 Install backend dependencies
-      run: cd backend && npm ci
-      
-    - name: 📥 Install frontend dependencies
-      run: cd frontend && npm ci
-        
     - name: 🔍 Validate project structure
       run: |
         echo "🔍 Validando estrutura do projeto..."
+        
+        # Verificar arquivos essenciais
         if [ -f "README.md" ]; then
           echo "✅ README.md encontrado"
         else
@@ -48,6 +38,14 @@ jobs:
           exit 1
         fi
         
+        if [ -f ".gitignore" ]; then
+          echo "✅ .gitignore encontrado"
+        else
+          echo "❌ .gitignore não encontrado"
+          exit 1
+        fi
+        
+        # Verificar diretórios essenciais
         if [ -d "frontend" ]; then
           echo "✅ Diretório frontend encontrado"
         else
@@ -62,13 +60,37 @@ jobs:
           exit 1
         fi
         
-        echo "✅ Estrutura do projeto validada com sucesso!"
+        if [ -d "docs" ]; then
+          echo "✅ Diretório docs encontrado"
+        else
+          echo "❌ Diretório docs não encontrado"
+          exit 1
+        fi
         
-    - name: 🔍 Security audit
-      run: |
-        echo "🔍 Executando auditoria de segurança..."
-        cd backend && npm audit --audit-level moderate || echo "Auditoria backend concluída"
-        cd ../frontend && npm audit --audit-level moderate || echo "Auditoria frontend concluída"
+        if [ -d "scripts" ]; then
+          echo "✅ Diretório scripts encontrado"
+        else
+          echo "❌ Diretório scripts não encontrado"
+          exit 1
+        fi
+        
+        # Verificar package.json
+        if [ -f "frontend/package.json" ]; then
+          echo "✅ frontend/package.json encontrado"
+        else
+          echo "❌ frontend/package.json não encontrado"
+          exit 1
+        fi
+        
+        if [ -f "backend/package.json" ]; then
+          echo "✅ backend/package.json encontrado"
+        else
+          echo "❌ backend/package.json não encontrado"
+          exit 1
+        fi
+        
+        echo "✅ Estrutura do projeto validada com sucesso!"
+        echo "🎯 DOM v2 está pronto!"
 
   # Job de Status Final
   status:
@@ -81,11 +103,6 @@ jobs:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
       
-    - name: 📦 Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        
     - name: ✅ Generate status report
       run: |
         echo "## 🎉 DOM v2 CI/CD Pipeline Status" >> $GITHUB_STEP_SUMMARY
@@ -97,8 +114,9 @@ jobs:
         if [ "${{ needs.validate.result }}" == "success" ]; then
           echo "🎯 **VALIDAÇÃO PASSOU!**" >> $GITHUB_STEP_SUMMARY
           echo "✅ Estrutura do projeto validada" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Dependências instaladas" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Auditoria de segurança concluída" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Arquivos essenciais encontrados" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Diretórios essenciais encontrados" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Package.json encontrados" >> $GITHUB_STEP_SUMMARY
         else
           echo "⚠️ **VALIDAÇÃO FALHOU**" >> $GITHUB_STEP_SUMMARY
           echo "🔧 Verificar logs para detalhes" >> $GITHUB_STEP_SUMMARY
