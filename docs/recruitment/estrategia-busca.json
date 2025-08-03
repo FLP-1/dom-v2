@@ -1,0 +1,57 @@
+{
+  "plataformas": [
+    {
+      "nome": "Behance",
+      "foco": "Portfólios artísticos",
+      "filtros": [
+        "Design Systems",
+        "Mobile Apps",
+        "Brazilian Design"
+      ]
+    },
+    {
+      "nome": "Dribbble",
+      "foco": "Designers artísticos",
+      "filtros": [
+        "UI Design",
+        "Mobile",
+        "Brazilian"
+      ]
+    },
+    {
+      "nome": "ArtStation",
+      "foco": "Artistas digitais",
+      "filtros": [
+        "Digital Art",
+        "UI Design",
+        "Concept Art"
+      ]
+    },
+    {
+      "nome": "LinkedIn",
+      "foco": "Profissionais",
+      "filtros": [
+        "UX/UI Designer",
+        "Digital Artist",
+        "Brazilian"
+      ]
+    }
+  ],
+  "filtros": [
+    "Design Systems",
+    "Mobile Apps",
+    "Brazilian Design",
+    "UX/UI Artístico",
+    "Design Emocional"
+  ],
+  "palavrasChave": [
+    "artista de telas",
+    "design emocional",
+    "UX artístico",
+    "design brasileiro",
+    "interface artística",
+    "design empático"
+  ],
+  "duracao": "2 semanas",
+  "meta": "Encontrar 10-15 candidatos qualificados"
+}

@@ -1,0 +1,14 @@
+
+/* CSS para Navigation - DOM v2 */
+
+.navigation {
+  /* Estilos base do componente */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .navigation {
+    /* Ajustes para mobile */
+  }
+}
+    

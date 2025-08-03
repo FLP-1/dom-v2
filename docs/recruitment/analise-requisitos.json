@@ -1,0 +1,11 @@
+{
+  "projeto": "DOM V2 - Sistema de Gestão Doméstica",
+  "objetivo": "Criar temas artísticos para diferentes perfis de usuário",
+  "perfis": [
+    "EMPLOYER",
+    "EMPLOYEE",
+    "FAMILY"
+  ],
+  "prioridade": "ALTA - Diferencial competitivo",
+  "prazo": "4 semanas para contratação + 4 semanas para desenvolvimento"
+}

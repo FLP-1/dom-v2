@@ -7,14 +7,17 @@
  * @author DOM Team v2
  */
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator';
 import { ConfigSystem, Environment } from './src/utils/config';
 import { ApiClient } from './src/utils/api-client';
 import { ThemeProvider } from './src/utils/theme-provider';
+import SplashScreen from './src/components/SplashScreen';
 
 const App: React.FC = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  
   console.log('🎉 App.tsx renderizando - Sistema de Navegação Completo');
 
   useEffect(() => {
@@ -34,6 +37,14 @@ const App: React.FC = () => {
     
     console.log('✔ Sistema inicializado com sucesso!');
   }, []);
+
+  const handleSplashFinish = () => {
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    return <SplashScreen onFinish={handleSplashFinish} />;
+  }
 
   return (
     <ThemeProvider initialProfileType="EMPLOYER">

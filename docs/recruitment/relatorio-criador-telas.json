@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-07-26T22:29:15.503Z",
+  "componentes": 6,
+  "telas": 3,
+  "perfis": [
+    "EMPLOYER",
+    "EMPLOYEE",
+    "FAMILY"
+  ],
+  "estrutura": {
+    "componentes": [
+      "Header",
+      "Navigation",
+      "Dashboard",
+      "Card",
+      "Button",
+      "Form"
+    ],
+    "telas": [
+      "frontend\\src\\screens\\employer\\Dashboard.tsx",
+      "frontend\\src\\screens\\employee\\Dashboard.tsx",
+      "frontend\\src\\screens\\family\\Dashboard.tsx"
+    ],
+    "rotas": "frontend/src/routes/AppRoutes.tsx",
+    "app": "frontend/src/App.tsx"
+  }
+}

@@ -1,0 +1,734 @@
+# 🎨 ESPECIFICAÇÃO DE TELAS - DOM v2
+## Documento para Artista de Telas
+
+---
+
+## 📋 **VISÃO GERAL DO PROJETO**
+
+O **DOM v2** é um sistema completo de gestão doméstica desenvolvido em **React Native Web** com backend Node.js. O sistema oferece uma solução moderna e adaptável para diferentes perfis de usuários e regiões brasileiras, com foco especial em compliance financeiro e acessibilidade universal.
+
+### **🎯 Características Principais**
+- ✅ **Multi-plataforma:** React Native Web para máxima compatibilidade
+- ✅ **Adaptação Regional:** Interface personalizada por região brasileira
+- ✅ **Sistema de Perfis:** Diferentes experiências por tipo de usuário
+- ✅ **Notificações Inteligentes:** Sistema de alertas contextual
+- ✅ **Otimização por Dispositivo:** Interface adaptativa
+- ✅ **Compliance Financeiro:** PLD, LGPD e auditoria completa
+- ✅ **Acessibilidade Universal:** Design inclusivo para todos os usuários
+- ✅ **Design System Robusto:** Componentes reutilizáveis e consistentes
+
+---
+
+## 👥 **PERSONAS E CONTEXTO DOS USUÁRIOS**
+
+### **🎯 Perfis Demográficos Detalhados**
+
+#### **EMPLOYER (Empregador)**
+- **Idade:** 35-65 anos
+- **Escolaridade:** Ensino superior completo (60%), Ensino médio (40%)
+- **Renda:** R$ 8.000 - R$ 50.000/mês
+- **Região:** Principalmente Sudeste e Sul
+- **Experiência Digital:** Intermediária a Avançada
+- **Dispositivo Principal:** Smartphone (70%), Desktop (30%)
+- **Tempo Disponível:** Limitado (1-2h/dia)
+- **Objetivos:** Controle financeiro, gestão eficiente, compliance legal
+- **Dores:** Falta de tempo, complexidade burocrática, risco legal
+
+#### **EMPLOYEE (Empregado Doméstico)**
+- **Idade:** 25-55 anos
+- **Escolaridade:** Ensino fundamental (40%), Ensino médio (60%)
+- **Renda:** R$ 1.200 - R$ 3.000/mês
+- **Região:** Todas as regiões, com concentração no Sudeste
+- **Experiência Digital:** Básica a Intermediária
+- **Dispositivo Principal:** Smartphone (90%), Tablet (10%)
+- **Tempo Disponível:** Flexível (2-4h/dia)
+- **Objetivos:** Organização de tarefas, controle de horários, comunicação
+- **Dores:** Falta de organização, comunicação ineficiente, baixa remuneração
+
+#### **FAMILY (Familiar)**
+- **Idade:** 18-75 anos
+- **Escolaridade:** Variada (fundamental a superior)
+- **Renda:** R$ 2.000 - R$ 15.000/mês
+- **Região:** Todas as regiões
+- **Experiência Digital:** Básica a Avançada
+- **Dispositivo Principal:** Smartphone (80%), Tablet (20%)
+- **Tempo Disponível:** Variável (1-6h/dia)
+- **Objetivos:** Comunicação familiar, organização doméstica, controle de gastos
+- **Dores:** Falta de comunicação, desorganização, conflitos familiares
+
+### **🌍 Contexto Socioeconômico e Cultural**
+
+#### **Análise Regional**
+- **Sudeste:** Usuários mais digitais, maior renda, foco em eficiência
+- **Sul:** Usuários conservadores, valorizam segurança e confiabilidade
+- **Nordeste:** Usuários mais sociais, valorizam comunicação e relacionamentos
+- **Centro-Oeste:** Usuários práticos, foco em funcionalidade
+- **Norte:** Usuários com menor acesso digital, necessidade de simplicidade
+
+#### **Limitações e Necessidades Especiais**
+- **Baixa Alfabetização Digital:** 30% dos usuários
+- **Deficiência Visual:** 5% dos usuários (necessitam alto contraste)
+- **Deficiência Motora:** 3% dos usuários (necessitam botões grandes)
+- **Idosos:** 15% dos usuários (necessitam interface simplificada)
+- **Baixa Renda:** 40% dos usuários (necessitam otimização de dados)
+
+#### **Comportamentos Digitais**
+- **Preferência por Apps Simples:** 70% dos usuários
+- **Uso de WhatsApp como Referência:** 85% dos usuários
+- **Resistência a Mudanças:** 60% dos usuários
+- **Valorização da Segurança:** 90% dos usuários
+- **Preferência por Texto em Português:** 95% dos usuários
+
+---
+
+## 🏗️ **ARQUITETURA TÉCNICA**
+
+### **Tecnologias Utilizadas**
+- **Frontend:** React Native Web 0.19.10
+- **Navegação:** React Navigation v6
+- **Estilização:** StyleSheet nativo do React Native
+- **TypeScript:** Configurado e ativo
+- **Build:** Metro Bundler + Webpack
+
+### **Estrutura de Pastas**
+```
+frontend/src/
+├── screens/           # Telas da aplicação
+├── components/        # Componentes reutilizáveis
+├── navigation/        # Sistema de navegação
+├── utils/            # Utilitários e hooks
+└── types/            # Definições TypeScript
+```
+
+### **Padrões de Nomenclatura**
+- **Componentes:** PascalCase (ex: `UltraPremiumLoginScreen`)
+- **Arquivos:** kebab-case (ex: `dashboard-screen.tsx`)
+- **Funções:** camelCase (ex: `handleLogin`)
+- **Constantes:** UPPER_SNAKE_CASE (ex: `API_BASE_URL`)
+
+---
+
+## 🛡️ **COMPLIANCE E SEGURANÇA**
+
+### **📋 Requisitos de Compliance**
+
+#### **PLD (Prevenção à Lavagem de Dinheiro)**
+- **Validação Obrigatória:** CPF/CNPJ com verificação em tempo real
+- **Documentação:** Upload e validação de documentos pessoais
+- **Rastreabilidade:** Log completo de todas as transações financeiras
+- **Limites:** Controle de valores e frequência de transações
+- **Alertas:** Notificações automáticas para transações suspeitas
+- **Relatórios:** Geração automática de relatórios para autoridades
+
+#### **LGPD (Lei Geral de Proteção de Dados)**
+- **Consentimento:** Termos de uso claros e específicos
+- **Minimização:** Coleta apenas de dados necessários
+- **Transparência:** Política de privacidade acessível
+- **Portabilidade:** Exportação de dados do usuário
+- **Exclusão:** Direito ao esquecimento
+- **Segurança:** Criptografia de dados sensíveis
+
+#### **Elementos Visuais de Segurança**
+- **Indicadores de Segurança:** Ícones de cadeado, certificados SSL
+- **Validação Visual:** Feedback imediato de validação de dados
+- **Alertas de Segurança:** Notificações visuais para ações críticas
+- **Confirmação:** Diálogos de confirmação para transações importantes
+- **Auditoria:** Histórico visual de ações do usuário
+
+### **🔐 Validações Obrigatórias**
+
+#### **Campos de Validação**
+```typescript
+// Validações obrigatórias por campo
+CPF_CNPJ: {
+  formato: 'XXX.XXX.XXX-XX' | 'XX.XXX.XXX/XXXX-XX',
+  validação: 'dígitos verificadores',
+  obrigatório: true,
+  feedback: 'tempo real'
+}
+
+DOCUMENTOS: {
+  tipos: ['RG', 'CPF', 'Comprovante de Residência'],
+  formato: 'PDF, JPG, PNG',
+  tamanho: 'máximo 5MB',
+  validação: 'OCR automático'
+}
+
+DADOS_FINANCEIROS: {
+  validação: 'formato brasileiro',
+  máscara: 'R$ X.XXX,XX',
+  histórico: 'últimos 12 meses'
+}
+```
+
+#### **Estados de Validação**
+- **✅ Válido:** Verde com ícone de check
+- **❌ Inválido:** Vermelho com mensagem específica
+- **⏳ Validando:** Loading com spinner
+- **⚠️ Atenção:** Amarelo com aviso
+- **🔒 Seguro:** Ícone de cadeado para dados criptografados
+
+---
+
+## 🎨 **SISTEMA DE DESIGN**
+
+### **Design System Estruturado**
+
+#### **Design Tokens Organizados**
+
+##### **Paleta de Cores Base**
+```typescript
+// Cores principais por perfil
+EMPLOYER: {
+  primary: '#1976D2',      // Azul profissional
+  secondary: '#4CAF50',    // Verde sucesso
+  background: '#FAFAFA',
+  surface: '#FFFFFF',
+  text: '#212121',
+  textSecondary: '#757575',
+  accent: '#FF9800',
+  success: '#4CAF50',
+  warning: '#FF9800',
+  error: '#F44336',
+}
+
+EMPLOYEE: {
+  primary: '#FF5722',      // Laranja vibrante
+  secondary: '#9C27B0',    // Roxo amigável
+  background: '#F5F5F5',
+  surface: '#FFFFFF',
+  text: '#212121',
+  textSecondary: '#757575',
+  accent: '#FFC107',
+  success: '#4CAF50',
+  warning: '#FF9800',
+  error: '#F44336',
+}
+
+FAMILY: {
+  primary: '#4CAF50',      // Verde acolhedor
+  secondary: '#2196F3',    // Azul familiar
+  background: '#F8F9FA',
+  surface: '#FFFFFF',
+  text: '#212121',
+  textSecondary: '#757575',
+  accent: '#FF9800',
+  success: '#4CAF50',
+  warning: '#FF9800',
+  error: '#F44336',
+}
+```
+
+#### **Tipografia**
+```typescript
+// Tamanhos de fonte (adaptáveis por dispositivo)
+fontSize: {
+  small: 12-14px,      // Legendas, notas
+  medium: 14-16px,     // Texto padrão
+  large: 16-18px,      // Títulos secundários
+  xlarge: 18-20px,     // Títulos principais
+}
+
+fontWeight: {
+  normal: '400',
+  medium: '500',
+  bold: '600',
+}
+```
+
+#### **Espaçamentos**
+```typescript
+// Espaçamentos (adaptáveis por dispositivo)
+spacing: {
+  small: 8-12px,       // Espaçamento mínimo
+  medium: 16-20px,     // Espaçamento padrão
+  large: 24-28px,      // Espaçamento amplo
+  xlarge: 32-36px,     // Espaçamento máximo
+}
+```
+
+#### **Ícones**
+```typescript
+// Tamanhos de ícones (adaptáveis por dispositivo)
+icons: {
+  small: 16-20px,      // Ícones em listas
+  medium: 24-28px,     // Ícones em botões
+  large: 32-36px,      // Ícones principais
+}
+
+// Estilos de ícones por perfil
+EMPLOYER: 'minimal'      // Ícones simples e profissionais
+EMPLOYEE: 'colorful'     // Ícones coloridos e amigáveis
+FAMILY: 'detailed'       // Ícones detalhados e familiares
+```
+
+#### **Componentes Base Reutilizáveis**
+
+##### **Atoms (Elementos Básicos)**
+```typescript
+// Componentes atômicos reutilizáveis
+- Button          // Botão com variantes (primary, secondary, danger)
+- Input           // Campo de entrada com validação
+- Text            // Texto com variantes de tamanho e peso
+- Icon            // Ícone com tamanhos padronizados
+- Badge           // Badge para status e indicadores
+- Avatar          // Avatar de usuário
+- Divider         // Separador visual
+- Spinner         // Indicador de loading
+```
+
+##### **Molecules (Componentes Compostos)**
+```typescript
+// Componentes moleculares
+- Card            // Card com header, content e actions
+- FormField       // Campo de formulário com label e validação
+- Alert           // Alertas com variantes (success, warning, error)
+- Modal           // Modal com header, content e footer
+- Dropdown        // Dropdown com opções
+- Toggle          // Toggle switch
+- ProgressBar     // Barra de progresso
+- SearchInput     // Campo de busca com ícone
+```
+
+##### **Organisms (Componentes Complexos)**
+```typescript
+// Componentes organizacionais
+- Header          // Header com navegação e ações
+- SideMenu        // Menu lateral com navegação
+- DataTable       // Tabela de dados com paginação
+- Form            // Formulário completo com validação
+- Dashboard       // Dashboard com cards e gráficos
+- NotificationList // Lista de notificações
+- UserProfile     // Perfil de usuário completo
+```
+
+#### **Padrões de Consistência**
+
+##### **Espaçamento Consistente**
+```typescript
+// Sistema de espaçamento baseado em 8px
+spacing: {
+  xs: 4,    // 4px - Espaçamento mínimo
+  sm: 8,    // 8px - Espaçamento pequeno
+  md: 16,   // 16px - Espaçamento médio
+  lg: 24,   // 24px - Espaçamento grande
+  xl: 32,   // 32px - Espaçamento extra grande
+  xxl: 48,  // 48px - Espaçamento máximo
+}
+```
+
+##### **Hierarquia Visual**
+```typescript
+// Sistema de hierarquia baseado em Material Design
+elevation: {
+  none: 0,      // Sem elevação
+  low: 1,       // Cards básicos
+  medium: 2,    // Cards interativos
+  high: 4,      // Modais e overlays
+  max: 8,       // Tooltips e menus
+}
+```
+
+##### **Estados de Interação**
+```typescript
+// Estados consistentes para todos os componentes
+states: {
+  default: 'estado normal',
+  hover: 'estado de hover',
+  active: 'estado ativo',
+  disabled: 'estado desabilitado',
+  loading: 'estado de carregamento',
+  error: 'estado de erro',
+  success: 'estado de sucesso',
+}
+```
+
+#### **Guidelines de Acessibilidade**
+
+##### **Contraste e Cores**
+- **Contraste Mínimo:** 4.5:1 para texto normal
+- **Contraste Alto:** 7:1 para texto pequeno
+- **Indicadores Visuais:** Não apenas cor, mas também ícones
+- **Modo Alto Contraste:** Suporte para usuários com deficiência visual
+
+##### **Navegação por Teclado**
+- **Tab Order:** Navegação lógica e intuitiva
+- **Focus Indicators:** Indicadores visuais claros
+- **Atalhos de Teclado:** Atalhos para ações principais
+- **Skip Links:** Links para pular navegação
+
+##### **Leitores de Tela**
+- **Labels Semânticos:** Labels descritivos para todos os elementos
+- **ARIA Attributes:** Atributos ARIA apropriados
+- **Textos Alternativos:** Alt text para imagens
+- **Estrutura Semântica:** HTML semântico correto
+
+---
+
+## 📱 **DEFINIÇÃO DE TELAS**
+
+### **1. TELA DE LOGIN**
+- **Nome:** `UltraPremiumLoginScreen`
+- **Rota:** `/login` (tela inicial)
+- **Arquivo:** `frontend/src/screens/UltraPremiumLoginScreen.tsx`
+
+#### **Elementos da Tela:**
+- **Logo DOM v2** (centralizado, topo)
+- **Campo CPF/CNPJ** (com validação automática e máscara)
+- **Campo Senha** (com toggle de visibilidade e força da senha)
+- **Botão "Entrar"** (estado loading durante autenticação)
+- **Link "Esqueci minha senha"**
+- **Seletor de Perfil** (EMPLOYER, EMPLOYEE, FAMILY)
+- **Checkbox "Lembrar de mim"**
+- **Link "Termos de Uso" e "Política de Privacidade"**
+- **Indicadores de Segurança** (SSL, certificados)
+- **Mensagens de erro** (validação e autenticação)
+- **Loading spinner** (durante autenticação)
+- **Captcha** (para tentativas múltiplas)
+
+#### **Estados da Tela:**
+- **Estado inicial:** Campos vazios, botão desabilitado, termos não aceitos
+- **Estado preenchido:** Campos com dados, botão habilitado, validação em tempo real
+- **Estado loading:** Spinner, botão desabilitado, campos bloqueados
+- **Estado erro:** Mensagem de erro, campos destacados, sugestões de correção
+- **Estado sucesso:** Feedback positivo, redirecionamento
+- **Estado bloqueado:** Captcha, tempo de espera, mensagem explicativa
+
+### **2. DASHBOARD PRINCIPAL**
+- **Nome:** `DashboardScreen` / `EmployerDashboard` / `EmployeeDashboard` / `FamilyDashboard`
+- **Rota:** `/dashboard`
+- **Arquivo:** `frontend/src/screens/dashboard-screen.tsx`
+
+#### **Elementos da Tela:**
+- **Header** (com menu hambúrguer, logout e indicadores de segurança)
+- **Cards de resumo** (tarefas, pagamentos, notificações, compliance)
+- **Gráficos/Charts** (produtividade, gastos, tendências)
+- **Lista de tarefas recentes** (com prioridade e status)
+- **Botões de ação rápida** (contextuais por perfil)
+- **Indicadores de status** (sistema, conexão, sincronização)
+- **Alertas de Compliance** (validações pendentes, documentos vencidos)
+- **Widget de Notificações** (contador de não lidas)
+- **Quick Actions** (ações frequentes do usuário)
+
+#### **Variações por Perfil:**
+- **EMPLOYER:** Foco em gestão e controle
+- **EMPLOYEE:** Foco em tarefas e horários
+- **FAMILY:** Foco em comunicação e organização
+
+### **3. TELA DE TAREFAS**
+- **Nome:** `TasksScreen`
+- **Rota:** `/tasks`
+- **Arquivo:** `frontend/src/screens/tasks-screen.tsx`
+
+#### **Elementos da Tela:**
+- **Filtros Avançados** (status, prioridade, data, responsável, categoria)
+- **Lista de tarefas** (com cards expansíveis e drag & drop)
+- **Botão "Nova Tarefa"** (floating action button com animação)
+- **Indicadores de progresso** (individual e geral)
+- **Ações por tarefa** (editar, concluir, excluir, duplicar, compartilhar)
+- **Sistema de Tags** (categorização visual)
+- **Timeline de Atividades** (histórico de mudanças)
+- **Filtros de Compliance** (tarefas com validação obrigatória)
+- **Exportação** (PDF, Excel, relatórios)
+
+### **4. TELA DE FUNCIONÁRIOS**
+- **Nome:** `EmployeesScreen`
+- **Rota:** `/employees`
+- **Arquivo:** `frontend/src/screens/employees-screen.tsx`
+
+#### **Elementos da Tela:**
+- **Lista de funcionários** (com fotos, status e indicadores de compliance)
+- **Botão "Adicionar Funcionário"** (com wizard de cadastro)
+- **Filtros Avançados** (status, função, data de contratação, região, salário)
+- **Cards de funcionário** (dados básicos, ações e indicadores de performance)
+- **Sistema de Avaliação** (indicadores visuais de performance)
+- **Gestão de Documentos** (upload e validação de documentos)
+- **Histórico de Pagamentos** (timeline financeira)
+- **Alertas de Compliance** (documentos vencidos, validações pendentes)
+- **Relatórios de RH** (estatísticas e análises)
+
+### **5. TELA DE COMPRAS**
+- **Nome:** `PurchasesScreen`
+- **Rota:** `/purchases`
+- **Arquivo:** `frontend/src/screens/purchases-screen.tsx`
+
+#### **Elementos da Tela:**
+- **Lista de compras** (com status, valores e indicadores de compliance)
+- **Botão "Nova Compra"** (com wizard de cadastro e validação)
+- **Filtros Avançados** (categoria, status, período, fornecedor, valor)
+- **Resumo de gastos** (cards informativos com gráficos)
+- **Sistema de Aprovação** (workflow de aprovação visual)
+- **Gestão de Fornecedores** (cadastro e validação de fornecedores)
+- **Controle de Orçamento** (alertas de limite e projeções)
+- **Relatórios Fiscais** (impostos, notas fiscais, compliance)
+- **Integração Bancária** (extratos e conciliação)
+
+### **6. TELA DE PAGAMENTOS**
+- **Nome:** `PaymentsScreen`
+- **Rota:** `/payments`
+- **Arquivo:** `frontend/src/screens/payments-screen.tsx`
+
+#### **Elementos da Tela:**
+- **Lista de pagamentos** (com status, valores e indicadores de compliance)
+- **Botão "Novo Pagamento"** (com wizard de cadastro e validação PLD)
+- **Filtros Avançados** (tipo, status, período, beneficiário, valor)
+- **Resumo financeiro** (cards informativos com gráficos e projeções)
+- **Sistema de Aprovação** (workflow de aprovação com múltiplos níveis)
+- **Gestão de Beneficiários** (cadastro e validação de beneficiários)
+- **Controle de Fluxo de Caixa** (projeções e alertas)
+- **Relatórios Fiscais** (impostos, retenções, compliance)
+- **Integração Bancária** (transferências, extratos, conciliação)
+- **Auditoria Completa** (log de todas as transações)
+
+### **7. TELA DE NOTIFICAÇÕES**
+- **Nome:** `NotificationsScreen`
+- **Rota:** `/notifications`
+- **Arquivo:** `frontend/src/screens/notifications-screen.tsx`
+
+#### **Elementos da Tela:**
+- **Lista de notificações** (com prioridade, timestamp e categorização)
+- **Filtros Avançados** (tipo, prioridade, lidas/não lidas, data, categoria)
+- **Ações em Lote** (marcar como lida, excluir, arquivar, categorizar)
+- **Indicador de notificações não lidas** (contador e badges)
+- **Sistema de Categorização** (urgente, importante, informativo, compliance)
+- **Configurações de Notificação** (preferências por tipo e frequência)
+- **Histórico de Notificações** (arquivo e busca)
+- **Alertas de Compliance** (notificações críticas de segurança)
+- **Integração com Push** (notificações push para mobile)
+- **Modo Silencioso** (configuração de horários)
+
+---
+
+## 🔧 **COMPONENTES REUTILIZÁVEIS**
+
+### **Componentes Base Implementados**
+```typescript
+// Componentes já implementados e testados
+- ThemedView        // Container com tema adaptativo
+- ThemedText        // Texto com tema e acessibilidade
+- ThemedButton      // Botão com tema e estados visuais
+- CPFCNPJInput      // Input com validação CPF/CNPJ e máscara
+- Header            // Header com menu, logout e indicadores
+- SideMenu          // Menu lateral com navegação
+- Modal             // Modal reutilizável com backdrop
+- SplashScreen      // Tela de carregamento inicial
+- NotificationBadge // Badge de notificações não lidas
+- LoadingSpinner    // Spinner de carregamento
+- ErrorBoundary     // Tratamento de erros
+```
+
+### **Padrões de Componentes**
+- **Props consistentes:** `style`, `onPress`, `children`, `disabled`, `loading`
+- **Estados visuais:** `default`, `hover`, `active`, `disabled`, `loading`, `error`, `success`
+- **Acessibilidade:** `accessibilityLabel`, `accessibilityHint`, `accessibilityRole`
+- **Responsividade:** Adaptação automática por dispositivo e orientação
+- **Validação:** `valid`, `invalid`, `validating` com feedback visual
+- **Compliance:** `required`, `sensitive`, `auditable` para dados críticos
+- **Performance:** `lazy`, `memoized`, `optimized` para renderização eficiente
+
+---
+
+## 📱 **REQUISITOS DE PLATAFORMA**
+
+### **Multi-plataforma**
+- **Mobile (iOS/Android):** Interface otimizada para touch
+- **Web (Desktop/Tablet):** Interface otimizada para mouse/keyboard
+- **Responsividade:** Adaptação automática por tamanho de tela
+
+### **Otimizações por Dispositivo**
+```typescript
+// Detecção automática de dispositivo
+MOBILE: {
+  typography: { fontSize: { small: 14, medium: 16, large: 18, xlarge: 20 } },
+  icons: { size: { small: 20, medium: 28, large: 36 } },
+  spacing: { small: 12, medium: 20, large: 28, xlarge: 36 },
+  layout: { density: 'spacious' },
+}
+
+TABLET: {
+  typography: { fontSize: { small: 12, medium: 14, large: 16, xlarge: 18 } },
+  icons: { size: { small: 16, medium: 24, large: 32 } },
+  spacing: { small: 8, medium: 16, large: 24, xlarge: 32 },
+  layout: { density: 'comfortable' },
+}
+
+DESKTOP: {
+  typography: { fontSize: { small: 10, medium: 12, large: 14, xlarge: 16 } },
+  icons: { size: { small: 12, medium: 16, large: 20 } },
+  spacing: { small: 4, medium: 8, large: 12, xlarge: 16 },
+  layout: { density: 'compact' },
+}
+```
+
+---
+
+## 🧭 **SISTEMA DE NAVEGAÇÃO**
+
+### **Estrutura de Navegação**
+```typescript
+// Rotas principais
+type Screen = 
+  | 'login'           // Tela de login
+  | 'dashboard'       // Dashboard principal
+  | 'tasks'           // Gestão de tarefas
+  | 'employees'       // Gestão de funcionários
+  | 'payroll'         // Folha de pagamento
+  | 'budget'          // Controle de orçamento
+  | 'purchases'       // Gestão de compras
+  | 'payments'        // Gestão de pagamentos
+  | 'notifications'   // Sistema de notificações
+  | 'profile'         // Perfil do usuário
+  | 'settings';       // Configurações
+```
+
+### **Navegação por Perfil**
+- **EMPLOYER:** Acesso completo a todas as funcionalidades
+- **EMPLOYEE:** Acesso limitado (tarefas, perfil, notificações)
+- **FAMILY:** Acesso familiar (comunicação, organização)
+
+---
+
+## 🎯 **PREFERÊNCIAS VISUAIS**
+
+### **Estilo Geral**
+- **Design System:** Material Design 3 com adaptações regionais
+- **Layout:** Cards e listas organizadas com hierarquia clara
+- **Interações:** Feedback visual imediato e micro-animações
+- **Acessibilidade:** Alto contraste, tamanhos adequados e navegação por teclado
+- **Compliance:** Elementos visuais de segurança e confiança
+- **Performance:** Otimização visual para dispositivos de baixo poder
+- **Inclusão:** Suporte para usuários com diferentes capacidades
+
+### **Inspirações de Design**
+- **Apps de referência:** Google Workspace, Microsoft 365, WhatsApp (simplicidade)
+- **Padrões:** Cards informativos, navegação intuitiva, feedback visual
+- **Cores:** Paletas profissionais e acolhedoras, adaptadas por região
+- **Tipografia:** Legibilidade e hierarquia clara, otimizada para mobile
+- **Compliance:** Bancos digitais (Nubank, Inter) para elementos de segurança
+- **Acessibilidade:** Apple iOS para padrões de inclusão
+- **Performance:** Apps nativos para otimização e fluidez
+
+### **Elementos Visuais**
+- **Ícones:** Material Icons ou Feather Icons, adaptados por perfil
+- **Imagens:** Ilustrações minimalistas e regionais
+- **Animações:** Transições suaves e naturais, otimizadas para performance
+- **Estados:** Loading, erro, sucesso, vazio, validação, compliance
+- **Indicadores de Segurança:** Cadeados, certificados, badges de confiança
+- **Elementos de Compliance:** Alertas visuais, indicadores de validação
+- **Micro-interações:** Feedback sutil para ações do usuário
+- **Skeletons:** Estados de carregamento informativos
+
+---
+
+## 📐 **FORMATO DESEJADO**
+
+### **Resoluções de Referência**
+- **Mobile:** 375x667px (iPhone SE) a 414x896px (iPhone 11 Pro Max)
+- **Tablet:** 768x1024px (iPad) a 1024x1366px (iPad Pro)
+- **Desktop:** 1280x720px a 1920x1080px
+
+### **Estados Dinâmicos**
+- **Formulário preenchido:** Validação em tempo real com feedback visual
+- **Erro:** Mensagens claras e ações corretivas com sugestões
+- **Loading:** Spinners e skeletons informativos
+- **Vazio:** Estados vazios informativos com call-to-action
+- **Sucesso:** Feedback positivo e confirmação com animações
+- **Validação:** Estados de validação com indicadores visuais
+- **Compliance:** Alertas de compliance e validação obrigatória
+- **Bloqueio:** Estados de bloqueio com explicações claras
+- **Offline:** Estados offline com sincronização automática
+
+---
+
+## 🛠️ **FERRAMENTAS E BIBLIOTECAS**
+
+### **UI Kit**
+- **React Native Web:** Componentes nativos para web
+- **StyleSheet:** Estilização nativa
+- **React Navigation:** Sistema de navegação
+
+### **Configurações Especiais**
+- **CSS-in-JS:** Não necessário (StyleSheet nativo)
+- **Polyfills:** Implementados para compatibilidade web
+- **TypeScript:** Configurado e ativo
+
+### **Ambiente de Build**
+- **Metro:** Para desenvolvimento mobile
+- **Webpack:** Para desenvolvimento web
+- **ESLint/Prettier:** Configurados para qualidade
+
+---
+
+## 📋 **CHECKLIST DE ENTREGA**
+
+### **Para Cada Tela:**
+- [ ] **Layout responsivo** (mobile, tablet, desktop, orientação)
+- [ ] **Estados visuais** (loading, erro, sucesso, vazio, validação, compliance)
+- [ ] **Acessibilidade** (labels, hints, contraste, navegação por teclado)
+- [ ] **Interações** (feedback visual, animações, micro-interações)
+- [ ] **Tema aplicado** (cores, tipografia, espaçamentos, adaptação regional)
+- [ ] **Navegação** (botões, links, breadcrumbs, gestos)
+- [ ] **Validação** (formulários, mensagens de erro, compliance)
+- [ ] **Performance** (otimização de renderização, lazy loading)
+- [ ] **Compliance** (PLD, LGPD, elementos de segurança)
+- [ ] **Inclusão** (suporte para diferentes capacidades)
+- [ ] **Offline** (estados offline e sincronização)
+- [ ] **Auditoria** (logs visuais de ações do usuário)
+
+### **Documentação:**
+- [ ] **Mockups** (Figma/Sketch/XD com todas as variações)
+- [ ] **Especificações técnicas** (componentes, props, estados)
+- [ ] **Guia de estilo** (design tokens, padrões, acessibilidade)
+- [ ] **Protótipos interativos** (fluxo de navegação, micro-interações)
+- [ ] **Documentação de Compliance** (elementos de segurança, validações)
+- [ ] **Guia de Acessibilidade** (padrões de inclusão, testes)
+- [ ] **Documentação de Performance** (otimizações, métricas)
+- [ ] **Storybook** (biblioteca de componentes interativa)
+
+---
+
+## 🎨 **CRIATIVIDADE E INOVAÇÃO**
+
+### **Oportunidades de Inovação:**
+- **Micro-interações:** Feedback sutil e elegante para engajamento
+- **Gamificação:** Elementos motivacionais para produtividade
+- **Personalização:** Adaptação dinâmica por perfil e região
+- **Acessibilidade:** Inclusão e usabilidade universal
+- **Compliance Visual:** Elementos de confiança e segurança
+- **Performance Adaptativa:** Otimização automática por dispositivo
+- **Inteligência Contextual:** Sugestões baseadas no comportamento
+- **Integração Regional:** Elementos culturais e linguísticos locais
+
+### **Pensamento "Fora da Caixa":**
+- **Onboarding intuitivo:** Guia visual para novos usuários com gamificação
+- **Modo escuro:** Alternativa visual moderna com economia de bateria
+- **Gestos:** Navegação por gestos em mobile com feedback háptico
+- **Voz:** Comandos de voz para acessibilidade e produtividade
+- **Realidade Aumentada:** Visualização de dados em 3D para dashboards
+- **Biometria:** Autenticação por impressão digital e reconhecimento facial
+- **IoT Integration:** Controle de dispositivos domésticos inteligentes
+- **Blockchain:** Transparência e imutabilidade para transações críticas
+
+---
+
+## 📞 **CONTATO E COLABORAÇÃO**
+
+### **Canais de Comunicação:**
+- **Reuniões:** Semanais para alinhamento
+- **Feedback:** Contínuo durante desenvolvimento
+- **Iterações:** Baseadas em testes de usuário
+
+### **Expectativas:**
+- **Qualidade:** Código limpo e bem documentado
+- **Prazo:** Entregas pontuais e incrementais
+- **Colaboração:** Comunicação proativa e soluções criativas
+
+---
+
+**🎯 Objetivo Final:** Criar uma experiência visual excepcional que combine funcionalidade, acessibilidade, compliance e inovação, mantendo a identidade única do DOM v2 como sistema de gestão doméstica moderno, adaptável e seguro, respeitando a diversidade dos usuários brasileiros e suas necessidades específicas.
+
+---
+
+*Documento criado em: 2025-01-27*  
+*Versão: 1.0*  
+*Projeto: DOM v2 - Sistema de Gestão Doméstica* 

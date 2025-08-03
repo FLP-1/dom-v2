@@ -1,0 +1,14 @@
+
+/* CSS para Header - DOM v2 */
+
+.header {
+  /* Estilos base do componente */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .header {
+    /* Ajustes para mobile */
+  }
+}
+    

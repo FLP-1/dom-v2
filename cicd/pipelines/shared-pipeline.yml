@@ -1,0 +1,80 @@
+name: Shared Library Pipeline - DOM-V2
+
+on:
+  push:
+    branches: [ main, develop, 'feature/shared-*' ]
+    paths: [ 'frontend/src/micro-frontends/shared/**' ]
+  pull_request:
+    branches: [ main, develop ]
+    paths: [ 'frontend/src/micro-frontends/shared/**' ]
+
+jobs:
+  test:
+    name: Test Shared Library
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/src/micro-frontends/shared/package-lock.json
+        
+    - name: Install dependencies
+      run: |
+        cd frontend/src/micro-frontends/shared
+        npm ci
+        
+    - name: Run linting
+      run: |
+        cd frontend/src/micro-frontends/shared
+        npm run lint
+        
+    - name: Run tests
+      run: |
+        cd frontend/src/micro-frontends/shared
+        npm test
+        
+    - name: Build library
+      run: |
+        cd frontend/src/micro-frontends/shared
+        npm run build
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: shared-library
+        path: frontend/src/micro-frontends/shared/dist/
+        retention-days: 7
+        
+  publish:
+    name: Publish Shared Library
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        registry-url: 'https://npm.pkg.github.com'
+        
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: shared-library
+        
+    - name: Publish to GitHub Packages
+      run: |
+        cd frontend/src/micro-frontends/shared
+        npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

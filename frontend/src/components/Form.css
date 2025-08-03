@@ -1,0 +1,14 @@
+
+/* CSS para Form - DOM v2 */
+
+.form {
+  /* Estilos base do componente */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form {
+    /* Ajustes para mobile */
+  }
+}
+    

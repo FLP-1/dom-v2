@@ -1,0 +1,135 @@
+{
+  "totalInteracoes": 5,
+  "perfisUtilizados": [
+    null
+  ],
+  "tiposResposta": [
+    "CORES",
+    "LAYOUT",
+    "TIPOGRAFIA",
+    "SISTEMA_COMPLETO",
+    "GERAL"
+  ],
+  "caracteristicas": {
+    "empatia": "ALTA - Compreende profundamente diferentes perfis de usuário",
+    "sensibilidadeCultural": "ALTA - Entende contexto brasileiro e regional",
+    "visaoArtistica": "ALTA - Avalia qualidade artística e criatividade",
+    "criterioTecnico": "MÉDIO - Conhece UX/UI mas foca na arte",
+    "comunicacao": "ALTA - Comunica-se de forma motivadora e clara",
+    "teoriaCores": "EXPERT - Domina psicologia das cores e teoria cromática",
+    "pnl": "EXPERT - Programação Neurolinguística aplicada ao design",
+    "marketingConsumo": "EXPERT - Teorias de marketing e comportamento do consumidor"
+  },
+  "historico": [
+    {
+      "timestamp": "2025-07-26T22:17:55.276Z",
+      "mensagem": "Como criar uma paleta de cores para empregados domésticos?",
+      "resposta": {
+        "tipo": "CORES",
+        "titulo": "🎨 Paleta de Cores para Empregado Doméstico",
+        "conteudo": "\n**Cores Principais:**\n- **Primária:** #FF5722 - Representa simplicidade\n- **Secundária:** #9C27B0 - Representa acolhimento\n- **Fundo:** #F5F5F5 - Cria motivação\n- **Texto:** #FFFFFF - Garante confiança\n\n**Por que essas cores?**\nElas foram escolhidas para transmitir \"Bem-vinda e valorizada\" e criar uma experiência que ressoe com empregado doméstico.\n\n**Inspiração:** Instagram, TikTok, WhatsApp, Duolingo\n\n**💡 Dica:** Use gradientes sutis entre essas cores para criar profundidade e movimento visual.\n      ",
+        "emocao": "Bem-vinda e valorizada",
+        "acao": "Aplicar paleta de cores"
+      },
+      "perfil": null,
+      "caracteristicas": {
+        "empatia": "ALTA - Compreende profundamente diferentes perfis de usuário",
+        "sensibilidadeCultural": "ALTA - Entende contexto brasileiro e regional",
+        "visaoArtistica": "ALTA - Avalia qualidade artística e criatividade",
+        "criterioTecnico": "MÉDIO - Conhece UX/UI mas foca na arte",
+        "comunicacao": "ALTA - Comunica-se de forma motivadora e clara",
+        "teoriaCores": "EXPERT - Domina psicologia das cores e teoria cromática",
+        "pnl": "EXPERT - Programação Neurolinguística aplicada ao design",
+        "marketingConsumo": "EXPERT - Teorias de marketing e comportamento do consumidor"
+      }
+    },
+    {
+      "timestamp": "2025-07-26T22:17:55.280Z",
+      "mensagem": "Preciso de um layout para empregadores executivos",
+      "resposta": {
+        "tipo": "LAYOUT",
+        "titulo": "📱 Layout para Empregador/Executivo",
+        "conteudo": "\n**Princípios de Layout:**\n\n**Espaçamento:**\n- Equilibrado e profissional\n\n**Organização:**\n- Hierárquica e funcional\n\n**Elementos Visuais:**\n- Cards elegantes com sombras sutis\n\n**Responsividade:**\n- Adaptação perfeita para desktop e tablet\n\n**🎯 Objetivo:** Criar uma interface que faça empregador/executivo se sentir \"Confiança e domínio da situação\".\n      ",
+        "emocao": "Confiança e domínio da situação",
+        "acao": "Estruturar layout"
+      },
+      "perfil": null,
+      "caracteristicas": {
+        "empatia": "ALTA - Compreende profundamente diferentes perfis de usuário",
+        "sensibilidadeCultural": "ALTA - Entende contexto brasileiro e regional",
+        "visaoArtistica": "ALTA - Avalia qualidade artística e criatividade",
+        "criterioTecnico": "MÉDIO - Conhece UX/UI mas foca na arte",
+        "comunicacao": "ALTA - Comunica-se de forma motivadora e clara",
+        "teoriaCores": "EXPERT - Domina psicologia das cores e teoria cromática",
+        "pnl": "EXPERT - Programação Neurolinguística aplicada ao design",
+        "marketingConsumo": "EXPERT - Teorias de marketing e comportamento do consumidor"
+      }
+    },
+    {
+      "timestamp": "2025-07-26T22:17:55.282Z",
+      "mensagem": "Qual tipografia usar para famílias?",
+      "resposta": {
+        "tipo": "TIPOGRAFIA",
+        "titulo": "📝 Tipografia para Família",
+        "conteudo": "\n**Fonte Principal:** Poppins\n- **Características:** Harmoniosa e moderna\n\n**Fonte Secundária:** Lato\n- **Uso:** Para textos complementares e informações secundárias\n\n**Hierarquia Tipográfica:**\n- **Títulos:** 26px, peso 600\n- **Subtítulos:** 16px, peso 400\n- **Corpo:** 14px, peso 400\n\n**🎨 Resultado:** Tipografia que transmite \"União e harmonia familiar\" e facilita a leitura.\n      ",
+        "emocao": "União e harmonia familiar",
+        "acao": "Definir tipografia"
+      },
+      "perfil": null,
+      "caracteristicas": {
+        "empatia": "ALTA - Compreende profundamente diferentes perfis de usuário",
+        "sensibilidadeCultural": "ALTA - Entende contexto brasileiro e regional",
+        "visaoArtistica": "ALTA - Avalia qualidade artística e criatividade",
+        "criterioTecnico": "MÉDIO - Conhece UX/UI mas foca na arte",
+        "comunicacao": "ALTA - Comunica-se de forma motivadora e clara",
+        "teoriaCores": "EXPERT - Domina psicologia das cores e teoria cromática",
+        "pnl": "EXPERT - Programação Neurolinguística aplicada ao design",
+        "marketingConsumo": "EXPERT - Teorias de marketing e comportamento do consumidor"
+      }
+    },
+    {
+      "timestamp": "2025-07-26T22:17:55.283Z",
+      "mensagem": "Como criar animações que emocionem?",
+      "resposta": {
+        "tipo": "SISTEMA_COMPLETO",
+        "titulo": "🚀 SISTEMA COMPLETO DE DESIGN DISRUPTIVO - DOM V2",
+        "conteudo": "\n# 🎨 **SISTEMA COMPLETO DE DESIGN DISRUPTIVO**\n\n## 🌟 **VISÃO ARTÍSTICA REVOLUCIONÁRIA**\n\n**\"Transformando a gestão doméstica em uma experiência artística e emocional\"**\n\n---\n\n## 👥 **SISTEMA DE PERFIS PERSONALIZADOS**\n\n### **👔 EMPREGADORES/EXECUTIVOS - \"DOMÍNIO ABSOLUTO\"**\n**Paleta Disruptiva:** \n- **Primária:** #1A237E (Azul Profundo) - Poder e autoridade\n- **Secundária:** #00C853 (Verde Sucesso) - Resultados garantidos\n- **Acentos:** #FF6F00 (Laranja Energia) - Ação imediata\n- **Fundo:** #FAFAFA (Branco Pureza) - Clareza absoluta\n\n**Tipografia Revolucionária:**\n- **Principal:** Inter Bold - Autoridade e precisão\n- **Hierarquia:** 32px/24px/16px - Impacto visual máximo\n- **Espaçamento:** 24px/16px/8px - Respiração profissional\n\n**Layout Disruptivo:**\n- **Dashboard Executivo:** Cards flutuantes com sombras profundas\n- **Navegação:** Menu lateral minimalista com ícones holográficos\n- **Métricas:** Gráficos 3D interativos com animações suaves\n- **Ações:** Botões com efeito de elevação e feedback tátil\n\n**Animações Exclusivas:**\n- **Entrada:** Fade in com escala 0.8 → 1.0 (0.4s)\n- **Hover:** Elevação 8px com sombra dinâmica\n- **Loading:** Spinner de partículas em movimento\n- **Transições:** Morphing suave entre estados\n\n---\n\n### **👩‍💼 EMPREGADOS DOMÉSTICOS - \"ACOLHIMENTO VIBRANTE\"**\n**Paleta Disruptiva:**\n- **Primária:** #E91E63 (Rosa Vibrante) - Energia e motivação\n- **Secundária:** #9C27B0 (Roxo Mágico) - Criatividade e confiança\n- **Acentos:** #FFC107 (Amarelo Sol) - Alegria e positividade\n- **Fundo:** #F8F9FA (Branco Suave) - Conforto e simplicidade\n\n**Tipografia Revolucionária:**\n- **Principal:** Nunito Extra Bold - Amigável e acolhedora\n- **Hierarquia:** 36px/28px/20px - Legibilidade máxima\n- **Espaçamento:** 32px/24px/16px - Conforto visual\n\n**Layout Disruptivo:**\n- **Interface Simplificada:** Botões gigantes com cores vibrantes\n- **Navegação:** Menu inferior com ícones grandes e coloridos\n- **Feedback:** Confirmações visuais com animações celebrativas\n- **Ajuda:** Tooltips flutuantes com instruções em áudio\n\n**Animações Exclusivas:**\n- **Entrada:** Slide up com bounce (0.6s)\n- **Hover:** Escala 1.1 com rotação 5°\n- **Loading:** Pulsação colorida com partículas\n- **Sucesso:** Confete animado com sons de celebração\n\n---\n\n### **👨‍👩‍👧‍👦 FAMÍLIAS - \"HARMONIA CONECTIVA\"**\n**Paleta Disruptiva:**\n- **Primária:** #4CAF50 (Verde Harmonia) - Crescimento e união\n- **Secundária:** #2196F3 (Azul Conectividade) - Comunicação fluida\n- **Acentos:** #FF9800 (Laranja Calor) - Acolhimento familiar\n- **Fundo:** #FFFFFF (Branco Pureza) - Clareza e paz\n\n**Tipografia Revolucionária:**\n- **Principal:** Poppins SemiBold - Moderna e harmoniosa\n- **Hierarquia:** 30px/22px/16px - Equilíbrio visual\n- **Espaçamento:** 28px/20px/12px - Harmonia espacial\n\n**Layout Disruptivo:**\n- **Dashboard Familiar:** Cards conectivos com bordas suaves\n- **Navegação:** Menu circular com ícones familiares\n- **Comunicação:** Chat visual com emojis e stickers\n- **Organização:** Calendário interativo com cores por membro\n\n**Animações Exclusivas:**\n- **Entrada:** Fade in com zoom suave (0.5s)\n- **Hover:** Escala 1.05 com brilho sutil\n- **Loading:** Onda harmoniosa com cores familiares\n- **Conectividade:** Efeito de ondas quando membros se conectam\n\n---\n\n## 🎭 **SISTEMA DE EMOCIONAL DESIGN**\n\n### **💫 MICRO-INTERAÇÕES DISRUPTIVAS**\n- **Feedback Tátil:** Vibração sutil em cada interação\n- **Som Ambiente:** Sons suaves que reforçam ações\n- **Partículas Visuais:** Efeitos de partículas em momentos especiais\n- **Morphing:** Transições fluidas entre elementos\n\n### **🌈 GRADIENTES EMOCIONAIS**\n- **Empregadores:** Gradientes azul-verde para transmitir confiança\n- **Empregados:** Gradientes rosa-roxo para motivar e acolher\n- **Famílias:** Gradientes verde-azul para harmonizar e conectar\n\n### **✨ EFEITOS VISUAIS ÚNICOS**\n- **Glassmorphism:** Elementos com efeito de vidro fosco\n- **Neumorphism:** Botões com aparência 3D suave\n- **Holographic:** Elementos com brilho holográfico\n- **Particle Systems:** Sistemas de partículas para feedback\n\n---\n\n## 🚀 **DIFERENCIAIS COMPETITIVOS DISRUPTIVOS**\n\n### **🎨 ARTE FUNCIONAL**\n- Cada interface é uma obra de arte funcional\n- Design que conta histórias emocionais\n- Elementos visuais que educam e inspiram\n\n### **🌍 CULTURA BRASILEIRA INTEGRADA**\n- Cores que ressoam com a cultura local\n- Elementos visuais que celebram a diversidade\n- Linguagem visual que conecta com a identidade nacional\n\n### **💫 ENGAGAMENTO EMOCIONAL**\n- Design que cria vínculos emocionais\n- Interfaces que motivam uso contínuo\n- Experiências que fortalecem relacionamentos\n\n### **🎯 PERSONALIZAÇÃO EXTREMA**\n- Adaptação automática ao perfil do usuário\n- Elementos que aprendem com o comportamento\n- Interface que evolui com o usuário\n\n---\n\n## 📱 **SISTEMA DE RESPONSIVIDADE DISRUPTIVO**\n\n### **🖥️ DESKTOP (Empregadores)**\n- Layout em grid com 12 colunas\n- Sidebar fixa com navegação hierárquica\n- Dashboard com múltiplas visualizações\n- Atalhos de teclado para eficiência\n\n### **📱 MOBILE (Empregados)**\n- Interface touch-first com gestos intuitivos\n- Botões grandes e espaçados\n- Navegação por swipe e tap\n- Modo offline com sincronização\n\n### **💻 TABLET (Famílias)**\n- Layout híbrido otimizado para compartilhamento\n- Navegação por gestos familiares\n- Interface colaborativa em tempo real\n- Modo apresentação para reuniões familiares\n\n---\n\n## 🎨 **SISTEMA DE ÍCONES DISRUPTIVO**\n\n### **👔 ÍCONES EXECUTIVOS**\n- Linhas finas e precisas\n- Formas geométricas puras\n- Cores monocromáticas\n- Animações sutis e elegantes\n\n### **👩‍💼 ÍCONES DOMÉSTICOS**\n- Formas arredondadas e amigáveis\n- Cores vibrantes e expressivas\n- Ícones narrativos e intuitivos\n- Animações divertidas e motivacionais\n\n### **👨‍👩‍👧‍👦 ÍCONES FAMILIARES**\n- Formas orgânicas e conectivas\n- Cores harmoniosas e acolhedoras\n- Ícones que contam histórias\n- Animações que fortalecem laços\n\n---\n\n## 🎯 **RESULTADO FINAL**\n\n**Um sistema de design que não apenas funciona, mas transforma a gestão doméstica em uma experiência artística, emocional e revolucionária, criando um diferencial competitivo único no mercado brasileiro.**\n\n**Cada perfil terá uma experiência completamente personalizada, mas todos compartilharão a mesma qualidade artística e emocional que faz do DOM v2 não apenas um sistema, mas uma obra de arte funcional.** 🎨✨\n      ",
+        "emocao": "Revolução e inovação",
+        "acao": "Implementar sistema completo de design disruptivo"
+      },
+      "perfil": null,
+      "caracteristicas": {
+        "empatia": "ALTA - Compreende profundamente diferentes perfis de usuário",
+        "sensibilidadeCultural": "ALTA - Entende contexto brasileiro e regional",
+        "visaoArtistica": "ALTA - Avalia qualidade artística e criatividade",
+        "criterioTecnico": "MÉDIO - Conhece UX/UI mas foca na arte",
+        "comunicacao": "ALTA - Comunica-se de forma motivadora e clara",
+        "teoriaCores": "EXPERT - Domina psicologia das cores e teoria cromática",
+        "pnl": "EXPERT - Programação Neurolinguística aplicada ao design",
+        "marketingConsumo": "EXPERT - Teorias de marketing e comportamento do consumidor"
+      }
+    },
+    {
+      "timestamp": "2025-07-26T22:17:55.287Z",
+      "mensagem": "Ajuda com design de interface",
+      "resposta": {
+        "tipo": "GERAL",
+        "titulo": "🎨 Assistente de Design - DOM v2",
+        "conteudo": "\n**Olá! Sou seu assistente especializado em design de interfaces!**\n\n**Perfis que atendo:**\n- 👔 **Empregadores/Executivos** - Eficiência e controle\n- 👩‍💼 **Empregados Domésticos** - Acolhimento e simplicidade\n- 👨‍👩‍👧‍👦 **Famílias** - Harmonia e conexão\n\n**Como posso ajudar:**\n- 🎨 Paletas de cores personalizadas\n- 📱 Layouts otimizados por perfil\n- 📝 Tipografia adequada\n- ✨ Animações emocionais\n- 🎭 Experiências que engajam\n\n**💡 Para começar:** Diga-me qual perfil você quer atender e o que precisa criar!\n        ",
+        "emocao": "Acolhimento e profissionalismo",
+        "acao": "Apresentar assistente"
+      },
+      "perfil": null,
+      "caracteristicas": {
+        "empatia": "ALTA - Compreende profundamente diferentes perfis de usuário",
+        "sensibilidadeCultural": "ALTA - Entende contexto brasileiro e regional",
+        "visaoArtistica": "ALTA - Avalia qualidade artística e criatividade",
+        "criterioTecnico": "MÉDIO - Conhece UX/UI mas foca na arte",
+        "comunicacao": "ALTA - Comunica-se de forma motivadora e clara",
+        "teoriaCores": "EXPERT - Domina psicologia das cores e teoria cromática",
+        "pnl": "EXPERT - Programação Neurolinguística aplicada ao design",
+        "marketingConsumo": "EXPERT - Teorias de marketing e comportamento do consumidor"
+      }
+    }
+  ]
+}

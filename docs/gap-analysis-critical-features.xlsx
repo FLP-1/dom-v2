@@ -1,0 +1,75 @@
+# Gap Analysis e Funcionalidades Críticas - DOM-V2
+
+## Planilha 1: Gap Analysis (Lacunas Tecnológicas e Funcionais)
+
+| Área | Lacuna | Status | Impacto/Risco | Observações |
+|------|--------|--------|---------------|-------------|
+| **Financeiro** | Controle de Orçamento | ❌ Não Implementado | 🔴 Alto | Funcionalidade core para gestão doméstica |
+| **Financeiro** | Folha de Pagamento | ❌ Não Implementado | 🔴 Alto | Necessário para compliance trabalhista |
+| **Financeiro** | Integração Bancária | ❌ Não Implementado | 🟡 Médio | Melhora experiência do usuário |
+| **RH** | Controle de Jornada | ❌ Não Implementado | 🔴 Alto | Obrigatório para CLT |
+| **RH** | Employer-Employee | ❌ Não Implementado | 🔴 Alto | Gestão de funcionários domésticos |
+| **RH** | Gestão de Benefícios | ❌ Não Implementado | 🟡 Médio | Valor agregado |
+| **Operacional** | Gestão de Documentos | ❌ Não Implementado | 🟡 Médio | OCR e assinatura digital |
+| **Operacional** | Controle de Inventário | ❌ Não Implementado | 🟢 Baixo | Gestão de bens |
+| **Segurança** | Autenticação Multi-Fator | ❌ Não Implementado | 🔴 Alto | Segurança crítica |
+| **Segurança** | Logs de Auditoria | ❌ Não Implementado | 🟡 Médio | Compliance |
+| **Testes** | Testes Automatizados | ❌ Não Implementado | 🔴 Alto | Qualidade e confiabilidade |
+| **Integração** | APIs Externas | ❌ Não Implementado | 🟡 Médio | eSocial, bancos, etc. |
+
+## Planilha 2: Mapa de Funcionalidades Críticas
+
+| Funcionalidade | Status | Impacto Usuário | Responsável | Prazo | Dependências |
+|----------------|--------|-----------------|-------------|-------|--------------|
+| **Controle de Orçamento** | ❌ Pendente | 🔴 Crítico | Dev Frontend | 2 semanas | Backend Financeiro |
+| **Folha de Pagamento** | ❌ Pendente | 🔴 Crítico | Dev Backend | 3 semanas | Banco de Dados |
+| **Controle de Jornada** | ❌ Pendente | 🔴 Crítico | Dev Mobile | 2 semanas | Geolocalização |
+| **Employer-Employee** | ❌ Pendente | 🔴 Crítico | Dev Full-Stack | 4 semanas | Autenticação |
+| **Testes Automatizados** | ❌ Pendente | 🔴 Crítico | QA/Dev | 1 semana | - |
+| **Autenticação Multi-Fator** | ❌ Pendente | 🟡 Importante | Dev Security | 2 semanas | SMS/Email |
+| **Gestão de Documentos** | ❌ Pendente | 🟡 Importante | Dev Backend | 3 semanas | OCR API |
+| **Relatórios Financeiros** | ❌ Pendente | 🟡 Importante | Dev Frontend | 2 semanas | Dados Financeiros |
+| **Integração Bancária** | ❌ Pendente | 🟡 Importante | Dev Backend | 4 semanas | APIs Bancárias |
+| **Dashboard Executivo** | ❌ Pendente | 🟢 Desejável | Dev Frontend | 1 semana | Todas as funcionalidades |
+
+## Planilha 3: Checklist de Acompanhamento
+
+| Item | Responsável | Prazo | Status | Bloqueios | Ações |
+|------|-------------|-------|--------|-----------|-------|
+| Setup Ambiente Mobile | Dev Mobile | 1 semana | ⏳ Em Andamento | - | Configurar React Native |
+| Setup Ambiente Web | Dev Frontend | 1 semana | ⏳ Em Andamento | - | Configurar Webpack |
+| Banco de Dados Financeiro | Dev Backend | 2 semanas | ❌ Pendente | - | Criar tabelas |
+| API Autenticação | Dev Backend | 2 semanas | ❌ Pendente | - | Implementar JWT |
+| Tela Controle Orçamento | Dev Frontend | 2 semanas | ❌ Pendente | Backend | Criar componentes |
+| Tela Folha Pagamento | Dev Frontend | 3 semanas | ❌ Pendente | Backend | Criar formulários |
+| App Controle Jornada | Dev Mobile | 2 semanas | ❌ Pendente | Geolocalização | Implementar GPS |
+| Testes Unitários | QA | 1 semana | ❌ Pendente | - | Configurar Jest |
+| Testes E2E | QA | 2 semanas | ❌ Pendente | Funcionalidades | Configurar Cypress |
+| Deploy Produção | DevOps | 1 semana | ❌ Pendente | Testes | Configurar CI/CD |
+
+## Planilha 4: Métricas de Progresso
+
+| Métrica | Meta | Atual | Progresso |
+|---------|------|-------|-----------|
+| Funcionalidades Críticas Implementadas | 10 | 0 | 0% |
+| Testes Automatizados | 80% | 0% | 0% |
+| Cobertura de Código | 90% | 0% | 0% |
+| Performance (Lighthouse) | 90+ | 0 | 0% |
+| Segurança (OWASP) | A+ | F | 0% |
+| Usabilidade (UX) | 85+ | 0 | 0% |
+
+## Planilha 5: Riscos e Mitigações
+
+| Risco | Probabilidade | Impacto | Mitigação | Responsável |
+|-------|---------------|---------|-----------|-------------|
+| Atraso nas Funcionalidades Críticas | Alta | Alto | Priorizar MVP, sprints menores | Product Owner |
+| Problemas de Performance | Média | Médio | Testes de carga, otimização | Dev Backend |
+| Falhas de Segurança | Baixa | Alto | Code review, testes de segurança | Dev Security |
+| Complexidade Mobile/Web | Alta | Médio | Documentação, padrões claros | Tech Lead |
+| Dependências Externas | Média | Médio | Planos B, mocks para desenvolvimento | Dev Backend |
+| Falta de Testes | Alta | Alto | Implementar TDD, CI/CD | QA/Dev |
+
+---
+*Arquivo gerado em: $(Get-Date)*
+*Versão: 1.0*
+*Projeto: DOM-V2* 

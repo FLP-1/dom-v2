@@ -1,0 +1,14 @@
+
+/* CSS para Dashboard - DOM v2 */
+
+.dashboard {
+  /* Estilos base do componente */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .dashboard {
+    /* Ajustes para mobile */
+  }
+}
+    

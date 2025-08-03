@@ -1,0 +1,14 @@
+
+/* CSS para Card - DOM v2 */
+
+.card {
+  /* Estilos base do componente */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card {
+    /* Ajustes para mobile */
+  }
+}
+    

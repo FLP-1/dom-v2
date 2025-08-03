@@ -1,0 +1,14 @@
+
+/* CSS para Button - DOM v2 */
+
+.button {
+  /* Estilos base do componente */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .button {
+    /* Ajustes para mobile */
+  }
+}
+    

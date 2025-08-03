@@ -1,0 +1,177 @@
+{
+  "timestamp": "2025-07-26T23:10:20.068Z",
+  "configurador": {
+    "nome": "📱 Configurador Mobile e Emulador",
+    "versao": "1.0.0",
+    "status": "ATIVO"
+  },
+  "ambiente": {
+    "android": {
+      "emulatorPath": null,
+      "avdPath": null
+    },
+    "ios": {
+      "simulatorPath": null,
+      "xcodePath": null
+    },
+    "telas": {
+      "breakpoints": {
+        "mobile": 768,
+        "tablet": 1024,
+        "desktop": 1200
+      },
+      "orientacoes": [
+        "portrait",
+        "landscape"
+      ]
+    }
+  },
+  "telasMobile": {
+    "employer": {
+      "nome": "Empregador Mobile",
+      "breakpoints": {
+        "mobile": {
+          "grid": "1fr",
+          "padding": "15px",
+          "fontSize": "14px"
+        },
+        "tablet": {
+          "grid": "300px 1fr",
+          "padding": "20px",
+          "fontSize": "16px"
+        }
+      },
+      "componentes": {
+        "header": {
+          "mobile": {
+            "height": "60px",
+            "padding": "10px 15px"
+          }
+        },
+        "sidebar": {
+          "mobile": {
+            "position": "bottom",
+            "height": "60px",
+            "display": "flex",
+            "flexDirection": "row"
+          }
+        },
+        "cards": {
+          "mobile": {
+            "margin": "10px 0",
+            "padding": "15px"
+          }
+        }
+      }
+    },
+    "employee": {
+      "nome": "Funcionário Mobile",
+      "breakpoints": {
+        "mobile": {
+          "grid": "1fr",
+          "padding": "15px",
+          "fontSize": "14px"
+        }
+      },
+      "componentes": {
+        "taskList": {
+          "mobile": {
+            "swipeActions": true,
+            "pullToRefresh": true
+          }
+        },
+        "calendar": {
+          "mobile": {
+            "view": "week",
+            "touchEnabled": true
+          }
+        }
+      }
+    },
+    "family": {
+      "nome": "Família Mobile",
+      "breakpoints": {
+        "mobile": {
+          "grid": "1fr",
+          "padding": "15px",
+          "fontSize": "14px"
+        }
+      },
+      "componentes": {
+        "chat": {
+          "mobile": {
+            "fullscreen": true,
+            "keyboardAvoiding": true
+          }
+        },
+        "notifications": {
+          "mobile": {
+            "position": "top",
+            "swipeToDismiss": true
+          }
+        }
+      }
+    }
+  },
+  "emulador": {
+    "android": {
+      "dispositivos": [
+        {
+          "nome": "Pixel 7",
+          "resolucao": "1080x2400",
+          "densidade": "420dpi",
+          "api": "API 34"
+        },
+        {
+          "nome": "Galaxy S23",
+          "resolucao": "1080x2340",
+          "densidade": "450dpi",
+          "api": "API 34"
+        },
+        {
+          "nome": "iPhone 15",
+          "resolucao": "1179x2556",
+          "densidade": "460dpi",
+          "api": "API 34"
+        }
+      ],
+      "comandos": {
+        "listar": "emulator -list-avds",
+        "iniciar": "emulator -avd {nome}",
+        "criar": "avdmanager create avd -n {nome} -k {api}"
+      }
+    },
+    "web": {
+      "dispositivos": [
+        {
+          "nome": "Mobile S",
+          "largura": 375,
+          "altura": 667
+        },
+        {
+          "nome": "Mobile M",
+          "largura": 414,
+          "altura": 896
+        },
+        {
+          "nome": "Tablet",
+          "largura": 768,
+          "altura": 1024
+        }
+      ]
+    }
+  },
+  "recomendacoes": {
+    "android": "❌ Instalar Android Studio e SDK",
+    "ios": "❌ Apenas disponível no macOS",
+    "web": "✅ Usar DevTools do navegador para mobile debugging"
+  },
+  "proximosPassos": [
+    "1. Instalar Android Studio (se não instalado)",
+    "2. Criar AVD (Android Virtual Device)",
+    "3. Adaptar telas para mobile",
+    "4. Testar em diferentes dispositivos",
+    "5. Implementar gestos touch",
+    "6. Otimizar performance mobile"
+  ]
+}
