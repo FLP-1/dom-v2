@@ -19,8 +19,8 @@ function validateInput(data: any): boolean {
 
 
 function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}
-
+  console.error(`[ERROR] ${context}:`, error);
+}
 
 function assert(condition: any, message: string): void {
   if (!condition) {
@@ -1019,16 +1019,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-
-
-
-Referências externas:
- * - Node.js: https://nodejs.org/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * - Express: https://expressjs.com/
- * - Prisma: https://www.prisma.io/docs
- * - React: https://react.dev/
- * - Jest: https://jestjs.io/docs
- * - React Native: https://reactnative.dev/
- * - Webpack: https://webpack.js.org/
-  */

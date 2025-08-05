@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_ENDPOINTS, STORAGE_KEYS, ERROR_MESSAGES } from '../utils/constants';
 
 interface ApiResponse<T> {
@@ -21,7 +20,7 @@ class ApiService {
 
   private async getAuthToken(): Promise<string | null> {
     try {
-      return await AsyncStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+      return localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
     } catch (error) {
       console.error('Erro ao obter token:', error);
       return null;
