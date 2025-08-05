@@ -81,6 +81,7 @@ interface DashboardScreenProps {
   onNavigateToHR: () => void;
   onNavigateToAdvancedTimeCard: () => void;
   onNavigateToPaymentIntegrations: () => void;
+  onNavigateToReports: () => void;
 }
 
 export const DashboardScreen: React.FC<DashboardScreenProps> = ({
@@ -94,7 +95,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   onNavigateToFinance,
   onNavigateToHR,
   onNavigateToAdvancedTimeCard,
-  onNavigateToPaymentIntegrations
+  onNavigateToPaymentIntegrations,
+  onNavigateToReports
 }) => {
   const { dashboardData, loading, error, lastRefresh, refreshDashboard } = useDashboard();
   const [notifications, setNotifications] = React.useState<Array<{id: string, title: string, message: string}>>([]);
@@ -271,6 +273,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
           <Pressable style={styles.actionButton} onPress={onNavigateToPaymentIntegrations}>
             <Text style={styles.actionButtonText}>💳 Integrações de Pagamento</Text>
+          </Pressable>
+
+          <Pressable style={styles.actionButton} onPress={onNavigateToReports}>
+            <Text style={styles.actionButtonText}>📊 Relatórios</Text>
           </Pressable>
         </View>
 

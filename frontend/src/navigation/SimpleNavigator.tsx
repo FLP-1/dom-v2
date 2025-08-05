@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Modal } from 'react-native';
-import { DashboardScreen } from '../screens/dashboard-screen-clean';
+import { DashboardScreen } from '../screens/dashboard-screen';
 import { UserProfileType } from '../utils/user-profiles';
+import { UsersScreen } from '../screens/users-screen';
+import { FinanceScreen } from '../screens/finance-screen';
+import { HRScreen } from '../screens/hr-screen';
+import { AdvancedTimeCardScreen } from '../screens/advanced-timecard-screen';
+import { PaymentIntegrationsScreen } from '../screens/payment-integrations-screen';
+import { ReportsScreen } from '../screens/reports-screen';
+import { NotificationsScreen } from '../screens/notifications-screen';
 
 interface User {
   id: string;
@@ -10,7 +17,7 @@ interface User {
   profile: UserProfileType;
 }
 
-type Screen = 'dashboard' | 'tasks' | 'notifications' | 'payroll' | 'budget' | 'employees' | 'profile' | 'navigation';
+type Screen = 'dashboard' | 'tasks' | 'notifications' | 'payroll' | 'budget' | 'employees' | 'profile' | 'navigation' | 'users' | 'finance' | 'hr' | 'advancedTimeCard' | 'paymentIntegrations' | 'reports';
 
 const SimpleNavigator: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('dashboard');
@@ -38,6 +45,12 @@ const SimpleNavigator: React.FC = () => {
   const handleNavigateToNotifications = () => handleNavigate('notifications');
   const handleNavigateToPayroll = () => handleNavigate('payroll');
   const handleNavigateToNavigation = () => handleNavigate('navigation');
+  const handleNavigateToUsers = () => handleNavigate('users');
+  const handleNavigateToFinance = () => handleNavigate('finance');
+  const handleNavigateToHR = () => handleNavigate('hr');
+  const handleNavigateToAdvancedTimeCard = () => handleNavigate('advancedTimeCard');
+  const handleNavigateToPaymentIntegrations = () => handleNavigate('paymentIntegrations');
+  const handleNavigateToReports = () => handleNavigate('reports');
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -50,6 +63,12 @@ const SimpleNavigator: React.FC = () => {
             onNavigateToNotifications={handleNavigateToNotifications}
             onNavigateToPayroll={handleNavigateToPayroll}
             onNavigateToNavigation={handleNavigateToNavigation}
+            onNavigateToUsers={handleNavigateToUsers}
+            onNavigateToFinance={handleNavigateToFinance}
+            onNavigateToHR={handleNavigateToHR}
+            onNavigateToAdvancedTimeCard={handleNavigateToAdvancedTimeCard}
+            onNavigateToPaymentIntegrations={handleNavigateToPaymentIntegrations}
+            onNavigateToReports={handleNavigateToReports}
           />
         );
       
@@ -195,6 +214,41 @@ const SimpleNavigator: React.FC = () => {
               </View>
             </View>
           </View>
+        );
+
+      case 'users':
+        return (
+          <UsersScreen onNavigateBack={() => handleNavigate('dashboard')} />
+        );
+
+      case 'finance':
+        return (
+          <FinanceScreen onNavigateBack={() => handleNavigate('dashboard')} />
+        );
+
+      case 'hr':
+        return (
+          <HRScreen onNavigateBack={() => handleNavigate('dashboard')} />
+        );
+
+      case 'advancedTimeCard':
+        return (
+          <AdvancedTimeCardScreen onNavigateBack={() => handleNavigate('dashboard')} />
+        );
+
+      case 'paymentIntegrations':
+        return (
+          <PaymentIntegrationsScreen onNavigateBack={() => handleNavigate('dashboard')} />
+        );
+
+      case 'reports':
+        return (
+          <ReportsScreen onNavigateBack={() => handleNavigate('dashboard')} />
+        );
+
+      case 'notifications':
+        return (
+          <NotificationsScreen onNavigateBack={() => handleNavigate('dashboard')} />
         );
 
       default:
