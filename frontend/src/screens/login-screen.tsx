@@ -46,13 +46,7 @@ import {
     Pressable,
     View,
 } from 'react-native';
-
-
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}
+import { useAuth } from '../hooks/useAuth';
 import { getMessage } from '../utils/messages';
 
 // Componente Tooltip simples
@@ -98,12 +92,13 @@ interface LoginScreenProps {
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
+  const { login, loading, error } = useAuth();
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [showCpfTooltip, setShowCpfTooltip] = useState(false);
   const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async () => {
     if (!cpf || !password) {
@@ -116,39 +111,32 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       return;
     }
 
-    setLoading(true);
+    // Preparar dados de login
+    const loginData = {
+      cpf,
+      password,
+      termsAccepted: acceptedTerms,
+      privacyAccepted: acceptedTerms,
+      marketingAccepted: false,
+      rememberMe,
+      biometricUsed: false
+    };
 
-    try {
-      // Enviar dados completos que o backend espera
-      const loginData = {
-        cpf,
-        password,
-        termsAccepted: acceptedTerms,
-        privacyAccepted: acceptedTerms,
-        marketingAccepted: false,
-        rememberMe: false,
-        biometricUsed: false
-      };
-
-      const response = await fetch('http://localhost:3001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
+    // Tentar login usando o hook
+    const success = await login(loginData);
+    
+    if (success) {
+      // Login bem-sucedido, chamar callback
+      onLogin({
+        id: '1', // Será substituído pelos dados reais do backend
+        name: 'Usuário',
+        email: 'usuario@exemplo.com',
+        profile: 'EMPLOYER',
+        cpf: cpf
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        onLogin(data.user);
-      } else {
-        Alert.alert('Erro', data.error || 'Erro ao fazer login. Tente novamente.');
-      }
-    } catch (error) {
-      Alert.alert('Erro', 'Erro de conexão. Verifique sua internet.');
-    } finally {
-      setLoading(false);
+    } else {
+      // Erro já está sendo tratado pelo hook
+      Alert.alert('Erro', error || 'Erro ao fazer login. Tente novamente.');
     }
   };
 
@@ -200,6 +188,20 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
           </View>
           <Text style={styles.termsText}>
             Aceito os termos de uso e política de privacidade
+          </Text>
+        </Pressable>
+
+        {/* Checkbox Lembrar de Mim */}
+        <Pressable 
+          style={styles.termsContainer}
+          onPress={() => setRememberMe(!rememberMe)}
+          disabled={loading}
+        >
+          <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
+            {rememberMe && <Text style={styles.checkmark}>✓</Text>}
+          </View>
+          <Text style={styles.termsText}>
+            Lembrar de mim
           </Text>
         </Pressable>
 
