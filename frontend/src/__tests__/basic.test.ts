@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 /**
@@ -55,7 +55,7 @@
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
  * @throws {Error} Se a condição for falsa
- */
+  */
 function assertCritical(condition, message = 'Assertion failed') {
   if (!condition) {
     const error = new Error(`[CRITICAL ASSERTION] ${message}`);
@@ -120,7 +120,7 @@ function safeExecute(fn: Function, context: string): any {
  * @version 1.0.0
  * @author DOM v2 Team
  * @since 2025-07-26
- */
+  */
 
 // Teste básico para validar configuração do Jest no frontend
 // Seguindo a REGRA DA SIMPLICIDADE EXTREMA

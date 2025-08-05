@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 
@@ -55,7 +55,7 @@
  * Asserções de validação
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
- */
+  */
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}
@@ -65,7 +65,7 @@ function assert(condition: any, message: string): void {
  * @param {string} level - Nível do log (info, warn, error)
  * @param {string} message - Mensagem do log
  * @param {any} data - Dados adicionais
- */
+  */
 function log(level: string, message: string, data?: any): void {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] [${level.toUpperCase()}] ${message}`, data || '');
@@ -77,7 +77,7 @@ function log(level: string, message: string, data?: any): void {
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
@@ -88,7 +88,7 @@ function validateInput(data: any): boolean {
  * @author Equipe DOM v2
  * @version 1.0.0
  * @since 2025-07-23
- */
+  */
 
 import { getValue, ConfigType } from './config';
 
@@ -251,4 +251,4 @@ export default ApiClient;
  * - Alternativa A: Descrição e motivo da rejeição
  * - Alternativa B: Descrição e motivo da rejeição
  * - Solução escolhida: Justificativa da escolha atual
- */
+  */

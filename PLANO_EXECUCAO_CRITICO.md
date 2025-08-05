@@ -1,0 +1,194 @@
+# 🎯 PLANO DE EXECUÇÃO CRÍTICO - DOM v2
+## Garantia de Continuidade Independente do Chat
+
+### 📊 DIAGNÓSTICO CRÍTICO ATUAL
+- **Status Real**: 20% (não 81.2%)
+- **Problema**: Foco em infraestrutura, não funcionalidades
+- **Objetivo**: MVP funcional em 2-3 semanas
+
+### 🚨 REGRAS CRÍTICAS DE EXECUÇÃO
+
+#### ❌ NÃO FAZER (PRIORIDADE ZERO)
+1. **NÃO mexer em CI/CD**
+2. **NÃO criar documentação**
+3. **NÃO otimizar performance**
+4. **NÃO implementar features avançadas**
+5. **NÃO mexer em infraestrutura**
+
+#### ✅ FAZER (PRIORIDADE MÁXIMA)
+1. **Implementar funcionalidades visíveis**
+2. **Criar fluxos completos**
+3. **Conectar frontend-backend**
+4. **Testar com usuários reais**
+
+### 📅 CRONOGRAMA CRÍTICO
+
+#### SEMANA 1: DASHBOARD REAL
+**Objetivos:**
+- Dashboard com dados reais do backend
+- Navegação entre telas
+- Métricas funcionais
+- Layout responsivo
+
+**Arquivos a modificar:**
+```
+C:\dom-v2\frontend\src\screens\Dashboard.tsx
+C:\dom-v2\frontend\src\components\Dashboard.tsx
+C:\dom-v2\backend\src\routes\dashboard.ts
+C:\dom-v2\backend\src\controllers\dashboard.ts
+```
+
+**Critérios de sucesso:**
+- [ ] Dashboard carrega dados do backend
+- [ ] Navegação funciona
+- [ ] Métricas são exibidas
+- [ ] Layout responsivo
+
+#### SEMANA 2: AUTENTICAÇÃO COMPLETA
+**Objetivos:**
+- Login funcional
+- Registro de usuários
+- Sessões persistentes
+- Middleware de autenticação
+
+**Arquivos a modificar:**
+```
+C:\dom-v2\frontend\src\screens\Login.tsx
+C:\dom-v2\frontend\src\components\auth\Login.tsx
+C:\dom-v2\backend\src\routes\auth.ts
+C:\dom-v2\backend\src\middleware\auth.ts
+```
+
+**Critérios de sucesso:**
+- [ ] Login funciona
+- [ ] Registro funciona
+- [ ] Sessões persistem
+- [ ] Rotas protegidas
+
+#### SEMANA 3: CRUD USUÁRIOS
+**Objetivos:**
+- Listagem de usuários
+- Criação de usuários
+- Edição de perfis
+- Exclusão de usuários
+
+**Arquivos a modificar:**
+```
+C:\dom-v2\frontend\src\screens\Users.tsx
+C:\dom-v2\frontend\src\components\users\
+C:\dom-v2\backend\src\routes\users.ts
+C:\dom-v2\backend\src\controllers\users.ts
+```
+
+### 🎯 METAS REALISTAS
+
+#### 2 SEMANAS:
+- [ ] Dashboard funcional
+- [ ] Autenticação completa
+- [ ] CRUD básico de usuários
+
+#### 1 MÊS:
+- [ ] Sistema completo funcional
+- [ ] Gestão financeira básica
+- [ ] RH básico
+
+#### 2 MESES:
+- [ ] Versão completa para testes
+- [ ] Todas as funcionalidades core
+- [ ] Performance otimizada
+
+### 📋 CHECKLIST DE EXECUÇÃO DIÁRIA
+
+#### AO INICIAR TRABALHO:
+1. [ ] Verificar status atual
+2. [ ] Identificar próxima funcionalidade
+3. [ ] Implementar funcionalidade
+4. [ ] Testar integração
+5. [ ] Documentar progresso
+
+#### AO FINALIZAR TRABALHO:
+1. [ ] Commit das mudanças (C:\dom-v2)
+2. [ ] Push para GitHub (C:\dom-v2)
+3. [ ] Atualizar status no PLANO_EXECUCAO_CRITICO.md
+4. [ ] Definir próxima tarefa
+
+### 🔧 COMANDOS ESSENCIAIS
+
+```powershell
+# Desenvolvimento
+# Diretório: C:\dom-v2\frontend
+cd C:\dom-v2\frontend
+npm run web
+
+# Diretório: C:\dom-v2\backend  
+cd C:\dom-v2\backend
+npm run dev
+
+# Testes
+# Diretório: C:\dom-v2\frontend
+cd C:\dom-v2\frontend
+npm test
+
+# Diretório: C:\dom-v2\backend
+cd C:\dom-v2\backend
+npm test
+
+# Build
+# Diretório: C:\dom-v2\frontend
+cd C:\dom-v2\frontend
+npm run build
+
+# Diretório: C:\dom-v2\backend
+cd C:\dom-v2\backend
+npm run build
+
+# Comandos de Git (Diretório: C:\dom-v2)
+cd C:\dom-v2
+git add .
+git commit -m "Implementação funcionalidade X"
+git push origin main
+
+# Verificar status do projeto
+# Diretório: C:\dom-v2
+cd C:\dom-v2
+git status
+git log --oneline -5
+```
+
+### 📊 MÉTRICAS DE PROGRESSO
+
+#### FUNCIONALIDADES CORE:
+- [ ] Dashboard (0/100%)
+- [ ] Autenticação (0/100%)
+- [ ] CRUD Usuários (0/100%)
+- [ ] Gestão Financeira (0/100%)
+- [ ] RH (0/100%)
+
+#### INTEGRAÇÃO:
+- [ ] Frontend-Backend (0/100%)
+- [ ] Validações (0/100%)
+- [ ] Tratamento de erros (0/100%)
+
+### 🚨 PONTOS DE ATENÇÃO
+
+#### SE ENCONTRAR PROBLEMAS:
+1. **NÃO parar para otimizar**
+2. **Implementar solução simples**
+3. **Continuar com próxima funcionalidade**
+4. **Documentar problema para depois**
+
+#### SE FICAR PERDIDO:
+1. **Voltar ao cronograma**
+2. **Implementar próxima funcionalidade**
+3. **Focar no que é visível**
+4. **Não mexer em infraestrutura**
+
+### 📞 CONTATO DE EMERGÊNCIA
+- **Problema crítico**: Implementar solução simples
+- **Dúvida técnica**: Seguir padrões existentes
+- **Bloqueio**: Pular para próxima funcionalidade
+
+---
+**ÚLTIMA ATUALIZAÇÃO**: 2025-08-03
+**PRÓXIMA REVISÃO**: Semanal
+**RESPONSÁVEL**: Qualquer assistente ativo 

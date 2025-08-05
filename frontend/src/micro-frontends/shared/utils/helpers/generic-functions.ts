@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 /**
@@ -55,7 +55,7 @@
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
  * @throws {Error} Se a condição for falsa
- */
+  */
 function assertCritical(condition, message = 'Assertion failed') {
   if (!condition) {
     const error = new Error(`[CRITICAL ASSERTION] ${message}`);
@@ -74,7 +74,7 @@ assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
  * @description Funções utilitárias que podem ser usadas em múltiplas funcionalidades
  * @author DOM Team v2
  * @version 2.0.0
- */
+  */
 
 export type NotificationType = 
   | 'TASK_REMINDER' | 'PAYMENT_DUE' | 'SYSTEM_UPDATE' | 'HELP_TIP' 
@@ -162,7 +162,7 @@ export interface Decision {
  * @param customMessage - Mensagem personalizada (opcional)
  * @param options - Opções adicionais (opcional)
  * @returns Objeto da notificação criada
- */
+  */
 export function createSystemNotification(
   type: NotificationType, 
   customMessage: string | null = null, 
@@ -248,7 +248,7 @@ export function createSystemNotification(
  * @param data - Dados a serem validados
  * @param rules - Regras de validação
  * @returns Resultado da validação
- */
+  */
 export function validateInput(data: Record<string, any>, rules: Record<string, ValidationRule>): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -324,7 +324,7 @@ export function validateInput(data: Record<string, any>, rules: Record<string, V
  * @param format - Formato desejado
  * @param customFormat - Formato customizado (opcional)
  * @returns Data formatada
- */
+  */
 export function formatDate(date: Date | string, format: 'short' | 'long' | 'iso' = 'short', customFormat?: string): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
 
@@ -354,7 +354,7 @@ export function formatDate(date: Date | string, format: 'short' | 'long' | 'iso'
  * @param func - Função a ser executada
  * @param delay - Delay em milissegundos
  * @returns Função com debounce
- */
+  */
 export function debounce<T extends (...args: any[]) => any>(func: T, delay: number): (...args: Parameters<T>) => void {
   let timeoutId: NodeJS.Timeout;
   
@@ -369,7 +369,7 @@ export function debounce<T extends (...args: any[]) => any>(func: T, delay: numb
  * @param func - Função a ser executada
  * @param limit - Limite de execuções por segundo
  * @returns Função com throttle
- */
+  */
 export function throttle<T extends (...args: any[]) => any>(func: T, limit: number): (...args: Parameters<T>) => void {
   let inThrottle: boolean;
   
@@ -386,7 +386,7 @@ export function throttle<T extends (...args: any[]) => any>(func: T, limit: numb
  * Gerar ID único
  * @param prefix - Prefixo para o ID
  * @returns ID único
- */
+  */
 export function generateUniqueId(prefix: string = ''): string {
   const timestamp = Date.now().toString(36);
   const random = Math.random().toString(36).substr(2, 9);
@@ -399,7 +399,7 @@ export function generateUniqueId(prefix: string = ''): string {
  * @param value - Valor a ser procurado
  * @param field - Campo específico (opcional)
  * @returns True se encontrado
- */
+  */
 export function existsInArray<T>(array: T[], value: any, field?: keyof T): boolean {
   if (field) {
     return array.some(item => item[field] === value);
@@ -412,7 +412,7 @@ export function existsInArray<T>(array: T[], value: any, field?: keyof T): boole
  * @param array - Array original
  * @param field - Campo para comparação (opcional)
  * @returns Array sem duplicatas
- */
+  */
 export function removeDuplicates<T>(array: T[], field?: keyof T): T[] {
   if (field) {
     const seen = new Set();
@@ -434,7 +434,7 @@ export function removeDuplicates<T>(array: T[], field?: keyof T): T[] {
  * @param source - Fonte da informação
  * @param sourceType - Tipo da fonte
  * @returns Resultado da validação
- */
+  */
 export function validateInformationSource(
   information: string, 
   source: InformationSource, 
@@ -476,7 +476,7 @@ export function validateInformationSource(
  * @param selectedOption - Opção selecionada
  * @param reason - Motivo da seleção
  * @returns Resultado da validação
- */
+  */
 export function validateAlternatives(
   alternatives: Alternative[], 
   selectedOption: string, 
@@ -523,7 +523,7 @@ export function validateAlternatives(
  * @param assumptions - Lista de suposições
  * @param validations - Validações realizadas
  * @returns Resultado da validação
- */
+  */
 export function validateAssumptions(
   assumptions: Assumption[], 
   validations: Record<string, boolean>
@@ -562,7 +562,7 @@ export function validateAssumptions(
  * @param testCases - Casos de teste
  * @param results - Resultados dos testes
  * @returns Resultado da validação
- */
+  */
 export function validateLogic(
   logic: string, 
   testCases: LogicTest[], 
@@ -599,7 +599,7 @@ export function validateLogic(
  * Checklist de pensamento crítico
  * @param decision - Decisão a ser avaliada
  * @returns Checklist completo
- */
+  */
 export function criticalThinkingChecklist(decision: Decision): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];

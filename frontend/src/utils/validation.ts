@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,14 +47,14 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 /**
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data) {
   if (!data) return false;
   if (typeof data === 'string' && data.trim().length === 0) return false;
@@ -74,7 +74,7 @@ if (!validateInput(inputData)) {
  * Asserções de validação
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
- */
+  */
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}
@@ -84,19 +84,19 @@ function assert(condition: any, message: string): void {
  * @param {string} level - Nível do log (info, warn, error)
  * @param {string} message - Mensagem do log
  * @param {any} data - Dados adicionais
- */
+  */
 function log(level: string, message: string, data?: any): void {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] [${level.toUpperCase()}] ${message}`, data || '');
-}`);
-  }
-}/**
+}
+
+/**
  * @fileoverview Sistema centralizado de validação para o DOM v2
  * @description Centraliza todas as validações do sistema para eliminar hardcode
  * @author Equipe DOM v2
  * @version 1.0.0
  * @since 2025-07-22
- */
+  */
 
 import { getMessage, MessageType, MessageCategory } from './messages';
 import { getValue } from './config';
@@ -491,24 +491,20 @@ export const getValidator = (type: ValidationType): ((value: any, rule: Validati
 };
 
 // Exportar sistema completo
-export default ValidationSystem; 
+export default ValidationSystem;
 
 /**
+ * Sistema de Validação Centralizado
  * 
-/**
+ * Este módulo centraliza todas as validações do sistema para eliminar
+ * hardcode e facilitar a manutenção.
+ * 
  * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */
-
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */
-Referências externas:
+ * - Alternativa A: Validações hardcoded em cada componente
+ * - Alternativa B: Sistema simples de validação
+ * - Solução escolhida: Sistema centralizado com validadores customizáveis
+ * 
+ * Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
  * - Express: https://expressjs.com/

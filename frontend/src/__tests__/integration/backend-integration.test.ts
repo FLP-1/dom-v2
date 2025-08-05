@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 /**
@@ -55,7 +55,7 @@
  * @param {any} value - Valor a ser validado
  * @param {string} expectedType - Tipo esperado
  * @returns {boolean} - True se o tipo está correto
- */
+  */
 function validateType(value, expectedType) {
   switch (expectedType) {
     case 'string':
@@ -86,7 +86,7 @@ if (!validateType(data, 'object')) {
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
  * @throws {Error} Se a condição for falsa
- */
+  */
 function assertCritical(condition, message = 'Assertion failed') {
   if (!condition) {
     const error = new Error(`[CRITICAL ASSERTION] ${message}`);
@@ -105,7 +105,7 @@ assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data) {
   if (!data) return false;
   if (typeof data === 'string' && data.trim().length === 0) return false;
@@ -139,7 +139,7 @@ if (!validateInput(inputData)) {
  * @see
  * - docs/directives/diretivas-pensamento-critico.md
  * - docs/development/processo-garantia-diretivas.md
- */
+  */
 
 import { apiClient } from '../utils/core/api-client';
 

@@ -1,11 +1,4 @@
-/**
- * @fileoverview Componente CPF/CNPJ Input com Validação Completa
- * @directory frontend/src/components
- * @description Componente de input para CPF/CNPJ com validação de dígitos verificadores + backend
- * @created 2025-01-27
- * @lastModified 2025-01-27
- * @author DOM v2 Team
- */
+
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
@@ -264,7 +257,7 @@ const CPFCNPJInput: React.FC<CPFCNPJInputProps> = ({
         )}
       </View>
       
-      {/* Indicador de tipo de documento */}
+      {/* Indicador de tipo de documento  */}
       {value.length > 0 && (
         <View style={styles.typeIndicator}>
           <Text style={[
@@ -277,7 +270,7 @@ const CPFCNPJInput: React.FC<CPFCNPJInputProps> = ({
         </View>
       )}
       
-      {/* Indicador de validação */}
+      {/* Indicador de validação  */}
       {value.length > 0 && (
         <View style={styles.validationIndicator}>
           <Text style={[
@@ -289,7 +282,7 @@ const CPFCNPJInput: React.FC<CPFCNPJInputProps> = ({
         </View>
       )}
       
-      {/* Mensagem de erro */}
+      {/* Mensagem de erro  */}
       {error && (
         <Text style={styles.errorText}>{error}</Text>
       )}

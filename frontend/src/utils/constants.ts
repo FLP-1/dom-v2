@@ -12,6 +12,10 @@ export const API_ENDPOINTS = {
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
   },
+  DASHBOARD: {
+    DATA: '/dashboard',
+    STATS: '/dashboard/stats',
+  },
   TASKS: {
     LIST: '/tasks',
     CREATE: '/tasks',

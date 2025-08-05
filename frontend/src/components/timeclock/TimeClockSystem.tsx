@@ -1,61 +1,11 @@
 
-/**
- * Consideração de alternativas e trade-offs
- * 
- * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
- */
 
 
-/**
- * Referências externas e fontes de informação
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
- */
 
 
-/**
- * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error, debug)
- * @param {string} message - Mensagem do log
- * @param {object} data - Dados adicionais
- */
+
+
+
 function logStructured(level, message, data = {}) {
   const logEntry = {
     timestamp: new Date().toISOString(),
@@ -92,11 +42,7 @@ function logStructured(level, message, data = {}) {
 logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
- */
+
 function validateInput(data) {
   if (!data) return false;
   if (typeof data === 'string' && data.trim().length === 0) return false;
@@ -112,12 +58,7 @@ if (!validateInput(inputData)) {
 
 
 
-/**
- * Validação de tipos
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
- */
+
 function validateType(value: any, expectedType: string): boolean {
   switch (expectedType) {
     case 'string':
@@ -135,22 +76,12 @@ function validateType(value: any, expectedType: string): boolean {
   }
 }
 
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
- */
+
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
   }
-}/**
- * @fileoverview Sistema de Controle de Ponto
- * @directory frontend/src/components/timeclock
- * @description Sistema de ponto eletrônico com geolocalização
- * @created 2025-07-26
- * @author DOM Team v2
- */
+}
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -465,7 +396,7 @@ export const TimeClockSystem: React.FC = () => {
         )}
       </View>
 
-      {/* Lista de Funcionários */}
+      {/* Lista de Funcionários  */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Funcionários</Text>
         {employees.map(employee => {
@@ -513,7 +444,7 @@ export const TimeClockSystem: React.FC = () => {
         })}
       </View>
 
-      {/* Registros Recentes */}
+      {/* Registros Recentes  */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Registros Recentes</Text>
         {timeRecords.slice(0, 5).map(record => (
@@ -547,7 +478,7 @@ export const TimeClockSystem: React.FC = () => {
         ))}
       </View>
 
-      {/* Botão Relatório */}
+      {/* Botão Relatório  */}
       <View style={styles.section}>
         <TouchableOpacity
           style={[styles.button, styles.reportButton]}
@@ -557,7 +488,7 @@ export const TimeClockSystem: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Modal de Registro de Ponto */}
+      {/* Modal de Registro de Ponto  */}
       <Modal
         visible={showEntry}
         animationType="slide"
@@ -579,7 +510,7 @@ export const TimeClockSystem: React.FC = () => {
         </View>
       </Modal>
 
-      {/* Modal do Histórico */}
+      {/* Modal do Histórico  */}
       <Modal
         visible={showHistory}
         animationType="slide"
@@ -601,7 +532,7 @@ export const TimeClockSystem: React.FC = () => {
         </View>
       </Modal>
 
-      {/* Modal do Relatório */}
+      {/* Modal do Relatório  */}
       <Modal
         visible={showReport}
         animationType="slide"
@@ -803,14 +734,7 @@ const styles = StyleSheet.create({
 
 export default TimeClockSystem; 
 
-/**
- * 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */
+
 Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
@@ -820,4 +744,4 @@ Referências externas:
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */

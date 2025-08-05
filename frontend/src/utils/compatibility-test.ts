@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 
@@ -55,7 +55,7 @@
  * Asserções de validação
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
- */
+  */
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
@@ -67,7 +67,7 @@ function assert(condition: any, message: string): void {
  * @created 2024-12-19
  * @lastModified 2024-12-19
  * @author DOM Team v2
- */
+  */
 
 // Teste de importação do react-native-vector-icons
 export const testVectorIconsCompatibility = () => {
@@ -100,7 +100,7 @@ export const testVectorIconsCompatibility = () => {
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
@@ -203,4 +203,4 @@ export default runCompatibilityTests;
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */

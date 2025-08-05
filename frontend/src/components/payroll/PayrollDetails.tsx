@@ -1,61 +1,10 @@
 
-/**
- * Consideração de alternativas e trade-offs
- * 
- * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
- */
 
 
-/**
- * Referências externas e fontes de informação
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
- */
 
-/**
- * @fileoverview Detalhes da Folha de Pagamento
- * @directory frontend/src/components/payroll
- * @description Componente para visualizar detalhes completos da folha
- * @created 2025-07-26
- * @author DOM Team v2
- */
+
+
+
 
 import React from 'react';
 import {
@@ -66,50 +15,28 @@ import {
   StyleSheet,
 } from 'react-native';
 
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
- */
+
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
   return true;
 }
 
-/**
- * Tratamento de erros centralizado
- * @param {Error} error - Erro capturado
- * @param {string} context - Contexto onde o erro ocorreu
- */
+
 function handleError(error: Error, context: string): void {
   console.error(`[ERROR] ${context}
 
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
- */
+
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}
 
-/**
- * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error)
- * @param {string} message - Mensagem do log
- * @param {any} data - Dados adicionais
- */
+
 function log(level: string, message: string, data?: any): void {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}
 
-/**
- * Validação de tipos
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
- */
+
 function validateType(value: any, expectedType: string): boolean {
   switch (expectedType) {
     case 'string':
@@ -187,7 +114,7 @@ export const PayrollDetails: React.FC<PayrollDetailsProps> = ({
         </Text>
       </View>
 
-      {/* Status */}
+      {/* Status  */}
       <View style={styles.section}>
         <View style={styles.statusContainer}>
           <Text style={styles.statusLabel}>Status:</Text>
@@ -204,7 +131,7 @@ export const PayrollDetails: React.FC<PayrollDetailsProps> = ({
         </View>
       </View>
 
-      {/* Valores Principais */}
+      {/* Valores Principais  */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Valores Principais</Text>
         
@@ -232,7 +159,7 @@ export const PayrollDetails: React.FC<PayrollDetailsProps> = ({
         </View>
       </View>
 
-      {/* Deduções */}
+      {/* Deduções  */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Deduções</Text>
         
@@ -267,7 +194,7 @@ export const PayrollDetails: React.FC<PayrollDetailsProps> = ({
         </View>
       </View>
 
-      {/* Adições */}
+      {/* Adições  */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Adições</Text>
         
@@ -288,7 +215,7 @@ export const PayrollDetails: React.FC<PayrollDetailsProps> = ({
         </View>
       </View>
 
-      {/* FGTS */}
+      {/* FGTS  */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>FGTS</Text>
         
@@ -306,7 +233,7 @@ export const PayrollDetails: React.FC<PayrollDetailsProps> = ({
         </View>
       </View>
 
-      {/* Informações do Sistema */}
+      {/* Informações do Sistema  */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Informações do Sistema</Text>
         
@@ -332,7 +259,7 @@ export const PayrollDetails: React.FC<PayrollDetailsProps> = ({
         </View>
       </View>
 
-      {/* Botão Fechar */}
+      {/* Botão Fechar  */}
       <View style={styles.footer}>
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Text style={styles.closeButtonText}>Fechar</Text>
@@ -574,14 +501,7 @@ const styles = StyleSheet.create({
 
 export default PayrollDetails; 
 
-/**
- * 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */
+
 Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
@@ -591,4 +511,4 @@ Referências externas:
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */

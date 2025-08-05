@@ -1,61 +1,11 @@
 
-/**
- * Consideração de alternativas e trade-offs
- * 
- * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
- */
 
 
-/**
- * Referências externas e fontes de informação
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
- */
 
 
-/**
- * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error, debug)
- * @param {string} message - Mensagem do log
- * @param {object} data - Dados adicionais
- */
+
+
+
 function logStructured(level, message, data = {}) {
   const logEntry = {
     timestamp: new Date().toISOString(),
@@ -93,12 +43,7 @@ logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
 
-/**
- * Validação de tipos
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
- */
+
 function validateType(value: any, expectedType: string): boolean {
   switch (expectedType) {
     case 'string':
@@ -116,23 +61,12 @@ function validateType(value: any, expectedType: string): boolean {
   }
 }
 
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
- */
+
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
   }
-}/**
- * @fileoverview Dashboard Administrativo - ADMIN - DOM v2
- * @directory frontend/src/screens
- * @description Dashboard com logs de acesso e métricas de marketing
- * @created 2024-12-19
- * @lastModified 2024-12-19
- * @author DOM Team v2
- */
+}
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Platform, Dimensions, RefreshControl } from 'react-native';
@@ -140,11 +74,7 @@ import { Colors, Typography, Spacing, Borders, Shadows, Icons, Animations } from
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
- */
+
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
@@ -342,7 +272,7 @@ const AdminDashboard: React.FC = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      {/* Header Administrativo */}
+      {/* Header Administrativo  */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <Text style={styles.welcomeText}>
@@ -364,7 +294,7 @@ const AdminDashboard: React.FC = () => {
         </View>
       </View>
 
-      {/* Filtros de Período */}
+      {/* Filtros de Período  */}
       <View style={styles.periodFilter}>
         <Text style={styles.sectionTitle}>Período de Análise</Text>
         <View style={styles.filterButtons}>
@@ -382,7 +312,7 @@ const AdminDashboard: React.FC = () => {
         </View>
       </View>
 
-      {/* Métricas Principais */}
+      {/* Métricas Principais  */}
       <View style={styles.metricsContainer}>
         <Text style={styles.sectionTitle}>Métricas Principais</Text>
         <View style={styles.metricsGrid}>
@@ -440,7 +370,7 @@ const AdminDashboard: React.FC = () => {
         </View>
       </View>
 
-      {/* Distribuição por Perfil */}
+      {/* Distribuição por Perfil  */}
       <View style={styles.distributionContainer}>
         <Text style={styles.sectionTitle}>Distribuição por Perfil</Text>
         <Card variant="outlined" size="lg" profile="admin">
@@ -466,7 +396,7 @@ const AdminDashboard: React.FC = () => {
         </Card>
       </View>
 
-      {/* Logs de Acesso */}
+      {/* Logs de Acesso  */}
       <View style={styles.logsContainer}>
         <View style={styles.logsHeader}>
           <Text style={styles.sectionTitle}>Logs de Acesso Recentes</Text>
@@ -534,7 +464,7 @@ const AdminDashboard: React.FC = () => {
         ))}
       </View>
 
-      {/* Ações Administrativas */}
+      {/* Ações Administrativas  */}
       <View style={styles.actionsContainer}>
         <Text style={styles.sectionTitle}>Ações Administrativas</Text>
         <View style={styles.actionsGrid}>
@@ -781,14 +711,7 @@ const styles = StyleSheet.create({
 
 export default AdminDashboard; 
 
-/**
- * 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */
+
 Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
@@ -798,4 +721,4 @@ Referências externas:
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */

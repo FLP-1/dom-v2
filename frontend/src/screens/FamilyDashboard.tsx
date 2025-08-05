@@ -1,62 +1,10 @@
 
-/**
- * Consideração de alternativas e trade-offs
- * 
- * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
- */
 
 
-/**
- * Referências externas e fontes de informação
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
- */
 
-/**
- * @fileoverview Dashboard Familiar - FAMILY - DOM v2
- * @directory frontend/src/screens
- * @description Dashboard amigável e gamificado para famílias
- * @created 2024-12-19
- * @lastModified 2024-12-19
- * @author DOM Team v2
- */
+
+
+
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Platform, Dimensions } from 'react-native';
@@ -64,50 +12,28 @@ import { Colors, Typography, Spacing, Borders, Shadows, Icons, Animations } from
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
- */
+
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
   return true;
 }
 
-/**
- * Tratamento de erros centralizado
- * @param {Error} error - Erro capturado
- * @param {string} context - Contexto onde o erro ocorreu
- */
+
 function handleError(error: Error, context: string): void {
   console.error(`[ERROR] ${context}
 
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
- */
+
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}
 
-/**
- * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error)
- * @param {string} message - Mensagem do log
- * @param {any} data - Dados adicionais
- */
+
 function log(level: string, message: string, data?: any): void {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}
 
-/**
- * Validação de tipos
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
- */
+
 function validateType(value: any, expectedType: string): boolean {
   switch (expectedType) {
     case 'string':
@@ -365,7 +291,7 @@ const FamilyDashboard: React.FC = () => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.contentContainer}
     >
-      {/* Header Familiar */}
+      {/* Header Familiar  */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <Text style={styles.welcomeText}>
@@ -380,7 +306,7 @@ const FamilyDashboard: React.FC = () => {
         </View>
       </View>
 
-      {/* Ranking da Família */}
+      {/* Ranking da Família  */}
       <View style={styles.rankingContainer}>
         <Text style={styles.sectionTitle}>🏆 Ranking da Família</Text>
         <Card
@@ -416,7 +342,7 @@ const FamilyDashboard: React.FC = () => {
         </Card>
       </View>
 
-      {/* Estatísticas da Família */}
+      {/* Estatísticas da Família  */}
       <View style={styles.statsContainer}>
         <Text style={styles.sectionTitle}>📊 Estatísticas da Família</Text>
         <View style={styles.statsGrid}>
@@ -459,11 +385,11 @@ const FamilyDashboard: React.FC = () => {
         </View>
       </View>
 
-      {/* Filtros de Tarefas */}
+      {/* Filtros de Tarefas  */}
       <View style={styles.filtersContainer}>
         <Text style={styles.sectionTitle}>🔍 Filtrar Tarefas</Text>
         
-        {/* Filtro por Status */}
+        {/* Filtro por Status  */}
         <View style={styles.filterSection}>
           <Text style={styles.filterLabel}>Status:</Text>
           <View style={styles.filterButtons}>
@@ -481,7 +407,7 @@ const FamilyDashboard: React.FC = () => {
           </View>
         </View>
 
-        {/* Filtro por Dificuldade */}
+        {/* Filtro por Dificuldade  */}
         <View style={styles.filterSection}>
           <Text style={styles.filterLabel}>Dificuldade:</Text>
           <View style={styles.filterButtons}>
@@ -500,7 +426,7 @@ const FamilyDashboard: React.FC = () => {
         </View>
       </View>
 
-      {/* Lista de Tarefas Familiares */}
+      {/* Lista de Tarefas Familiares  */}
       <View style={styles.tasksContainer}>
         <View style={styles.tasksHeader}>
           <Text style={styles.sectionTitle}>
@@ -632,7 +558,7 @@ const FamilyDashboard: React.FC = () => {
         )}
       </View>
 
-      {/* Conquistas */}
+      {/* Conquistas  */}
       <View style={styles.achievementsContainer}>
         <Text style={styles.sectionTitle}>🏆 Conquistas</Text>
         <View style={styles.achievementsGrid}>
@@ -1046,14 +972,7 @@ const styles = StyleSheet.create({
 
 export default FamilyDashboard; 
 
-/**
- * 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */
+
 Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
@@ -1063,4 +982,4 @@ Referências externas:
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */

@@ -1,61 +1,11 @@
 
-/**
- * Consideração de alternativas e trade-offs
- * 
- * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
- */
 
 
-/**
- * Referências externas e fontes de informação
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
- */
 
 
-/**
- * Validação de tipos TypeScript/JavaScript
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
- */
+
+
+
 function validateType(value, expectedType) {
   switch (expectedType) {
     case 'string':
@@ -81,11 +31,7 @@ if (!validateType(data, 'object')) {
 }
 
 
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
- */
+
 function validateInput(data) {
   if (!data) return false;
   if (typeof data === 'string' && data.trim().length === 0) return false;
@@ -101,23 +47,12 @@ if (!validateInput(inputData)) {
 
 
 
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
- */
+
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
   }
-}/**
- * @fileoverview Tela de Login Premium - DOM v2
- * @directory frontend/src/screens
- * @description Login premium com LGPD, biometria e experiência impactante
- * @created 2024-12-19
- * @lastModified 2024-12-19
- * @author DOM Team v2
- */
+}
 
 import React, { useState, useEffect, useRef } from 'react';
 import {
@@ -509,27 +444,27 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
           }
         ]}
       >
-        {/* Logo Animada */}
+        {/* Logo Animada  */}
         <Animated.View style={[styles.logoContainer, { transform: [{ scale: logoScale }] }]}>
           <Text style={styles.logo}>🏠</Text>
           <Text style={styles.logoText}>DOM v2</Text>
           <Text style={styles.logoSubtext}>Gestão Doméstica Premium</Text>
         </Animated.View>
 
-        {/* Carrossel Motivacional */}
+        {/* Carrossel Motivacional  */}
         <View style={styles.carouselContainer}>
           <Animated.Text style={[styles.motivationalPhrase, { opacity: phraseOpacity }]}>
             "{getCurrentPhrase()}"
           </Animated.Text>
         </View>
 
-        {/* Formulário de Login */}
+        {/* Formulário de Login  */}
         <Card variant="elevated" size="lg" style={styles.loginCard}>
           <Text style={styles.welcomeText}>Bem-vindo de volta!</Text>
           <Text style={styles.welcomeSubtext}>Faça login para continuar</Text>
 
           <View style={styles.form}>
-            {/* Campo CPF */}
+            {/* Campo CPF  */}
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>CPF</Text>
               <TextInput
@@ -543,7 +478,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               />
             </View>
 
-            {/* Campo Senha */}
+            {/* Campo Senha  */}
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Senha</Text>
               <View style={styles.passwordContainer}>
@@ -566,7 +501,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               </View>
             </View>
 
-            {/* Opções de Login */}
+            {/* Opções de Login  */}
             <View style={styles.optionsContainer}>
               <View style={styles.optionRow}>
                 <Switch
@@ -591,7 +526,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               )}
             </View>
 
-            {/* Botões de Login */}
+            {/* Botões de Login  */}
             <View style={styles.buttonContainer}>
               <Button
                 title="Entrar"
@@ -617,7 +552,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               )}
             </View>
 
-            {/* Esqueci a Senha */}
+            {/* Esqueci a Senha  */}
             <TouchableOpacity
               style={styles.forgotPassword}
               onPress={() => setShowForgotPassword(true)}
@@ -627,7 +562,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
           </View>
         </Card>
 
-        {/* Termos e Privacidade */}
+        {/* Termos e Privacidade  */}
         <Card variant="outlined" size="md" style={styles.termsCard}>
           <Text style={styles.termsTitle}>Termos e Privacidade</Text>
           
@@ -682,7 +617,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
           </View>
         </Card>
 
-        {/* Credenciais de Teste */}
+        {/* Credenciais de Teste  */}
         <Card variant="outlined" size="sm" style={styles.testCard}>
           <Text style={styles.testTitle}>Credenciais de Teste</Text>
           <Text style={styles.testText}>CPF: 12345678901 (EMPLOYER) | Senha: 123456</Text>
@@ -692,7 +627,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         </Card>
       </Animated.View>
 
-      {/* Modal Esqueci a Senha */}
+      {/* Modal Esqueci a Senha  */}
       <Modal
         visible={showForgotPassword}
         transparent
@@ -736,7 +671,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         </View>
       </Modal>
 
-      {/* Modal Termos de Uso */}
+      {/* Modal Termos de Uso  */}
       <Modal
         visible={showTerms}
         transparent
@@ -748,7 +683,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             <Text style={styles.modalTitle}>Termos de Uso</Text>
             <ScrollView style={styles.modalContent}>
               <Text style={styles.modalText}>
-                {/* Conteúdo dos termos de uso */}
+                {/* Conteúdo dos termos de uso  */}
                 Termos de Uso do DOM v2...
               </Text>
             </ScrollView>
@@ -762,7 +697,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         </View>
       </Modal>
 
-      {/* Modal Política de Privacidade */}
+      {/* Modal Política de Privacidade  */}
       <Modal
         visible={showPrivacy}
         transparent
@@ -774,7 +709,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             <Text style={styles.modalTitle}>Política de Privacidade</Text>
             <ScrollView style={styles.modalContent}>
               <Text style={styles.modalText}>
-                {/* Conteúdo da política de privacidade */}
+                {/* Conteúdo da política de privacidade  */}
                 Política de Privacidade do DOM v2...
               </Text>
             </ScrollView>
@@ -1047,9 +982,3 @@ const styles = StyleSheet.create({
 
 export default PremiumLoginScreen; 
 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */

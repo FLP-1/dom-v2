@@ -1,61 +1,11 @@
 
-/**
- * Consideração de alternativas e trade-offs
- * 
- * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
- */
 
 
-/**
- * Referências externas e fontes de informação
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
- */
 
 
-/**
- * Validação de tipos TypeScript/JavaScript
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
- */
+
+
+
 function validateType(value, expectedType) {
   switch (expectedType) {
     case 'string':
@@ -81,11 +31,7 @@ if (!validateType(data, 'object')) {
 }
 
 
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
- */
+
 function validateInput(data) {
   if (!data) return false;
   if (typeof data === 'string' && data.trim().length === 0) return false;
@@ -101,23 +47,12 @@ if (!validateInput(inputData)) {
 
 
 
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
- */
+
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
   }
-}/**
- * @fileoverview Tela de Login Ultra Premium - DOM v2
- * @directory frontend/src/screens
- * @description Login com design de smartphone e UX impactante
- * @created 2024-12-19
- * @lastModified 2024-12-19
- * @author DOM Team v2
- */
+}
 
 import React, { useState, useEffect, useRef } from 'react';
 import {
@@ -500,7 +435,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
 
   return (
     <View style={styles.container}>
-      {/* Background Gradiente */}
+      {/* Background Gradiente  */}
       <View style={styles.background}>
         <View style={styles.gradientOverlay} />
       </View>
@@ -514,9 +449,9 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
           }
         ]}
       >
-        {/* Smartphone Frame */}
+        {/* Smartphone Frame  */}
         <Animated.View style={[styles.phoneFrame, { transform: [{ scale: phoneScale }] }]}>
-          {/* Status Bar */}
+          {/* Status Bar  */}
           <View style={styles.statusBar}>
             <Text style={styles.statusTime}>9:41</Text>
             <View style={styles.statusIcons}>
@@ -526,9 +461,9 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
             </View>
           </View>
 
-          {/* Phone Content */}
+          {/* Phone Content  */}
           <View style={styles.phoneContent}>
-            {/* Logo Animado */}
+            {/* Logo Animado  */}
             <Animated.View style={[styles.logoContainer, { transform: [{ scale: logoScale }] }]}>
               <View style={styles.logoWrapper}>
                 <Text style={styles.logoEmoji}>🏠</Text>
@@ -538,19 +473,19 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
               <Text style={styles.logoSubtext}>Gestão Doméstica Premium</Text>
             </Animated.View>
 
-            {/* Carrossel Motivacional */}
+            {/* Carrossel Motivacional  */}
             <View style={styles.carouselContainer}>
               <Animated.Text style={[styles.motivationalPhrase, { opacity: phraseOpacity }]}>
                 "{getCurrentPhrase()}"
               </Animated.Text>
             </View>
 
-            {/* Formulário de Login */}
+            {/* Formulário de Login  */}
             <View style={styles.formContainer}>
               <Text style={styles.welcomeText}>Bem-vindo de volta!</Text>
               <Text style={styles.welcomeSubtext}>Faça login para continuar</Text>
 
-              {/* Campo CPF */}
+              {/* Campo CPF  */}
               <View style={styles.inputContainer}>
                 <View style={styles.inputWrapper}>
                   <Text style={styles.inputIcon}>👤</Text>
@@ -580,7 +515,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
                 )}
               </View>
 
-              {/* Campo Senha */}
+              {/* Campo Senha  */}
               <View style={styles.inputContainer}>
                 <View style={styles.inputWrapper}>
                   <Text style={styles.inputIcon}>🔒</Text>
@@ -611,7 +546,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
                 )}
               </View>
 
-              {/* Opções de Login */}
+              {/* Opções de Login  */}
               <View style={styles.optionsContainer}>
                 <TouchableOpacity
                   style={styles.optionRow}
@@ -636,7 +571,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
                 )}
               </View>
 
-              {/* Botões de Login */}
+              {/* Botões de Login  */}
               <View style={styles.buttonContainer}>
                 <Button
                   title="Entrar"
@@ -662,7 +597,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
                 )}
               </View>
 
-              {/* Esqueci a Senha */}
+              {/* Esqueci a Senha  */}
               <TouchableOpacity
                 style={styles.forgotPassword}
                 onPress={() => setShowForgotPassword(true)}
@@ -671,7 +606,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
               </TouchableOpacity>
             </View>
 
-            {/* Termos e Privacidade */}
+            {/* Termos e Privacidade  */}
             <View style={styles.termsContainer}>
               <Text style={styles.termsTitle}>Termos e Privacidade</Text>
               
@@ -724,7 +659,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
               </TouchableOpacity>
             </View>
 
-            {/* Credenciais de Teste */}
+            {/* Credenciais de Teste  */}
             <View style={styles.testContainer}>
               <Text style={styles.testTitle}>Credenciais de Teste</Text>
               <Text style={styles.testText}>CPF: 12345678901 (EMPLOYER) | Senha: 123456</Text>
@@ -736,7 +671,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
         </Animated.View>
       </Animated.View>
 
-      {/* Modal Esqueci a Senha */}
+      {/* Modal Esqueci a Senha  */}
       <Modal
         visible={showForgotPassword}
         transparent
@@ -780,7 +715,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
         </View>
       </Modal>
 
-      {/* Modal Termos de Uso */}
+      {/* Modal Termos de Uso  */}
       <Modal
         visible={showTerms}
         transparent
@@ -805,7 +740,7 @@ export const UltraPremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin })
         </View>
       </Modal>
 
-      {/* Modal Política de Privacidade */}
+      {/* Modal Política de Privacidade  */}
       <Modal
         visible={showPrivacy}
         transparent
@@ -1170,9 +1105,3 @@ const styles = StyleSheet.create({
 
 export default UltraPremiumLoginScreen; 
 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
- */

@@ -1,0 +1,5 @@
+[33m95c2789[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m feat: versão 2.0.0 preparada para GitHub - Sistema completo de gestão empresarial
+[33m6bfca99[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m docs: Adicionar guia completo para próximo chat
+[33mf033e8b[m[33m ([m[1;33mtag: [m[1;33mv2.0.0[m[33m)[m feat: DOM v2 v2.0.0 - Sistema completo funcional
+[33mc156105[m Preparação completa para novo chat - Documentação de continuidade criada
+[33mea1bf5a[m fix: Correção do CI/CD Pipeline - Pipeline simplificado funcionando - Removidos scripts inexistentes - Apenas validação, testes e build básicos - Análise detalhada da falha documentada - Pipeline agora usa scripts existentes - Não mais emails de falha

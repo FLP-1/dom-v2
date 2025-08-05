@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 /**
@@ -55,7 +55,7 @@
  * @param {string} level - Nível do log (info, warn, error, debug)
  * @param {string} message - Mensagem do log
  * @param {object} data - Dados adicionais
- */
+  */
 function logStructured(level, message, data = {}) {
   const logEntry = {
     timestamp: new Date().toISOString(),
@@ -98,7 +98,7 @@ logStructured('info', 'Iniciando execução', { context: 'main' });
  * @param {any} value - Valor a ser validado
  * @param {string} expectedType - Tipo esperado
  * @returns {boolean} - True se o tipo está correto
- */
+  */
 function validateType(value: any, expectedType: string): boolean {
   switch (expectedType) {
     case 'string':
@@ -120,7 +120,7 @@ function validateType(value: any, expectedType: string): boolean {
  * Asserções de validação
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
- */
+  */
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
@@ -131,7 +131,7 @@ function assert(condition: any, message: string): void {
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
@@ -142,7 +142,7 @@ function validateInput(data: any): boolean {
  * @description Hook personalizado para gerenciar autenticação biométrica
  * @created 2025-07-26
  * @author DOM Team v2
- */
+  */
 
 import { useState, useEffect, useCallback } from 'react';
 
@@ -361,7 +361,7 @@ export default useBiometric;
  * - Alternativa A: Descrição e motivo da rejeição
  * - Alternativa B: Descrição e motivo da rejeição
  * - Solução escolhida: Justificativa da escolha atual
- */
+  */
 Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
@@ -371,4 +371,4 @@ Referências externas:
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */

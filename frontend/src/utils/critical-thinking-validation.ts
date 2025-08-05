@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,14 +47,14 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 /**
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data) {
   if (!data) return false;
   if (typeof data === 'string' && data.trim().length === 0) return false;
@@ -88,7 +88,7 @@ if (!validateInput(inputData)) {
  * @see
  * - docs/directives/diretivas-pensamento-critico.md
  * - docs/development/processo-garantia-diretivas.md
- */
+  */
 
 
 
@@ -96,7 +96,7 @@ if (!validateInput(inputData)) {
  * Asserções de validação
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
- */
+  */
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
@@ -106,7 +106,7 @@ function assert(condition: any, message: string): void {
  * 
  * Este sistema garante que todas as ações do frontend sigam as diretivas
  * de pensamento crítico antes de serem executadas.
- */
+  */
 
 interface Action {
   type: string;
@@ -195,7 +195,7 @@ class CriticalThinkingValidation {
    * @param context - Contexto da ação
    * @returns True se todas as diretivas foram seguidas
    * @throws Error se violação for identificada
-   */
+    */
   validateBeforeAction(action: Action, context: Context = {}): boolean {
     if (!this.isEnabled) return true;
 
@@ -226,7 +226,7 @@ class CriticalThinkingValidation {
 
   /**
    * VERIFICAÇÃO 1: FONTE VERIFICADA
-   */
+    */
   private checkSource(action: Action, context: Context): ValidationCheck {
     const hasSource = Boolean(action.source && action.source.verified);
     const hasDocumentation = Boolean(action.documentation && action.documentation.sources);
@@ -241,7 +241,7 @@ class CriticalThinkingValidation {
 
   /**
    * VERIFICAÇÃO 2: SUPOSIÇÕES QUESTIONADAS
-   */
+    */
   private checkAssumptions(action: Action, context: Context): ValidationCheck {
     const hasAssumptions = Boolean(action.assumptions && action.assumptions.identified);
     const hasQuestioning = Boolean(action.assumptions && action.assumptions.questioned);
@@ -256,7 +256,7 @@ class CriticalThinkingValidation {
 
   /**
    * VERIFICAÇÃO 3: LÓGICA TESTADA
-   */
+    */
   private checkLogic(action: Action, context: Context): ValidationCheck {
     const hasLogic = Boolean(action.logic && action.logic.tested);
     const hasValidation = Boolean(action.logic && action.logic.validated);
@@ -271,7 +271,7 @@ class CriticalThinkingValidation {
 
   /**
    * VERIFICAÇÃO 4: ALTERNATIVAS CONSIDERADAS
-   */
+    */
   private checkAlternatives(action: Action, context: Context): ValidationCheck {
     const hasAlternatives = Boolean(action.alternatives && action.alternatives.considered);
     const hasPerspectives = Boolean(action.alternatives && action.alternatives.perspectives);
@@ -286,7 +286,7 @@ class CriticalThinkingValidation {
 
   /**
    * VERIFICAÇÃO 5: TRANSPARÊNCIA MANTIDA
-   */
+    */
   private checkTransparency(action: Action, context: Context): ValidationCheck {
     const hasDocumented = Boolean(action.transparency && action.transparency.documented);
     const hasJustified = Boolean(action.transparency && action.transparency.justified);
@@ -301,7 +301,7 @@ class CriticalThinkingValidation {
 
   /**
    * VERIFICAÇÃO 6: HONESTIDADE MANTIDA
-   */
+    */
   private checkHonesty(action: Action, context: Context): ValidationCheck {
     const hasDeclared = Boolean(action.honesty && action.honesty.declared);
     const hasErrors = Boolean(action.honesty && action.honesty.errors);
@@ -316,7 +316,7 @@ class CriticalThinkingValidation {
 
   /**
    * REGISTRAR VIOLAÇÃO
-   */
+    */
   private recordViolation(action: Action, checks: ValidationResult, context: Context): void {
     const violation: Violation = {
       timestamp: new Date().toISOString(),
@@ -333,7 +333,7 @@ class CriticalThinkingValidation {
 
   /**
    * REGISTRAR VALIDAÇÃO
-   */
+    */
   private recordValidation(action: Action, checks: ValidationResult, context: Context): void {
     const validation: Validation = {
       timestamp: new Date().toISOString(),
@@ -348,7 +348,7 @@ class CriticalThinkingValidation {
 
   /**
    * SALVAR VIOLAÇÃO NO STORAGE
-   */
+    */
   private saveViolationToStorage(violation: Violation): void {
     try {
       const existing = localStorage.getItem('criticalThinkingViolations');
@@ -362,7 +362,7 @@ class CriticalThinkingValidation {
 
   /**
    * SALVAR VALIDAÇÃO NO STORAGE
-   */
+    */
   private saveValidationToStorage(validation: Validation): void {
     try {
       const existing = localStorage.getItem('criticalThinkingValidations');
@@ -376,7 +376,7 @@ class CriticalThinkingValidation {
 
   /**
    * CRIAR ALERTA CRÍTICO
-   */
+    */
   private createCriticalAlert(violation: Violation): void {
     const alertData = {
       type: 'critical',
@@ -397,7 +397,7 @@ class CriticalThinkingValidation {
 
   /**
    * MOSTRAR ALERTA DE VIOLAÇÃO
-   */
+    */
   private showViolationAlert(message: string): void {
     console.error('🚨 ALERTA DE VIOLAÇÃO:', message);
     
@@ -409,7 +409,7 @@ class CriticalThinkingValidation {
 
   /**
    * GERENCIAR MENSAGEM DE VIOLAÇÃO
-   */
+    */
   private generateViolationMessage(checks: ValidationResult): string {
     const failedChecks = Object.entries(checks)
       .filter(([_, check]) => !check.passed)
@@ -420,7 +420,7 @@ class CriticalThinkingValidation {
 
   /**
    * GERAR RELATÓRIO
-   */
+    */
   generateReport(): any {
     return {
       timestamp: new Date().toISOString(),
@@ -435,7 +435,7 @@ class CriticalThinkingValidation {
 
   /**
    * GERENCIAR RECOMENDAÇÕES
-   */
+    */
   private generateRecommendations(): string[] {
     const recommendations: string[] = [];
     
@@ -452,7 +452,7 @@ class CriticalThinkingValidation {
 
   /**
    * VALIDAÇÃO SIMPLES PARA AÇÕES BÁSICAS
-   */
+    */
   validateSimpleAction(actionType: string, description: string, source: string | null = null): boolean {
     const action: Action = {
       type: actionType,
@@ -470,7 +470,7 @@ class CriticalThinkingValidation {
 
   /**
    * HABILITAR/DESABILITAR VALIDAÇÃO
-   */
+    */
   setEnabled(enabled: boolean): void {
     this.isEnabled = enabled;
     console.log(`🔧 Validação de pensamento crítico ${enabled ? 'habilitada' : 'desabilitada'}`);
@@ -478,7 +478,7 @@ class CriticalThinkingValidation {
 
   /**
    * LIMPAR STORAGE
-   */
+    */
   clearStorage(): void {
     try {
       localStorage.removeItem('criticalThinkingViolations');
@@ -493,7 +493,7 @@ class CriticalThinkingValidation {
 
   /**
    * CARREGAR DO STORAGE
-   */
+    */
   loadFromStorage(): void {
     try {
       const violations = localStorage.getItem('criticalThinkingViolations');

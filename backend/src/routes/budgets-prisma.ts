@@ -56,7 +56,7 @@
  * @param {string} message - Mensagem do log
  * @param {object} data - Dados adicionais
  */
-function logStructured(level, message, data = {}) {
+function logStructured(level: string, message: string, data: any = {}) {
   const logEntry = {
     timestamp: new Date().toISOString(),
     level,
@@ -75,15 +75,15 @@ function logStructured(level, message, data = {}) {
   
   // File logging
   try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
+    const logsDir = require('path').join(__dirname, 'logs');
+    if (!require('fs').existsSync(logsDir)) {
+      require('fs').mkdirSync(logsDir, { recursive: true });
     }
-    fs.appendFileSync(
-      path.join(logsDir, 'application.log'),
+    require('fs').appendFileSync(
+      require('path').join(logsDir, 'application.log'),
       JSON.stringify(logEntry) + '\n'
     );
-  } catch (logError) {
+  } catch (logError: any) {
     console.error('Erro ao salvar log:', logError.message);
   }
 }
@@ -123,7 +123,9 @@ function validateInput(data: any): boolean {
  * @param {string} context - Contexto onde o erro ocorreu
  */
 function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}
+  console.error(`[ERROR] ${context}:`, error.message);
+  // Implementar logging, notificação, etc.
+}
 
 /**
  * Asserções de validação
@@ -134,8 +136,6 @@ function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}`);
   }
-}:`, error.message);
-  // Implementar logging, notificação, etc.
 }
 import { BudgetControllerPrisma } from '../controllers/budget-controller-prisma';
 

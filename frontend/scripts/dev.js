@@ -4,9 +4,9 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config.js');
 
-const compiler = webpack(config({}, { mode: 'development' }));
+const compiler = webpack(config);
 const devServerOptions = {
-  ...config({}, { mode: 'development' }).devServer,
+  ...config.devServer,
   open: true,
   hot: true,
   historyApiFallback: true,

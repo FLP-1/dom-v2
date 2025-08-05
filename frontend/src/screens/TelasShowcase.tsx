@@ -158,7 +158,7 @@ export default function TelasShowcase() {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Header */}
+      {/* Header  */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <Icon name="layers" size={48} color="#1976D2" />
@@ -174,7 +174,7 @@ export default function TelasShowcase() {
         </View>
       </View>
 
-      {/* Filtros */}
+      {/* Filtros  */}
       <View style={styles.filtersContainer}>
         <Text style={styles.filtersTitle}>Filtrar por Categoria:</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filtersScroll}>
@@ -198,7 +198,7 @@ export default function TelasShowcase() {
         </ScrollView>
       </View>
 
-      {/* Grid de Telas */}
+      {/* Grid de Telas  */}
       <View style={styles.telasGrid}>
         {telasFiltradas.map(tela => (
           <TouchableOpacity
@@ -229,7 +229,7 @@ export default function TelasShowcase() {
         ))}
       </View>
 
-      {/* Modal de Detalhes */}
+      {/* Modal de Detalhes  */}
       {telaSelecionada && (
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -297,7 +297,7 @@ export default function TelasShowcase() {
         </View>
       )}
 
-      {/* Footer */}
+      {/* Footer  */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
           DOM v2 - Sistema de Gestão Doméstica Inteligente

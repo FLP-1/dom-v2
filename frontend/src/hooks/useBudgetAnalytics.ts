@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 
@@ -55,7 +55,7 @@
  * Asserções de validação
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
- */
+  */
 function assert(condition: any, message: string): void {
   if (!condition) {
     throw new Error(`Assertion failed: ${message}
@@ -65,7 +65,7 @@ function assert(condition: any, message: string): void {
  * @param {string} level - Nível do log (info, warn, error)
  * @param {string} message - Mensagem do log
  * @param {any} data - Dados adicionais
- */
+  */
 function log(level: string, message: string, data?: any): void {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}
@@ -75,7 +75,7 @@ function log(level: string, message: string, data?: any): void {
  * @param {any} value - Valor a ser validado
  * @param {string} expectedType - Tipo esperado
  * @returns {boolean} - True se o tipo está correto
- */
+  */
 function validateType(value: any, expectedType: string): boolean {
   switch (expectedType) {
     case 'string':
@@ -103,14 +103,14 @@ function validateType(value: any, expectedType: string): boolean {
  * @example
  * // Exemplo de uso
  * const result = functionName(data);
- */
+  */
 import { useState, useEffect, useCallback } from 'react';
 
 /**
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
@@ -194,7 +194,7 @@ export const useBudgetAnalytics = (period: string = 'month') => {
  * - Alternativa A: Descrição e motivo da rejeição
  * - Alternativa B: Descrição e motivo da rejeição
  * - Solução escolhida: Justificativa da escolha atual
- */
+  */
 Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
@@ -204,4 +204,4 @@ Referências externas:
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */

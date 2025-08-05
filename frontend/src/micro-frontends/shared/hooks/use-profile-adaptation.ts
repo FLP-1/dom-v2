@@ -21,7 +21,7 @@
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
  * - Segurança vs Usabilidade
- */
+  */
 
 
 /**
@@ -47,7 +47,7 @@
  * - Segurança: LGPD compliance, criptografia
  * - Escalabilidade: Arquitetura distribuída
  * - Manutenibilidade: Código limpo e documentado
- */
+  */
 
 
 /**
@@ -55,7 +55,7 @@
  * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
  * @throws {Error} Se a condição for falsa
- */
+  */
 function assertCritical(condition, message = 'Assertion failed') {
   if (!condition) {
     const error = new Error(`[CRITICAL ASSERTION] ${message}`);
@@ -76,7 +76,7 @@ assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
  * @param {string} level - Nível do log (info, warn, error)
  * @param {string} message - Mensagem do log
  * @param {any} data - Dados adicionais
- */
+  */
 function log(level: string, message: string, data?: any): void {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}
@@ -86,7 +86,7 @@ function log(level: string, message: string, data?: any): void {
  * @param {any} value - Valor a ser validado
  * @param {string} expectedType - Tipo esperado
  * @returns {boolean} - True se o tipo está correto
- */
+  */
 function validateType(value: any, expectedType: string): boolean {
   switch (expectedType) {
     case 'string':
@@ -110,7 +110,7 @@ function validateType(value: any, expectedType: string): boolean {
  * @created 2024-12-19
  * @lastModified 2024-12-19
  * @author DOM Team v2
- */
+  */
 
 import { useTheme } from '../utils/theme-provider';
 
@@ -118,7 +118,7 @@ import { useTheme } from '../utils/theme-provider';
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
  * @returns {boolean} - True se válido, false caso contrário
- */
+  */
 function validateInput(data: any): boolean {
   if (!data) return false;
   if (typeof data !== 'object') return false;
@@ -129,7 +129,7 @@ function validateInput(data: any): boolean {
  * Tratamento de erros centralizado
  * @param {Error} error - Erro capturado
  * @param {string} context - Contexto onde o erro ocorreu
- */
+  */
 function handleError(error: Error, context: string): void {
   console.error(`[ERROR] ${context}:`, error.message);
   // Implementar logging, notificação, etc.
@@ -144,14 +144,14 @@ export function useProfileAdaptation() {
   
   /**
    * Obtém mensagem adaptada ao perfil atual
-   */
+    */
   const getMessage = (key: string, fallback: string): string => {
     return fallback;
   };
   
   /**
    * Obtém estilo baseado na configuração do perfil
-   */
+    */
   const getStyle = (baseStyle: React.CSSProperties) => {
     return {
       ...baseStyle,
@@ -162,63 +162,63 @@ export function useProfileAdaptation() {
   
   /**
    * Verifica se deve mostrar ajuda baseado no perfil
-   */
+    */
   const shouldShowHelp = (): boolean => {
     return config.content.help !== 'NONE';
   };
   
   /**
    * Verifica se deve mostrar conteúdo detalhado
-   */
+    */
   const shouldShowDetailedContent = (): boolean => {
     return config.content.detail === 'DETAILED';
   };
   
   /**
    * Verifica se deve mostrar notificações frequentes
-   */
+    */
   const shouldShowFrequentNotifications = (): boolean => {
     return config.notifications.frequency === 'FREQUENT';
   };
   
   /**
    * Obtém tamanho de fonte baseado na experiência digital
-   */
+    */
   const getFontSize = (size: 'small' | 'medium' | 'large' | 'xlarge'): number => {
     return config.theme.typography.fontSize[size];
   };
   
   /**
    * Obtém cor primária do tema atual
-   */
+    */
   const getPrimaryColor = (): string => {
     return config.theme.colors.primary;
   };
   
   /**
    * Obtém espaçamento baseado na densidade do layout
-   */
+    */
   const getSpacing = (size: 'small' | 'medium' | 'large' | 'xlarge'): number => {
     return config.theme.spacing[size];
   };
   
   /**
    * Verifica se o perfil tem experiência digital avançada
-   */
+    */
   const isAdvancedUser = (): boolean => {
     return profile.experience === 'ADVANCED';
   };
   
   /**
    * Verifica se o perfil tem tempo limitado
-   */
+    */
   const hasLimitedTime = (): boolean => {
     return profile.timeAvailable === 'LIMITED';
   };
   
   /**
    * Obtém configuração de navegação baseada no perfil
-   */
+    */
   const getNavigationConfig = () => {
     return {
       useShortcuts: config.theme.layout.navigation === 'shortcut',
@@ -229,7 +229,7 @@ export function useProfileAdaptation() {
   
   /**
    * Obtém configuração de notificações baseada no perfil
-   */
+    */
   const getNotificationConfig = () => {
     return {
       frequency: config.notifications.frequency,
@@ -240,7 +240,7 @@ export function useProfileAdaptation() {
   
   /**
    * Obtém configuração de conteúdo baseada no perfil
-   */
+    */
   const getContentConfig = () => {
     return {
       language: config.content.language,
@@ -285,7 +285,7 @@ export function useProfileAdaptation() {
  * - Alternativa A: Descrição e motivo da rejeição
  * - Alternativa B: Descrição e motivo da rejeição
  * - Solução escolhida: Justificativa da escolha atual
- */
+  */
 Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
@@ -295,4 +295,4 @@ Referências externas:
  * - Jest: https://jestjs.io/docs
  * - React Native: https://reactnative.dev/
  * - Webpack: https://webpack.js.org/
- */
+  */
