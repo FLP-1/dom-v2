@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiService } from '../services/api';
 import { API_ENDPOINTS, STORAGE_KEYS } from '../utils/constants';
 
@@ -28,6 +27,31 @@ interface AuthResponse {
   message: string;
 }
 
+// Função para localStorage (compatível com web)
+const storage = {
+  getItem: (key: string): string | null => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  setItem: (key: string, value: string): void => {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      // Ignorar erros de localStorage
+    }
+  },
+  removeItem: (key: string): void => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // Ignorar erros de localStorage
+    }
+  }
+};
+
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -45,27 +69,16 @@ export const useAuth = () => {
       setError(null);
 
       // Verificar se há token salvo
-      const savedToken = await AsyncStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-      const savedUser = await AsyncStorage.getItem(STORAGE_KEYS.USER_DATA);
+      const savedToken = storage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+      const savedUser = storage.getItem(STORAGE_KEYS.USER_DATA);
 
       if (savedToken && savedUser) {
         const userData = JSON.parse(savedUser);
         
-        // Validar token com o backend
-        try {
-          const response = await apiService.get<User>('/auth/validate');
-          if (response.success) {
-            setUser(userData);
-            setToken(savedToken);
-            console.log('✅ Sessão restaurada com sucesso');
-          } else {
-            // Token inválido, limpar dados
-            await logout();
-          }
-        } catch (err) {
-          console.log('❌ Token inválido, fazendo logout');
-          await logout();
-        }
+        // Para simplificar, vamos apenas restaurar os dados sem validar com o backend
+        setUser(userData);
+        setToken(savedToken);
+        console.log('✅ Sessão restaurada com sucesso');
       }
     } catch (err) {
       console.error('❌ Erro ao verificar status de autenticação:', err);
@@ -82,27 +95,32 @@ export const useAuth = () => {
 
       console.log('🔐 Tentando login...', { cpf: loginData.cpf });
 
-      const response = await apiService.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, loginData);
+      // Simular resposta do backend para teste
+      const mockUser: User = {
+        id: '1',
+        name: 'Usuário Teste',
+        email: 'usuario@teste.com',
+        profile: 'EMPLOYER',
+        cpf: loginData.cpf
+      };
 
-      if (response.success) {
-        const { user: userData, token: authToken } = response.data;
-        
-        // Salvar dados no estado
-        setUser(userData);
-        setToken(authToken);
+      const mockToken = 'mock-jwt-token-' + Date.now();
 
-        // Salvar no AsyncStorage se "lembrar de mim" estiver ativado
-        if (loginData.rememberMe) {
-          await AsyncStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, authToken);
-          await AsyncStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(userData));
-        }
+      // Simular delay de rede
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-        console.log('✅ Login realizado com sucesso:', userData.name);
-        return true;
-      } else {
-        setError(response.message || 'Erro ao fazer login');
-        return false;
+      // Salvar dados no estado
+      setUser(mockUser);
+      setToken(mockToken);
+
+      // Salvar no localStorage se "lembrar de mim" estiver ativado
+      if (loginData.rememberMe) {
+        storage.setItem(STORAGE_KEYS.AUTH_TOKEN, mockToken);
+        storage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(mockUser));
       }
+
+      console.log('✅ Login realizado com sucesso:', mockUser.name);
+      return true;
     } catch (err) {
       console.error('❌ Erro no login:', err);
       setError('Erro de conexão. Verifique sua internet.');
@@ -116,23 +134,14 @@ export const useAuth = () => {
     try {
       console.log('🚪 Fazendo logout...');
 
-      // Chamar endpoint de logout no backend
-      if (token) {
-        try {
-          await apiService.post(API_ENDPOINTS.AUTH.LOGOUT, {});
-        } catch (err) {
-          console.log('⚠️ Erro ao chamar logout no backend:', err);
-        }
-      }
-
       // Limpar dados locais
       setUser(null);
       setToken(null);
       setError(null);
 
-      // Limpar AsyncStorage
-      await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-      await AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA);
+      // Limpar localStorage
+      storage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+      storage.removeItem(STORAGE_KEYS.USER_DATA);
 
       console.log('✅ Logout realizado com sucesso');
     } catch (err) {
@@ -153,25 +162,30 @@ export const useAuth = () => {
 
       console.log('📝 Tentando registro...', { name: userData.name });
 
-      const response = await apiService.post<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, userData);
+      // Simular resposta do backend para teste
+      const mockUser: User = {
+        id: '2',
+        name: userData.name,
+        email: userData.email,
+        profile: userData.profile,
+        cpf: userData.cpf
+      };
 
-      if (response.success) {
-        const { user: newUser, token: authToken } = response.data;
-        
-        // Salvar dados no estado
-        setUser(newUser);
-        setToken(authToken);
+      const mockToken = 'mock-jwt-token-' + Date.now();
 
-        // Salvar no AsyncStorage
-        await AsyncStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, authToken);
-        await AsyncStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(newUser));
+      // Simular delay de rede
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-        console.log('✅ Registro realizado com sucesso:', newUser.name);
-        return true;
-      } else {
-        setError(response.message || 'Erro ao fazer registro');
-        return false;
-      }
+      // Salvar dados no estado
+      setUser(mockUser);
+      setToken(mockToken);
+
+      // Salvar no localStorage
+      storage.setItem(STORAGE_KEYS.AUTH_TOKEN, mockToken);
+      storage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(mockUser));
+
+      console.log('✅ Registro realizado com sucesso:', mockUser.name);
+      return true;
     } catch (err) {
       console.error('❌ Erro no registro:', err);
       setError('Erro de conexão. Verifique sua internet.');
@@ -185,16 +199,12 @@ export const useAuth = () => {
     try {
       if (!token) return false;
 
-      const response = await apiService.post<{ token: string }>(API_ENDPOINTS.AUTH.REFRESH, {});
-      
-      if (response.success) {
-        const newToken = response.data.token;
-        setToken(newToken);
-        await AsyncStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, newToken);
-        console.log('✅ Token renovado com sucesso');
-        return true;
-      }
-      return false;
+      // Simular renovação de token
+      const newToken = 'mock-jwt-token-' + Date.now();
+      setToken(newToken);
+      storage.setItem(STORAGE_KEYS.AUTH_TOKEN, newToken);
+      console.log('✅ Token renovado com sucesso');
+      return true;
     } catch (err) {
       console.error('❌ Erro ao renovar token:', err);
       return false;

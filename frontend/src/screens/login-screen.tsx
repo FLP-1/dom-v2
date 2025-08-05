@@ -126,14 +126,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     const success = await login(loginData);
     
     if (success) {
-      // Login bem-sucedido, chamar callback
-      onLogin({
-        id: '1', // Será substituído pelos dados reais do backend
-        name: 'Usuário',
-        email: 'usuario@exemplo.com',
-        profile: 'EMPLOYER',
-        cpf: cpf
-      });
+      // Login bem-sucedido, chamar callback com dados reais do hook
+      const { user: authUser } = useAuth();
+      if (authUser) {
+        onLogin(authUser);
+      }
     } else {
       // Erro já está sendo tratado pelo hook
       Alert.alert('Erro', error || 'Erro ao fazer login. Tente novamente.');
