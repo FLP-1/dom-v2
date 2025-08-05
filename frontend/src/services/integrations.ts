@@ -1,4 +1,4 @@
-import { ApiService } from './api';
+import apiService from './api';
 
 // Interfaces para as integrações
 export interface ViaCEPResponse {
@@ -93,10 +93,10 @@ export interface TimeEntry {
 
 export class IntegrationService {
   private static instance: IntegrationService;
-  private apiService: ApiService;
+  private apiService: typeof apiService;
 
   private constructor() {
-    this.apiService = new ApiService();
+    this.apiService = apiService;
   }
 
   public static getInstance(): IntegrationService {
