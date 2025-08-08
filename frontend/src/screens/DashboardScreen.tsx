@@ -16,6 +16,8 @@ import {
   SafeAreaView 
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import BudgetScreen from './budget/BudgetScreen';
+import PaymentScreen from './payments/PaymentScreen';
 
 interface MenuItem {
   id: string;
@@ -101,8 +103,11 @@ const DashboardScreen: React.FC = () => {
 
   const handleMenuPress = (menuId: string) => {
     setSelectedMenu(menuId);
-    // Aqui você pode adicionar navegação para outras telas
-    console.log(`Menu selecionado: ${menuId}`);
+    if (menuId === 'finance') {
+      // Para este MVP, podemos abrir a tela simples de budgets (se integrada ao fluxo principal)
+      // Em projetos com React Navigation, aqui faríamos navigation.navigate('Budget')
+      console.log('Abrir Financeiro (orçamentos/pagamentos)');
+    }
   };
 
   const getGreeting = () => {
@@ -130,13 +135,37 @@ const DashboardScreen: React.FC = () => {
 
       {/* Content */}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        {/* Finance Section (inline) */}
+        {selectedMenu === 'finance' && (
+          <View style={{ paddingHorizontal: 20, paddingTop: 12 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <Text style={styles.sectionTitle}>Financeiro</Text>
+              <TouchableOpacity style={styles.logoutButton} onPress={() => setSelectedMenu(null)}>
+                <Text style={styles.logoutText}>Voltar</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ gap: 16 }}>
+              <View>
+                <Text style={styles.sectionTitle}>Orçamentos</Text>
+                <BudgetScreen />
+              </View>
+              <View>
+                <Text style={styles.sectionTitle}>Pagamentos</Text>
+                <PaymentScreen />
+              </View>
+            </View>
+          </View>
+        )}
+
         {/* Welcome Section */}
+        {selectedMenu !== 'finance' && (
         <View style={styles.welcomeSection}>
           <Text style={styles.welcomeTitle}>Bem-vindo ao DOM v2</Text>
           <Text style={styles.welcomeSubtitle}>
             Sistema de Gestão Doméstica e Empresarial
           </Text>
         </View>
+        )}
 
         {/* Quick Stats */}
         <View style={styles.statsSection}>
@@ -162,6 +191,7 @@ const DashboardScreen: React.FC = () => {
         </View>
 
         {/* Menu Grid */}
+        {selectedMenu !== 'finance' && (
         <View style={styles.menuSection}>
           <Text style={styles.sectionTitle}>Funcionalidades</Text>
           <View style={styles.menuGrid}>
@@ -183,8 +213,10 @@ const DashboardScreen: React.FC = () => {
             ))}
           </View>
         </View>
+        )}
 
         {/* Recent Activity */}
+        {selectedMenu !== 'finance' && (
         <View style={styles.activitySection}>
           <Text style={styles.sectionTitle}>Atividade Recente</Text>
           <View style={styles.activityList}>
@@ -211,6 +243,7 @@ const DashboardScreen: React.FC = () => {
             </View>
           </View>
         </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

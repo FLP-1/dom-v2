@@ -1,35 +1,31 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+Frontend DOM v2 (React Native Web + TypeScript)
 
 # Getting Started
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## Step 1: Start Metro
+## Iniciar ambiente (Web)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+```powershell
+# Diretório: C:\dom-v2\frontend
+npm install
+npm run dev
 ```
 
-## Step 2: Build and run your app
+## Integração com Backend (dev)
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+- Endpoints usados:
+  - `GET http://localhost:3001/api/budgets`
+  - `POST http://localhost:3001/api/budgets`
+  - `GET http://localhost:3001/api/payments`
+  - `POST http://localhost:3001/api/payments`
 
-### Android
+Certifique-se de rodar o backend:
 
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```powershell
+# Diretório: C:\dom-v2\backend
+npm install
+npm run dev
 ```
 
 ### iOS
@@ -62,7 +58,11 @@ If everything is set up correctly, you should see your new app running in the An
 
 This is one way to run your app — you can also build it directly from Android Studio or Xcode.
 
-## Step 3: Modify your app
+## Como acessar Finanças
+
+- Faça login no app.
+- No dashboard, clique em “Financeiro” para ver listas de Orçamentos e Pagamentos.
+- Use “+ Novo” para criar registros de exemplo (ambiente dev).
 
 Now that you have successfully run the app, let's make changes!
 
@@ -82,11 +82,11 @@ You've successfully run and modified your React Native App. :partying_face:
 - If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
 - If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
 
-# Troubleshooting
+## Troubleshooting
 
 If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
 
-# Learn More
+## Learn More
 
 To learn more about React Native, take a look at the following resources:
 

@@ -218,3 +218,41 @@ class ApiService {
 
 export const apiService = new ApiService();
 export default apiService;
+
+// Budgets API (dev)
+export interface BudgetDTO {
+  id: string;
+  name: string;
+  amount: number;
+  spent?: number;
+  category?: string;
+  start_date?: string;
+  end_date?: string;
+  status?: string;
+}
+
+export async function getBudgets() {
+  return apiService.get<{ budgets: BudgetDTO[] }>(`/api/budgets`);
+}
+
+export async function createBudget(input: Pick<BudgetDTO, 'name' | 'amount'> & Partial<BudgetDTO>) {
+  return apiService.post<{ budget: BudgetDTO }>(`/api/budgets`, input);
+}
+
+// Payments API (dev)
+export interface PaymentDTO {
+  id: string;
+  amount: number;
+  description: string;
+  status?: string;
+  due_date?: string;
+  created_at?: string;
+}
+
+export async function getPayments() {
+  return apiService.get<{ payments: PaymentDTO[] }>(`/api/payments`);
+}
+
+export async function createPayment(input: Pick<PaymentDTO, 'amount' | 'description'> & Partial<PaymentDTO>) {
+  return apiService.post<{ payment: PaymentDTO }>(`/api/payments`, input);
+}

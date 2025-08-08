@@ -1,4 +1,42 @@
-﻿
+﻿import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { BudgetDTO } from '../../services/api';
+
+type Props = { budget?: BudgetDTO };
+
+const BudgetDetailScreen: React.FC<Props> = ({ budget }) => {
+  if (!budget) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Detalhes do Orçamento</Text>
+        <Text style={styles.subtitle}>Selecione um orçamento na lista.</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{budget.name}</Text>
+      <Text style={styles.row}>Valor: R$ {budget.amount?.toFixed(2)}</Text>
+      {typeof budget.spent === 'number' && (
+        <Text style={styles.row}>Gasto: R$ {budget.spent.toFixed(2)}</Text>
+      )}
+      {!!budget.category && <Text style={styles.row}>Categoria: {budget.category}</Text>}
+      {!!budget.status && <Text style={styles.row}>Status: {budget.status}</Text>}
+      {!!budget.start_date && <Text style={styles.row}>Início: {new Date(budget.start_date).toLocaleDateString()}</Text>}
+      {!!budget.end_date && <Text style={styles.row}>Fim: {new Date(budget.end_date).toLocaleDateString()}</Text>}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#f8fafc', padding: 16 },
+  title: { fontSize: 20, fontWeight: 'bold', color: '#1e293b', marginBottom: 8 },
+  subtitle: { fontSize: 14, color: '#64748b' },
+  row: { fontSize: 14, color: '#334155', marginTop: 6 },
+});
+
+export default BudgetDetailScreen;
 /**
  * 
  * @alternatives

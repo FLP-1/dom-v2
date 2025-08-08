@@ -1,4 +1,58 @@
-﻿
+﻿import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import useBudgets from '../../hooks/useBudgets';
+
+const BudgetCreateScreen: React.FC = () => {
+  const { addBudget, loading } = useBudgets();
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState('');
+
+  const handleCreate = async () => {
+    const parsed = Number(amount);
+    if (!name || !amount || Number.isNaN(parsed)) {
+      Alert.alert('Validação', 'Informe nome e valor numérico.');
+      return;
+    }
+    const created = await addBudget({ name, amount: parsed });
+    if (created) {
+      Alert.alert('Sucesso', 'Orçamento criado.');
+      setName('');
+      setAmount('');
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Criar Orçamento</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Nome do orçamento"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Valor (R$)"
+        value={amount}
+        onChangeText={setAmount}
+        keyboardType="numeric"
+      />
+      <TouchableOpacity style={styles.button} onPress={handleCreate} disabled={loading}>
+        {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Criar</Text>}
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#f8fafc', padding: 16 },
+  title: { fontSize: 20, fontWeight: 'bold', color: '#1e293b', marginBottom: 12 },
+  input: { backgroundColor: '#fff', padding: 12, borderRadius: 8, marginBottom: 12, borderWidth: 1, borderColor: '#e2e8f0' },
+  button: { backgroundColor: '#10b981', paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
+  buttonText: { color: '#fff', fontWeight: '600' },
+});
+
+export default BudgetCreateScreen;
 /**
  * 
  * @alternatives
