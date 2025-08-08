@@ -26,6 +26,7 @@ model User {
   permissions      Json?              @default("[]") @db.Json
   user_group_roles user_group_roles[]
   user_sessions    user_sessions[]
+  user_consents    UserConsent[]
   budgets          Budget[]
   payrolls         Payroll[]
   employees        Employee[]
@@ -238,4 +239,22 @@ model Purchase {
   @@index([status], map: "idx_purchases_status")
   @@index([category], map: "idx_purchases_category")
   @@map("purchases")
+}
+
+// Registro de consentimentos de LGPD (auditoria)
+model UserConsent {
+  id                 String    @id @default(cuid()) @db.VarChar(50)
+  user_id            String?   @db.Uuid
+  user               User?     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  cpf                String?   @db.VarChar(14)
+  termsAccepted      Boolean
+  privacyAccepted    Boolean
+  marketingAccepted  Boolean?
+  user_agent         String?   @db.VarChar(255)
+  ip_address         String?   @db.VarChar(50)
+  created_at         DateTime  @default(now()) @db.Timestamp(6)
+
+  @@index([user_id], map: "idx_user_consents_user_id")
+  @@index([cpf], map: "idx_user_consents_cpf")
+  @@map("user_consents")
 }

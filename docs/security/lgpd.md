@@ -164,11 +164,34 @@ function safeExecute(fn: Function, context: string): any {
  * @since 2025-07-26
  */
 
-# LGPD
+# LGPD – Política e Implementação Técnica (DOM v2)
 
-*Documento em construção*
+Atualizado em: 2025-08-08
 
----
+## Fluxo de Consentimento (MVP)
+- Coleta no login (web):
+  - Termos de Uso: obrigatório (checkbox)
+  - Política de Privacidade: obrigatório (checkbox)
+  - Marketing: opcional (checkbox)
+- Envio ao backend: `POST /api/auth/login` com `termsAccepted`, `privacyAccepted`, `marketingAccepted`.
+- Prova de consentimento (dev): registro em `logs/consents-log.json` com timestamp, cpf, userAgent e IP.
 
-**Data:** 2025-07-25
-**Status:** 📝 **EM CONSTRUÇÃO**
+## Próximos Passos (Backlog de Compliance)
+- Persistir consentimentos em banco (tabela `user_consents` com histórico).
+- Tela “Minha Conta” para gestão de consentimentos e exportação (LGPD Art. 18).
+- Política de retenção de logs e dados pessoais.
+- Relatórios de auditoria e trilhas de acesso.
+
+## Checklists
+- Login exige consentimentos obrigatórios antes de autenticar.
+- Consentimentos enviados ao backend junto com as credenciais.
+- Registro de consentimentos armazenado (dev) e previsto para DB em produção.
+
+## Comandos (PowerShell)
+```powershell
+# Diretório: C:\dom-v2\frontend
+npm run dev
+
+# Diretório: C:\dom-v2\backend
+npm run dev
+```
