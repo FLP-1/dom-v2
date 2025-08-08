@@ -66,6 +66,8 @@ function saveJsonArray(filePath: string, data: any[]) {
 
 let budgetsMemory = loadJsonArray(budgetsFile);
 let paymentsMemory = loadJsonArray(paymentsFile);
+const timeClockFile = path.join(dataDir, 'timeclock-dev.json');
+let timeClockMemory = loadJsonArray(timeClockFile);
 
 // Health check
 app.get('/health', (req: Request, res: Response) => {
@@ -302,6 +304,27 @@ app.post('/api/payments', (req: Request, res: Response) => {
   paymentsMemory.unshift(newPayment);
   saveJsonArray(paymentsFile, paymentsMemory);
   res.status(201).json({ success: true, payment: newPayment });
+});
+
+// Time Clock (dev)
+app.get('/api/timeclock', (req: Request, res: Response) => {
+  res.json({ success: true, entries: timeClockMemory });
+});
+
+app.post('/api/timeclock', (req: Request, res: Response) => {
+  const { type, note } = req.body;
+  if (!['in', 'out'].includes(type)) {
+    return res.status(400).json({ success: false, error: 'Campo obrigatório: type ("in" | "out")' });
+  }
+  const newEntry = {
+    id: `tc-${Date.now()}`,
+    type,
+    note: note ? String(note) : null,
+    timestamp: new Date().toISOString(),
+  };
+  timeClockMemory.unshift(newEntry);
+  saveJsonArray(timeClockFile, timeClockMemory);
+  res.status(201).json({ success: true, entry: newEntry });
 });
 
 app.get('/api/employees', (req: Request, res: Response) => {
