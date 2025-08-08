@@ -28,7 +28,7 @@ Start-Sleep -Seconds 5
 
 # 5. Iniciar Servidor Web
 Write-Host "3. Iniciando Servidor Web..." -ForegroundColor Cyan
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd frontend; node server-web.js"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd frontend; npm run dev"
 
 Write-Host "`n=== TODOS OS SERVIÇOS INICIADOS ===" -ForegroundColor Green
 Write-Host "Backend: http://localhost:3001" -ForegroundColor Yellow

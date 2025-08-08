@@ -183,8 +183,7 @@ export const IconCard: React.FC<IconCardProps> = ({
     >
       <View style={styles.content}>
         <View style={styles.iconContainer}>
-          <Text style={iconStyles}>
-          </Text>
+          <Text style={iconStyles}>{icon}</Text>
           {badge && (
             <View style={[
               styles.badge,
@@ -267,4 +266,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default IconCard;
+export default IconCard;

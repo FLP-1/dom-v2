@@ -1,4 +1,4 @@
-
+﻿
 /**
  * 
  * @alternatives
@@ -62,7 +62,7 @@
 
 
 
-// Função removida - causava erros de referência no frontend;
+// FunÃ§Ã£o removida - causava erros de referÃªncia no frontend;
   
   // Console output
   const consoleMethod = level === 'error' ? 'error' : 
@@ -84,15 +84,14 @@
   } catch (logError) {
     console.error('Erro ao salvar log:', logError.message);
   }
-}
 
 // Aplicar logging
 
 
 
-// Função removida - causava erros de referência no frontend
+// FunÃ§Ã£o removida - causava erros de referÃªncia no frontend
 
-// Validação de input removida - causava erro de referência
+// ValidaÃ§Ã£o de input removida - causava erro de referÃªncia
 
 
 

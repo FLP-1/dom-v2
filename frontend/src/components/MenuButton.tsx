@@ -86,8 +86,7 @@ export const MenuButton: React.FC<MenuButtonProps> = ({
           styles.icon,
           { fontSize: sizeStyles.fontSize },
           variant === 'secondary' ? styles.iconSecondary : styles.iconPrimary
-        ]}>
-        </Text>
+        ]}>≡</Text>
       </TouchableOpacity>
       
       {badge && (
@@ -140,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MenuButton;
+export default MenuButton;

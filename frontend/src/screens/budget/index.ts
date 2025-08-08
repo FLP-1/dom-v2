@@ -1,4 +1,4 @@
-
+﻿
 /**
  * 
  * @alternatives
@@ -39,10 +39,10 @@
  * @param {any} value - Valor a ser validado
  * @param {string} expectedType - Tipo esperado
  */
-// Função removida - causava erros de referência no frontend
+// FunÃ§Ã£o removida - causava erros de referÃªncia no frontend
 }
 
-// Validação de tipos removida - causava erro de referência
+// ValidaÃ§Ã£o de tipos removida - causava erro de referÃªncia
 
 
 /**
@@ -50,7 +50,7 @@
  * @param {string} message - Mensagem do log
  * @param {object} data - Dados adicionais
  */
-// Função removida - causava erros de referência no frontend;
+// FunÃ§Ã£o removida - causava erros de referÃªncia no frontend;
   
   // Console output
   const consoleMethod = level === 'error' ? 'error' : 
@@ -72,7 +72,6 @@
   } catch (logError) {
     console.error('Erro ao salvar log:', logError.message);
   }
-}
 
 // Aplicar logging
 
@@ -80,13 +79,13 @@
 /**
  * @param {string} message - Mensagem de erro
  */
-// Função removida - causava erros de referência no frontend`);
+// FunÃ§Ã£o removida - causava erros de referÃªncia no frontend`);
     error.name = 'CriticalAssertionError';
     throw error;
   }
 }
 
-// Validação crítica removida - causava erro de referência
+// ValidaÃ§Ã£o crÃ­tica removida - causava erro de referÃªncia
 
 
 /**
@@ -134,9 +133,9 @@ try {
 /**
  * @param {any} data - Dados a serem validados
  */
-// Função removida - causava erros de referência no frontend
+// FunÃ§Ã£o removida - causava erros de referÃªncia no frontend
 
-// Validação de input removida - causava erro de referência
+// ValidaÃ§Ã£o de input removida - causava erro de referÃªncia
 
 
 /**

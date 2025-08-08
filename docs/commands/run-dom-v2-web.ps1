@@ -24,7 +24,7 @@ Write-Host "Aguardando 8 segundos para Metro inicializar..." -ForegroundColor Ye
 Start-Sleep -Seconds 8
 
 Write-Host "`nIniciando Frontend Web..." -ForegroundColor Cyan
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd frontend; node server-web.js"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd frontend; npm run dev"
 
 Write-Host "`n=== SERVICOS WEB INICIADOS ===" -ForegroundColor Green
 Write-Host "Backend: http://localhost:3001" -ForegroundColor Yellow

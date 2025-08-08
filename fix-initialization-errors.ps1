@@ -80,7 +80,7 @@ try {
 
 # 6. Iniciar frontend web
 Write-Host "6. Iniciando frontend web..." -ForegroundColor Yellow
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; node server-web-robust.js" -WindowStyle Normal
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; npm run dev" -WindowStyle Normal
 Start-Sleep -Seconds 5
 
 # 7. Verificar frontend

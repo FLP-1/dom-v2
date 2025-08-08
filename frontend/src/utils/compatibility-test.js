@@ -1,4 +1,4 @@
-
+﻿
 /**
  * 
  * @alternatives
@@ -97,7 +97,6 @@ function logStructured(level, message, data = {}) {
   } catch (logError) {
     console.error('Erro ao salvar log:', logError.message);
   }
-}
 
 // Aplicar logging
 

@@ -61,7 +61,7 @@ function Start-Metro {
 # Função para iniciar frontend web
 function Start-FrontendWeb {
     Write-Host "Iniciando Frontend Web..."
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$FrontendDir'; node server-web-robust.js" -WindowStyle Normal
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$FrontendDir'; npm run dev" -WindowStyle Normal
     Start-Sleep -Seconds 5
 }
 
