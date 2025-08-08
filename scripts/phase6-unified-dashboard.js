@@ -64,11 +64,6 @@ function assertCritical(condition, message = 'Assertion failed') {
   }
 }
 
-// Aplicar asserções críticas
-assertCritical(data !== null, 'Dados não podem ser null');
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
-
 #!/usr/bin/env node
 
 /**

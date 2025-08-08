@@ -411,10 +411,7 @@ export const PremiumLoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     // Simulação - em produção seria AsyncStorage
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve({
-          cpf: '12345678901',
-          password: '123456',
-        });
+        resolve(null);
       }, 500);
     });
   };
