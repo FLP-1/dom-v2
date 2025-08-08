@@ -1,6 +1,110 @@
+
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 import apiService from './api';
 
-// Interfaces para as integrações
 export interface ViaCEPResponse {
   cep: string;
   logradouro: string;
@@ -119,7 +223,6 @@ export class IntegrationService {
       const data = await response.json();
       
       if (data.erro) {
-        throw new Error('CEP não encontrado');
       }
 
       return data;
@@ -197,7 +300,6 @@ export class IntegrationService {
       const response = await this.apiService.get(`/integrations/stripe/payments?limit=${limit}`);
       return response.data;
     } catch (error) {
-      console.error('Erro ao buscar histórico de pagamentos:', error);
       throw error;
     }
   }
@@ -228,12 +330,10 @@ export class IntegrationService {
       const response = await this.apiService.get(`/integrations/sptrans/stops/nearby?lat=${latitude}&lng=${longitude}&radius=${radius}`);
       return response.data;
     } catch (error) {
-      console.error('Erro ao buscar paradas próximas:', error);
       throw error;
     }
   }
 
-  // ===== CONTROLE DE PONTO AVANÇADO =====
   async registerTimeCardEntry(entry: Omit<TimeCardEntry, 'id'>): Promise<TimeCardEntry> {
     try {
       const response = await this.apiService.post('/integrations/timecard/entries', entry);
@@ -286,12 +386,10 @@ export class IntegrationService {
       const response = await this.apiService.get(`/integrations/timecard/report?employeeId=${employeeId}&month=${month}&year=${year}`);
       return response.data;
     } catch (error) {
-      console.error('Erro ao gerar relatório de ponto:', error);
       throw error;
     }
   }
 
-  // ===== UTILITÁRIOS =====
   async validateCPF(cpf: string): Promise<boolean> {
     try {
       const response = await this.apiService.post('/integrations/validation/cpf', { cpf });
@@ -326,7 +424,6 @@ export class IntegrationService {
     }
   }
 
-  // ===== MOCK DATA PARA DEMONSTRAÇÃO =====
   getMockESocialEvents(): ESocialEvent[] {
     return [
       {
@@ -360,7 +457,6 @@ export class IntegrationService {
         currency: 'brl',
         status: 'succeeded',
         paymentMethod: 'pix',
-        description: 'Pagamento salário Maria Silva - Janeiro/2024',
         paymentIntentId: 'pi_123456789',
         createdAt: '2024-01-05T10:00:00Z',
         updatedAt: '2024-01-05T10:05:00Z'
@@ -371,7 +467,6 @@ export class IntegrationService {
         currency: 'brl',
         status: 'pending',
         paymentMethod: 'boleto',
-        description: 'Pagamento salário José Santos - Janeiro/2024',
         paymentIntentId: 'pi_987654321',
         createdAt: '2024-01-05T11:00:00Z',
         updatedAt: '2024-01-05T11:00:00Z'
@@ -423,7 +518,6 @@ export class IntegrationService {
             location: {
               latitude: -23.5505,
               longitude: -46.6333,
-              address: 'Rua Harmonia, 123 - São Paulo/SP'
             },
             method: 'mobile'
           },
@@ -446,7 +540,6 @@ export class IntegrationService {
             location: {
               latitude: -23.5505,
               longitude: -46.6333,
-              address: 'Rua Harmonia, 123 - São Paulo/SP'
             },
             method: 'mobile'
           }

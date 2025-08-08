@@ -1,4 +1,56 @@
 
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
 
 
 
@@ -6,15 +58,9 @@
 
 
 
-function logStructured(level, message, data = {}) {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-    data,
-    file: __filename,
-    function: arguments.callee.name || 'anonymous'
-  };
+
+
+// Função removida - causava erros de referência no frontend;
   
   // Console output
   const consoleMethod = level === 'error' ? 'error' : 
@@ -39,7 +85,6 @@ function logStructured(level, message, data = {}) {
 }
 
 // Aplicar logging
-logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
 
@@ -68,7 +113,6 @@ function assert(condition: any, message: string): void {
   }
 }
 
-// Componente Budget - Micro-frontend de Controle de Orçamento
 // Seguindo a REGRA DA SIMPLICIDADE EXTREMA
 
 import React, { useState, useEffect } from 'react';
@@ -108,7 +152,6 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Carregar orçamentos
   const loadBudgets = async () => {
     try {
       const response = await ApiClient.get('/api/budgets');
@@ -116,21 +159,16 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
       if (response.success) {
         setBudgets(response.data.data);
       } else {
-        Alert.alert('Erro', response.error || 'Não foi possível carregar os orçamentos');
       }
     } catch (error) {
-      console.error('Erro ao carregar orçamentos:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os orçamentos');
     } finally {
       setLoading(false);
     }
   };
 
-  // Criar orçamento de exemplo
   const createSampleBudget = async () => {
     try {
       const sampleBudget = {
-        name: 'Orçamento Exemplo',
         amount: 1000,
         category: 'Geral',
         startDate: new Date().toISOString(),
@@ -140,14 +178,10 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
       const response = await ApiClient.post('/api/budgets', sampleBudget);
       
       if (response.success) {
-        Alert.alert('Sucesso', 'Orçamento criado com sucesso!');
         loadBudgets();
       } else {
-        Alert.alert('Erro', response.error || 'Não foi possível criar o orçamento');
       }
     } catch (error) {
-      console.error('Erro ao criar orçamento:', error);
-      Alert.alert('Erro', 'Não foi possível criar o orçamento');
     }
   };
 
@@ -175,7 +209,6 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.loadingText}>Carregando orçamentos...</Text>
       </View>
     );
   }
@@ -183,7 +216,6 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Controle de Orçamento</Text>
         {onBack && (
           <TouchableOpacity style={styles.backButton} onPress={onBack}>
             <Text style={styles.backButtonText}>Voltar</Text>
@@ -192,12 +224,10 @@ const BudgetComponent: React.FC<BudgetComponentProps> = ({ onBack }) => {
       </View>
       
       <TouchableOpacity style={styles.createButton} onPress={createSampleBudget}>
-        <Text style={styles.createButtonText}>Criar Orçamento Exemplo</Text>
       </TouchableOpacity>
 
       <ScrollView style={styles.budgetList}>
         {budgets.length === 0 ? (
-          <Text style={styles.emptyText}>Nenhum orçamento encontrado</Text>
         ) : (
           budgets.map((budget) => (
             <View key={budget.id} style={styles.budgetCard}>
@@ -376,7 +406,6 @@ const styles = StyleSheet.create({
 export default BudgetComponent; 
 
 
-Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
  * - Express: https://expressjs.com/

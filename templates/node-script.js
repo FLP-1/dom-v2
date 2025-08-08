@@ -4,7 +4,7 @@
  * @fileoverview [DESCREVER SCRIPT]
  * @author [SEU NOME]
  * @version 1.0.0
- * @since 2025-07-26
+ * @since 2025-08-06
  * 
  * @description
  * Este script implementa [FUNCIONALIDADE] seguindo as diretivas críticas.

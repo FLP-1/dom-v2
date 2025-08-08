@@ -1,333 +1,132 @@
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description Provedor de tema DOM v2
+ */
 
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-
-
-
-
-
-
-import React, { createContext, useContext, ReactNode } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-
-
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
+interface Theme {
+  colors: {
+    primary: string;
+    secondary: string;
+    background: string;
+    surface: string;
+    text: string;
+    textSecondary: string;
+    error: string;
+    success: string;
+    warning: string;
+    info: string;
+  };
+  spacing: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+  };
+  borderRadius: {
+    sm: number;
+    md: number;
+    lg: number;
+  };
 }
 
+const lightTheme: Theme = {
+  colors: {
+    primary: '#6366f1',
+    secondary: '#8b5cf6',
+    background: '#ffffff',
+    surface: '#f8fafc',
+    text: '#1e293b',
+    textSecondary: '#64748b',
+    error: '#ef4444',
+    success: '#10b981',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+  },
+  borderRadius: {
+    sm: 4,
+    md: 8,
+    lg: 12,
+  },
+};
 
-function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}
+const darkTheme: Theme = {
+  colors: {
+    primary: '#818cf8',
+    secondary: '#a78bfa',
+    background: '#0f172a',
+    surface: '#1e293b',
+    text: '#f1f5f9',
+    textSecondary: '#94a3b8',
+    error: '#f87171',
+    success: '#34d399',
+    warning: '#fbbf24',
+    info: '#60a5fa',
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+  },
+  borderRadius: {
+    sm: 4,
+    md: 8,
+    lg: 12,
+  },
+};
 
-
-function assert(condition: any, message: string): void {
-  if (!condition) {
-    throw new Error(`Assertion failed: ${message}
-
-
-function log(level: string, message: string, data?: any): void {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}
-
-
-function validateType(value: any, expectedType: string): boolean {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null;
-    case 'array':
-      return Array.isArray(value);
-    default:
-      return false;
-  }
-}] [${level.toUpperCase()}] ${message}`, data || '');
-}`);
-  }
-}:`, error.message);
-  // Implementar logging, notificação, etc.
-}
-import { 
-  getPersonalizationConfig, 
-  UserProfile, 
-  PersonalizationConfig,
-  createUserProfile,
-  UserProfileType 
-} from './user-profiles';
-
-// Contexto do tema
 interface ThemeContextType {
-  config: PersonalizationConfig;
-  profile: UserProfile;
-  updateProfile: (type: UserProfileType) => void;
+  theme: Theme;
+  isDark: boolean;
+  toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-// Props do provider
 interface ThemeProviderProps {
   children: ReactNode;
-  initialProfileType?: UserProfileType;
 }
 
-// Provider do tema
-export function ThemeProvider({ children, initialProfileType = 'EMPLOYER' }: ThemeProviderProps) {
-  const [profile, setProfile] = React.useState<UserProfile>(() => 
-    createUserProfile(initialProfileType)
-  );
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  const [isDark, setIsDark] = useState(false);
 
-  const config = React.useMemo(() => 
-    getPersonalizationConfig(profile), 
-    [profile]
-  );
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
 
-  const updateProfile = React.useCallback((type: UserProfileType) => {
-    setProfile(createUserProfile(type));
-  }, []);
+  const theme = isDark ? darkTheme : lightTheme;
 
-  const value = React.useMemo(() => ({
-    config,
-    profile,
-    updateProfile,
-  }), [config, profile, updateProfile]);
+  const value: ThemeContextType = {
+    theme,
+    isDark,
+    toggleTheme,
+  };
 
   return (
     <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
-}
+};
 
-// Hook para usar o tema
-export function useTheme() {
+export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error('useTheme deve ser usado dentro de um ThemeProvider');
   }
   return context;
-}
-
-// Hook para obter apenas a configuração
-export function useThemeConfig() {
-  const { config } = useTheme();
-  return config;
-}
-
-// Hook para obter apenas o perfil
-export function useUserProfile() {
-  const { profile } = useTheme();
-  return profile;
-}
-
-// Utilitários de estilo baseados no tema
-export function createStyleSheet(theme: PersonalizationConfig) {
-  return {
-    // Cores
-    colors: theme.theme.colors,
-    
-    // Tipografia
-    typography: {
-      small: {
-        fontSize: theme.theme.typography.fontSize.small,
-        fontWeight: theme.theme.typography.fontWeight.normal,
-        color: theme.theme.colors.text,
-      },
-      medium: {
-        fontSize: theme.theme.typography.fontSize.medium,
-        fontWeight: theme.theme.typography.fontWeight.normal,
-        color: theme.theme.colors.text,
-      },
-      large: {
-        fontSize: theme.theme.typography.fontSize.large,
-        fontWeight: theme.theme.typography.fontWeight.medium,
-        color: theme.theme.colors.text,
-      },
-      xlarge: {
-        fontSize: theme.theme.typography.fontSize.xlarge,
-        fontWeight: theme.theme.typography.fontWeight.bold,
-        color: theme.theme.colors.text,
-      },
-      secondary: {
-        fontSize: theme.theme.typography.fontSize.medium,
-        fontWeight: theme.theme.typography.fontWeight.normal,
-        color: theme.theme.colors.textSecondary,
-      },
-    },
-    
-    // Espaçamentos
-    spacing: theme.theme.spacing,
-    
-    // Layout
-    layout: {
-      container: {
-        flex: 1,
-        backgroundColor: theme.theme.colors.background,
-        padding: theme.theme.spacing.medium,
-      },
-      card: {
-        backgroundColor: theme.theme.colors.surface,
-        borderRadius: 8,
-        padding: theme.theme.spacing.medium,
-        marginVertical: theme.theme.spacing.small,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-      },
-      button: {
-        primary: {
-          backgroundColor: theme.theme.colors.primary,
-          paddingVertical: theme.theme.spacing.medium,
-          paddingHorizontal: theme.theme.spacing.large,
-          borderRadius: 8,
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        secondary: {
-          backgroundColor: theme.theme.colors.surface,
-          borderColor: theme.theme.colors.primary,
-          borderWidth: 1,
-          paddingVertical: theme.theme.spacing.medium,
-          paddingHorizontal: theme.theme.spacing.large,
-          borderRadius: 8,
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        text: {
-          color: theme.theme.colors.primary,
-          fontSize: theme.theme.typography.fontSize.medium,
-          fontWeight: theme.theme.typography.fontWeight.medium,
-        },
-      },
-      input: {
-        backgroundColor: theme.theme.colors.surface,
-        borderColor: theme.theme.colors.textSecondary,
-        borderWidth: 1,
-        borderRadius: 8,
-        padding: theme.theme.spacing.medium,
-        fontSize: theme.theme.typography.fontSize.medium,
-        color: theme.theme.colors.text,
-      },
-      header: {
-        backgroundColor: theme.theme.colors.primary,
-        paddingVertical: theme.theme.spacing.large,
-        paddingHorizontal: theme.theme.spacing.medium,
-        alignItems: 'center',
-      },
-      headerText: {
-        color: '#FFFFFF',
-        fontSize: theme.theme.typography.fontSize.large,
-        fontWeight: theme.theme.typography.fontWeight.bold,
-      },
-    },
-    
-    // Ícones
-    icons: {
-      small: {
-        width: theme.theme.icons.size.small,
-        height: theme.theme.icons.size.small,
-      },
-      medium: {
-        width: theme.theme.icons.size.medium,
-        height: theme.theme.icons.size.medium,
-      },
-      large: {
-        width: theme.theme.icons.size.large,
-        height: theme.theme.icons.size.large,
-      },
-    },
-  };
-}
-
-// Hook para obter estilos baseados no tema atual
-export function useStyles() {
-  const { config } = useTheme();
-  return React.useMemo(() => createStyleSheet(config), [config]);
-}
-
-// Interfaces para os componentes temáticos
-interface ThemedViewProps {
-  children: ReactNode;
-  style?: any;
-  [key: string]: unknown;
-}
-
-interface ThemedTextProps {
-  children: ReactNode;
-  variant?: 'small' | 'medium' | 'large' | 'xlarge' | 'secondary';
-  style?: any;
-  [key: string]: unknown;
-}
-
-interface ThemedButtonProps {
-  children: ReactNode;
-  variant?: 'primary' | 'secondary';
-  onPress?: () => void;
-  style?: any;
-  textStyle?: any;
-  [key: string]: unknown;
-}
-
-// Componente de exemplo usando o tema
-export function ThemedView({ children, style, ...props }: ThemedViewProps) {
-  const styles = useStyles();
-  
-  return (
-    <View style={[styles.layout.container, style]} {...props}>
-      {children}
-    </View>
-  );
-}
-
-// Componente de texto temático
-export function ThemedText({ children, variant = 'medium', style, ...props }: ThemedTextProps) {
-  const styles = useStyles();
-  
-  return (
-    <Text style={[styles.typography[variant], style]} {...props}>
-      {children}
-    </Text>
-  );
-}
-
-// Componente de botão temático
-export function ThemedButton({ 
-  children, 
-  variant = 'primary', 
-  onPress, 
-  style, 
-  textStyle,
-  ...props 
-}: ThemedButtonProps) {
-  const styles = useStyles();
-  
-  return (
-    <TouchableOpacity 
-      style={[styles.layout.button[variant], style]} 
-      onPress={onPress}
-      {...props}
-    >
-      <Text style={[styles.layout.button.text, textStyle]}>
-        {children}
-      </Text>
-    </TouchableOpacity>
-  );
-} 
-
-
-Referências externas:
- * - Node.js: https://nodejs.org/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * - Express: https://expressjs.com/
- * - Prisma: https://www.prisma.io/docs
- * - React: https://react.dev/
- * - Jest: https://jestjs.io/docs
- * - React Native: https://reactnative.dev/
- * - Webpack: https://webpack.js.org/
-  */
+};

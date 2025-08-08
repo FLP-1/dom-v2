@@ -2,7 +2,7 @@
  * @fileoverview [DESCREVER COMPONENTE]
  * @author [SEU NOME]
  * @version 1.0.0
- * @since 2025-07-26
+ * @since 2025-08-06
  * 
  * @description
  * Este componente implementa [FUNCIONALIDADE] seguindo as diretivas críticas.

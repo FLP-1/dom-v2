@@ -1,4 +1,56 @@
 
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
 
 
 
@@ -6,15 +58,9 @@
 
 
 
-function logStructured(level, message, data = {}) {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-    data,
-    file: __filename,
-    function: arguments.callee.name || 'anonymous'
-  };
+
+
+// Função removida - causava erros de referência no frontend;
   
   // Console output
   const consoleMethod = level === 'error' ? 'error' : 
@@ -39,7 +85,6 @@ function logStructured(level, message, data = {}) {
 }
 
 // Aplicar logging
-logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
 
@@ -130,11 +175,9 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
       if (response.success) {
         setTasks(response.data.data);
       } else {
-        Alert.alert('Erro', response.error || 'Não foi possível carregar as tarefas');
       }
     } catch (error) {
       console.error('Erro ao carregar tarefas:', error);
-      Alert.alert('Erro', 'Não foi possível carregar as tarefas');
     } finally {
       setLoading(false);
     }
@@ -159,28 +202,22 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
         });
         loadTasks();
       } else {
-        Alert.alert('Erro', response.error || 'Não foi possível criar a tarefa');
       }
     } catch (error) {
       console.error('Erro ao criar tarefa:', error);
-      Alert.alert('Erro', 'Não foi possível criar a tarefa');
     }
   };
 
-  // Marcar tarefa como concluída
   const completeTask = async (taskId: string) => {
     try {
       const response = await ApiClient.put(`/api/tasks/${taskId}/complete`);
       
       if (response.success) {
-        Alert.alert('Sucesso', 'Tarefa marcada como concluída!');
         loadTasks();
       } else {
-        Alert.alert('Erro', response.error || 'Não foi possível completar a tarefa');
       }
     } catch (error) {
       console.error('Erro ao completar tarefa:', error);
-      Alert.alert('Erro', 'Não foi possível completar a tarefa');
     }
   };
 
@@ -210,7 +247,6 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
       case 'in_progress':
         return 'Em Progresso';
       case 'completed':
-        return 'Concluída';
       case 'cancelled':
         return 'Cancelada';
       default:
@@ -223,7 +259,6 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
       case 1:
         return 'Baixa';
       case 2:
-        return 'Média';
       case 3:
         return 'Alta';
       case 4:
@@ -244,10 +279,8 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>📋 Gerenciamento de Tarefas</Text>
         {onBack && (
           <TouchableOpacity style={styles.backButton} onPress={onBack}>
-            <Text style={styles.backButtonText}>← Voltar</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -267,14 +300,12 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
           
           <TextInput
             style={styles.input}
-            placeholder="Título da tarefa"
             value={newTask.titulo}
             onChangeText={(text) => setNewTask({...newTask, titulo: text})}
           />
           
           <TextInput
             style={[styles.input, styles.textArea]}
-            placeholder="Descrição (opcional)"
             value={newTask.descricao}
             onChangeText={(text) => setNewTask({...newTask, descricao: text})}
             multiline
@@ -324,14 +355,11 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
               
               <View style={styles.taskDetails}>
                 <Text style={styles.taskDetail}>
-                  📅 Criada em: {new Date(task.data_criacao).toLocaleDateString('pt-BR')}
                 </Text>
                 <Text style={styles.taskDetail}>
-                  ⚡ Prioridade: {getPriorityText(task.prioridade)}
                 </Text>
                 {task.categoria && (
                   <Text style={styles.taskDetail}>
-                    🏷️ Categoria: {task.categoria}
                   </Text>
                 )}
               </View>
@@ -341,7 +369,6 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ onBack }) => {
                   style={styles.completeButton}
                   onPress={() => completeTask(task.id)}
                 >
-                  <Text style={styles.completeButtonText}>✓ Marcar como Concluída</Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -528,7 +555,6 @@ const styles = StyleSheet.create({
 export default TaskComponent; 
 
 
-Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
  * - Express: https://expressjs.com/

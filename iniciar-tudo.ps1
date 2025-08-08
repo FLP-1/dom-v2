@@ -16,7 +16,7 @@ Start-Sleep -Seconds 2
 
 # Iniciar Backend em uma nova janela
 Write-Host "Iniciando Backend..." -ForegroundColor Cyan
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\backend'; npx ts-node src/server-simple-dashboard.ts" -WindowStyle Normal
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\backend'; `$env:DATABASE_URL = 'postgresql://postgres:FLP*2025@localhost:5432/db_dom'; npx ts-node src/server-real-database.ts" -WindowStyle Normal
 
 # Aguardar o backend inicializar
 Write-Host "Aguardando backend inicializar..." -ForegroundColor Yellow

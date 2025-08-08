@@ -18,9 +18,9 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\bac
 # 4. Aguardar backend
 Start-Sleep -Seconds 10
 
-# 5. Iniciar frontend
-Write-Host "4. Iniciando frontend..." -ForegroundColor Yellow
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; node server-web-robust.js"
+# 5. Iniciar frontend (Webpack Dev Server)
+Write-Host "4. Iniciando frontend (Webpack Dev Server)..." -ForegroundColor Yellow
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; npm run dev"
 
 Write-Host ""
 Write-Host "✅ Pronto! Acesse: http://localhost:3000" -ForegroundColor Green 

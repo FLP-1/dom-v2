@@ -1,3 +1,119 @@
+
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
+}
+
+// Validação de tipos removida - causava erro de referência
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Custom Hook React
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 import { useState, useEffect } from 'react';
 import { UserProfileType } from '../utils/user-profiles';
 
@@ -61,7 +177,6 @@ interface DashboardData {
   };
 }
 
-// Dados mock customizados por tipo de usuário
 const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
   const baseData = {
     overview: {
@@ -119,36 +234,26 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
         },
         recentData: {
           notifications: [
-            { id: 1, title: 'Pagamento aprovado', message: 'Pagamento do funcionário Maria foi aprovado', timestamp: new Date().toISOString(), type: 'success' },
-            { id: 2, title: 'Orçamento atualizado', message: 'Orçamento de março foi atualizado com sucesso', timestamp: new Date().toISOString(), type: 'info' },
-            { id: 3, title: 'Nova solicitação', message: 'Funcionário João solicitou férias', timestamp: new Date().toISOString(), type: 'warning' }
           ],
           tasks: [
-            { id: 1, title: 'Revisar orçamento mensal', status: 'pending', priority: 'high' },
             { id: 2, title: 'Aprovar pagamentos pendentes', status: 'in_progress', priority: 'medium' },
-            { id: 3, title: 'Avaliar solicitações de férias', status: 'pending', priority: 'medium' }
           ],
           recentPayrolls: [
             { id: 1, employeeName: 'Maria Santos', amount: 4200.00, status: 'paid' },
-            { id: 2, employeeName: 'João Silva', amount: 3800.00, status: 'pending' },
             { id: 3, employeeName: 'Ana Costa', amount: 3500.00, status: 'paid' }
           ],
           recentPayments: [
             { id: 1, description: 'Pagamento fornecedor limpeza', amount: 1200.00, status: 'completed' },
             { id: 2, description: 'Conta de energia', amount: 450.00, status: 'pending' },
-            { id: 3, description: 'Seguro dos funcionários', amount: 800.00, status: 'completed' }
           ],
           recentPurchases: [
             { id: 1, item: 'Material de limpeza', amount: 500.00, status: 'approved' },
-            { id: 2, item: 'Equipamentos de segurança', amount: 1500.00, status: 'pending' },
-            { id: 3, item: 'Uniforme dos funcionários', amount: 800.00, status: 'approved' }
           ]
         },
         charts: {
           budgetByCategory: {
             'Folha de Pagamento': 72000,
             'Material de Limpeza': 5000,
-            'Manutenção': 3000,
             'Seguros': 2000,
             'Outros': 3000
           },
@@ -158,7 +263,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
             'Atrasado': 2
           },
           paymentsByStatus: {
-            'Concluído': 25,
             'Pendente': 5,
             'Cancelado': 1
           },
@@ -168,7 +272,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
             'Rejeitado': 1
           },
           tasksByStatus: {
-            'Concluído': 20,
             'Em andamento': 8,
             'Pendente': 12
           }
@@ -197,15 +300,11 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
         recentData: {
           notifications: [
             { id: 1, title: 'Pagamento recebido', message: 'Seu pagamento foi processado com sucesso', timestamp: new Date().toISOString(), type: 'success' },
-            { id: 2, title: 'Lembrete de férias', message: 'Você tem 15 dias de férias disponíveis', timestamp: new Date().toISOString(), type: 'info' },
-            { id: 3, title: 'Nova tarefa', message: 'Nova tarefa atribuída: Limpeza da área externa', timestamp: new Date().toISOString(), type: 'warning' }
           ],
           tasks: [
-            { id: 1, title: 'Limpeza da área externa', status: 'pending', priority: 'medium' },
             { id: 2, title: 'Organizar estoque', status: 'in_progress', priority: 'low' }
           ],
           recentPayrolls: [
-            { id: 1, employeeName: 'Você', amount: 4200.00, status: 'paid' }
           ],
           recentPayments: [],
           recentPurchases: []
@@ -220,7 +319,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
           paymentsByStatus: {},
           purchasesByStatus: {},
           tasksByStatus: {
-            'Concluído': 5,
             'Em andamento': 1,
             'Pendente': 2
           }
@@ -248,18 +346,11 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
         },
         recentData: {
           notifications: [
-            { id: 1, title: 'Orçamento familiar', message: 'Orçamento familiar atualizado', timestamp: new Date().toISOString(), type: 'info' },
-            { id: 2, title: 'Pagamento doméstica', message: 'Pagamento da doméstica foi processado', timestamp: new Date().toISOString(), type: 'success' },
-            { id: 3, title: 'Lembrete de compras', message: 'Lista de compras da semana disponível', timestamp: new Date().toISOString(), type: 'warning' }
           ],
           tasks: [
-            { id: 1, title: 'Revisar orçamento familiar', status: 'pending', priority: 'medium' },
             { id: 2, title: 'Aprovar compras da semana', status: 'in_progress', priority: 'low' },
-            { id: 3, title: 'Agendar pagamento doméstica', status: 'pending', priority: 'high' }
           ],
           recentPayrolls: [
-            { id: 1, employeeName: 'Maria Doméstica', amount: 1200.00, status: 'paid' },
-            { id: 2, employeeName: 'João Jardineiro', amount: 800.00, status: 'pending' }
           ],
           recentPayments: [
             { id: 1, description: 'Conta de luz', amount: 150.00, status: 'completed' },
@@ -272,7 +363,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
         },
         charts: {
           budgetByCategory: {
-            'Serviços Domésticos': 6000,
             'Contas da Casa': 1200,
             'Compras': 800
           },
@@ -282,7 +372,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
             'Atrasado': 0
           },
           paymentsByStatus: {
-            'Concluído': 8,
             'Pendente': 1,
             'Cancelado': 0
           },
@@ -292,7 +381,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
             'Rejeitado': 0
           },
           tasksByStatus: {
-            'Concluído': 8,
             'Em andamento': 2,
             'Pendente': 3
           }
@@ -320,13 +408,8 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
         },
         recentData: {
           notifications: [
-            { id: 1, title: 'Relatório mensal', message: 'Relatório de performance do mês disponível', timestamp: new Date().toISOString(), type: 'info' },
-            { id: 2, title: 'Alerta de orçamento', message: 'Orçamento de RH atingiu 85% do limite', timestamp: new Date().toISOString(), type: 'warning' },
-            { id: 3, title: 'Nova solicitação', message: 'Solicitação de contratação pendente', timestamp: new Date().toISOString(), type: 'warning' }
           ],
           tasks: [
-            { id: 1, title: 'Revisar relatório mensal', status: 'pending', priority: 'high' },
-            { id: 2, title: 'Aprovar contratações', status: 'in_progress', priority: 'high' },
             { id: 3, title: 'Analisar performance', status: 'pending', priority: 'medium' }
           ],
           recentPayrolls: [
@@ -341,8 +424,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
           ],
           recentPurchases: [
             { id: 1, item: 'Equipamentos TI', amount: 8000.00, status: 'approved' },
-            { id: 2, item: 'Mobiliário', amount: 5000.00, status: 'pending' },
-            { id: 3, item: 'Material de escritório', amount: 2000.00, status: 'approved' }
           ]
         },
         charts: {
@@ -359,7 +440,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
             'Atrasado': 5
           },
           paymentsByStatus: {
-            'Concluído': 120,
             'Pendente': 12,
             'Cancelado': 3
           },
@@ -369,7 +449,6 @@ const getMockDataByProfile = (profileType: UserProfileType): DashboardData => {
             'Rejeitado': 2
           },
           tasksByStatus: {
-            'Concluído': 80,
             'Em andamento': 25,
             'Pendente': 25
           }

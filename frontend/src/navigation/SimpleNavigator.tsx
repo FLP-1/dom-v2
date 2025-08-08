@@ -1,3 +1,161 @@
+
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
+}
+
+// Validação de tipos removida - causava erro de referência
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+function handleError(error, context = 'unknown') {
+  console.error(`[ERROR] ${context}:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
+  };
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
+}
+
+// Aplicar tratamento de erro
+try {
+} catch (error) {
+  handleError(error, 'main-execution');
+}
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import { DashboardScreen } from '../screens/dashboard-screen';
@@ -9,6 +167,10 @@ import { AdvancedTimeCardScreen } from '../screens/advanced-timecard-screen';
 import { PaymentIntegrationsScreen } from '../screens/payment-integrations-screen';
 import { ReportsScreen } from '../screens/reports-screen';
 import { NotificationsScreen } from '../screens/notifications-screen';
+import { LoginScreen } from '../screens/login-screen';
+import { TasksScreen } from '../screens/tasks-screen';
+import { PayrollScreen } from '../screens/payroll-screen';
+import { useAuthContext } from '../context/AuthContext';
 
 interface User {
   id: string;
@@ -17,23 +179,30 @@ interface User {
   profile: UserProfileType;
 }
 
-type Screen = 'dashboard' | 'tasks' | 'notifications' | 'payroll' | 'budget' | 'employees' | 'profile' | 'navigation' | 'users' | 'finance' | 'hr' | 'advancedTimeCard' | 'paymentIntegrations' | 'reports';
+type Screen = 'login' | 'dashboard' | 'tasks' | 'notifications' | 'payroll' | 'budget' | 'employees' | 'profile' | 'navigation' | 'users' | 'finance' | 'hr' | 'advancedTimeCard' | 'paymentIntegrations' | 'reports';
 
 const SimpleNavigator: React.FC = () => {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('dashboard');
+  const { user, isAuthenticated, loading, logout } = useAuthContext();
+  const [currentScreen, setCurrentScreen] = useState<Screen>('login');
   const [showMenu, setShowMenu] = useState(false);
-  
-  // Usuário mock para teste
-  const [user] = useState<User>({
-    id: '1',
-    name: 'João Silva',
-    cpf: '123.456.789-00',
-    profile: 'EMPLOYER'
-  });
 
-  const handleLogout = () => {
-    console.log('Logout realizado');
-    // Aqui implementaria a lógica de logout
+  // Navegar para dashboard quando autenticado
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      setCurrentScreen('dashboard');
+    } else if (!loading) {
+      setCurrentScreen('login');
+    }
+  }, [isAuthenticated, user, loading]);
+
+  const handleLogout = async () => {
+    await logout();
+    setCurrentScreen('login');
+    setShowMenu(false);
+  };
+
+  const handleLogin = (user: User) => {
+    setCurrentScreen('dashboard');
   };
 
   const handleNavigate = (screen: Screen) => {
@@ -51,6 +220,18 @@ const SimpleNavigator: React.FC = () => {
   const handleNavigateToAdvancedTimeCard = () => handleNavigate('advancedTimeCard');
   const handleNavigateToPaymentIntegrations = () => handleNavigate('paymentIntegrations');
   const handleNavigateToReports = () => handleNavigate('reports');
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Carregando...</Text>
+      </View>
+    );
+  }
+
+  if (!isAuthenticated || !user) {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -74,107 +255,17 @@ const SimpleNavigator: React.FC = () => {
       
       case 'tasks':
         return (
-          <View style={styles.screen}>
-            <View style={styles.header}>
-              <Pressable style={styles.backButton} onPress={() => handleNavigate('dashboard')}>
-                <Text style={styles.backButtonText}>← Voltar</Text>
-              </Pressable>
-              <Text style={styles.headerTitle}>📋 Tarefas</Text>
-            </View>
-            <View style={styles.content}>
-              <Text style={styles.screenTitle}>Lista de Tarefas</Text>
-              <Text style={styles.screenDescription}>
-                Gerencie suas tarefas e atividades pendentes
-              </Text>
-              
-              {/* Tarefas mock */}
-              <View style={styles.taskList}>
-                <View style={styles.taskItem}>
-                  <Text style={styles.taskTitle}>Revisar orçamento mensal</Text>
-                  <Text style={styles.taskStatus}>⏳ Pendente</Text>
-                </View>
-                <View style={styles.taskItem}>
-                  <Text style={styles.taskTitle}>Aprovar pagamentos</Text>
-                  <Text style={styles.taskStatus}>🔄 Em andamento</Text>
-                </View>
-                <View style={styles.taskItem}>
-                  <Text style={styles.taskTitle}>Avaliar funcionários</Text>
-                  <Text style={styles.taskStatus}>✅ Concluído</Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <TasksScreen onNavigateBack={() => handleNavigate('dashboard')} />
         );
 
       case 'notifications':
         return (
-          <View style={styles.screen}>
-            <View style={styles.header}>
-              <Pressable style={styles.backButton} onPress={() => handleNavigate('dashboard')}>
-                <Text style={styles.backButtonText}>← Voltar</Text>
-              </Pressable>
-              <Text style={styles.headerTitle}>🔔 Notificações</Text>
-            </View>
-            <View style={styles.content}>
-              <Text style={styles.screenTitle}>Centro de Notificações</Text>
-              <Text style={styles.screenDescription}>
-                Todas as suas notificações e alertas
-              </Text>
-              
-              {/* Notificações mock */}
-              <View style={styles.notificationList}>
-                <View style={styles.notificationItem}>
-                  <Text style={styles.notificationTitle}>Pagamento aprovado</Text>
-                  <Text style={styles.notificationMessage}>Pagamento do funcionário Maria foi aprovado</Text>
-                  <Text style={styles.notificationTime}>Há 2 horas</Text>
-                </View>
-                <View style={styles.notificationItem}>
-                  <Text style={styles.notificationTitle}>Orçamento atualizado</Text>
-                  <Text style={styles.notificationMessage}>Orçamento de março foi atualizado com sucesso</Text>
-                  <Text style={styles.notificationTime}>Há 1 dia</Text>
-                </View>
-                <View style={styles.notificationItem}>
-                  <Text style={styles.notificationTitle}>Nova solicitação</Text>
-                  <Text style={styles.notificationMessage}>Funcionário João solicitou férias</Text>
-                  <Text style={styles.notificationTime}>Há 2 dias</Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <NotificationsScreen onNavigateBack={() => handleNavigate('dashboard')} />
         );
 
       case 'payroll':
         return (
-          <View style={styles.screen}>
-            <View style={styles.header}>
-              <Pressable style={styles.backButton} onPress={() => handleNavigate('dashboard')}>
-                <Text style={styles.backButtonText}>← Voltar</Text>
-              </Pressable>
-              <Text style={styles.headerTitle}>💰 Folha de Pagamento</Text>
-            </View>
-            <View style={styles.content}>
-              <Text style={styles.screenTitle}>Gestão de Folha de Pagamento</Text>
-              <Text style={styles.screenDescription}>
-                Controle salários, benefícios e pagamentos
-              </Text>
-              
-              {/* Dados da folha mock */}
-              <View style={styles.payrollSummary}>
-                <View style={styles.summaryCard}>
-                  <Text style={styles.summaryTitle}>Total de Funcionários</Text>
-                  <Text style={styles.summaryValue}>12</Text>
-                </View>
-                <View style={styles.summaryCard}>
-                  <Text style={styles.summaryTitle}>Folha Total</Text>
-                  <Text style={styles.summaryValue}>R$ 75.000,00</Text>
-                </View>
-                <View style={styles.summaryCard}>
-                  <Text style={styles.summaryTitle}>Pendentes</Text>
-                  <Text style={styles.summaryValue}>3</Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <PayrollScreen onNavigateBack={() => handleNavigate('dashboard')} />
         );
 
       case 'navigation':
@@ -182,34 +273,25 @@ const SimpleNavigator: React.FC = () => {
           <View style={styles.screen}>
             <View style={styles.header}>
               <Pressable style={styles.backButton} onPress={() => handleNavigate('dashboard')}>
-                <Text style={styles.backButtonText}>← Voltar</Text>
               </Pressable>
-              <Text style={styles.headerTitle}>🎯 Navegação</Text>
             </View>
             <View style={styles.content}>
-              <Text style={styles.screenTitle}>Menu de Navegação</Text>
               <Text style={styles.screenDescription}>
                 Acesse todas as funcionalidades do sistema
               </Text>
               
               <View style={styles.navigationMenu}>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('tasks')}>
-                  <Text style={styles.navButtonText}>📋 Tarefas</Text>
                 </Pressable>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('notifications')}>
-                  <Text style={styles.navButtonText}>🔔 Notificações</Text>
                 </Pressable>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('payroll')}>
-                  <Text style={styles.navButtonText}>💰 Folha de Pagamento</Text>
                 </Pressable>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('budget')}>
-                  <Text style={styles.navButtonText}>📊 Orçamento</Text>
                 </Pressable>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('employees')}>
-                  <Text style={styles.navButtonText}>👥 Funcionários</Text>
                 </Pressable>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('profile')}>
-                  <Text style={styles.navButtonText}>👤 Meu Perfil</Text>
                 </Pressable>
               </View>
             </View>
@@ -246,24 +328,16 @@ const SimpleNavigator: React.FC = () => {
           <ReportsScreen onNavigateBack={() => handleNavigate('dashboard')} />
         );
 
-      case 'notifications':
-        return (
-          <NotificationsScreen onNavigateBack={() => handleNavigate('dashboard')} />
-        );
-
       default:
         return (
           <View style={styles.screen}>
             <View style={styles.header}>
               <Pressable style={styles.backButton} onPress={() => handleNavigate('dashboard')}>
-                <Text style={styles.backButtonText}>← Voltar</Text>
               </Pressable>
-              <Text style={styles.headerTitle}>🚧 Em Construção</Text>
             </View>
             <View style={styles.content}>
               <Text style={styles.screenTitle}>Funcionalidade em Desenvolvimento</Text>
               <Text style={styles.screenDescription}>
-                Esta tela está sendo implementada. Volte ao dashboard para acessar as funcionalidades disponíveis.
               </Text>
             </View>
           </View>
@@ -286,28 +360,20 @@ const SimpleNavigator: React.FC = () => {
           <View style={styles.menuContainer}>
             <Text style={styles.menuTitle}>Menu Principal</Text>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('dashboard')}>
-              <Text style={styles.menuItemText}>🏠 Dashboard</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('tasks')}>
-              <Text style={styles.menuItemText}>📋 Tarefas</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('notifications')}>
-              <Text style={styles.menuItemText}>🔔 Notificações</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('payroll')}>
-              <Text style={styles.menuItemText}>💰 Folha de Pagamento</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('budget')}>
-              <Text style={styles.menuItemText}>📊 Orçamento</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('employees')}>
-              <Text style={styles.menuItemText}>👥 Funcionários</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('profile')}>
-              <Text style={styles.menuItemText}>👤 Meu Perfil</Text>
             </Pressable>
             <Pressable style={styles.menuCloseButton} onPress={() => setShowMenu(false)}>
-              <Text style={styles.menuCloseButtonText}>✕ Fechar</Text>
             </Pressable>
           </View>
         </View>
@@ -320,6 +386,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#666',
   },
   screen: {
     flex: 1,

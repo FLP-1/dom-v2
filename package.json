@@ -27,7 +27,7 @@
     "phase3-final-report": "node scripts/phase3-final-report.js",
     "start-backend": "powershell -Command \"Set-Location backend; npm run dev\"",
     "start-frontend": "powershell -Command \"Set-Location frontend; npm run dev\"",
-    "start-web": "powershell -Command \"Set-Location frontend; node server-web.js\"",
+    "start-web": "powershell -Command \"Set-Location frontend; npm run dev\"",
     "start-dev": "powershell -Command \"concurrently 'npm run start-backend' 'npm run start-frontend'\"",
     "health-check": "powershell -Command \"Invoke-WebRequest -Uri 'http://localhost:3001/health' -Method GET\"",
     "install-all": "powershell -Command \"npm install; Set-Location backend; npm install; Set-Location ../frontend; npm install; Set-Location ..\"",
@@ -48,7 +48,10 @@
     "fix-port": "node scripts/fix-port-3000.js",
     "test-fixes": "node scripts/test-fixes.js",
     "install-deps": "node scripts/install-dependencies.js",
-    "setup-dev": "node scripts/install-dependencies.js"
+    "setup-dev": "node scripts/install-dependencies.js",
+    "clean-obsolete": "node scripts/limpeza-obsoletos-simples.js",
+    "clean-obsolete-advanced": "node scripts/analisar-arquivos-obsoletos.js",
+    "clean-obsolete-powershell": "powershell -ExecutionPolicy Bypass -File scripts/limpeza-obsoletos.ps1"
   },
   "keywords": [
     "dom",

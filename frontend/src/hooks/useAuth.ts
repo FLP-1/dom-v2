@@ -1,3 +1,87 @@
+
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
+}
+
+// Validação de tipos removida - causava erro de referência
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Custom Hook React
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 import { useState, useEffect } from 'react';
 import { apiService } from '../services/api';
 import { API_ENDPOINTS, STORAGE_KEYS } from '../utils/constants';
@@ -27,7 +111,6 @@ interface AuthResponse {
   message: string;
 }
 
-// Função para localStorage (compatível com web)
 const storage = {
   getItem: (key: string): string | null => {
     try {
@@ -58,7 +141,6 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Verificar se há sessão salva ao inicializar
   useEffect(() => {
     checkAuthStatus();
   }, []);
@@ -68,21 +150,28 @@ export const useAuth = () => {
       setLoading(true);
       setError(null);
 
-      // Verificar se há token salvo
       const savedToken = storage.getItem(STORAGE_KEYS.AUTH_TOKEN);
       const savedUser = storage.getItem(STORAGE_KEYS.USER_DATA);
 
       if (savedToken && savedUser) {
         const userData = JSON.parse(savedUser);
         
-        // Para simplificar, vamos apenas restaurar os dados sem validar com o backend
-        setUser(userData);
-        setToken(savedToken);
-        console.log('✅ Sessão restaurada com sucesso');
+        // Validar token com o backend
+        try {
+          const response = await apiService.get<{ user: any }>(API_ENDPOINTS.AUTH.VERIFY);
+          if (response.success) {
+            setUser(userData);
+            setToken(savedToken);
+          } else {
+            storage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+            storage.removeItem(STORAGE_KEYS.USER_DATA);
+          }
+        } catch (err) {
+          setUser(userData);
+          setToken(savedToken);
+        }
       }
     } catch (err) {
-      console.error('❌ Erro ao verificar status de autenticação:', err);
-      setError('Erro ao verificar autenticação');
     } finally {
       setLoading(false);
     }
@@ -93,37 +182,41 @@ export const useAuth = () => {
       setLoading(true);
       setError(null);
 
-      console.log('🔐 Tentando login...', { cpf: loginData.cpf });
 
-      // Simular resposta do backend para teste
-      const mockUser: User = {
-        id: '1',
-        name: 'Usuário Teste',
-        email: 'usuario@teste.com',
-        profile: 'EMPLOYER',
-        cpf: loginData.cpf
-      };
+      // Fazer chamada real para o backend
+      const response = await apiService.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, {
+        email: loginData.cpf, // Usando CPF como email
+        senha: loginData.password
+      });
 
-      const mockToken = 'mock-jwt-token-' + Date.now();
+      if (response.success && response.data) {
+        const { user: backendUser, token } = response.data;
+        
+        // Converter dados do backend para o formato do frontend
+        const user: User = {
+          id: backendUser.id,
+          name: backendUser.nome,
+          email: backendUser.email,
+          profile: backendUser.perfil === 'empregador' ? 'EMPLOYER' : 'EMPLOYEE',
+          cpf: loginData.cpf
+        };
 
-      // Simular delay de rede
-      await new Promise(resolve => setTimeout(resolve, 1000));
+        // Salvar dados no estado
+        setUser(user);
+        setToken(token);
 
-      // Salvar dados no estado
-      setUser(mockUser);
-      setToken(mockToken);
+        // Salvar no localStorage se "lembrar de mim" estiver ativado
+        if (loginData.rememberMe) {
+          storage.setItem(STORAGE_KEYS.AUTH_TOKEN, token);
+          storage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
+        }
 
-      // Salvar no localStorage se "lembrar de mim" estiver ativado
-      if (loginData.rememberMe) {
-        storage.setItem(STORAGE_KEYS.AUTH_TOKEN, mockToken);
-        storage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(mockUser));
+        return true;
+      } else {
+        setError(response.message || 'Erro no login');
+        return false;
       }
-
-      console.log('✅ Login realizado com sucesso:', mockUser.name);
-      return true;
-    } catch (err) {
-      console.error('❌ Erro no login:', err);
-      setError('Erro de conexão. Verifique sua internet.');
+    } catch (err: any) {
       return false;
     } finally {
       setLoading(false);
@@ -132,7 +225,6 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      console.log('🚪 Fazendo logout...');
 
       // Limpar dados locais
       setUser(null);
@@ -143,9 +235,7 @@ export const useAuth = () => {
       storage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
       storage.removeItem(STORAGE_KEYS.USER_DATA);
 
-      console.log('✅ Logout realizado com sucesso');
     } catch (err) {
-      console.error('❌ Erro no logout:', err);
     }
   };
 
@@ -160,35 +250,42 @@ export const useAuth = () => {
       setLoading(true);
       setError(null);
 
-      console.log('📝 Tentando registro...', { name: userData.name });
 
-      // Simular resposta do backend para teste
-      const mockUser: User = {
-        id: '2',
-        name: userData.name,
+      // Fazer chamada real para o backend
+      const response = await apiService.post<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, {
+        nome: userData.name,
         email: userData.email,
-        profile: userData.profile,
-        cpf: userData.cpf
-      };
+        senha: userData.password,
+        cpf: userData.cpf,
+        perfil: userData.profile === 'EMPLOYER' ? 'empregador' : 'empregado'
+      });
 
-      const mockToken = 'mock-jwt-token-' + Date.now();
+      if (response.success && response.data) {
+        const { user: backendUser, token } = response.data;
+        
+        // Converter dados do backend para o formato do frontend
+        const user: User = {
+          id: backendUser.id,
+          name: backendUser.nome,
+          email: backendUser.email,
+          profile: backendUser.perfil === 'empregador' ? 'EMPLOYER' : 'EMPLOYEE',
+          cpf: userData.cpf
+        };
 
-      // Simular delay de rede
-      await new Promise(resolve => setTimeout(resolve, 1000));
+        // Salvar dados no estado
+        setUser(user);
+        setToken(token);
 
-      // Salvar dados no estado
-      setUser(mockUser);
-      setToken(mockToken);
+        // Salvar no localStorage
+        storage.setItem(STORAGE_KEYS.AUTH_TOKEN, token);
+        storage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
 
-      // Salvar no localStorage
-      storage.setItem(STORAGE_KEYS.AUTH_TOKEN, mockToken);
-      storage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(mockUser));
-
-      console.log('✅ Registro realizado com sucesso:', mockUser.name);
-      return true;
-    } catch (err) {
-      console.error('❌ Erro no registro:', err);
-      setError('Erro de conexão. Verifique sua internet.');
+        return true;
+      } else {
+        setError(response.message || 'Erro no registro');
+        return false;
+      }
+    } catch (err: any) {
       return false;
     } finally {
       setLoading(false);
@@ -199,14 +296,11 @@ export const useAuth = () => {
     try {
       if (!token) return false;
 
-      // Simular renovação de token
       const newToken = 'mock-jwt-token-' + Date.now();
       setToken(newToken);
       storage.setItem(STORAGE_KEYS.AUTH_TOKEN, newToken);
-      console.log('✅ Token renovado com sucesso');
       return true;
     } catch (err) {
-      console.error('❌ Erro ao renovar token:', err);
       return false;
     }
   };

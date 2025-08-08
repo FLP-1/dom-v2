@@ -10,20 +10,20 @@ datasource db {
 
 model User {
   id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nome             String             @db.VarChar(255)
+  name             String             @db.VarChar(255)
   nickname         String?            @unique @db.VarChar(20)
   cpf              String             @unique @db.VarChar(11)
   email            String             @unique @db.VarChar(255)
   user_photo       Bytes?
-  senha_hash       String             @db.VarChar(255)
-  data_criacao     DateTime?          @default(now()) @db.Timestamp(6)
-  data_atualizacao DateTime?          @default(now()) @db.Timestamp(6)
-  celular          String?            @db.VarChar(20)
-  perfil           String?            @default("empregador") @db.VarChar(20)
-  ativo            Boolean?           @default(true)
-  ultimo_login     DateTime?          @db.Timestamp(6)
-  plataformas      Json?              @default("[]") @db.Json
-  permissoes       Json?              @default("[]") @db.Json
+  password_hash    String             @db.VarChar(255)
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?          @default(now()) @db.Timestamp(6)
+  phone            String?            @db.VarChar(20)
+  profile          String?            @default("employer") @db.VarChar(20)
+  active           Boolean?           @default(true)
+  last_login       DateTime?          @db.Timestamp(6)
+  platforms        Json?              @default("[]") @db.Json
+  permissions      Json?              @default("[]") @db.Json
   user_group_roles user_group_roles[]
   user_sessions    user_sessions[]
   budgets          Budget[]
@@ -32,7 +32,7 @@ model User {
   payments         Payment[]
   purchases        Purchase[]
 
-  @@index([ativo], map: "idx_users_ativo")
+  @@index([active], map: "idx_users_active")
   @@index([cpf], map: "idx_users_cpf")
   @@index([email], map: "idx_users_email")
   @@map("users")
@@ -40,19 +40,19 @@ model User {
 
 model Notification {
   id               String    @id @default(cuid()) @db.VarChar(50)
-  tipo             String    @db.VarChar(50)
-  titulo           String    @db.VarChar(200)
-  mensagem         String
-  destinatario_id  String    @db.VarChar(50)
-  remetente_id     String?   @db.VarChar(50)
-  lida             Boolean?
-  data_criacao     DateTime? @db.Timestamp(6)
-  data_leitura     DateTime? @db.Timestamp(6)
-  dados_extras     Json?     @db.Json
-  prioridade       String?   @db.VarChar(20)
-  categoria        String?   @db.VarChar(50)
-  ativo            Boolean?
-  data_atualizacao DateTime? @db.Timestamp(6)
+  type             String    @db.VarChar(50)
+  title            String    @db.VarChar(200)
+  message          String
+  recipient_id     String    @db.VarChar(50)
+  sender_id        String?   @db.VarChar(50)
+  read             Boolean?
+  created_at       DateTime? @db.Timestamp(6)
+  read_at          DateTime? @db.Timestamp(6)
+  extra_data       Json?     @db.Json
+  priority         String?   @db.VarChar(20)
+  category         String?   @db.VarChar(50)
+  active           Boolean?
+  updated_at       DateTime? @db.Timestamp(6)
 
   @@index([id], map: "ix_notifications_id")
   @@map("notifications")
@@ -60,21 +60,21 @@ model Notification {
 
 model Task {
   id               String    @id @default(cuid()) @db.VarChar(50)
-  titulo           String    @db.VarChar(200)
-  descricao        String?
+  title            String    @db.VarChar(200)
+  description      String?
   status           String    @db.VarChar(20)
-  prioridade       Int?
-  data_criacao     DateTime? @db.Timestamp(6)
-  data_limite      DateTime? @db.Timestamp(6)
-  data_conclusao   DateTime? @db.Timestamp(6)
-  criador_id       String    @db.Uuid
-  responsavel_id   String?   @db.Uuid
-  categoria        String?   @db.VarChar(50)
+  priority         Int?
+  created_at       DateTime? @db.Timestamp(6)
+  due_date         DateTime? @db.Timestamp(6)
+  completed_at     DateTime? @db.Timestamp(6)
+  creator_id       String    @db.Uuid
+  responsible_id   String?   @db.Uuid
+  category         String?   @db.VarChar(50)
   tags             Json?     @db.Json
-  anexos           Json?     @db.Json
-  comentarios      Json?     @db.Json
-  ativo            Boolean?
-  data_atualizacao DateTime? @db.Timestamp(6)
+  attachments      Json?     @db.Json
+  comments         Json?     @db.Json
+  active           Boolean?
+  updated_at       DateTime? @db.Timestamp(6)
 
   @@index([id], map: "ix_tasks_id")
   @@map("tasks")
@@ -82,12 +82,12 @@ model Task {
 
 model groups {
   id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nome             String             @db.VarChar(255)
-  data_criacao     DateTime?          @default(now()) @db.Timestamp(6)
-  data_atualizacao DateTime?          @default(now()) @db.Timestamp(6)
-  descricao        String?
-  tipo             String?            @db.VarChar(50)
-  ativo            Boolean            @default(true)
+  name             String             @db.VarChar(255)
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?          @default(now()) @db.Timestamp(6)
+  description      String?
+  type             String?            @db.VarChar(50)
+  active           Boolean            @default(true)
   user_group_roles user_group_roles[]
   user_sessions    user_sessions[]
 }
@@ -137,11 +137,11 @@ model Budget {
   amount      Float
   spent       Float    @default(0)
   category    String   @db.VarChar(100)
-  startDate   DateTime @db.Timestamp(6)
-  endDate     DateTime @db.Timestamp(6)
+  start_date  DateTime @db.Timestamp(6)
+  end_date    DateTime @db.Timestamp(6)
   status      String   @default("active") @db.VarChar(20)
-  createdAt   DateTime @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @default(now()) @db.Timestamp(6)
   user_id     String?  @db.Uuid
   user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
@@ -154,23 +154,23 @@ model Budget {
 // Modelo Payroll - Folha de Pagamento
 model Payroll {
   id            String   @id @default(cuid()) @db.VarChar(50)
-  employeeId    String   @db.VarChar(50)
-  employeeName  String   @db.VarChar(200)
-  baseSalary    Float
-  overtimeHours Float    @default(0)
-  overtimeRate  Float    @default(1.5)
+  employee_code String   @db.VarChar(50)
+  employee_name String   @db.VarChar(200)
+  base_salary   Float
+  overtime_hours Float   @default(0)
+  overtime_rate Float    @default(1.5)
   bonuses       Float    @default(0)
   deductions    Float    @default(0)
   inss          Float    @default(0)
   irrf          Float    @default(0)
   fgts          Float    @default(0)
-  netSalary     Float    @default(0)
-  grossSalary   Float    @default(0)
+  net_salary    Float    @default(0)
+  gross_salary  Float    @default(0)
   month         Int
   year          Int
   status        String   @default("pending") @db.VarChar(20)
-  createdAt     DateTime @default(now()) @db.Timestamp(6)
-  updatedAt     DateTime @default(now()) @db.Timestamp(6)
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+  updated_at    DateTime @default(now()) @db.Timestamp(6)
   user_id       String?  @db.Uuid
   user          User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
   employee_id   String?  @db.VarChar(50)
@@ -178,7 +178,7 @@ model Payroll {
 
   @@index([user_id], map: "idx_payrolls_user_id")
   @@index([status], map: "idx_payrolls_status")
-  @@index([employeeId], map: "idx_payrolls_employee_id")
+  @@index([employee_id], map: "idx_payrolls_employee_id")
   @@index([month, year], map: "idx_payrolls_month_year")
   @@map("payrolls")
 }
@@ -191,8 +191,8 @@ model Employee {
   position    String   @db.VarChar(100)
   salary      Float
   status      String   @default("active") @db.VarChar(20)
-  createdAt   DateTime @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @default(now()) @db.Timestamp(6)
   user_id     String?  @db.Uuid
   user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
   payrolls    Payroll[]
@@ -209,15 +209,15 @@ model Payment {
   amount      Float
   description String   @db.VarChar(500)
   status      String   @default("pending") @db.VarChar(20)
-  dueDate     DateTime @db.Timestamp(6)
-  createdAt   DateTime @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  due_date    DateTime @db.Timestamp(6)
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @default(now()) @db.Timestamp(6)
   user_id     String?  @db.Uuid
   user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
   @@index([user_id], map: "idx_payments_user_id")
   @@index([status], map: "idx_payments_status")
-  @@index([dueDate], map: "idx_payments_due_date")
+  @@index([due_date], map: "idx_payments_due_date")
   @@map("payments")
 }
 
@@ -229,8 +229,8 @@ model Purchase {
   amount      Float
   status      String   @default("pending") @db.VarChar(20)
   category    String?  @db.VarChar(100)
-  createdAt   DateTime @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime @default(now()) @db.Timestamp(6)
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @default(now()) @db.Timestamp(6)
   user_id     String?  @db.Uuid
   user        User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
 

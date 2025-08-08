@@ -5,8 +5,8 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server-prisma.js",
-    "dev": "nodemon src/server-prisma.ts",
-    "dev:simple": "nodemon src/server-simple-dashboard.ts",
+    "dev": "nodemon --exec ts-node src/server-dev.ts",
+    "dev:simple": "nodemon --exec ts-node src/server-simple-dashboard.ts",
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -14,7 +14,12 @@
     "test:api": "jest api-endpoints.test.ts",
     "test:controllers": "jest controllers.test.ts",
     "test:all": "jest --verbose --coverage",
-    "test:ci": "jest --ci --coverage --watchAll=false"
+    "test:ci": "jest --ci --coverage --watchAll=false",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "ts-node prisma/seed-robusto.ts",
+    "db:reset": "prisma migrate reset --force && ts-node prisma/seed-robusto.ts"
   },
   "keywords": [
     "dom",
@@ -25,11 +30,14 @@
   ],
   "author": "DOM Team v2",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^6.12.0",
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.0.2",
     "prisma": "^6.12.0",
     "ts-node": "^10.9.1",
@@ -43,6 +51,7 @@
     "@types/supertest": "^6.0.3",
     "jest": "^30.0.5",
     "supertest": "^7.1.4",
-    "ts-jest": "^29.4.0"
+    "ts-jest": "^29.4.0",
+    "tsconfig-paths": "^4.2.0"
   }
 }

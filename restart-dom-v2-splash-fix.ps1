@@ -37,9 +37,9 @@ try {
     Write-Host "   ❌ Backend não respondeu" -ForegroundColor Red
 }
 
-# 4. Iniciar frontend
-Write-Host "4. Iniciando frontend..." -ForegroundColor Yellow
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; node server-web-robust.js" -WindowStyle Normal
+# 4. Iniciar frontend (Webpack Dev Server)
+Write-Host "4. Iniciando frontend (Webpack Dev Server)..." -ForegroundColor Yellow
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; npm run dev" -WindowStyle Normal
 Start-Sleep -Seconds 5
 
 # 5. Verificar frontend

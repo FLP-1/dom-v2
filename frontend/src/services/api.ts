@@ -1,4 +1,97 @@
-import { API_ENDPOINTS, STORAGE_KEYS, ERROR_MESSAGES } from '../utils/constants';
+
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
+}
+
+// Validação de tipos removida - causava erro de referência
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+// Função de logging removida - causava erros de referência no frontend
+
+// Aplicar logging
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
+import { API_CONFIG, MESSAGES } from '../utils/constants';
 
 interface ApiResponse<T> {
   data: T;
@@ -15,12 +108,12 @@ class ApiService {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = API_ENDPOINTS.BASE_URL;
+    this.baseURL = API_CONFIG.BASE_URL;
   }
 
   private async getAuthToken(): Promise<string | null> {
     try {
-      return localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+      return localStorage.getItem('auth_token');
     } catch (error) {
       console.error('Erro ao obter token:', error);
       return null;
@@ -44,7 +137,7 @@ class ApiService {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw {
-        message: errorData.message || ERROR_MESSAGES.SERVER_ERROR,
+        message: errorData.message || MESSAGES.ERROR,
         status: response.status,
       } as ApiError;
     }
@@ -63,7 +156,7 @@ class ApiService {
       return await this.handleResponse<T>(response);
     } catch (error) {
       throw {
-        message: ERROR_MESSAGES.NETWORK_ERROR,
+        message: MESSAGES.ERROR,
         status: 0,
       } as ApiError;
     }
@@ -81,7 +174,7 @@ class ApiService {
       return await this.handleResponse<T>(response);
     } catch (error) {
       throw {
-        message: ERROR_MESSAGES.NETWORK_ERROR,
+        message: MESSAGES.ERROR,
         status: 0,
       } as ApiError;
     }
@@ -99,7 +192,7 @@ class ApiService {
       return await this.handleResponse<T>(response);
     } catch (error) {
       throw {
-        message: ERROR_MESSAGES.NETWORK_ERROR,
+        message: MESSAGES.ERROR,
         status: 0,
       } as ApiError;
     }
@@ -116,7 +209,7 @@ class ApiService {
       return await this.handleResponse<T>(response);
     } catch (error) {
       throw {
-        message: ERROR_MESSAGES.NETWORK_ERROR,
+        message: MESSAGES.ERROR,
         status: 0,
       } as ApiError;
     }

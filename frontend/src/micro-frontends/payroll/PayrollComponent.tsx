@@ -1,4 +1,56 @@
 
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
 
 
 
@@ -6,15 +58,9 @@
 
 
 
-function logStructured(level, message, data = {}) {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-    data,
-    file: __filename,
-    function: arguments.callee.name || 'anonymous'
-  };
+
+
+// Função removida - causava erros de referência no frontend;
   
   // Console output
   const consoleMethod = level === 'error' ? 'error' : 
@@ -39,7 +85,6 @@ function logStructured(level, message, data = {}) {
 }
 
 // Aplicar logging
-logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
 
@@ -167,7 +212,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
         Alert.alert('Erro', response.error || 'Erro ao carregar folhas de pagamento');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Erro de conexão');
     } finally {
       setLoading(false);
     }
@@ -180,10 +224,8 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
       if (response.success) {
         setStats(response.data.stats);
       } else {
-        console.error('Erro ao carregar estatísticas:', response.error);
       }
     } catch (error) {
-      console.error('Erro ao carregar estatísticas:', error);
     }
   };
 
@@ -195,7 +237,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
     const deductions = parseFloat(calculatorData.deductions) || 0;
 
     if (!baseSalary || baseSalary <= 0) {
-      Alert.alert('Erro', 'Salário base é obrigatório e deve ser maior que zero');
       return;
     }
 
@@ -214,7 +255,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
         Alert.alert('Erro', response.error || 'Erro ao calcular folha de pagamento');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Erro de conexão');
     }
   };
 
@@ -230,7 +270,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
         Alert.alert('Erro', response.error || 'Erro ao atualizar status');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Erro de conexão');
     }
   };
 
@@ -264,7 +303,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={onBack} style={styles.backButton}>
-            <Text style={styles.backButtonText}>← Voltar</Text>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Folha de Pagamento</Text>
           <View style={styles.placeholder} />
@@ -281,22 +319,18 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Voltar</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Folha de Pagamento</Text>
         <TouchableOpacity 
           onPress={() => setShowCalculator(!showCalculator)} 
           style={styles.calculatorButton}
         >
-          <Text style={styles.calculatorButtonText}>🧮</Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.content}>
-        {/* Estatísticas  */}
         {stats && (
           <View style={styles.statsContainer}>
-            <Text style={styles.statsTitle}>Estatísticas</Text>
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
                 <Text style={styles.statValue}>{stats.totalPayrolls}</Text>
@@ -320,7 +354,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
                 Total Bruto: {formatCurrency(stats.totalGrossSalary)}
               </Text>
               <Text style={styles.financialLabel}>
-                Total Líquido: {formatCurrency(stats.totalNetSalary)}
               </Text>
             </View>
           </View>
@@ -333,7 +366,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
             
             <TextInput
               style={styles.input}
-              placeholder="Salário Base"
               value={calculatorData.baseSalary}
               onChangeText={(text) => setCalculatorData({...calculatorData, baseSalary: text})}
               keyboardType="numeric"
@@ -349,7 +381,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
 
             <TextInput
               style={styles.input}
-              placeholder="Taxa de Hora Extra (padrão: 1.5)"
               value={calculatorData.overtimeRate}
               onChangeText={(text) => setCalculatorData({...calculatorData, overtimeRate: text})}
               keyboardType="numeric"
@@ -357,7 +388,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
 
             <TextInput
               style={styles.input}
-              placeholder="Bônus"
               value={calculatorData.bonuses}
               onChangeText={(text) => setCalculatorData({...calculatorData, bonuses: text})}
               keyboardType="numeric"
@@ -377,9 +407,7 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
 
             {calculation && (
               <View style={styles.calculationResult}>
-                <Text style={styles.resultTitle}>Resultado do Cálculo</Text>
                 <Text style={styles.resultItem}>
-                  Salário Bruto: {formatCurrency(calculation.grossSalary)}
                 </Text>
                 <Text style={styles.resultItem}>
                   INSS: {formatCurrency(calculation.inssValue)}
@@ -394,7 +422,6 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
                   Total Descontos: {formatCurrency(calculation.totalDeductions)}
                 </Text>
                 <Text style={[styles.resultItem, styles.netSalary]}>
-                  Salário Líquido: {formatCurrency(calculation.netSalary)}
                 </Text>
               </View>
             )}
@@ -429,15 +456,12 @@ export const PayrollComponent: React.FC<PayrollComponentProps> = ({ onBack }) =>
 
                 <View style={styles.payrollDetails}>
                   <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Salário Base:</Text>
                     <Text style={styles.detailValue}>{formatCurrency(payroll.baseSalary)}</Text>
                   </View>
                   <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Salário Bruto:</Text>
                     <Text style={styles.detailValue}>{formatCurrency(payroll.grossSalary)}</Text>
                   </View>
                   <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Salário Líquido:</Text>
                     <Text style={[styles.detailValue, styles.netValue]}>
                       {formatCurrency(payroll.netSalary)}
                     </Text>
@@ -738,7 +762,6 @@ const styles = StyleSheet.create({
 }); 
 
 
-Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
  * - Express: https://expressjs.com/

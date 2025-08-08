@@ -1,31 +1,21 @@
 
 /**
- * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
  * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * 
  * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
  * 
  * @trade-offs
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
-  */
+ */
 
 
 /**
- * Referências externas e fontes de informação
  * 
  * @references
  * - DOM v2 Documentation: docs/README.md
@@ -37,366 +27,131 @@
  * - TypeScript: https://www.typescriptlang.org/docs
  * 
  * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
  * - Para banco de dados: PostgreSQL, MySQL, MongoDB
  * - Para frontend: React, Vue.js, Angular
  * - Para mobile: React Native, Flutter, Native
  * 
  * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
-  */
+ */
+
 
 /**
- * @fileoverview Sistema de adaptação regional para DOM v2
- * @directory frontend/src/utils
- * @description Adaptação de interface E conteúdo por região brasileira
- * @created 2024-12-19
- * @lastModified 2024-12-19
- * @author DOM Team v2
-  */
-
-// Tipos de região brasileira
-export type BrazilianRegion = 
-  | 'SUDESTE'    // SP, RJ, MG, ES
-  | 'SUL'        // RS, SC, PR
-  | 'NORDESTE'   // BA, PE, CE, etc.
-  | 'CENTRO_OESTE' // GO, MT, MS, DF
-  | 'NORTE';     // AM, PA, AC, etc.
-
-// Configuração regional
-export interface RegionalConfig {
-  region: BrazilianRegion;
-  language: 'STANDARD' | 'REGIONAL' | 'FORMAL';
-  colors: {
-    primary: string;
-    secondary: string;
-    accent: string;
-  };
-  typography: {
-    fontSize: {
-      small: number;
-      medium: number;
-      large: number;
-      xlarge: number;
-    };
-    style: 'PROFESSIONAL' | 'FRIENDLY' | 'FORMAL';
-  };
-  navigation: 'FAST' | 'COMFORTABLE' | 'GUIDED';
-  content: {
-    detail: 'MINIMAL' | 'STANDARD' | 'DETAILED';
-    help: 'NONE' | 'BASIC' | 'EXTENSIVE';
-  };
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
 }
 
-// Mapeamento de estados para regiões
-const STATE_REGION_MAP: Record<string, BrazilianRegion> = {
-  // Sudeste
-  'SP': 'SUDESTE', 'RJ': 'SUDESTE', 'MG': 'SUDESTE', 'ES': 'SUDESTE',
-  // Sul
-  'RS': 'SUL', 'SC': 'SUL', 'PR': 'SUL',
-  // Nordeste
-  'BA': 'NORDESTE', 'PE': 'NORDESTE', 'CE': 'NORDESTE', 'MA': 'NORDESTE',
-  'PB': 'NORDESTE', 'RN': 'NORDESTE', 'AL': 'NORDESTE', 'SE': 'NORDESTE',
-  'PI': 'NORDESTE',
-  // Centro-Oeste
-  'GO': 'CENTRO_OESTE', 'MT': 'CENTRO_OESTE', 'MS': 'CENTRO_OESTE', 'DF': 'CENTRO_OESTE',
-  // Norte
-  'AM': 'NORTE', 'PA': 'NORTE', 'AC': 'NORTE', 'RO': 'NORTE',
-  'RR': 'NORTE', 'AP': 'NORTE', 'TO': 'NORTE'
-};
+// Validação de tipos removida - causava erro de referência
 
-// Configurações por região
-const REGIONAL_CONFIGS: Record<BrazilianRegion, RegionalConfig> = {
-  SUDESTE: {
-    region: 'SUDESTE',
-    language: 'STANDARD',
-    colors: {
-      primary: '#1976D2',      // Azul profissional
-      secondary: '#4CAF50',    // Verde sucesso
-      accent: '#FF9800',       // Laranja destaque
-    },
-    typography: {
-      fontSize: { small: 12, medium: 14, large: 16, xlarge: 18 },
-      style: 'PROFESSIONAL',
-    },
-    navigation: 'FAST',
-    content: {
-      detail: 'MINIMAL',
-      help: 'BASIC',
-    },
-  },
-
-  SUL: {
-    region: 'SUL',
-    language: 'STANDARD',
-    colors: {
-      primary: '#2196F3',      // Azul organizado
-      secondary: '#4CAF50',    // Verde limpo
-      accent: '#9C27B0',       // Roxo elegante
-    },
-    typography: {
-      fontSize: { small: 12, medium: 14, large: 16, xlarge: 18 },
-      style: 'PROFESSIONAL',
-    },
-    navigation: 'COMFORTABLE',
-    content: {
-      detail: 'STANDARD',
-      help: 'BASIC',
-    },
-  },
-
-  NORDESTE: {
-    region: 'NORDESTE',
-    language: 'REGIONAL',
-    colors: {
-      primary: '#FF5722',      // Laranja vibrante
-      secondary: '#9C27B0',    // Roxo amigável
-      accent: '#FFC107',       // Amarelo quente
-    },
-    typography: {
-      fontSize: { small: 14, medium: 16, large: 18, xlarge: 20 },
-      style: 'FRIENDLY',
-    },
-    navigation: 'COMFORTABLE',
-    content: {
-      detail: 'STANDARD',
-      help: 'EXTENSIVE',
-    },
-  },
-
-  CENTRO_OESTE: {
-    region: 'CENTRO_OESTE',
-    language: 'STANDARD',
-    colors: {
-      primary: '#607D8B',      // Azul acinzentado
-      secondary: '#795548',    // Marrom prático
-      accent: '#FF9800',       // Laranja direto
-    },
-    typography: {
-      fontSize: { small: 13, medium: 15, large: 17, xlarge: 19 },
-      style: 'PROFESSIONAL',
-    },
-    navigation: 'FAST',
-    content: {
-      detail: 'STANDARD',
-      help: 'BASIC',
-    },
-  },
-
-  NORTE: {
-    region: 'NORTE',
-    language: 'REGIONAL',
-    colors: {
-      primary: '#4CAF50',      // Verde educativo
-      secondary: '#2196F3',    // Azul simples
-      accent: '#FF9800',       // Laranja amigável
-    },
-    typography: {
-      fontSize: { small: 14, medium: 16, large: 18, xlarge: 20 },
-      style: 'FRIENDLY',
-    },
-    navigation: 'GUIDED',
-    content: {
-      detail: 'DETAILED',
-      help: 'EXTENSIVE',
-    },
-  },
-};
-
-// Mensagens regionais
-export const REGIONAL_MESSAGES = {
-  SUDESTE: {
-    welcome: 'Bem-vindo ao DOM v2!',
-    dashboard: 'Painel de Controle',
-    quickActions: 'Ações Rápidas',
-    help: 'Precisa de ajuda?',
-    success: 'Operação realizada com sucesso!',
-    error: 'Ocorreu um erro. Tente novamente.',
-  },
-
-  SUL: {
-    welcome: 'Bem-vindo ao DOM v2!',
-    dashboard: 'Painel de Controle',
-    quickActions: 'Ações Rápidas',
-    help: 'Precisa de ajuda?',
-    success: 'Operação realizada com sucesso!',
-    error: 'Ocorreu um erro. Tente novamente.',
-  },
-
-  NORDESTE: {
-    welcome: 'Oi! Bem-vindo ao DOM v2!',
-    dashboard: 'Seu Painel',
-    quickActions: 'Coisas Rápidas',
-    help: 'Tá precisando de uma mãozinha?',
-    success: 'Deu tudo certo!',
-    error: 'Ops! Deu ruim. Tenta de novo.',
-  },
-
-  CENTRO_OESTE: {
-    welcome: 'Bem-vindo ao DOM v2!',
-    dashboard: 'Painel de Controle',
-    quickActions: 'Ações Rápidas',
-    help: 'Precisa de ajuda?',
-    success: 'Operação realizada com sucesso!',
-    error: 'Ocorreu um erro. Tente novamente.',
-  },
-
-  NORTE: {
-    welcome: 'Oi! Bem-vindo ao DOM v2!',
-    dashboard: 'Seu Painel',
-    quickActions: 'Coisas Rápidas',
-    help: 'Tá precisando de uma mãozinha?',
-    success: 'Deu tudo certo!',
-    error: 'Ops! Deu ruim. Tenta de novo.',
-  },
-};
-
-// Função para detectar região por estado
-export function detectRegionByState(state: string): BrazilianRegion {
-  const normalizedState = state.toUpperCase().trim();
-  return STATE_REGION_MAP[normalizedState] || 'SUDESTE'; // Padrão Sudeste
-}
-
-// Função para obter configuração regional
-export function getRegionalConfig(region: BrazilianRegion): RegionalConfig {
-  return REGIONAL_CONFIGS[region];
-}
-
-// Função para obter mensagens regionais
-export function getRegionalMessages(region: BrazilianRegion) {
-  return REGIONAL_MESSAGES[region];
-}
-
-// Função para detectar região automaticamente (simulada)
-export function detectUserRegion(): Promise<BrazilianRegion> {
-  return new Promise((resolve) => {
-    // Simulação de detecção automática
-    // Em produção, isso seria baseado em:
-    // - Geolocalização do dispositivo
-    // - Configuração do usuário
-    // - IP do usuário
-    // - Preferências salvas
-    
-    const regions: BrazilianRegion[] = ['SUDESTE', 'SUL', 'NORDESTE', 'CENTRO_OESTE', 'NORTE'];
-    const randomRegion = regions[Math.floor(Math.random() * regions.length)];
-    
-    // Simular delay de rede
-    setTimeout(() => {
-      resolve(randomRegion);
-    }, 500);
-  });
-
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
-  */
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}
-
-/**
- * Tratamento de erros centralizado
- * @param {Error} error - Erro capturado
- * @param {string} context - Contexto onde o erro ocorreu
-  */
-function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}
-
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
-  */
-function assert(condition: any, message: string): void {
-  if (!condition) {
-    throw new Error(`Assertion failed: ${message}
 
 /**
  * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error)
  * @param {string} message - Mensagem do log
- * @param {any} data - Dados adicionais
-  */
-function log(level: string, message: string, data?: any): void {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
 
 /**
- * Validação de tipos
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
-  */
-function validateType(value: any, expectedType: string): boolean {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null;
-    case 'array':
-      return Array.isArray(value);
-    default:
-      return false;
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
   }
-}] [${level.toUpperCase()}] ${message}`, data || '');
-}`);
-  }
-}:`, error.message);
-  // Implementar logging, notificação, etc.
-}
 }
 
-import React from 'react';
+// Validação crítica removida - causava erro de referência
 
-// Hook para usar adaptação regional
-export function useRegionalAdaptation() {
-  const [region, setRegion] = React.useState<BrazilianRegion>('SUDESTE');
-  const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
-    detectUserRegion().then((detectedRegion) => {
-      setRegion(detectedRegion);
-      setLoading(false);
-    });
-  }, []);
-
-  const config = React.useMemo(() => getRegionalConfig(region), [region]);
-  const messages = React.useMemo(() => getRegionalMessages(region), [region]);
-
-  return {
-    region,
-    config,
-    messages,
-    loading,
-    setRegion,
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+function handleError(error, context = 'unknown') {
+  console.error(`[ERROR] ${context}:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
   };
-} 
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
+}
+
+// Aplicar tratamento de erro
+try {
+} catch (error) {
+  handleError(error, 'main-execution');
+}
+
 
 /**
- * 
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
 /**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
-  */
-Referências externas:
- * - Node.js: https://nodejs.org/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * - Express: https://expressjs.com/
- * - Prisma: https://www.prisma.io/docs
- * - React: https://react.dev/
- * - Jest: https://jestjs.io/docs
- * - React Native: https://reactnative.dev/
- * - Webpack: https://webpack.js.org/
-  */
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * import { functionName } from "./utils";
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */

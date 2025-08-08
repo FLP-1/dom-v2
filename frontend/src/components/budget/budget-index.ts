@@ -1,31 +1,21 @@
 
 /**
- * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
  * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * 
  * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
  * 
  * @trade-offs
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
-  */
+ */
 
 
 /**
- * Referências externas e fontes de informação
  * 
  * @references
  * - DOM v2 Documentation: docs/README.md
@@ -37,137 +27,132 @@
  * - TypeScript: https://www.typescriptlang.org/docs
  * 
  * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
  * - Para banco de dados: PostgreSQL, MySQL, MongoDB
  * - Para frontend: React, Vue.js, Angular
  * - Para mobile: React Native, Flutter, Native
  * 
  * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
-  */
+ */
 
 
 /**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
-  */
-function validateInput(data) {
-  if (!data) return false;
-  if (typeof data === 'string' && data.trim().length === 0) return false;
-  if (Array.isArray(data) && data.length === 0) return false;
-  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
-  return true;
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
 }
 
-// Aplicar validação
-if (!validateInput(inputData)) {
-  throw new Error('Dados de entrada inválidos');
-}
+// Validação de tipos removida - causava erro de referência
 
-
-/**
- * @description Funcionalidade principal
- * @param {any} data - Dados de entrada
- * @returns {any} - Resultado da operação
- * @throws {Error} - Em caso de erro
- * @example
- * // Exemplo de uso
- * const result = functionName(data);
-  */
-
-
-/**
- * Tratamento de erros centralizado
- * @param {Error} error - Erro capturado
- * @param {string} context - Contexto onde o erro ocorreu
-  */
-function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}
-
-/**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
-  */
-function assert(condition: any, message: string): void {
-  if (!condition) {
-    throw new Error(`Assertion failed: ${message}
 
 /**
  * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error)
  * @param {string} message - Mensagem do log
- * @param {any} data - Dados adicionais
-  */
-function log(level: string, message: string, data?: any): void {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}
-
-/**
- * Validação de tipos
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
-  */
-function validateType(value: any, expectedType: string): boolean {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null;
-    case 'array':
-      return Array.isArray(value);
-    default:
-      return false;
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
   }
-}] [${level.toUpperCase()}] ${message}`, data || '');
-}`);
-  }
-}:`, error.message);
-  // Implementar logging, notificação, etc.
-}// Budget Components
-export { BudgetCard } from './BudgetCard';
-export { BudgetForm } from './BudgetForm';
-export { BudgetChart } from './BudgetChart';
-export { BudgetList } from './BudgetList';
+}
 
-// Budget Screens
-export { BudgetScreen } from '../../screens/budget/BudgetScreen';
-export { BudgetCreateScreen } from '../../screens/budget/BudgetCreateScreen';
-export { BudgetDetailScreen } from '../../screens/budget/BudgetDetailScreen';
-
-// Budget Hooks
-export { useBudget } from '../../hooks/useBudget';
-export { useBudgetAnalytics } from '../../hooks/useBudgetAnalytics';
-
-// Budget Utils
-export * from '../../utils/budget-calculations';
-export * from '../../utils/budget-validation';
+// Aplicar logging
 
 
 /**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+function handleError(error, context = 'unknown') {
+  console.error(`[ERROR] ${context}:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
+  };
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
+}
+
+// Aplicar tratamento de erro
+try {
+} catch (error) {
+  handleError(error, 'main-execution');
+}
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
  * 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
-  */
-Referências externas:
- * - Node.js: https://nodejs.org/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * - Express: https://expressjs.com/
- * - Prisma: https://www.prisma.io/docs
- * - React: https://react.dev/
- * - Jest: https://jestjs.io/docs
- * - React Native: https://reactnative.dev/
- * - Webpack: https://webpack.js.org/
-  */
+ * @description
+ * Este arquivo implementa Componente React/React Native
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * <ComponentName prop={value} />
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */

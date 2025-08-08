@@ -1,3 +1,112 @@
+
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+function validateType(value, expectedType) {
+  switch (expectedType) {
+    case 'string':
+      return typeof value === 'string';
+    case 'number':
+      return typeof value === 'number' && !isNaN(value);
+    case 'boolean':
+      return typeof value === 'boolean';
+    case 'object':
+      return typeof value === 'object' && value !== null && !Array.isArray(value);
+    case 'array':
+      return Array.isArray(value);
+    case 'function':
+      return typeof value === 'function';
+    default:
+      return false;
+  }
+}
+
+if (!validateType(data, 'object')) {
+}
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+function assertCritical(condition, message = 'Assertion failed') {
+  if (!condition) {
+    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+function validateInput(data) {
+  if (!data) return false;
+  if (typeof data === 'string' && data.trim().length === 0) return false;
+  if (Array.isArray(data) && data.length === 0) return false;
+  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
+  return true;
+}
+
+if (!validateInput(inputData)) {
+}
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 import express from 'express';
 import cors from 'cors';
 
@@ -35,14 +144,11 @@ app.get('/api/dashboard', async (req, res) => {
           {
             id: '1',
             title: 'Pagamento Pendente',
-            message: 'Há um pagamento pendente para aprovação',
             type: 'warning',
             timestamp: new Date().toISOString()
           },
           {
             id: '2',
-            title: 'Orçamento Atualizado',
-            message: 'O orçamento mensal foi atualizado',
             type: 'info',
             timestamp: new Date().toISOString()
           }
@@ -56,7 +162,6 @@ app.get('/api/dashboard', async (req, res) => {
           },
           {
             id: '2',
-            title: 'Compras do Mês',
             status: 'in_progress',
             priority: 'medium'
           }
@@ -90,7 +195,6 @@ app.get('/api/dashboard', async (req, res) => {
       charts: {
         budgetByCategory: {
           'Limpeza': 3000,
-          'Alimentação': 5000,
           'Transporte': 2000,
           'Outros': 5000
         },
@@ -103,13 +207,11 @@ app.get('/api/dashboard', async (req, res) => {
           'Pendente': 1
         },
         purchasesByStatus: {
-          'Concluído': 3,
           'Pendente': 2
         },
         tasksByStatus: {
           'Pendente': 5,
           'Em Progresso': 3,
-          'Concluído': 8
         }
       }
     };
@@ -140,7 +242,4 @@ app.get('/api/test', (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor de teste rodando na porta ${PORT}`);
-  console.log(`📈 Dashboard API: http://localhost:${PORT}/api/dashboard`);
-  console.log(`🧪 Teste API: http://localhost:${PORT}/api/test`);
 }); 

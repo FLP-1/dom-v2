@@ -1,31 +1,21 @@
 
 /**
- * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
  * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * 
  * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
  * 
  * @trade-offs
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
  */
 
 
 /**
- * Referências externas e fontes de informação
  * 
  * @references
  * - DOM v2 Documentation: docs/README.md
@@ -37,24 +27,17 @@
  * - TypeScript: https://www.typescriptlang.org/docs
  * 
  * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
  * - Para banco de dados: PostgreSQL, MySQL, MongoDB
  * - Para frontend: React, Vue.js, Angular
  * - Para mobile: React Native, Flutter, Native
  * 
  * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
  */
 
 
 /**
- * Validação de tipos TypeScript/JavaScript
  * @param {any} value - Valor a ser validado
  * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
  */
 function validateType(value, expectedType) {
   switch (expectedType) {
@@ -75,17 +58,12 @@ function validateType(value, expectedType) {
   }
 }
 
-// Aplicar validação de tipos
 if (!validateType(data, 'object')) {
-  throw new TypeError('Dados devem ser um objeto válido');
 }
 
 
 /**
- * Asserções de validação crítica
- * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
- * @throws {Error} Se a condição for falsa
  */
 function assertCritical(condition, message = 'Assertion failed') {
   if (!condition) {
@@ -95,16 +73,11 @@ function assertCritical(condition, message = 'Assertion failed') {
   }
 }
 
-// Aplicar asserções críticas
-assertCritical(data !== null, 'Dados não podem ser null');
 assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
 
 
 /**
- * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
  */
 function validateInput(data) {
   if (!data) return false;
@@ -114,15 +87,12 @@ function validateInput(data) {
   return true;
 }
 
-// Aplicar validação
 if (!validateInput(inputData)) {
-  throw new Error('Dados de entrada inválidos');
 }
 
 /**
  * @fileoverview Servidor Express principal do DOM v2
  * @directory backend/src
- * @description Servidor básico com validações e endpoints essenciais para MVP
  * @created 2024-12-19
  * @lastModified 2024-12-19
  * @author DOM Team v2
@@ -133,7 +103,6 @@ import express from 'express';
 import { validateCPF, validatePassword } from './utils/validation';
 import { prisma, connectDatabase, disconnectDatabase, checkDatabaseHealth } from './database';
 
-// Importar rotas das lacunas críticas
 import paymentsRouter from './routes/payments';
 import purchasesRouter from './routes/purchases';
 import employeesRouter from './routes/employees';
@@ -144,11 +113,9 @@ import validationRouter from './routes/validation';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware básico
 app.use(cors());
 app.use(express.json());
 
-// Rotas das lacunas críticas
 app.use('/api', paymentsRouter);
 app.use('/api', purchasesRouter);
 app.use('/api', employeesRouter);
@@ -156,9 +123,7 @@ app.use('/api/budgets', budgetsRouter);
 app.use('/api/payroll', payrollRouter);
 app.use('/api/validation', validationRouter);
 
-// Configuração do servidor
 
-// Endpoint de saúde
 app.get('/health', async (req, res) => {
   const dbHealth = await checkDatabaseHealth();
   
@@ -178,14 +143,11 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-// Endpoint de login (MVP simples com validações)
 app.post('/api/auth/login', async (req, res) => {
   const { cpf, password } = req.body;
 
-  // Validações básicas
   if (!cpf || !password) {
     return res.status(400).json({
-      error: 'CPF e senha são obrigatórios',
       code: 'MISSING_FIELDS'
     });
   }
@@ -193,7 +155,6 @@ app.post('/api/auth/login', async (req, res) => {
   // Validar CPF
   if (!validateCPF(cpf)) {
     return res.status(400).json({
-      error: 'CPF inválido',
       code: 'INVALID_CPF'
     });
   }
@@ -207,7 +168,6 @@ app.post('/api/auth/login', async (req, res) => {
   }
 
   try {
-    // Buscar usuário por CPF (verificar em employer e employee)
     const employer = await prisma.employer.findUnique({
       where: { cpf },
       include: { user: true }
@@ -222,12 +182,10 @@ app.post('/api/auth/login', async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        error: 'CPF não encontrado',
         code: 'USER_NOT_FOUND'
       });
     }
 
-    // Por enquanto, senha fixa para MVP (será implementada autenticação real depois)
     if (password !== '123456') {
       return res.status(401).json({
         error: 'CPF ou senha incorretos',
@@ -235,7 +193,6 @@ app.post('/api/auth/login', async (req, res) => {
       });
     }
 
-    // Buscar organizações do usuário
     const userOrganizations = await prisma.userOrganization.findMany({
       where: { userId: user.id },
       include: { organization: true }
@@ -269,7 +226,6 @@ app.post('/api/auth/login', async (req, res) => {
 // Endpoint de dashboard (MVP)
 app.get('/api/dashboard/stats', async (req, res) => {
   try {
-    // Por enquanto, buscar dados da primeira organização (será implementado filtro por usuário depois)
     const organizations = await prisma.organization.findMany({
       where: { status: 'ACTIVE' },
       take: 1
@@ -290,7 +246,6 @@ app.get('/api/dashboard/stats', async (req, res) => {
 
     const organizationId = organizations[0].id;
 
-    // Buscar estatísticas da organização
     const [activeTasks, completedTasks, totalTasks, unreadNotifications, totalNotifications, totalUsers] = await Promise.all([
       prisma.task.count({ where: { organizationId, status: 'PENDING' } }),
       prisma.task.count({ where: { organizationId, status: 'COMPLETED' } }),
@@ -325,7 +280,6 @@ app.get('/api/dashboard/stats', async (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Erro ao buscar estatísticas:', error);
     res.status(500).json({
       error: 'Erro interno do servidor',
       code: 'INTERNAL_ERROR'
@@ -336,7 +290,6 @@ app.get('/api/dashboard/stats', async (req, res) => {
 // Endpoints de tarefas (MVP)
 app.get('/api/tasks', async (req, res) => {
   try {
-    // Por enquanto, buscar tarefas da primeira organização
     const organizations = await prisma.organization.findMany({
       where: { status: 'ACTIVE' },
       take: 1
@@ -381,20 +334,17 @@ app.post('/api/tasks', async (req, res) => {
 
   if (!title) {
     return res.status(400).json({
-      error: 'Título é obrigatório',
       code: 'MISSING_TITLE'
     });
   }
 
   if (title.length < 3) {
     return res.status(400).json({
-      error: 'Título deve ter pelo menos 3 caracteres',
       code: 'TITLE_TOO_SHORT'
     });
   }
 
   try {
-    // Por enquanto, usar a primeira organização e o primeiro usuário
     const [organization, user] = await Promise.all([
       prisma.organization.findFirst({ where: { status: 'ACTIVE' } }),
       prisma.user.findFirst()
@@ -402,7 +352,6 @@ app.post('/api/tasks', async (req, res) => {
 
     if (!organization || !user) {
       return res.status(400).json({
-        error: 'Organização ou usuário não encontrado',
         code: 'MISSING_REQUIREMENTS'
       });
     }
@@ -450,7 +399,6 @@ app.put('/api/tasks/:id', async (req, res) => {
 
     if (!existingTask) {
       return res.status(404).json({
-        error: 'Tarefa não encontrada',
         code: 'TASK_NOT_FOUND'
       });
     }
@@ -494,7 +442,6 @@ app.delete('/api/tasks/:id', async (req, res) => {
 
     if (!existingTask) {
       return res.status(404).json({
-        error: 'Tarefa não encontrada',
         code: 'TASK_NOT_FOUND'
       });
     }
@@ -529,34 +476,23 @@ async function startServer() {
     await connectDatabase();
     
     app.listen(PORT, () => {
-      console.log(`[${new Date().toISOString()}] ` + `🚀 DOM v2 Backend rodando na porta ${PORT}`);
-      console.log(`[${new Date().toISOString()}] ` + `📊 Health check: http://localhost:${PORT}/health`);
-      console.log(`[${new Date().toISOString()}] ` + `🧪 Test endpoint: http://localhost:${PORT}/api/test`);
-      console.log(`[${new Date().toISOString()}] ` + `🔐 Login endpoint: http://localhost:${PORT}/api/auth/login`);
-      console.log(`[${new Date().toISOString()}] ` + `📈 Dashboard stats: http://localhost:${PORT}/api/dashboard/stats`);
-      console.log(`[${new Date().toISOString()}] ` + `📋 Tasks CRUD: http://localhost:${PORT}/api/tasks`);
-      console.log(`[${new Date().toISOString()}] ` + `✅ Validações de CPF e senha ativadas`);
-      console.log(`[${new Date().toISOString()}] ` + `🗄️ Banco de dados PostgreSQL conectado`);
     });
   } catch (error) {
-    console.error('❌ Erro ao iniciar servidor:', error);
     process.exit(1);
   }
 }
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
-  console.log(`[${new Date().toISOString()}] ` + '\n🛑 Encerrando servidor...');
   await disconnectDatabase();
   process.exit(0);
 });
 
 process.on('SIGTERM', async () => {
-  console.log(`[${new Date().toISOString()}] ` + '\n🛑 Encerrando servidor...');
   await disconnectDatabase();
   process.exit(0);
 });
 
 startServer();
 
-export default app;
+export default app;

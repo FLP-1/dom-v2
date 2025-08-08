@@ -1,60 +1,67 @@
-export const APP_CONSTANTS = {
-  APP_NAME: 'DOM v2',
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description Constantes do sistema DOM v2
+ */
+
+// Configurações da API
+export const API_CONFIG = {
+  BASE_URL: 'http://localhost:3001',
+  TIMEOUT: 30000,
+  RETRY_ATTEMPTS: 3,
+  RETRY_DELAY: 1000
+};
+
+// Configurações da aplicação
+export const APP_CONFIG = {
+  NAME: 'DOM v2',
   VERSION: '2.0.0',
-  BUILD_NUMBER: '1',
-} as const;
+  DESCRIPTION: 'Sistema de Gestão Doméstica e Empresarial',
+  AUTHOR: 'Equipe DOM v2',
+  SUPPORT_EMAIL: 'suporte@domv2.com'
+};
 
-export const API_ENDPOINTS = {
-  BASE_URL: 'http://localhost:3001/api',
-  AUTH: {
-    LOGIN: '/auth/login',
-    REGISTER: '/auth/register',
-    LOGOUT: '/auth/logout',
-    REFRESH: '/auth/refresh',
-  },
-  DASHBOARD: {
-    DATA: '/dashboard',
-    STATS: '/dashboard/stats',
-  },
-  TASKS: {
-    LIST: '/tasks',
-    CREATE: '/tasks',
-    UPDATE: '/tasks/:id',
-    DELETE: '/tasks/:id',
-  },
-  EMPLOYEES: {
-    LIST: '/employees',
-    CREATE: '/employees',
-    UPDATE: '/employees/:id',
-    DELETE: '/employees/:id',
-  },
-  PAYMENTS: {
-    LIST: '/payments',
-    CREATE: '/payments',
-    UPDATE: '/payments/:id',
-  },
-} as const;
+// Configurações de sessão
+export const SESSION_CONFIG = {
+  TIMEOUT: 30 * 60 * 1000, // 30 minutos
+  MAX_FILE_SIZE: 10 * 1024 * 1024 // 10MB
+};
 
-export const STORAGE_KEYS = {
-  AUTH_TOKEN: 'auth_token',
-  USER_DATA: 'user_data',
-  THEME_PREFERENCE: 'theme_preference',
-  LANGUAGE: 'language',
-} as const;
+// Perfis de usuário
+export const USER_PROFILES = {
+  ADMIN: 'admin',
+  EMPLOYER: 'employer',
+  EMPLOYEE: 'employee',
+  FAMILY: 'family',
+  USER: 'user'
+};
 
-export const ERROR_MESSAGES = {
-  NETWORK_ERROR: 'Erro de conexão. Verifique sua internet.',
-  UNAUTHORIZED: 'Sessão expirada. Faça login novamente.',
-  VALIDATION_ERROR: 'Dados inválidos. Verifique as informações.',
-  SERVER_ERROR: 'Erro no servidor. Tente novamente.',
-  UNKNOWN_ERROR: 'Erro desconhecido. Tente novamente.',
-} as const;
+// Status de operações
+export const STATUS = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  LOADING: 'loading',
+  IDLE: 'idle'
+};
 
-export const SUCCESS_MESSAGES = {
-  TASK_CREATED: 'Tarefa criada com sucesso!',
-  TASK_UPDATED: 'Tarefa atualizada com sucesso!',
-  TASK_DELETED: 'Tarefa removida com sucesso!',
-  EMPLOYEE_CREATED: 'Funcionário adicionado com sucesso!',
-  EMPLOYEE_UPDATED: 'Funcionário atualizado com sucesso!',
-  PAYMENT_CREATED: 'Pagamento registrado com sucesso!',
-} as const;
+// Cores do tema
+export const COLORS = {
+  PRIMARY: '#6366f1',
+  SECONDARY: '#8b5cf6',
+  SUCCESS: '#10b981',
+  WARNING: '#f59e0b',
+  ERROR: '#ef4444',
+  INFO: '#3b82f6',
+  BACKGROUND: '#f8fafc',
+  TEXT: '#1e293b'
+};
+
+// Mensagens do sistema
+export const MESSAGES = {
+  LOADING: 'Carregando DOM v2...',
+  ERROR: 'Erro ao carregar aplicação',
+  SUCCESS: 'Operação realizada com sucesso',
+  VALIDATION_ERROR: 'Dados inválidos'
+};

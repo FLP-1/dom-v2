@@ -1,85 +1,159 @@
-import React from 'react';
-import { Text, StyleSheet } from 'react-native';
 
-interface IconProps {
-  name: string;
-  size?: number;
-  color?: string;
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
 }
 
-export default function Icon({ name, size = 24, color = '#000' }: IconProps) {
-  // Mapeamento simples de ícones para emojis/unicode
-  const iconMap: { [key: string]: string } = {
-    'shield': '🛡️',
-    'home': '🏠',
-    'check-square': '✅',
-    'users': '👥',
-    'shopping-cart': '🛒',
-    'credit-card': '💳',
-    'bell': '🔔',
-    'menu': '☰',
-    'pie-chart': '📊',
-    'file-text': '📄',
-    'layers': '📚',
-    'check-circle': '✅',
-    'clock': '⏰',
-    'calendar': '📅',
-    'check': '✓',
-    'eye': '👁️',
-    'code': '💻',
-    'x': '✕',
-    'shield-alert': '⚠️',
-    'truck': '🚚',
-    'gift': '🎁',
-    'user': '👤',
-    'utensils': '🍽️',
-    'leaf': '🍃',
-    'droplet': '💧',
-    'star': '⭐',
-    'alert-circle': '⚠️',
-    'lock': '🔒',
-    'shopping-bag': '🛍️',
-    'settings': '⚙️',
-    'archive': '📦',
-    'more-vertical': '⋮',
-    'moon': '🌙',
-    'toggle-right': '▶️',
-    'plus': '➕',
-    'user-plus': '👤➕',
-    'trending-up': '📈',
-    'shield-check': '🛡️✓',
-    'tag': '🏷️',
-    'filter': '🔍',
-    'broom': '🧹',
-    'tshirt': '👕',
-    'chat': '💬',
-    'message-circle': '💬',
-    'dollar-sign': '💰',
-    'edit': '✏️',
-    'download': '⬇️',
-    'share': '📤',
-    'repeat': '🔄',
-    'bar-chart': '📊',
-    'star': '⭐',
-    'check-circle': '✅',
-    'alert-triangle': '⚠️',
-    'archive': '📦',
-    'shield-alert': '⚠️',
-    'check-square': '✅',
-    'lock': '🔒',
+// Validação de tipos removida - causava erro de referência
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+function handleError(error, context = 'unknown') {
+  console.error(`[ERROR] ${context}:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
   };
-
-  const iconChar = iconMap[name] || '❓';
-
-  return (
-    <Text style={[styles.icon, { fontSize: size, color }]}>
-      {iconChar}
-    </Text>
-  );
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
 }
 
-const styles = StyleSheet.create({
-  icon: {
-    textAlign: 'center',
-  },
-}); 
+// Aplicar tratamento de erro
+try {
+} catch (error) {
+  handleError(error, 'main-execution');
+}
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Componente React/React Native
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * <ComponentName prop={value} />
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */

@@ -1,31 +1,21 @@
 
 /**
- * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
  * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * 
  * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
  * 
  * @trade-offs
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
  */
 
 
 /**
- * Referências externas e fontes de informação
  * 
  * @references
  * - DOM v2 Documentation: docs/README.md
@@ -37,23 +27,16 @@
  * - TypeScript: https://www.typescriptlang.org/docs
  * 
  * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
  * - Para banco de dados: PostgreSQL, MySQL, MongoDB
  * - Para frontend: React, Vue.js, Angular
  * - Para mobile: React Native, Flutter, Native
  * 
  * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
  */
 
 
 /**
- * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
  */
 function validateInput(data) {
   if (!data) return false;
@@ -63,27 +46,21 @@ function validateInput(data) {
   return true;
 }
 
-// Aplicar validação
 if (!validateInput(inputData)) {
-  throw new Error('Dados de entrada inválidos');
 }
 
 
 /**
- * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
  * @author Sistema DOM v2
  * @version 2.0.0
  * @since 2025-01-01
  * 
  * @description
  * Este arquivo implementa Middleware de processamento
- * seguindo as diretivas críticas do projeto DOM v2.
  * 
  * @dependencies
- * - Dependências específicas do contexto
  * 
  * @usage
- * Ver documentação específica para detalhes de uso
  * 
  * @see
  * - docs/directives/diretivas-pensamento-critico.md
@@ -93,8 +70,6 @@ if (!validateInput(inputData)) {
 
 
 /**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
  */
 function assert(condition: any, message: string): void {
@@ -104,10 +79,7 @@ function assert(condition: any, message: string): void {
 }import { Request, Response, NextFunction } from 'express';
 
 /**
- * 🛡️ MIDDLEWARE DE VALIDAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO
  * 
- * Este middleware garante que todas as requisições ao backend
- * sigam as diretivas de pensamento crítico antes de serem processadas.
  */
 
 interface CriticalThinkingAction {
@@ -161,10 +133,8 @@ interface ValidationOptions {
 
 const criticalThinkingMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    // Extrair informações da requisição
     const action: CriticalThinkingAction = {
       type: req.method + '_' + req.path,
-      description: `Requisição ${req.method} para ${req.path}`,
       data: req.body || {},
       source: {
         verified: req.headers['x-source-verified'] === 'true',
@@ -205,22 +175,16 @@ const criticalThinkingMiddleware = (req: Request, res: Response, next: NextFunct
       headers: req.headers
     };
 
-    // Validação básica de pensamento crítico
     validateCriticalThinking(action, context);
     
-    // Adicionar informações de validação à requisição
     (req as any).criticalThinkingValidated = true;
     (req as any).criticalThinkingContext = context;
     
     next();
   } catch (error) {
-    console.error('🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO:', (error as Error).message);
     
     res.status(400).json({
-      error: 'VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO',
-      message: 'Esta requisição não segue as diretivas de pensamento crítico obrigatórias',
       details: (error as Error).message,
-      required: 'Correção obrigatória antes de prosseguir',
       timestamp: new Date().toISOString(),
       headers: {
         'x-source-verified': 'true',
@@ -243,13 +207,10 @@ const criticalThinkingMiddleware = (req: Request, res: Response, next: NextFunct
 };
 
 /**
- * MIDDLEWARE SIMPLIFICADO PARA ROTAS CRÍTICAS
  * 
- * Para rotas que requerem validação mais rigorosa
  */
 const strictCriticalThinkingMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    // Validação mais rigorosa para rotas críticas
     const requiredHeaders = [
       'x-source-verified',
       'x-assumptions-identified',
@@ -260,27 +221,20 @@ const strictCriticalThinkingMiddleware = (req: Request, res: Response, next: Nex
     const missingHeaders = requiredHeaders.filter(header => req.headers[header] !== 'true');
 
     if (missingHeaders.length > 0) {
-      throw new Error(`Headers obrigatórios ausentes: ${missingHeaders.join(', ')}`);
     }
 
     criticalThinkingMiddleware(req, res, next);
   } catch (error) {
-    console.error('🚨 VALIDAÇÃO RIGOROSA FALHOU:', (error as Error).message);
     
     res.status(400).json({
-      error: 'VALIDAÇÃO RIGOROSA FALHOU',
-      message: 'Esta rota requer validação rigorosa de pensamento crítico',
       details: (error as Error).message,
-      required: 'Todos os headers de validação são obrigatórios',
       timestamp: new Date().toISOString()
     });
   }
 };
 
 /**
- * MIDDLEWARE DE LOG PARA PENSAMENTO CRÍTICO
  * 
- * Registra todas as validações para auditoria
  */
 const criticalThinkingLogMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   const startTime = Date.now();
@@ -302,7 +256,6 @@ const criticalThinkingLogMiddleware = (req: Request, res: Response, next: NextFu
       ip: req.ip
     };
     
-    console.log('📊 LOG PENSAMENTO CRÍTICO:', JSON.stringify(logData, null, 2));
     
     return originalSend.call(this, data);
   };
@@ -311,56 +264,42 @@ const criticalThinkingLogMiddleware = (req: Request, res: Response, next: NextFu
 };
 
 /**
- * FUNÇÃO DE VALIDAÇÃO DE PENSAMENTO CRÍTICO
  */
 function validateCriticalThinking(action: CriticalThinkingAction, context: CriticalThinkingContext): void {
   const errors: string[] = [];
   
   // Validar fonte
   if (!action.source.verified) {
-    errors.push('Fonte não verificada');
   }
   
-  // Validar suposições
   if (!action.assumptions.identified) {
-    errors.push('Suposições não identificadas');
   }
   
   if (!action.assumptions.questioned) {
-    errors.push('Suposições não questionadas');
   }
   
-  // Validar lógica
   if (!action.logic.tested) {
-    errors.push('Lógica não testada');
   }
   
   if (!action.logic.validated) {
-    errors.push('Lógica não validada');
   }
   
   // Validar alternativas
   if (!action.alternatives.considered) {
-    errors.push('Alternativas não consideradas');
   }
   
-  // Validar transparência
   if (!action.transparent.documented) {
-    errors.push('Processo não documentado');
   }
   
   // Validar honestidade
   if (!action.honest.declared) {
-    errors.push('Incertezas não declaradas');
   }
   
   if (errors.length > 0) {
-    throw new Error(`Validação de pensamento crítico falhou: ${errors.join(', ')}`);
   }
 }
 
 /**
- * GERADOR DE HEADERS DE VALIDAÇÃO
  */
 export function generateValidationHeaders(options: ValidationOptions = {}): Record<string, string> {
   const headers: Record<string, string> = {
@@ -395,19 +334,16 @@ export function validateResponse(response: any, context: any = {}): boolean {
       return false;
     }
     
-    // Validar se tem campos obrigatórios
     if (response.success === undefined) {
       return false;
     }
     
-    // Validar se mensagens de erro são claras
     if (!response.success && !response.message) {
       return false;
     }
     
     return true;
   } catch (error) {
-    console.error('Erro na validação de resposta:', error);
     return false;
   }
 }
@@ -419,7 +355,6 @@ export {
 }; 
 
 /**
- * Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
  * - Express: https://expressjs.com/

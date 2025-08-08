@@ -1,287 +1,159 @@
 
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
 
 
-
-
-
-
-
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, Platform } from 'react-native';
-
-
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}
-
-
-function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}
-
-
-function assert(condition: any, message: string): void {
-  if (!condition) {
-    throw new Error(`Assertion failed: ${message}
-
-
-function log(level: string, message: string, data?: any): void {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}
-
-
-function validateType(value: any, expectedType: string): boolean {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null;
-    case 'array':
-      return Array.isArray(value);
-    default:
-      return false;
-  }
-}] [${level.toUpperCase()}] ${message}`, data || '');
-}`);
-  }
-}:`, error.message);
-  // Implementar logging, notificação, etc.
-}
-import { Colors, Typography, Spacing, Borders, Shadows, Icons } from './DesignSystem';
-
-interface ButtonProps {
-  title: string;
-  onPress?: () => void;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
-  profile?: 'employer' | 'employee' | 'family' | 'partner' | 'admin';
-  icon?: string;
-  iconPosition?: 'left' | 'right';
-  loading?: boolean;
-  disabled?: boolean;
-  fullWidth?: boolean;
-  style?: any;
-  textStyle?: any;
-}
-
-const Button: React.FC<ButtonProps> = ({
-  title,
-  onPress,
-  variant = 'primary',
-  size = 'md',
-  profile = 'employer',
-  icon,
-  iconPosition = 'left',
-  loading = false,
-  disabled = false,
-  fullWidth = false,
-  style,
-  textStyle,
-}) => {
-  const isWeb = Platform.OS === 'web';
-  
-  // Cores baseadas no perfil
-  const profileColors = Colors[profile] || Colors.employer;
-  
-  // Estilos baseados na variante
-  const getVariantStyles = () => {
-    switch (variant) {
-      case 'primary':
-        return {
-          backgroundColor: profileColors.primary,
-          borderWidth: 0,
-          borderColor: 'transparent',
-        };
-      case 'secondary':
-        return {
-          backgroundColor: profileColors.secondary,
-          borderWidth: 0,
-          borderColor: 'transparent',
-        };
-      case 'outline':
-        return {
-          backgroundColor: 'transparent',
-          borderWidth: Borders.width.normal,
-          borderColor: profileColors.primary,
-        };
-      case 'ghost':
-        return {
-          backgroundColor: 'transparent',
-          borderWidth: 0,
-          borderColor: 'transparent',
-        };
-      case 'danger':
-        return {
-          backgroundColor: Colors.error,
-          borderWidth: 0,
-          borderColor: 'transparent',
-        };
-      default:
-        return {
-          backgroundColor: profileColors.primary,
-          borderWidth: 0,
-          borderColor: 'transparent',
-        };
-    }
-  };
-  
-  // Tamanhos baseados no size
-  const getSizeStyles = () => {
-    switch (size) {
-      case 'sm':
-        return {
-          paddingVertical: Spacing.xs,
-          paddingHorizontal: Spacing.sm,
-          borderRadius: Borders.radius.sm,
-          minHeight: 32,
-        };
-      case 'lg':
-        return {
-          paddingVertical: Spacing.md,
-          paddingHorizontal: Spacing.lg,
-          borderRadius: Borders.radius.lg,
-          minHeight: 56,
-        };
-      default:
-        return {
-          paddingVertical: Spacing.sm,
-          paddingHorizontal: Spacing.md,
-          borderRadius: Borders.radius.md,
-          minHeight: 44,
-        };
-    }
-  };
-  
-  // Tipografia baseada no size
-  const getTypographyStyles = () => {
-    switch (size) {
-      case 'sm':
-        return {
-          fontSize: Typography.sizes.sm,
-          fontWeight: Typography.weights.medium,
-        };
-      case 'lg':
-        return {
-          fontSize: Typography.sizes.lg,
-          fontWeight: Typography.weights.semibold,
-        };
-      default:
-        return {
-          fontSize: Typography.sizes.md,
-          fontWeight: Typography.weights.medium,
-        };
-    }
-  };
-  
-  // Cores do texto baseadas na variante
-  const getTextColor = () => {
-    switch (variant) {
-      case 'primary':
-      case 'secondary':
-      case 'danger':
-        return Colors.white;
-      case 'outline':
-        return profileColors.primary;
-      case 'ghost':
-        return profileColors.primary;
-      default:
-        return Colors.white;
-    }
-  };
-  
-  const variantStyles = getVariantStyles();
-  const sizeStyles = getSizeStyles();
-  const typography = getTypographyStyles();
-  const textColor = getTextColor();
-  
-  const isDisabled = disabled || loading;
-  
-  return (
-    <TouchableOpacity
-      style={[
-        styles.container,
-        variantStyles,
-        sizeStyles,
-        fullWidth && styles.fullWidth,
-        isDisabled && styles.disabled,
-        style,
-      ]}
-      onPress={onPress}
-      disabled={isDisabled}
-      activeOpacity={0.8}
-    >
-      {loading ? (
-        <ActivityIndicator
-          size={size === 'sm' ? 'small' : 'small'}
-          color={textColor}
-        />
-      ) : (
-        <>
-          {icon && iconPosition === 'left' && (
-            <Text style={[styles.icon, { color: textColor, marginRight: Spacing.xs }]}>
-              {Icons.getIcon(icon, typography.fontSize, textColor)}
-            </Text>
-          )}
-          
-          <Text
-            style={[
-              styles.text,
-              typography,
-              { color: textColor },
-              textStyle,
-            ]}
-          >
-            {title}
-          </Text>
-          
-          {icon && iconPosition === 'right' && (
-            <Text style={[styles.icon, { color: textColor, marginLeft: Spacing.xs }]}>
-              {Icons.getIcon(icon, typography.fontSize, textColor)}
-            </Text>
-          )}
-        </>
-      )}
-    </TouchableOpacity>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Shadows.sm,
-  },
-  fullWidth: {
-    width: '100%',
-  },
-  text: {
-    textAlign: 'center',
-    fontFamily: Typography.families.primary,
-  },
-  icon: {
-    textAlign: 'center',
-  },
-  disabled: {
-    opacity: 0.6,
-  },
-});
-
-export default Button; 
-
-
-Referências externas:
- * - Node.js: https://nodejs.org/docs
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
  * - TypeScript: https://www.typescriptlang.org/docs
- * - Express: https://expressjs.com/
- * - Prisma: https://www.prisma.io/docs
- * - React: https://react.dev/
- * - Jest: https://jestjs.io/docs
- * - React Native: https://reactnative.dev/
- * - Webpack: https://webpack.js.org/
-  */
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
+}
+
+// Validação de tipos removida - causava erro de referência
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+function handleError(error, context = 'unknown') {
+  console.error(`[ERROR] ${context}:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
+  };
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
+}
+
+// Aplicar tratamento de erro
+try {
+} catch (error) {
+  handleError(error, 'main-execution');
+}
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Componente React/React Native
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * <ComponentName prop={value} />
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */

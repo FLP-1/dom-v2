@@ -37,27 +37,22 @@ try {
     Write-Host "   ❌ Backend não respondeu" -ForegroundColor Red
 }
 
-# 4. Iniciar Metro bundler
-Write-Host "4. Iniciando Metro bundler..." -ForegroundColor Yellow
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; npx react-native start --port 8081" -WindowStyle Normal
-Start-Sleep -Seconds 10
+# 4. Iniciar Webpack Dev Server (Web)
+Write-Host "4. Iniciando Webpack Dev Server (Web)..." -ForegroundColor Yellow
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; npm run dev" -WindowStyle Normal
+Start-Sleep -Seconds 12
 
-# 5. Verificar Metro bundler
-Write-Host "5. Verificando Metro bundler..." -ForegroundColor Yellow
+# 5. Verificar Webpack Dev Server
+Write-Host "5. Verificando Webpack Dev Server..." -ForegroundColor Yellow
 try {
-    $response = Invoke-RestMethod -Uri "http://localhost:8081/status" -Method GET -TimeoutSec 10
-    Write-Host "   ✅ Metro bundler funcionando" -ForegroundColor Green
+    $response = Invoke-WebRequest -Uri "http://localhost:3000" -Method GET -TimeoutSec 10
+    Write-Host "   ✅ Webpack Dev Server funcionando (status: $($response.StatusCode))" -ForegroundColor Green
 } catch {
-    Write-Host "   ⚠️ Metro bundler pode estar inicializando..." -ForegroundColor Yellow
+    Write-Host "   ⚠️ Webpack Dev Server pode estar inicializando..." -ForegroundColor Yellow
 }
 
-# 6. Iniciar frontend web
-Write-Host "6. Iniciando frontend web..." -ForegroundColor Yellow
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd 'C:\dom-v2\frontend'; node server-web-robust.js" -WindowStyle Normal
-Start-Sleep -Seconds 5
-
-# 7. Verificar frontend
-Write-Host "7. Verificando frontend..." -ForegroundColor Yellow
+# 6. Verificar frontend (rota /health)
+Write-Host "6. Verificando frontend (rota /health)..." -ForegroundColor Yellow
 try {
     $response = Invoke-RestMethod -Uri "http://localhost:3000/health" -Method GET -TimeoutSec 10
     Write-Host "   ✅ Frontend funcionando: $($response.service)" -ForegroundColor Green
@@ -68,8 +63,7 @@ try {
 Write-Host ""
 Write-Host "🎯 Inicialização completa!" -ForegroundColor Green
 Write-Host "Backend API: http://localhost:3001" -ForegroundColor Cyan
-Write-Host "Metro Bundler: http://localhost:8081" -ForegroundColor Cyan
-Write-Host "Frontend Web: http://localhost:3000" -ForegroundColor Cyan
+Write-Host "Frontend Web (Webpack Dev Server): http://localhost:3000" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "📱 Acesse: http://localhost:3000" -ForegroundColor Yellow
 Write-Host "Agora você verá a aplicação React Native Web real!" -ForegroundColor Green

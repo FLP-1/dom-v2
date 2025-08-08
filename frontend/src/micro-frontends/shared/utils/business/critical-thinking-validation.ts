@@ -1,31 +1,21 @@
 
 /**
- * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
  * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * 
  * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
  * 
  * @trade-offs
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
   */
 
 
 /**
- * Referências externas e fontes de informação
  * 
  * @references
  * - DOM v2 Documentation: docs/README.md
@@ -37,50 +27,30 @@
  * - TypeScript: https://www.typescriptlang.org/docs
  * 
  * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
  * - Para banco de dados: PostgreSQL, MySQL, MongoDB
  * - Para frontend: React, Vue.js, Angular
  * - Para mobile: React Native, Flutter, Native
  * 
  * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
   */
 
 
 /**
- * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
   */
-function validateInput(data) {
-  if (!data) return false;
-  if (typeof data === 'string' && data.trim().length === 0) return false;
-  if (Array.isArray(data) && data.length === 0) return false;
-  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
-  return true;
-}
+// Função removida - causava erros de referência no frontend
 
-// Aplicar validação
-if (!validateInput(inputData)) {
-  throw new Error('Dados de entrada inválidos');
-}
+// Validação de input removida - causava erro de referência
 
 
 /**
- * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
  * @author Sistema DOM v2
  * @version 2.0.0
  * @since 2025-01-01
  * 
  * @description
- * Este arquivo implementa Utilitários e funções auxiliares
- * seguindo as diretivas críticas do projeto DOM v2.
  * 
  * @dependencies
- * - Dependências específicas do contexto
  * 
  * @usage
  * import { functionName } from "./utils";
@@ -93,8 +63,6 @@ if (!validateInput(inputData)) {
 
 
 /**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
  * @param {string} message - Mensagem de erro
   */
 function assert(condition: any, message: string): void {
@@ -102,10 +70,7 @@ function assert(condition: any, message: string): void {
     throw new Error(`Assertion failed: ${message}`);
   }
 }/**
- * 🛡️ SISTEMA DE VALIDAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO - FRONTEND
  * 
- * Este sistema garante que todas as ações do frontend sigam as diretivas
- * de pensamento crítico antes de serem executadas.
   */
 
 interface Action {
@@ -189,17 +154,12 @@ class CriticalThinkingValidation {
   private isEnabled: boolean = true;
 
   /**
-   * VALIDAÇÃO OBRIGATÓRIA ANTES DE QUALQUER AÇÃO DO FRONTEND
    * 
-   * @param action - Ação a ser validada
-   * @param context - Contexto da ação
    * @returns True se todas as diretivas foram seguidas
-   * @throws Error se violação for identificada
     */
   validateBeforeAction(action: Action, context: Context = {}): boolean {
     if (!this.isEnabled) return true;
 
-    console.log('🔍 VALIDANDO DIRETIVAS DE PENSAMENTO CRÍTICO (FRONTEND)...');
     
     const checks: ValidationResult = {
       sourceVerified: this.checkSource(action, context),
@@ -216,16 +176,13 @@ class CriticalThinkingValidation {
       this.recordViolation(action, checks, context);
       const errorMessage = this.generateViolationMessage(checks);
       this.showViolationAlert(errorMessage);
-      throw new Error(`🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO:\n${errorMessage}`);
     }
 
     this.recordValidation(action, checks, context);
-    console.log('✅ TODAS AS DIRETIVAS FORAM SEGUIDAS CORRETAMENTE');
     return true;
   }
 
   /**
-   * VERIFICAÇÃO 1: FONTE VERIFICADA
     */
   private checkSource(action: Action, context: Context): ValidationCheck {
     const hasSource = Boolean(action.source && action.source.verified);
@@ -234,13 +191,11 @@ class CriticalThinkingValidation {
     
     return {
       passed: hasSource || hasDocumentation || hasReferences,
-      message: 'Fonte deve ser verificada, confiável e documentada',
       details: { hasSource, hasDocumentation, hasReferences }
     };
   }
 
   /**
-   * VERIFICAÇÃO 2: SUPOSIÇÕES QUESTIONADAS
     */
   private checkAssumptions(action: Action, context: Context): ValidationCheck {
     const hasAssumptions = Boolean(action.assumptions && action.assumptions.identified);
@@ -249,13 +204,11 @@ class CriticalThinkingValidation {
     
     return {
       passed: hasAssumptions && hasQuestioning && hasValidation,
-      message: 'Suposições devem ser identificadas, questionadas e validadas',
       details: { hasAssumptions, hasQuestioning, hasValidation }
     };
   }
 
   /**
-   * VERIFICAÇÃO 3: LÓGICA TESTADA
     */
   private checkLogic(action: Action, context: Context): ValidationCheck {
     const hasLogic = Boolean(action.logic && action.logic.tested);
@@ -264,13 +217,11 @@ class CriticalThinkingValidation {
     
     return {
       passed: hasLogic && hasValidation && hasConsistency,
-      message: 'Lógica deve ser testada, validada e consistente',
       details: { hasLogic, hasValidation, hasConsistency }
     };
   }
 
   /**
-   * VERIFICAÇÃO 4: ALTERNATIVAS CONSIDERADAS
     */
   private checkAlternatives(action: Action, context: Context): ValidationCheck {
     const hasAlternatives = Boolean(action.alternatives && action.alternatives.considered);
@@ -279,13 +230,11 @@ class CriticalThinkingValidation {
     
     return {
       passed: hasAlternatives && hasPerspectives && hasCreative,
-      message: 'Alternativas devem ser consideradas, com múltiplas perspectivas e criatividade',
       details: { hasAlternatives, hasPerspectives, hasCreative }
     };
   }
 
   /**
-   * VERIFICAÇÃO 5: TRANSPARÊNCIA MANTIDA
     */
   private checkTransparency(action: Action, context: Context): ValidationCheck {
     const hasDocumented = Boolean(action.transparency && action.transparency.documented);
@@ -300,7 +249,6 @@ class CriticalThinkingValidation {
   }
 
   /**
-   * VERIFICAÇÃO 6: HONESTIDADE MANTIDA
     */
   private checkHonesty(action: Action, context: Context): ValidationCheck {
     const hasDeclared = Boolean(action.honesty && action.honesty.declared);
@@ -309,13 +257,11 @@ class CriticalThinkingValidation {
     
     return {
       passed: hasDeclared && hasErrors && hasUncertainty,
-      message: 'Incertezas, erros e limitações devem ser declarados',
       details: { hasDeclared, hasErrors, hasUncertainty }
     };
   }
 
   /**
-   * REGISTRAR VIOLAÇÃO
     */
   private recordViolation(action: Action, checks: ValidationResult, context: Context): void {
     const violation: Violation = {
@@ -332,7 +278,6 @@ class CriticalThinkingValidation {
   }
 
   /**
-   * REGISTRAR VALIDAÇÃO
     */
   private recordValidation(action: Action, checks: ValidationResult, context: Context): void {
     const validation: Validation = {
@@ -347,7 +292,6 @@ class CriticalThinkingValidation {
   }
 
   /**
-   * SALVAR VIOLAÇÃO NO STORAGE
     */
   private saveViolationToStorage(violation: Violation): void {
     try {
@@ -356,12 +300,10 @@ class CriticalThinkingValidation {
       violations.push(violation);
       localStorage.setItem('criticalThinkingViolations', JSON.stringify(violations));
     } catch (error) {
-      console.error('Erro ao salvar violação:', error);
     }
   }
 
   /**
-   * SALVAR VALIDAÇÃO NO STORAGE
     */
   private saveValidationToStorage(validation: Validation): void {
     try {
@@ -370,24 +312,20 @@ class CriticalThinkingValidation {
       validations.push(validation);
       localStorage.setItem('criticalThinkingValidations', JSON.stringify(validations));
     } catch (error) {
-      console.error('Erro ao salvar validação:', error);
     }
   }
 
   /**
-   * CRIAR ALERTA CRÍTICO
     */
   private createCriticalAlert(violation: Violation): void {
     const alertData = {
       type: 'critical',
-      title: '🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO',
       message: violation.message,
       timestamp: violation.timestamp,
       action: violation.action.type,
       component: violation.context.component || 'Unknown'
     };
 
-    // Emitir evento para o sistema de notificações
     if (typeof window !== 'undefined' && 'dispatchEvent' in window) {
       (window as any).dispatchEvent(new CustomEvent('criticalThinkingViolation', {
         detail: alertData
@@ -396,30 +334,24 @@ class CriticalThinkingValidation {
   }
 
   /**
-   * MOSTRAR ALERTA DE VIOLAÇÃO
     */
   private showViolationAlert(message: string): void {
-    console.error('🚨 ALERTA DE VIOLAÇÃO:', message);
     
     // Em ambiente de desenvolvimento, mostrar alerta visual
     if (process.env.NODE_ENV === 'development' && typeof (globalThis as any).alert !== 'undefined') {
-      (globalThis as any).alert(`🚨 VIOLAÇÃO DAS DIRETIVAS DE PENSAMENTO CRÍTICO:\n\n${message}`);
     }
   }
 
   /**
-   * GERENCIAR MENSAGEM DE VIOLAÇÃO
     */
   private generateViolationMessage(checks: ValidationResult): string {
     const failedChecks = Object.entries(checks)
       .filter(([_, check]) => !check.passed)
-      .map(([name, check]) => `• ${check.message}`);
 
     return failedChecks.join('\n');
   }
 
   /**
-   * GERAR RELATÓRIO
     */
   generateReport(): any {
     return {
@@ -434,24 +366,20 @@ class CriticalThinkingValidation {
   }
 
   /**
-   * GERENCIAR RECOMENDAÇÕES
     */
   private generateRecommendations(): string[] {
     const recommendations: string[] = [];
     
     if (this.violations.length > this.validations.length) {
-      recommendations.push('⚠️ Muitas violações detectadas. Revise as diretivas de pensamento crítico.');
     }
     
     if (this.violations.length === 0) {
-      recommendations.push('✅ Excelente! Todas as ações seguem as diretivas de pensamento crítico.');
     }
     
     return recommendations;
   }
 
   /**
-   * VALIDAÇÃO SIMPLES PARA AÇÕES BÁSICAS
     */
   validateSimpleAction(actionType: string, description: string, source: string | null = null): boolean {
     const action: Action = {
@@ -469,11 +397,9 @@ class CriticalThinkingValidation {
   }
 
   /**
-   * HABILITAR/DESABILITAR VALIDAÇÃO
     */
   setEnabled(enabled: boolean): void {
     this.isEnabled = enabled;
-    console.log(`🔧 Validação de pensamento crítico ${enabled ? 'habilitada' : 'desabilitada'}`);
   }
 
   /**
@@ -485,7 +411,6 @@ class CriticalThinkingValidation {
       localStorage.removeItem('criticalThinkingValidations');
       this.violations = [];
       this.validations = [];
-      console.log('🗑️ Storage de pensamento crítico limpo');
     } catch (error) {
       console.error('Erro ao limpar storage:', error);
     }
@@ -507,14 +432,12 @@ class CriticalThinkingValidation {
         this.validations = JSON.parse(validations);
       }
       
-      console.log(`📊 Carregados ${this.violations.length} violações e ${this.validations.length} validações do storage`);
     } catch (error) {
       console.error('Erro ao carregar do storage:', error);
     }
   }
 }
 
-// Instância global
 const criticalThinkingValidation = new CriticalThinkingValidation();
 
 export default criticalThinkingValidation; 

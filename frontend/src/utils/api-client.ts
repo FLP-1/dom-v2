@@ -1,31 +1,21 @@
 
 /**
- * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
  * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * 
  * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
  * 
  * @trade-offs
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
-  */
+ */
 
 
 /**
- * Referências externas e fontes de informação
  * 
  * @references
  * - DOM v2 Documentation: docs/README.md
@@ -37,218 +27,131 @@
  * - TypeScript: https://www.typescriptlang.org/docs
  * 
  * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
  * - Para banco de dados: PostgreSQL, MySQL, MongoDB
  * - Para frontend: React, Vue.js, Angular
  * - Para mobile: React Native, Flutter, Native
  * 
  * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
-  */
-
+ */
 
 
 /**
- * Asserções de validação
- * @param {any} condition - Condição a ser validada
- * @param {string} message - Mensagem de erro
-  */
-function assert(condition: any, message: string): void {
-  if (!condition) {
-    throw new Error(`Assertion failed: ${message}
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
+}
+
+// Validação de tipos removida - causava erro de referência
+
 
 /**
  * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error)
  * @param {string} message - Mensagem do log
- * @param {any} data - Dados adicionais
-  */
-function log(level: string, message: string, data?: any): void {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] [${level.toUpperCase()}] ${message}`, data || '');
-}`);
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
   }
 }
 
+// Aplicar logging
+
+
 /**
- * Validação de entrada de dados
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+function handleError(error, context = 'unknown') {
+  console.error(`[ERROR] ${context}:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
+  };
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
+}
+
+// Aplicar tratamento de erro
+try {
+} catch (error) {
+  handleError(error, 'main-execution');
+}
+
+
+/**
  * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
-  */
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}/**
- * @fileoverview Cliente API centralizado para o DOM v2
- * @description Centraliza todas as chamadas de API usando configurações dinâmicas
- * @author Equipe DOM v2
- * @version 1.0.0
- * @since 2025-07-23
-  */
+ */
+// Função removida - causava erros de referência no frontend
 
-import { getValue, ConfigType } from './config';
+// Validação de input removida - causava erro de referência
 
-// Interface para requisições
-export interface ApiRequest {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-  endpoint: string;
-  data?: any;
-  headers?: Record<string, string>;
-  params?: Record<string, string>;
-}
-
-// Interface para resposta
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  status: number;
-}
-
-// Cliente API centralizado
-export class ApiClient {
-  private static baseUrl: string;
-  private static timeout: number;
-  private static retryAttempts: number;
-  private static retryDelay: number;
-
-  // Inicializar cliente
-  static initialize(): void {
-    this.baseUrl = getValue('api.baseUrl') || 'http://localhost:3001';
-    this.timeout = getValue('api.timeout') || 30000;
-    this.retryAttempts = getValue('api.retryAttempts') || 3;
-    this.retryDelay = getValue('api.retryDelay') || 1000;
-  }
-
-  // Fazer requisição com retry
-  static async request<T = any>(request: ApiRequest): Promise<ApiResponse<T>> {
-    const url = this.buildUrl(request.endpoint, request.params);
-    
-    for (let attempt = 1; attempt <= this.retryAttempts; attempt++) {
-      try {
-        const response = await this.makeRequest<T>(url, request);
-        
-        if (response.success || attempt === this.retryAttempts) {
-          return response;
-        }
-        
-        // Aguardar antes da próxima tentativa
-        if (attempt < this.retryAttempts) {
-          await this.delay(this.retryDelay * attempt);
-        }
-      } catch (error) {
-        if (attempt === this.retryAttempts) {
-          return {
-            success: false,
-            error: error instanceof Error ? error.message : 'Erro desconhecido',
-            status: 0
-          };
-        }
-      }
-    }
-
-    return {
-      success: false,
-      error: 'Máximo de tentativas excedido',
-      status: 0
-    };
-  }
-
-  // Fazer requisição individual
-  private static async makeRequest<T = any>(
-    url: string, 
-    request: ApiRequest
-  ): Promise<ApiResponse<T>> {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-
-    try {
-      const response = await fetch(url, {
-        method: request.method,
-        headers: {
-          'Content-Type': 'application/json',
-          ...request.headers
-        },
-        body: request.data ? JSON.stringify(request.data) : undefined,
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      const data = await response.json().catch(() => null);
-
-      return {
-        success: response.ok,
-        data: response.ok ? data : undefined,
-        error: response.ok ? undefined : data?.message || `HTTP ${response.status}`,
-        status: response.status
-      };
-    } catch (error) {
-      clearTimeout(timeoutId);
-      throw error;
-    }
-  }
-
-  // Construir URL completa
-  private static buildUrl(endpoint: string, params?: Record<string, string>): string {
-    let url = `${this.baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
-    
-    if (params) {
-      const searchParams = new URLSearchParams();
-      Object.entries(params).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          searchParams.append(key, value);
-        }
-      });
-      const queryString = searchParams.toString();
-      if (queryString) {
-        url += `?${queryString}`;
-      }
-    }
-    
-    return url;
-  }
-
-  // Delay utilitário
-  private static delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  // Métodos HTTP específicos
-  static async get<T = any>(endpoint: string, params?: Record<string, string>): Promise<ApiResponse<T>> {
-    return this.request<T>({ method: 'GET', endpoint, params });
-  }
-
-  static async post<T = any>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
-    return this.request<T>({ method: 'POST', endpoint, data });
-  }
-
-  static async put<T = any>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
-    return this.request<T>({ method: 'PUT', endpoint, data });
-  }
-
-  static async patch<T = any>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
-    return this.request<T>({ method: 'PATCH', endpoint, data });
-  }
-
-  static async delete<T = any>(endpoint: string): Promise<ApiResponse<T>> {
-    return this.request<T>({ method: 'DELETE', endpoint });
-  }
-}
-
-// Inicializar cliente
-ApiClient.initialize();
-
-// Exportar instância e métodos
-export default ApiClient; 
 
 /**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
-  */
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * import { functionName } from "./utils";
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */

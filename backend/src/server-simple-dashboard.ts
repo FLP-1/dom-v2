@@ -1,3 +1,112 @@
+
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+function validateType(value, expectedType) {
+  switch (expectedType) {
+    case 'string':
+      return typeof value === 'string';
+    case 'number':
+      return typeof value === 'number' && !isNaN(value);
+    case 'boolean':
+      return typeof value === 'boolean';
+    case 'object':
+      return typeof value === 'object' && value !== null && !Array.isArray(value);
+    case 'array':
+      return Array.isArray(value);
+    case 'function':
+      return typeof value === 'function';
+    default:
+      return false;
+  }
+}
+
+if (!validateType(data, 'object')) {
+}
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+function assertCritical(condition, message = 'Assertion failed') {
+  if (!condition) {
+    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+function validateInput(data) {
+  if (!data) return false;
+  if (typeof data === 'string' && data.trim().length === 0) return false;
+  if (Array.isArray(data) && data.length === 0) return false;
+  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
+  return true;
+}
+
+if (!validateInput(inputData)) {
+}
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 import express from 'express';
 import cors from 'cors';
 
@@ -8,11 +117,9 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
-// Simulação de banco de dados com dados mais realistas
 class MockDatabase {
   private employees = [
     { id: 1, name: 'Maria Silva', salary: 4200.00, status: 'active', department: 'RH' },
-    { id: 2, name: 'João Santos', salary: 3800.00, status: 'active', department: 'TI' },
     { id: 3, name: 'Ana Costa', salary: 3500.00, status: 'active', department: 'Financeiro' },
     { id: 4, name: 'Pedro Oliveira', salary: 4100.00, status: 'active', department: 'Vendas' },
     { id: 5, name: 'Lucia Ferreira', salary: 3900.00, status: 'active', department: 'Marketing' },
@@ -22,7 +129,6 @@ class MockDatabase {
   ];
 
   private budgets = [
-    { id: 1, category: 'Alimentação', amount: 3000.00, spent: 1800.00, month: '2024-01' },
     { id: 2, category: 'Transporte', amount: 2000.00, spent: 1200.00, month: '2024-01' },
     { id: 3, category: 'Moradia', amount: 8000.00, spent: 4500.00, month: '2024-01' },
     { id: 4, category: 'Lazer', amount: 2000.00, spent: 1000.00, month: '2024-01' },
@@ -33,35 +139,22 @@ class MockDatabase {
     { id: 1, description: 'Pagamento fornecedor ABC', amount: 800.00, status: 'completed', date: '2024-01-15' },
     { id: 2, description: 'Conta de luz', amount: 150.00, status: 'pending', date: '2024-01-16' },
     { id: 3, description: 'Internet', amount: 200.00, status: 'completed', date: '2024-01-14' },
-    { id: 4, description: 'Aluguel escritório', amount: 2500.00, status: 'pending', date: '2024-01-20' },
     { id: 5, description: 'Material de limpeza', amount: 300.00, status: 'completed', date: '2024-01-13' }
   ];
 
   private payrolls = [
     { id: 1, employeeName: 'Maria Silva', grossSalary: 4200.00, netSalary: 3500.00, status: 'paid', date: '2024-01-05' },
-    { id: 2, employeeName: 'João Santos', grossSalary: 3800.00, netSalary: 3100.00, status: 'pending', date: '2024-01-05' },
     { id: 3, employeeName: 'Ana Costa', grossSalary: 3500.00, netSalary: 2900.00, status: 'paid', date: '2024-01-05' },
     { id: 4, employeeName: 'Pedro Oliveira', grossSalary: 4100.00, netSalary: 3400.00, status: 'overdue', date: '2024-01-05' },
     { id: 5, employeeName: 'Lucia Ferreira', grossSalary: 3900.00, netSalary: 3200.00, status: 'paid', date: '2024-01-05' }
   ];
 
   private tasks = [
-    { id: 1, title: 'Revisar orçamento mensal', status: 'pending', priority: 'high', assignee: 'Maria Silva' },
-    { id: 2, title: 'Aprovar pagamentos pendentes', status: 'in_progress', priority: 'medium', assignee: 'João Santos' },
-    { id: 3, title: 'Atualizar planilha de funcionários', status: 'completed', priority: 'low', assignee: 'Ana Costa' },
-    { id: 4, title: 'Preparar relatório financeiro', status: 'pending', priority: 'high', assignee: 'Pedro Oliveira' },
-    { id: 5, title: 'Organizar reunião de equipe', status: 'in_progress', priority: 'medium', assignee: 'Lucia Ferreira' }
   ];
 
   private notifications = [
-    { id: 1, title: 'Pagamento aprovado', message: 'Pagamento do funcionário João foi aprovado', type: 'success', timestamp: new Date(Date.now() - 3600000).toISOString() },
-    { id: 2, title: 'Orçamento atualizado', message: 'Orçamento de janeiro foi atualizado', type: 'info', timestamp: new Date(Date.now() - 7200000).toISOString() },
-    { id: 3, title: 'Tarefa concluída', message: 'Relatório financeiro foi finalizado', type: 'success', timestamp: new Date(Date.now() - 10800000).toISOString() },
-    { id: 4, title: 'Atenção: Pagamento atrasado', message: 'Pagamento do Pedro está atrasado', type: 'warning', timestamp: new Date(Date.now() - 14400000).toISOString() },
-    { id: 5, title: 'Nova tarefa atribuída', message: 'Você tem uma nova tarefa de alta prioridade', type: 'info', timestamp: new Date(Date.now() - 18000000).toISOString() }
   ];
 
-  // Métodos para calcular dados dinâmicos
   getDashboardData() {
     const activeEmployees = this.employees.filter(emp => emp.status === 'active');
     const totalGrossSalary = activeEmployees.reduce((sum, emp) => sum + emp.salary, 0);
@@ -104,7 +197,6 @@ class MockDatabase {
         recentPayrolls: this.payrolls.slice(0, 5),
         recentPayments: this.payments.slice(0, 5),
         recentPurchases: [
-          { id: 1, item: 'Material de escritório', amount: 200.00, status: 'approved' },
           { id: 2, item: 'Equipamentos de TI', amount: 1000.00, status: 'pending' }
         ]
       },
@@ -176,20 +268,16 @@ app.get('/api/dashboard', (req, res) => {
   }
 });
 
-// Rota de estatísticas
 app.get('/api/dashboard/stats', (req, res) => {
   try {
     const stats = db.getDashboardStats();
     res.json({
       success: true,
       data: stats,
-      message: 'Estatísticas do dashboard recuperadas com sucesso'
     });
   } catch (error) {
-    console.error('Erro ao buscar estatísticas do dashboard:', error);
     res.status(500).json({
       success: false,
-      message: 'Erro ao buscar estatísticas do dashboard'
     });
   }
 });
@@ -205,8 +293,4 @@ app.get('/api/test', (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📈 Dashboard API: http://localhost:${PORT}/api/dashboard`);
-  console.log(`📊 Stats API: http://localhost:${PORT}/api/dashboard/stats`);
-  console.log(`🧪 Test API: http://localhost:${PORT}/api/test`);
 }); 

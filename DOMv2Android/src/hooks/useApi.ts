@@ -1,0 +1,483 @@
+/**
+ * @fileoverview Hook para API - DOM v2
+ * @created 2025-01-23
+ * @lastModified 2025-01-23
+ * @author DOM Team v2
+ */
+
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { ApiClient } from '../utils/api-client';
+import { getMessage } from '../utils/messages-centralized';
+
+interface ApiState<T> {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+  lastUpdated: Date | null;
+}
+
+interface ApiOptions {
+  immediate?: boolean;
+  cache?: boolean;
+  cacheTime?: number; // em milissegundos
+  retryCount?: number;
+  retryDelay?: number; // em milissegundos
+  onSuccess?: (data: any) => void;
+  onError?: (error: string) => void;
+}
+
+interface ApiResponse<T> {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
+  mutate: (data: T) => void;
+  reset: () => void;
+}
+
+/**
+ * Hook para chamadas de API com gerenciamento de estado
+ */
+export function useApi<T = any>(
+  endpoint: string,
+  options: ApiOptions = {}
+): ApiResponse<T> {
+  const {
+    immediate = true,
+    cache = true,
+    cacheTime = 5 * 60 * 1000, // 5 minutos
+    retryCount = 3,
+    retryDelay = 1000,
+    onSuccess,
+    onError
+  } = options;
+
+  const [state, setState] = useState<ApiState<T>>({
+    data: null,
+    loading: false,
+    error: null,
+    lastUpdated: null
+  });
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const retryCountRef = useRef(0);
+
+  /**
+   */
+  const isCacheValid = useCallback((): boolean => {
+    if (!cache || !state.lastUpdated) return false;
+    
+    const now = new Date();
+    const timeDiff = now.getTime() - state.lastUpdated.getTime();
+    return timeDiff < cacheTime;
+  }, [cache, cacheTime, state.lastUpdated]);
+
+  /**
+   * Executa a chamada da API
+   */
+  const executeApiCall = useCallback(async (): Promise<void> => {
+    // Cancela chamada anterior se existir
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    // Cria novo controller para esta chamada
+    abortControllerRef.current = new AbortController();
+
+    setState(prev => ({
+      ...prev,
+      loading: true,
+      error: null
+    }));
+
+    try {
+      const response = await ApiClient.get(endpoint, {
+        signal: abortControllerRef.current.signal
+      });
+
+      setState(prev => ({
+        ...prev,
+        data: response,
+        loading: false,
+        lastUpdated: new Date()
+      }));
+
+      onSuccess?.(response);
+      retryCountRef.current = 0; // Reset retry count on success
+
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        return;
+      }
+
+      const errorMessage = error.message || getMessage('system.error');
+
+      if (retryCountRef.current < retryCount) {
+        retryCountRef.current++;
+        
+        setTimeout(() => {
+          executeApiCall();
+        }, retryDelay);
+        
+        return;
+      }
+
+      setState(prev => ({
+        ...prev,
+        loading: false,
+        error: errorMessage
+      }));
+
+      onError?.(errorMessage);
+      retryCountRef.current = 0; // Reset retry count
+    }
+  }, [endpoint, retryCount, retryDelay, onSuccess, onError]);
+
+  /**
+   * Refaz a chamada da API
+   */
+  const refetch = useCallback(async (): Promise<void> => {
+    retryCountRef.current = 0;
+    await executeApiCall();
+  }, [executeApiCall]);
+
+  /**
+   * Atualiza os dados manualmente
+   */
+  const mutate = useCallback((data: T): void => {
+    setState(prev => ({
+      ...prev,
+      data,
+      lastUpdated: new Date()
+    }));
+  }, []);
+
+  /**
+   * Reseta o estado
+   */
+  const reset = useCallback((): void => {
+    setState({
+      data: null,
+      loading: false,
+      error: null,
+      lastUpdated: null
+    });
+    retryCountRef.current = 0;
+  }, []);
+
+  /**
+   */
+  useEffect(() => {
+    if (immediate && !isCacheValid()) {
+      executeApiCall();
+    }
+  }, [immediate, isCacheValid, executeApiCall]);
+
+  /**
+   * Cleanup ao desmontar
+   */
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  return {
+    data: state.data,
+    loading: state.loading,
+    error: state.error,
+    refetch,
+    mutate,
+    reset
+  };
+}
+
+/**
+ * Hook para POST requests
+ */
+export function useApiPost<T = any, R = any>(
+  endpoint: string,
+  options: ApiOptions = {}
+): ApiResponse<R> & { post: (data: T) => Promise<void> } {
+  const [state, setState] = useState<ApiState<R>>({
+    data: null,
+    loading: false,
+    error: null,
+    lastUpdated: null
+  });
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const post = useCallback(async (data: T): Promise<void> => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    abortControllerRef.current = new AbortController();
+
+    setState(prev => ({
+      ...prev,
+      loading: true,
+      error: null
+    }));
+
+    try {
+      const response = await ApiClient.post(endpoint, data, {
+        signal: abortControllerRef.current.signal
+      });
+
+      setState(prev => ({
+        ...prev,
+        data: response,
+        loading: false,
+        lastUpdated: new Date()
+      }));
+
+      options.onSuccess?.(response);
+
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        return;
+      }
+
+      const errorMessage = error.message || getMessage('system.error');
+
+      setState(prev => ({
+        ...prev,
+        loading: false,
+        error: errorMessage
+      }));
+
+      options.onError?.(errorMessage);
+    }
+  }, [endpoint, options]);
+
+  const mutate = useCallback((data: R): void => {
+    setState(prev => ({
+      ...prev,
+      data,
+      lastUpdated: new Date()
+    }));
+  }, []);
+
+  const reset = useCallback((): void => {
+    setState({
+      data: null,
+      loading: false,
+      error: null,
+      lastUpdated: null
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  return {
+    data: state.data,
+    loading: state.loading,
+    error: state.error,
+    refetch: () => Promise.resolve(),
+    mutate,
+    reset,
+    post
+  };
+}
+
+/**
+ * Hook para PUT requests
+ */
+export function useApiPut<T = any, R = any>(
+  endpoint: string,
+  options: ApiOptions = {}
+): ApiResponse<R> & { put: (data: T) => Promise<void> } {
+  const [state, setState] = useState<ApiState<R>>({
+    data: null,
+    loading: false,
+    error: null,
+    lastUpdated: null
+  });
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const put = useCallback(async (data: T): Promise<void> => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    abortControllerRef.current = new AbortController();
+
+    setState(prev => ({
+      ...prev,
+      loading: true,
+      error: null
+    }));
+
+    try {
+      const response = await ApiClient.put(endpoint, data, {
+        signal: abortControllerRef.current.signal
+      });
+
+      setState(prev => ({
+        ...prev,
+        data: response,
+        loading: false,
+        lastUpdated: new Date()
+      }));
+
+      options.onSuccess?.(response);
+
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        return;
+      }
+
+      const errorMessage = error.message || getMessage('system.error');
+
+      setState(prev => ({
+        ...prev,
+        loading: false,
+        error: errorMessage
+      }));
+
+      options.onError?.(errorMessage);
+    }
+  }, [endpoint, options]);
+
+  const mutate = useCallback((data: R): void => {
+    setState(prev => ({
+      ...prev,
+      data,
+      lastUpdated: new Date()
+    }));
+  }, []);
+
+  const reset = useCallback((): void => {
+    setState({
+      data: null,
+      loading: false,
+      error: null,
+      lastUpdated: null
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  return {
+    data: state.data,
+    loading: state.loading,
+    error: state.error,
+    refetch: () => Promise.resolve(),
+    mutate,
+    reset,
+    put
+  };
+}
+
+/**
+ * Hook para DELETE requests
+ */
+export function useApiDelete<R = any>(
+  endpoint: string,
+  options: ApiOptions = {}
+): ApiResponse<R> & { delete: () => Promise<void> } {
+  const [state, setState] = useState<ApiState<R>>({
+    data: null,
+    loading: false,
+    error: null,
+    lastUpdated: null
+  });
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const deleteItem = useCallback(async (): Promise<void> => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    abortControllerRef.current = new AbortController();
+
+    setState(prev => ({
+      ...prev,
+      loading: true,
+      error: null
+    }));
+
+    try {
+      const response = await ApiClient.delete(endpoint, {
+        signal: abortControllerRef.current.signal
+      });
+
+      setState(prev => ({
+        ...prev,
+        data: response,
+        loading: false,
+        lastUpdated: new Date()
+      }));
+
+      options.onSuccess?.(response);
+
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        return;
+      }
+
+      const errorMessage = error.message || getMessage('system.error');
+
+      setState(prev => ({
+        ...prev,
+        loading: false,
+        error: errorMessage
+      }));
+
+      options.onError?.(errorMessage);
+    }
+  }, [endpoint, options]);
+
+  const mutate = useCallback((data: R): void => {
+    setState(prev => ({
+      ...prev,
+      data,
+      lastUpdated: new Date()
+    }));
+  }, []);
+
+  const reset = useCallback((): void => {
+    setState({
+      data: null,
+      loading: false,
+      error: null,
+      lastUpdated: null
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  return {
+    data: state.data,
+    loading: state.loading,
+    error: state.error,
+    refetch: () => Promise.resolve(),
+    mutate,
+    reset,
+    delete: deleteItem
+  };
+}

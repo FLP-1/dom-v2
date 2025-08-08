@@ -1,31 +1,21 @@
 
 /**
- * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
  * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Prós: [LISTAR VANTAGENS]
  *   - Contras: [LISTAR DESVANTAGENS]
  * 
  * @decision
- * Escolha da implementação atual baseada em:
- * - [CRITÉRIO 1]
- * - [CRITÉRIO 2]
- * - [CRITÉRIO 3]
  * 
  * @trade-offs
  * - Performance vs Simplicidade
  * - Flexibilidade vs Complexidade
- * - Segurança vs Usabilidade
-  */
+ */
 
 
 /**
- * Referências externas e fontes de informação
  * 
  * @references
  * - DOM v2 Documentation: docs/README.md
@@ -37,337 +27,131 @@
  * - TypeScript: https://www.typescriptlang.org/docs
  * 
  * @alternatives
- * - Para autenticação: JWT, OAuth 2.0, Session-based
  * - Para banco de dados: PostgreSQL, MySQL, MongoDB
  * - Para frontend: React, Vue.js, Angular
  * - Para mobile: React Native, Flutter, Native
  * 
  * @considerations
- * - Performance: Otimização para dispositivos móveis
- * - Segurança: LGPD compliance, criptografia
- * - Escalabilidade: Arquitetura distribuída
- * - Manutenibilidade: Código limpo e documentado
-  */
+ */
 
 
 /**
- * Asserções de validação crítica
- * @param {any} condition - Condição a ser validada
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ */
+// Função removida - causava erros de referência no frontend
+}
+
+// Validação de tipos removida - causava erro de referência
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+// Função removida - causava erros de referência no frontend;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+
+/**
  * @param {string} message - Mensagem de erro
- * @throws {Error} Se a condição for falsa
-  */
-function assertCritical(condition, message = 'Assertion failed') {
-  if (!condition) {
-    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
+ */
+// Função removida - causava erros de referência no frontend`);
     error.name = 'CriticalAssertionError';
     throw error;
   }
 }
 
-// Aplicar asserções críticas
-assertCritical(data !== null, 'Dados não podem ser null');
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
-
+// Validação crítica removida - causava erro de referência
 
 
 /**
- * Sistema de logging estruturado
- * @param {string} level - Nível do log (info, warn, error)
- * @param {string} message - Mensagem do log
- * @param {any} data - Dados adicionais
-  */
-function log(level: string, message: string, data?: any): void {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}
-
-/**
- * Validação de tipos
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- * @returns {boolean} - True se o tipo está correto
-  */
-function validateType(value: any, expectedType: string): boolean {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null;
-    case 'array':
-      return Array.isArray(value);
-    default:
-      return false;
-  }
-}] [${level.toUpperCase()}] ${message}`, data || '');
-}/**
- * @fileoverview Otimização por dispositivo para DOM v2
- * @directory frontend/src/utils
- * @description Adaptação da interface Baseada no dispositivo do usuário
- * @created 2024-12-19
- * @lastModified 2024-12-19
- * @author DOM Team v2
-  */
-
-import React from 'react';
-
-/**
- * Validação de entrada de dados
- * @param {any} data - Dados a serem validados
- * @returns {boolean} - True se válido, false caso contrário
-  */
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}
-
-/**
- * Tratamento de erros centralizado
+ * Tratamento robusto de erros
  * @param {Error} error - Erro capturado
  * @param {string} context - Contexto onde o erro ocorreu
-  */
-function handleError(error: Error, context: string): void {
+ */
+function handleError(error, context = 'unknown') {
   console.error(`[ERROR] ${context}:`, error.message);
-  // Implementar logging, notificação, etc.
-}
-import { Dimensions, Platform } from 'react-native';
-
-// Tipos de dispositivo
-export type DeviceType = 'SMARTPHONE' | 'TABLET' | 'DESKTOP';
-
-// Configuração de otimização por dispositivo
-export interface DeviceOptimization {
-  device: DeviceType;
-  touchOptimized: boolean;
-  buttonSize: 'SMALL' | 'MEDIUM' | 'LARGE';
-  fontSize: {
-    small: number;
-    medium: number;
-    large: number;
-    xlarge: number;
-  };
-  spacing: {
-    small: number;
-    medium: number;
-    large: number;
-    xlarge: number;
-  };
-  navigation: 'SWIPE' | 'TAP' | 'CLICK';
-  features: {
-    shortcuts: boolean;
-    detailedInfo: boolean;
-    helpText: boolean;
-  };
-}
-
-// Detectar tipo de dispositivo
-export function detectDeviceType(): DeviceType {
-  const { width, height } = Dimensions.get('window');
-  const screenWidth = Math.min(width, height);
-  const screenHeight = Math.max(width, height);
   
-  // Desktop (web)
-  if (Platform.OS === 'web') {
-    return 'DESKTOP';
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
+  };
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
   }
   
-  // Tablet (diagonal > 7 polegadas)
-  if (screenWidth >= 600 || screenHeight >= 900) {
-    return 'TABLET';
-  }
-  
-  // Smartphone (padrão)
-  return 'SMARTPHONE';
+  // Re-throw para tratamento superior
+  throw error;
 }
 
-// Configurações por dispositivo
-const DEVICE_CONFIGS: Record<DeviceType, DeviceOptimization> = {
-  SMARTPHONE: {
-    device: 'SMARTPHONE',
-    touchOptimized: true,
-    buttonSize: 'LARGE',
-    fontSize: {
-      small: 14,
-      medium: 16,
-      large: 18,
-      xlarge: 20,
-    },
-    spacing: {
-      small: 12,
-      medium: 20,
-      large: 28,
-      xlarge: 36,
-    },
-    navigation: 'TAP',
-    features: {
-      shortcuts: false,
-      detailedInfo: false,
-      helpText: true,
-    },
-  },
-
-  TABLET: {
-    device: 'TABLET',
-    touchOptimized: true,
-    buttonSize: 'MEDIUM',
-    fontSize: {
-      small: 12,
-      medium: 14,
-      large: 16,
-      xlarge: 18,
-    },
-    spacing: {
-      small: 8,
-      medium: 16,
-      large: 24,
-      xlarge: 32,
-    },
-    navigation: 'TAP',
-    features: {
-      shortcuts: true,
-      detailedInfo: true,
-      helpText: true,
-    },
-  },
-
-  DESKTOP: {
-    device: 'DESKTOP',
-    touchOptimized: false,
-    buttonSize: 'SMALL',
-    fontSize: {
-      small: 10,
-      medium: 12,
-      large: 14,
-      xlarge: 16,
-    },
-    spacing: {
-      small: 4,
-      medium: 8,
-      large: 12,
-      xlarge: 16,
-    },
-    navigation: 'CLICK',
-    features: {
-      shortcuts: true,
-      detailedInfo: true,
-      helpText: false,
-    },
-  },
-};
-
-// Hook para usar otimização de dispositivo
-export function useDeviceOptimization() {
-  const [deviceType, setDeviceType] = React.useState<DeviceType>('SMARTPHONE');
-  
-  React.useEffect(() => {
-    const detectedDevice = detectDeviceType();
-    setDeviceType(detectedDevice);
-  }, []);
-
-  const config = React.useMemo(() => DEVICE_CONFIGS[deviceType], [deviceType]);
-
-  return {
-    deviceType,
-    config,
-    setDeviceType,
-  };
+// Aplicar tratamento de erro
+try {
+} catch (error) {
+  handleError(error, 'main-execution');
 }
 
-// Utilitários de otimização
-export function getOptimizedButtonStyle(deviceType: DeviceType) {
-  const config = DEVICE_CONFIGS[deviceType];
-  
-  switch (config.buttonSize) {
-    case 'LARGE':
-      return {
-        paddingVertical: 16,
-        paddingHorizontal: 24,
-        borderRadius: 12,
-        minHeight: 56,
-      };
-    case 'MEDIUM':
-      return {
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 8,
-        minHeight: 48,
-      };
-    case 'SMALL':
-      return {
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 6,
-        minHeight: 40,
-      };
-  }
-}
-
-export function getOptimizedTextStyle(deviceType: DeviceType, size: 'small' | 'medium' | 'large' | 'xlarge') {
-  const config = DEVICE_CONFIGS[deviceType];
-  
-  return {
-    fontSize: config.fontSize[size],
-    lineHeight: config.fontSize[size] * 1.4,
-  };
-}
-
-export function getOptimizedSpacing(deviceType: DeviceType, size: 'small' | 'medium' | 'large' | 'xlarge') {
-  const config = DEVICE_CONFIGS[deviceType];
-  return config.spacing[size];
-}
-
-// Verificar se deve mostrar funcionalidade
-export function shouldShowFeature(deviceType: DeviceType, feature: keyof DeviceOptimization['features']): boolean {
-  const config = DEVICE_CONFIGS[deviceType];
-  return config.features[feature];
-}
-
-// Otimizar navegação por dispositivo
-export function getNavigationConfig(deviceType: DeviceType) {
-  const config = DEVICE_CONFIGS[deviceType];
-  
-  switch (config.navigation) {
-    case 'SWIPE':
-      return {
-        gestureEnabled: true,
-        swipeEnabled: true,
-        tapEnabled: true,
-      };
-    case 'TAP':
-      return {
-        gestureEnabled: false,
-        swipeEnabled: false,
-        tapEnabled: true,
-      };
-    case 'CLICK':
-      return {
-        gestureEnabled: false,
-        swipeEnabled: false,
-        tapEnabled: false,
-        clickEnabled: true,
-      };
-  }
-} 
 
 /**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
  * 
-/**
- * Alternativas consideradas:
- * - Alternativa A: Descrição e motivo da rejeição
- * - Alternativa B: Descrição e motivo da rejeição
- * - Solução escolhida: Justificativa da escolha atual
-  */
-Referências externas:
- * - Node.js: https://nodejs.org/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * - Express: https://expressjs.com/
- * - Prisma: https://www.prisma.io/docs
- * - React: https://react.dev/
- * - Jest: https://jestjs.io/docs
- * - React Native: https://reactnative.dev/
- * - Webpack: https://webpack.js.org/
-  */
+ * @description
+ * 
+ * @dependencies
+ * 
+ * @usage
+ * import { functionName } from "./utils";
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */

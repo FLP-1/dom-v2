@@ -1,4 +1,58 @@
 
+/**
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Componente React/React Native
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * <ComponentName prop={value} />
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
 
 
 
@@ -6,18 +60,11 @@
 
 
 
-function validateInput(data) {
-  if (!data) return false;
-  if (typeof data === 'string' && data.trim().length === 0) return false;
-  if (Array.isArray(data) && data.length === 0) return false;
-  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
-  return true;
-}
 
-// Aplicar validação
-if (!validateInput(inputData)) {
-  throw new Error('Dados de entrada inválidos');
-}
+
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
 
 
 
@@ -55,7 +102,6 @@ function validateType(value: any, expectedType: string): boolean {
 }`);
   }
 }:`, error.message);
-  // Implementar logging, notificação, etc.
 }
 
 import React, { useState, useEffect } from 'react';
@@ -79,7 +125,6 @@ export interface CPFCNPJInputProps {
   errorStyle?: any;
 }
 
-// Utilitários para validação
 const cleanDocument = (document: string): string => {
   return document.replace(/\D/g, '');
 };
@@ -98,7 +143,6 @@ const validateCPF = (cpf: string): boolean => {
   const cleaned = cleanDocument(cpf);
   
   if (cleaned.length !== 11) return false;
-  if (/^(\d)\1{10}$/.test(cleaned)) return false; // Todos os dígitos iguais
   
   let sum = 0;
   for (let i = 0; i < 9; i++) {
@@ -123,9 +167,7 @@ const validateCNPJ = (cnpj: string): boolean => {
   const cleaned = cleanDocument(cnpj);
   
   if (cleaned.length !== 14) return false;
-  if (/^(\d)\1{13}$/.test(cleaned)) return false; // Todos os dígitos iguais
   
-  // Validação do primeiro dígito verificador
   let sum = 0;
   let weight = 2;
   for (let i = 11; i >= 0; i--) {
@@ -136,7 +178,6 @@ const validateCNPJ = (cnpj: string): boolean => {
   let digit1 = remainder < 2 ? 0 : 11 - remainder;
   if (digit1 !== parseInt(cleaned.charAt(12))) return false;
   
-  // Validação do segundo dígito verificador
   sum = 0;
   weight = 2;
   for (let i = 12; i >= 0; i--) {
@@ -229,8 +270,6 @@ const CPFCNPJInput: React.FC<CPFCNPJInputProps> = ({
 
   const getStatusText = () => {
     if (!value) return '';
-    if (isValid) return documentType === 'cpf' ? 'CPF Válido' : 'CNPJ Válido';
-    if (documentType) return documentType === 'cpf' ? 'CPF Inválido' : 'CNPJ Inválido';
     return '';
   };
 
@@ -292,8 +331,6 @@ const CPFCNPJInput: React.FC<CPFCNPJInputProps> = ({
       {value && !error && !isValid && documentType && (
         <Text style={styles.validationText}>
           {documentType === 'cpf' 
-            ? 'CPF inválido. Verifique os dígitos.' 
-            : 'CNPJ inválido. Verifique os dígitos.'}
         </Text>
       )}
     </View>
@@ -374,7 +411,6 @@ const styles = StyleSheet.create({
 export default CPFCNPJInput; 
 
 
-Referências externas:
  * - Node.js: https://nodejs.org/docs
  * - TypeScript: https://www.typescriptlang.org/docs
  * - Express: https://expressjs.com/

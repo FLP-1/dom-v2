@@ -1,7 +1,61 @@
+
 /**
- * @fileoverview Hook de Notificações Simples - DOM v2
+ * 
+ * @alternatives
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ */
+
+
+/**
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ */
+
+
+/**
+ * @param {string} message - Mensagem de erro
+ */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+
+/**
+ * @param {any} data - Dados a serem validados
+ */
+// Função removida - causava erros de referência no frontend
+
+// Validação de input removida - causava erro de referência
+
+/**
  * @directory frontend/src/hooks
- * @description Hook para gestão de notificações com priorização e persistência
  * @created 2025-01-27
  * @lastModified 2025-01-27
  * @author DOM v2 Team
@@ -9,7 +63,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-// Tipos de notificação
 export type NotificationType = 
   | 'TASK_REMINDER' 
   | 'PAYMENT_DUE' 
@@ -32,7 +85,6 @@ export type NotificationCategory =
   | 'PERFORMANCE'
   | 'MAINTENANCE';
 
-// Interface da notificação
 export interface Notification {
   id: string;
   type: NotificationType;
@@ -48,7 +100,6 @@ export interface Notification {
   data?: Record<string, any>;
 }
 
-// Interface para configurações de notificação
 export interface NotificationSettings {
   enabled: boolean;
   sound: boolean;
@@ -66,7 +117,6 @@ export interface NotificationSettings {
   };
 }
 
-// Interface para estatísticas
 export interface NotificationStats {
   total: number;
   unread: number;
@@ -75,7 +125,6 @@ export interface NotificationStats {
   byType: Record<NotificationType, number>;
 }
 
-// Configurações padrão
 const defaultSettings: NotificationSettings = {
   enabled: true,
   sound: true,
@@ -102,12 +151,10 @@ const defaultSettings: NotificationSettings = {
   }
 };
 
-// Função para gerar ID único
 const generateId = (): string => {
   return `notification_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 };
 
-// Função para persistir no localStorage (com polyfill para web)
 const storage = {
   get: (key: string): any => {
     try {
@@ -164,7 +211,6 @@ export const useSimpleNotifications = () => {
     }
   });
 
-  // Carregar notificações do storage na inicialização
   useEffect(() => {
     const savedNotifications = storage.get('dom_notifications') || [];
     const savedSettings = storage.get('dom_notification_settings') || defaultSettings;
@@ -173,18 +219,15 @@ export const useSimpleNotifications = () => {
     setSettings(savedSettings);
   }, []);
 
-  // Salvar notificações no storage quando mudarem
   useEffect(() => {
     storage.set('dom_notifications', notifications);
     updateStats();
   }, [notifications]);
 
-  // Salvar configurações no storage quando mudarem
   useEffect(() => {
     storage.set('dom_notification_settings', settings);
   }, [settings]);
 
-  // Função para atualizar estatísticas
   const updateStats = useCallback(() => {
     const newStats: NotificationStats = {
       total: notifications.length,
@@ -224,7 +267,6 @@ export const useSimpleNotifications = () => {
     setStats(newStats);
   }, [notifications]);
 
-  // Função para adicionar notificação
   const addNotification = useCallback((
     type: NotificationType,
     title: string,
@@ -240,7 +282,6 @@ export const useSimpleNotifications = () => {
   ) => {
     if (!settings.enabled) return;
 
-    // Verificar se a categoria e prioridade estão habilitadas
     if (!settings.categories[category] || !settings.priorities[priority]) {
       return;
     }
@@ -263,7 +304,6 @@ export const useSimpleNotifications = () => {
     setNotifications(prev => {
       const newNotifications = [notification, ...prev];
       
-      // Limitar número máximo de notificações
       if (newNotifications.length > settings.maxNotifications) {
         return newNotifications.slice(0, settings.maxNotifications);
       }
@@ -280,75 +320,60 @@ export const useSimpleNotifications = () => {
 
     // Efeitos visuais/auditivos
     if (settings.sound) {
-      // Implementar som de notificação
-      console.log('🔔 Som de notificação');
     }
 
     if (settings.vibration) {
-      // Implementar vibração
-      console.log('📳 Vibração de notificação');
     }
 
     return notification.id;
   }, [settings]);
 
-  // Função para remover notificação
   const removeNotification = useCallback((id: string) => {
     setNotifications(prev => prev.filter(n => n.id !== id));
   }, []);
 
-  // Função para marcar como lida
   const markAsRead = useCallback((id: string) => {
     setNotifications(prev => 
       prev.map(n => n.id === id ? { ...n, read: true } : n)
     );
   }, []);
 
-  // Função para marcar todas como lidas
   const markAllAsRead = useCallback(() => {
     setNotifications(prev => 
       prev.map(n => ({ ...n, read: true }))
     );
   }, []);
 
-  // Função para limpar notificações
   const clearNotifications = useCallback(() => {
     setNotifications([]);
   }, []);
 
-  // Função para limpar notificações lidas
   const clearReadNotifications = useCallback(() => {
     setNotifications(prev => prev.filter(n => !n.read));
   }, []);
 
-  // Função para obter notificações por categoria
   const getNotificationsByCategory = useCallback((category: NotificationCategory) => {
     return notifications.filter(n => n.category === category);
   }, [notifications]);
 
-  // Função para obter notificações por prioridade
   const getNotificationsByPriority = useCallback((priority: NotificationPriority) => {
     return notifications.filter(n => n.priority === priority);
   }, [notifications]);
 
-  // Função para obter notificações não lidas
   const getUnreadNotifications = useCallback(() => {
     return notifications.filter(n => !n.read);
   }, [notifications]);
 
-  // Função para obter notificações recentes
   const getRecentNotifications = useCallback((limit: number = 10) => {
     return notifications
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit);
   }, [notifications]);
 
-  // Função para atualizar configurações
   const updateSettings = useCallback((newSettings: Partial<NotificationSettings>) => {
     setSettings(prev => ({ ...prev, ...newSettings }));
   }, []);
 
-  // Função para limpar notificações expiradas
   const clearExpiredNotifications = useCallback(() => {
     const now = new Date();
     setNotifications(prev => 
@@ -356,13 +381,11 @@ export const useSimpleNotifications = () => {
     );
   }, []);
 
-  // Limpar notificações expiradas periodicamente
   useEffect(() => {
     const interval = setInterval(clearExpiredNotifications, 60000); // A cada minuto
     return () => clearInterval(interval);
   }, [clearExpiredNotifications]);
 
-  // Funções de conveniência para tipos específicos
   const addTaskReminder = useCallback((
     title: string,
     message: string,
@@ -405,7 +428,6 @@ export const useSimpleNotifications = () => {
     settings,
     stats,
     
-    // Ações principais
     addNotification,
     removeNotification,
     markAsRead,
@@ -420,10 +442,8 @@ export const useSimpleNotifications = () => {
     getUnreadNotifications,
     getRecentNotifications,
     
-    // Configurações
     updateSettings,
     
-    // Funções de conveniência
     addTaskReminder,
     addPaymentDue,
     addSystemUpdate,
