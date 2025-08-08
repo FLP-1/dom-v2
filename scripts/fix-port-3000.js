@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * @fileoverview Script para corrigir conflito de porta 3000
+ * @fileoverview Script para corrigir conflito de porta 3000 (cross-platform)
  * @author Sistema DOM v2
- * @version 1.0.0
+ * @version 1.1.0
  * @since 2025-07-26
  *
  * @description
- * Este script verifica se a porta 3000 está em uso e libera se necessário
+ * Este script verifica se a porta 3000 está em uso e libera se necessário, suportando Windows, macOS e Linux
  *
  * @usage
  * node scripts/fix-port-3000.js
@@ -15,6 +15,7 @@
 
 const { exec } = require('child_process');
 const http = require('http');
+const os = require('os');
 
 function checkPort(port) {
   return new Promise((resolve) => {
@@ -37,59 +38,105 @@ function checkPort(port) {
 
 function findProcessUsingPort(port) {
   return new Promise((resolve, reject) => {
-    exec(`netstat -ano | findstr :${port}`, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-        return;
+    const platform = os.platform();
+
+    // Comandos por SO, evitando interpolação perigosa
+    let cmd;
+    if (platform === 'win32') {
+      cmd = `netstat -ano | findstr :${Number(port)}`;
+    } else if (platform === 'darwin') {
+      cmd = `lsof -n -iTCP:${Number(port)} -sTCP:LISTEN -P`; // macOS
+    } else {
+      // Linux
+      // Tenta lsof; se indisponível, fallback para ss
+      cmd = `bash -c 'command -v lsof >/dev/null 2>&1 && lsof -n -iTCP:${Number(port)} -sTCP:LISTEN -P || ss -lptn | grep :${Number(port)}'`;
+    }
+
+    exec(cmd, { windowsHide: true, maxBuffer: 1024 * 1024 }, (error, stdout, stderr) => {
+      if (error && !stdout) {
+        return reject(error);
       }
-      
-      const lines = stdout.trim().split('\n');
-      const processes = [];
-      
-      lines.forEach(line => {
-        const parts = line.trim().split(/\s+/);
-        if (parts.length >= 5) {
-          const pid = parts[4];
-          if (pid && !isNaN(pid)) {
-            processes.push(pid);
+
+      const output = (stdout || '').trim();
+      const processes = new Set();
+
+      if (!output) {
+        return resolve([]);
+      }
+
+      const lines = output.split(/\r?\n/);
+      for (const rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line) continue;
+
+        if (platform === 'win32') {
+          const parts = line.split(/\s+/);
+          const pid = parts[parts.length - 1];
+          if (pid && /^\d+$/.test(pid)) processes.add(pid);
+        } else if (platform === 'darwin') {
+          // lsof: COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
+          const parts = line.split(/\s+/);
+          if (parts.length > 1) {
+            const pid = parts[1];
+            if (pid && /^\d+$/.test(pid)) processes.add(pid);
+          }
+        } else {
+          // Linux: try to extract pid from ss output like users:(("node",pid=1234,fd=23))
+          const match = line.match(/pid=(\d+)/);
+          if (match && match[1] && /^\d+$/.test(match[1])) {
+            processes.add(match[1]);
+          } else {
+            // lsof-like format
+            const parts = line.split(/\s+/);
+            if (parts.length > 1 && /^\d+$/.test(parts[1])) {
+              processes.add(parts[1]);
+            }
           }
         }
-      });
-      
-      resolve(processes);
+      }
+
+      resolve(Array.from(processes));
     });
   });
 }
 
 function killProcess(pid) {
   return new Promise((resolve, reject) => {
-    exec(`taskkill /PID ${pid} /F`, (error, stdout, stderr) => {
+    const platform = os.platform();
+
+    if (!/^\d+$/.test(String(pid))) {
+      return reject(new Error('PID inválido'));
+    }
+
+    const cmd = platform === 'win32' ? `taskkill /PID ${pid} /F` : `kill -9 ${pid}`;
+
+    exec(cmd, { windowsHide: true }, (error, stdout, stderr) => {
       if (error) {
-        reject(error);
-        return;
+        return reject(error);
       }
-      resolve(stdout);
+      resolve(stdout || 'killed');
     });
   });
 }
 
 async function fixPort3000() {
-  console.log('🔍 Verificando porta 3000...');
+  const targetPort = Number(process.env.PORT) || 3000;
+  console.log(`🔍 Verificando porta ${targetPort}...`);
   
-  const isPortInUse = await checkPort(3000);
+  const isPortInUse = await checkPort(targetPort);
   
   if (!isPortInUse) {
-    console.log('✅ Porta 3000 está livre!');
+    console.log(`✅ Porta ${targetPort} está livre!`);
     return true;
   }
   
-  console.log('⚠️  Porta 3000 está em uso. Tentando liberar...');
+  console.log(`⚠️  Porta ${targetPort} está em uso. Tentando liberar...`);
   
   try {
-    const processes = await findProcessUsingPort(3000);
+    const processes = await findProcessUsingPort(targetPort);
     
     if (processes.length === 0) {
-      console.log('❌ Não foi possível identificar o processo usando a porta 3000');
+      console.log(`❌ Não foi possível identificar o processo usando a porta ${targetPort}`);
       return false;
     }
     
@@ -106,13 +153,13 @@ async function fixPort3000() {
     }
     
     // Verificar novamente
-    const isPortFree = await checkPort(3000);
+    const isPortFree = await checkPort(targetPort);
     
     if (isPortFree) {
-      console.log('✅ Porta 3000 liberada com sucesso!');
+      console.log(`✅ Porta ${targetPort} liberada com sucesso!`);
       return true;
     } else {
-      console.log('❌ Não foi possível liberar a porta 3000');
+      console.log(`❌ Não foi possível liberar a porta ${targetPort}`);
       return false;
     }
     
@@ -128,14 +175,13 @@ async function main() {
     const success = await fixPort3000();
     
     if (success) {
-      console.log('\n🎉 Porta 3000 está pronta para uso!');
-      console.log('🚀 Execute: npm run phase9-web-interface');
+      console.log('\n🎉 Porta pronta para uso!');
     } else {
-      console.log('\n⚠️  Não foi possível liberar a porta 3000');
+      console.log('\n⚠️  Não foi possível liberar a porta');
       console.log('💡 Tente:');
       console.log('   1. Reiniciar o terminal');
       console.log('   2. Verificar processos manualmente');
-      console.log('   3. Usar uma porta alternativa');
+      console.log('   3. Usar uma porta alternativa via env PORT=3001');
     }
     
   } catch (error) {

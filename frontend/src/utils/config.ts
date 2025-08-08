@@ -402,8 +402,8 @@ export class ConfigSystem {
       {
         key: 'integration.stripe.secretKey',
         type: ConfigType.INTEGRATION,
-        value: 'sk_test_...',
-        description: 'Chave secreta do Stripe',
+        value: process.env.STRIPE_SECRET_KEY || '',
+        description: 'Chave secreta do Stripe (definir via variável de ambiente STRIPE_SECRET_KEY)',
         required: true
       },
       {
@@ -452,8 +452,8 @@ export class ConfigSystem {
       {
         key: 'security.jwtSecret',
         type: ConfigType.SECURITY,
-        value: 'your_jwt_secret_here',
-        description: 'Chave secreta para JWT',
+        value: process.env.JWT_SECRET || '',
+        description: 'Chave secreta para JWT (definir via variável de ambiente JWT_SECRET)',
         required: true
       },
       {
