@@ -158,6 +158,7 @@ try {
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import { DashboardScreen } from '../screens/dashboard-screen';
+import { isShowcaseEnabled } from '../config/featureFlags';
 import { UserProfileType } from '../utils/user-profiles';
 import { UsersScreen } from '../screens/users-screen';
 import { FinanceScreen } from '../screens/finance-screen';
@@ -267,7 +268,24 @@ const SimpleNavigator: React.FC = () => {
           <PayrollScreen onNavigateBack={() => handleNavigate('dashboard')} />
         );
 
-      case 'navigation':
+      case 'navigation': {
+        if (!isShowcaseEnabled()) {
+          // Oculta a tela de navegação/showcase quando a flag estiver desativada
+          return (
+            <View style={styles.screen}>
+              <View style={styles.header}>
+                <Pressable style={styles.backButton} onPress={() => handleNavigate('dashboard')}>
+                </Pressable>
+              </View>
+              <View style={styles.content}>
+                <Text style={styles.screenTitle}>Funcionalidade indisponível</Text>
+                <Text style={styles.screenDescription}>
+                  Esta área é uma demonstração interna e está desativada neste ambiente.
+                </Text>
+              </View>
+            </View>
+          );
+        }
         return (
           <View style={styles.screen}>
             <View style={styles.header}>
@@ -278,24 +296,18 @@ const SimpleNavigator: React.FC = () => {
               <Text style={styles.screenDescription}>
                 Acesse todas as funcionalidades do sistema
               </Text>
-              
               <View style={styles.navigationMenu}>
-                <Pressable style={styles.navButton} onPress={() => handleNavigate('tasks')}>
-                </Pressable>
-                <Pressable style={styles.navButton} onPress={() => handleNavigate('notifications')}>
-                </Pressable>
-                <Pressable style={styles.navButton} onPress={() => handleNavigate('payroll')}>
-                </Pressable>
-                <Pressable style={styles.navButton} onPress={() => handleNavigate('budget')}>
-                </Pressable>
-                <Pressable style={styles.navButton} onPress={() => handleNavigate('employees')}>
-                </Pressable>
-                <Pressable style={styles.navButton} onPress={() => handleNavigate('profile')}>
-                </Pressable>
+                <Pressable style={styles.navButton} onPress={() => handleNavigate('tasks')}></Pressable>
+                <Pressable style={styles.navButton} onPress={() => handleNavigate('notifications')}></Pressable>
+                <Pressable style={styles.navButton} onPress={() => handleNavigate('payroll')}></Pressable>
+                <Pressable style={styles.navButton} onPress={() => handleNavigate('budget')}></Pressable>
+                <Pressable style={styles.navButton} onPress={() => handleNavigate('employees')}></Pressable>
+                <Pressable style={styles.navButton} onPress={() => handleNavigate('profile')}></Pressable>
               </View>
             </View>
           </View>
         );
+      }
 
       case 'users':
         return (

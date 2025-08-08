@@ -88,6 +88,17 @@ const DashboardScreen: React.FC = () => {
     }
   ];
 
+  const profile = (user?.profile || '').toLowerCase();
+
+  const profileMenus: Record<string, string[]> = {
+    employer: ['dashboard', 'employees', 'finance', 'payroll', 'tasks', 'reports', 'notifications', 'settings'],
+    employee: ['dashboard', 'tasks', 'notifications', 'reports', 'settings'],
+    family: ['dashboard', 'notifications', 'reports', 'settings']
+  };
+
+  const allowedMenuIds = profileMenus[profile] || menuItems.map(m => m.id);
+  const filteredMenuItems = menuItems.filter(item => allowedMenuIds.includes(item.id));
+
   const handleMenuPress = (menuId: string) => {
     setSelectedMenu(menuId);
     // Aqui você pode adicionar navegação para outras telas
@@ -154,7 +165,7 @@ const DashboardScreen: React.FC = () => {
         <View style={styles.menuSection}>
           <Text style={styles.sectionTitle}>Funcionalidades</Text>
           <View style={styles.menuGrid}>
-            {menuItems.map((item) => (
+            {filteredMenuItems.map((item) => (
               <TouchableOpacity
                 key={item.id}
                 style={[
