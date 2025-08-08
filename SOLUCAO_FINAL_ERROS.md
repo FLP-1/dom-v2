@@ -30,7 +30,7 @@ npx ts-node src/server-dev.ts
 **Terminal 2 - Frontend:**
 ```powershell
 cd C:\dom-v2\frontend
-node server-web-robust.js
+npm run dev
 ```
 
 ### **Método 2: Usando Scripts Existentes**

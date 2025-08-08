@@ -53,7 +53,7 @@ Scanning for folders to link to your project...
 ### **Terminal 3 - Frontend Web**
 ```powershell
 cd C:\dom-v2\frontend
-node server-web-robust.js
+npm run dev
 ```
 
 **Resultado esperado:**

@@ -244,7 +244,7 @@ Eu me confundi completamente sobre a arquitetura do projeto e removi arquivos es
 ### **React Native Web (ESSENCIAIS):**
 - ✅ `webpack.config.js` - Configuração do Webpack para web
 - ✅ `index.web.js` - Entry point para React Native Web
-- ✅ `server-web-webpack.js` - Servidor de desenvolvimento web
+- ✅ Webpack Dev Server (npm run dev) - Servidor de desenvolvimento web
 - ✅ `test-webpack.js` - Testes do Webpack
 
 ### **React Native (ESSENCIAIS):**
@@ -268,7 +268,7 @@ frontend/
 ├── 🌐 React Native Web (Web)
 │   ├── webpack.config.js ✅
 │   ├── index.web.js ✅
-│   ├── server-web-webpack.js ✅
+│   ├── Webpack Dev Server (npm run dev) ✅
 │   └── test-webpack.js ✅
 ├── 📁 Estrutura Mobile Implementada
 │   ├── src/screens/employer/ ✅

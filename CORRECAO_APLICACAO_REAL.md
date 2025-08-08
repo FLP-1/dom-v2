@@ -76,7 +76,7 @@ npx react-native start --port 8081
 
 # Terminal 3 - Frontend Web
 cd frontend
-node server-web-robust.js
+npm run dev
 ```
 
 ## 📱 **O que Você Verá Agora**

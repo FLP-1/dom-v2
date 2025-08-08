@@ -39,7 +39,7 @@ npx ts-node src/server-dev.ts
 ```powershell
 # Terminal 2 - Frontend
 cd C:\dom-v2\frontend
-node server-web-robust.js
+npm run dev
 ```
 
 ## 📱 **Verificação de Status**

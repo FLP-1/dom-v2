@@ -36,7 +36,7 @@ npx ts-node src/server-dev.ts
 ### **2. Correção do Frontend Web**
 ```powershell
 # Diretório: C:\dom-v2\frontend
-node server-web-robust.js
+npm run dev
 ```
 
 **Resultado:** ✅ Frontend funcionando na porta 3000
@@ -86,7 +86,7 @@ npx ts-node src/server-dev.ts
 
 # Terminal 2 - Frontend
 cd C:\dom-v2\frontend
-node server-web-robust.js
+npm run dev
 ```
 
 ### **Inicialização Automática**

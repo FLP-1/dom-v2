@@ -302,7 +302,7 @@ if (!validateInput(inputData)) {
       "pre-commit": "node scripts/pre-commit-check.js",
       "start-backend": "cd backend && npm run start:simple",
       "start-frontend": "cd frontend && npm start",
-      "start-web": "cd frontend && node server-web.js",
+      "start-web": "cd frontend && npm run dev",
       "health-check": "Invoke-WebRequest -Uri \"http://localhost:3001/health\" -Method GET"
     },
     "./frontend/package.json": {

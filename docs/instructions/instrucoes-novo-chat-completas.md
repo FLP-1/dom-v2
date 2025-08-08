@@ -271,7 +271,7 @@ cd C:\dom-v2\backend; npm run start:simple
 cd C:\dom-v2\frontend; npm start
 
 # Servidor Web
-cd C:\dom-v2\frontend; node server-web.js
+cd C:\dom-v2\frontend; npm run dev
 
 # Teste de saúde
 Invoke-WebRequest -Uri "http://localhost:3001/health" -Method GET

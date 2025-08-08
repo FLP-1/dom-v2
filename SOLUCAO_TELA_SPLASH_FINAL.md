@@ -49,7 +49,7 @@ npx ts-node src/server-dev.ts
 
 # Terminal 2 - Frontend
 cd C:\dom-v2\frontend
-node server-web-robust.js
+npm run dev
 ```
 
 ## 🎨 **Nova Tela de Splash**

@@ -253,7 +253,7 @@ frontend/
 ├── public/
 │   ├── polyfills-enhanced.js  # AsyncStorage + RN Web polyfills
 │   └── index.html          # Página principal
-└── server-web-robust.js    # Servidor Express robusto
+└── webpack-dev-server      # Iniciado com: npm run dev
 ```
 
 ### **Backend (Node.js + TypeScript)**

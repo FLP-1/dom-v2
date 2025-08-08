@@ -363,7 +363,7 @@ npm start
 ```powershell
 cd frontend
 npm install
-node server-web.js
+npm run dev
 ```
 
 ---
