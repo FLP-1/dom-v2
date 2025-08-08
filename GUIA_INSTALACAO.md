@@ -55,7 +55,7 @@ npx ts-node src/server-simple-dashboard.ts
 #### 4. Iniciar Frontend (em nova janela)
 ```powershell
 cd C:\dom-v2\frontend
-npm run web
+npm run dev
 ```
 
 ## 🌐 ACESSOS

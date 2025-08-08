@@ -16,11 +16,17 @@ interface User {
   cpf: string;
 }
 
+interface LoginConsents {
+  termsAccepted: boolean;
+  privacyAccepted: boolean;
+  marketingAccepted?: boolean;
+}
+
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (cpf: string, password: string) => Promise<boolean>;
+  login: (cpf: string, password: string, consents?: LoginConsents) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -47,7 +53,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  const login = async (cpf: string, password: string): Promise<boolean> => {
+  const login = async (
+    cpf: string,
+    password: string,
+    consents?: LoginConsents
+  ): Promise<boolean> => {
     try {
       setIsLoading(true);
       
@@ -56,7 +66,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cpf, password }),
+        body: JSON.stringify({
+          cpf,
+          password,
+          ...(consents ? {
+            termsAccepted: !!consents.termsAccepted,
+            privacyAccepted: !!consents.privacyAccepted,
+            marketingAccepted: !!consents.marketingAccepted,
+          } : {})
+        }),
       });
 
       const data = await response.json();

@@ -47,7 +47,7 @@ cd frontend
 npm install
 
 # Iniciar servidor web
-npm run web
+npm run dev
 ```
 
 ---

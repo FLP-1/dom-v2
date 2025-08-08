@@ -25,6 +25,9 @@ const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [marketingAccepted, setMarketingAccepted] = useState(false);
 
   const handleLogin = async () => {
     if (!cpf || !password) {
@@ -32,9 +35,18 @@ const LoginScreen: React.FC = () => {
       return;
     }
 
+    if (!termsAccepted || !privacyAccepted) {
+      Alert.alert('Consentimento obrigatório', 'Você precisa aceitar os Termos e a Política de Privacidade.');
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const success = await login(cpf, password);
+      const success = await login(cpf, password, {
+        termsAccepted,
+        privacyAccepted,
+        marketingAccepted,
+      });
       if (!success) {
         Alert.alert('Erro', 'CPF ou senha inválidos');
       }
@@ -121,6 +133,25 @@ const LoginScreen: React.FC = () => {
                   {isLoading ? 'Entrando...' : 'Entrar no Sistema'}
                 </Text>
               </TouchableOpacity>
+
+              {/* Consentimentos LGPD */}
+              <View style={styles.consentsContainer}>
+                <TouchableOpacity onPress={() => setTermsAccepted(!termsAccepted)}>
+                  <Text style={styles.consentItem}>
+                    {termsAccepted ? '☑' : '☐'} Aceito os Termos de Uso
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setPrivacyAccepted(!privacyAccepted)}>
+                  <Text style={styles.consentItem}>
+                    {privacyAccepted ? '☑' : '☐'} Aceito a Política de Privacidade
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setMarketingAccepted(!marketingAccepted)}>
+                  <Text style={styles.consentItem}>
+                    {marketingAccepted ? '☑' : '☐'} Aceito receber comunicações de marketing (opcional)
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* Quick Login */}
