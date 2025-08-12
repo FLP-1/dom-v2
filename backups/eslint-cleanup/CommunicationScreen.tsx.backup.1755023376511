@@ -1,0 +1,452 @@
+/**
+ * @fileoverview CommunicationScreen - Tela principal de comunicação
+ * @description Tela integrada com chat, áudio e notificações
+ * @version 2.0.0
+ * @author DOM v2 Team
+ * @since 2025-08-10
+ * 
+ * @usage
+ * <CommunicationScreen navigation={navigation} route={route} />
+ * 
+ * @features
+ * - Chat familiar integrado
+ * - Mensagens de áudio
+ * - Centro de notificações
+ * - Navegação por abas
+ * - Interface responsiva
+ * 
+ * @see
+ * - docs/features/comunicacao-completa.md
+ * - docs/directives/diretivas-pensamento-critico.md
+ */
+
+import React, { useState, useEffect } from 'react';
+import { Text, TouchableOpacity} from 'react-native';
+import { BaseScreen } from '../components/base/BaseScreen.tsx';
+import { FamilyChat } from '../components/communication/FamilyChat.tsx';
+import { AudioMessage } from '../components/communication/AudioMessage.tsx';
+import { NotificationCenter } from '../components/communication/NotificationCenter.tsx';
+import { Card } from '../components/ui/Card.tsx';
+import { Toast } from '../components/ui/Toast.tsx';
+import { useAuth } from '../hooks/useAuth.ts';
+// Tipos e interfaces
+interface CommunicationScreenProps {
+  navigation: unknown;
+  route: unknown;
+}
+
+interface TabData {
+  id: string;
+  label: string;
+  icon: string;
+  component: React.ComponentType<any>;
+  badgeCount?: number;
+}
+
+interface CommunicationStats {
+  unreadMessages: number;
+  unreadNotifications: number;
+  pendingAudio: number;
+  activeUsers: number;
+}
+
+// Validação de entrada de dados
+
+const CommunicationScreen: React.FC<CommunicationScreenProps> = ({
+  navigation}) => {
+  // Hooks
+  const { user } = useAuth();
+
+  // Estados
+  const [activeTab, setActiveTab] = useState<string>('chat');
+  const [stats, setStats] = useState<CommunicationStats>({
+    unreadMessages: 0,
+    unreadNotifications: 0,
+    pendingAudio: 0,
+    activeUsers: 3
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [familyId, setFamilyId] = useState<string>('family-123');
+
+  // Configuração das abas
+  const tabs: TabData[] = [
+    {
+      id: 'chat',
+      label: 'Chat',
+      icon: '💬',
+      component: FamilyChat,
+      badgeCount: stats.unreadMessages
+    },
+    {
+      id: 'audio',
+      label: 'Áudio',
+      icon: '🎤',
+      component: AudioMessage,
+      badgeCount: stats.pendingAudio
+    },
+    {
+      id: 'notifications',
+      label: 'Notificações',
+      icon: '🔔',
+      component: NotificationCenter,
+      badgeCount: stats.unreadNotifications
+    }
+  ];
+
+  // Validações críticas
+  useEffect(() => {
+    try {
+      if (!user?.id) {
+        throw new Error('Usuário não autenticado');
+      }
+
+      initializeCommunication();
+      
+    } catch (error) {
+      
+      Toast.show('Erro ao inicializar comunicação', 'error');
+    }
+  }, [user]);
+
+  // Inicializar sistema de comunicação
+  const initializeCommunication = async () => {
+    try {
+      setIsLoading(true);
+      
+      // Carregar estatísticas
+      await loadCommunicationStats();
+      
+      // Configurar atualizações em tempo real
+      setupRealTimeUpdates();
+      
+    } catch (error) { /* TODO: Implement error handling */ } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Carregar estatísticas
+  const loadCommunicationStats = async () => {
+    try {
+      // Simulação de API - substituir por chamada real
+      const mockStats: CommunicationStats = {
+        unreadMessages: 2,
+        unreadNotifications: 4,
+        pendingAudio: 1,
+        activeUsers: 3
+      };
+
+      setStats(mockStats);
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  // Configurar atualizações em tempo real
+  const setupRealTimeUpdates = () => {
+    try {
+      // Simular atualizações periódicas das estatísticas
+      const interval = setInterval(() => {
+        loadCommunicationStats();
+      }, 30000); // 30 segundos
+
+      // Cleanup
+      return () => clearInterval(interval);
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  // Handlers de eventos
+  const handleMessageSent = () => {
+    try {
+      // TODO: Implement message sending logic
+    } catch (error) { /* TODO: Implement error handling */ }
+  };
+
+  const handleAudioSent = () => {
+    try {
+      Toast.show('Mensagem de áudio enviada!', 'success');
+    } catch (error) { /* TODO: Implement error handling */ }
+  };
+
+  const handleNotificationAction = (notification: unknown, action: unknown) => {
+    try {
+
+      // Processar ação específica
+      switch (action.action) {
+        case 'accept_task':
+          // Navegar para tela de tarefas
+          navigation.navigate('TasksScreen', { taskId: notification.metadata?.taskId });
+          break;
+          
+        case 'view_receipt':
+          // Navegar para tela de pagamentos
+          navigation.navigate('PaymentsScreen', { paymentId: notification.metadata?.paymentId });
+          break;
+          
+        case 'open_chat':
+          // Mudar para aba de chat
+          setActiveTab('chat');
+          break;
+          
+        case 'emergency_response':
+          // Abrir tela de emergência
+          navigation.navigate('EmergencyScreen');
+          break;
+          
+        default:
+          Toast.show(`Ação ${action.label} executada`, 'info');
+      }
+
+      // Atualizar estatísticas
+      setStats(prev => ({
+        ...prev,
+        unreadNotifications: Math.max(0, prev.unreadNotifications - 1)
+      }));
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  const handleNotificationRead = () => {
+    try {
+      // TODO: Implement notification read logic
+    } catch (error) { /* TODO: Implement error handling */ }
+  };
+
+  // Renderizar header de estatísticas
+  const renderStatsHeader = () => (
+    <Card style={{ margin: 16, padding: 16 }}>
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 12
+      }}>
+        <Text style={{
+          fontSize: 18,
+          fontWeight: 'bold',
+          color: '#333333'
+        }}>
+          Central de Comunicação
+        </Text>
+        
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center'
+        }}>
+          <View style={{
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            backgroundColor: '#28a745',
+            marginRight: 4
+          }} />
+          <Text style={{
+            fontSize: 12,
+            color: '#666666'
+          }}>
+            {stats.activeUsers} ativos
+          </Text>
+        </View>
+      </View>
+
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+      }}>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#007bff'
+          }}>
+            {stats.unreadMessages}
+          </Text>
+          <Text style={{
+            fontSize: 12,
+            color: '#666666'
+          }}>
+            Mensagens
+          </Text>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#fd7e14'
+          }}>
+            {stats.pendingAudio}
+          </Text>
+          <Text style={{
+            fontSize: 12,
+            color: '#666666'
+          }}>
+            Áudios
+          </Text>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#dc3545'
+          }}>
+            {stats.unreadNotifications}
+          </Text>
+          <Text style={{
+            fontSize: 12,
+            color: '#666666'
+          }}>
+            Alertas
+          </Text>
+        </View>
+      </View>
+    </Card>
+  );
+
+  // Renderizar abas
+  const renderTabs = () => (
+    <View style={{
+      flexDirection: 'row',
+      backgroundColor: '#ffffff',
+      borderBottomWidth: 1,
+      borderBottomColor: '#e0e0e0',
+      paddingHorizontal: 16
+    }}>
+      {tabs.map((tab) => (
+        <TouchableOpacity accessibilityLabel="Botão"
+          key={tab.id}
+          onPress={() => setActiveTab(tab.id)} onKeyDown={(e) => e.key === 'Enter' && (() => setActiveTab(tab.id))()}
+          style={{
+            flex: 1,
+            paddingVertical: 16,
+            alignItems: 'center',
+            borderBottomWidth: activeTab === tab.id ? 2 : 0,
+            borderBottomColor: '#007bff'
+          }}
+        >
+          <View style={{ position: 'relative' }}>
+            <Text style={{
+              fontSize: 20,
+              marginBottom: 4
+            }}>
+              {tab.icon}
+            </Text>
+            
+            {tab.badgeCount && tab.badgeCount > 0 && (
+              <View style={{
+                position: 'absolute',
+                top: -4,
+                right: -8,
+                backgroundColor: '#dc3545',
+                borderRadius: 10,
+                minWidth: 16,
+                height: 16,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 4
+              }}>
+                <Text style={{
+                  color: '#ffffff',
+                  fontSize: 10,
+                  fontWeight: 'bold'
+                }}>
+                  {tab.badgeCount > 99 ? '99+' : tab.badgeCount}
+                </Text>
+              </View>
+            )}
+          </View>
+          
+          <Text style={{
+            fontSize: 12,
+            color: activeTab === tab.id ? '#007bff' : '#666666',
+            fontWeight: activeTab === tab.id ? 'bold' : 'normal'
+          }}>
+            {tab.label}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+
+  // Renderizar conteúdo da aba ativa
+  const renderActiveTabContent = () => {
+    const activeTabData = tabs.find(tab => tab.id === activeTab);
+    if (!activeTabData) return null;
+
+    const TabComponent = activeTabData.component;
+    
+    const commonProps = {
+      userId: user?.id || '',
+      userName: user?.name || 'Usuário',
+      userRole: user?.role || 'FAMILY'
+    };
+
+    switch (activeTab) {
+      case 'chat':
+        return (
+          <TabComponent
+            {...commonProps}
+            familyId={familyId}
+            onMessageSent={handleMessageSent}
+            style={{ flex: 1 }}
+          />
+        );
+        
+      case 'audio':
+        return (
+          <TabComponent
+            {...commonProps}
+            onAudioSent={handleAudioSent}
+            maxDuration={120} // 2 minutos
+            style={{ flex: 1 }}
+          />
+        );
+        
+      case 'notifications':
+        return (
+          <TabComponent
+            {...commonProps}
+            onNotificationAction={handleNotificationAction}
+            onNotificationRead={handleNotificationRead}
+            autoRefresh={true}
+            style={{ flex: 1 }}
+          />
+        );
+        
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <BaseScreen 
+      title="Comunicação"
+      showBack
+      navigation={navigation}
+    >
+      <View style={{ flex: 1, backgroundColor: '#f8f9fa' }}>
+        {/* Header com estatísticas */}
+        {renderStatsHeader()}
+        
+        {/* Abas de navegação */}
+        {renderTabs()}
+        
+        {/* Conteúdo da aba ativa */}
+        <View style={{ flex: 1 }}>
+          {isLoading ? (
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <Text style={{ color: '#666666', fontSize: 16 }}>
+                Carregando...
+              </Text>
+            </View>
+          ) : (
+            renderActiveTabContent()
+          )}
+        </View>
+      </View>
+    </BaseScreen>
+  );
+};
+
+export default CommunicationScreen;

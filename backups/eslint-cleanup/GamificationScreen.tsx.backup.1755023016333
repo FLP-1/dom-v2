@@ -1,0 +1,510 @@
+/**
+ * @fileoverview GamificationScreen - Tela principal de gamificação
+ * @description Tela dedicada ao sistema de gamificação familiar
+ * @version 2.0.0
+ * @author DOM v2 Team
+ * @since 2025-08-10
+ * 
+ * @usage
+ * <GamificationScreen navigation={navigation} route={route} />
+ * 
+ * @features
+ * - Interface de gamificação completa
+ * - Navegação integrada
+ * - Suporte a diferentes perfis
+ * - Interface responsiva
+ * 
+ * @see
+ * - docs/features/gamificacao-familiar.md
+ * - docs/directives/diretivas-pensamento-critico.md
+ */
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Alert, BackHandler } from 'react-native';
+import { BaseScreen } from '../components/base/BaseScreen.tsx';
+import FamilyGamification from '../components/gamification/FamilyGamification.tsx';
+import { Card } from '../components/ui/Card.tsx';
+import { Button } from '../components/ui/Button.tsx';
+import { Toast } from '../components/ui/Toast.tsx';
+import { useAuth } from '../hooks/useAuth.ts';
+// Tipos e interfaces
+interface GamificationScreenProps {
+  navigation: unknown;
+  route: unknown;
+}
+
+interface UserStats {
+  totalFamilies: number;
+  activeUsers: number;
+  totalPoints: number;
+  averageEngagement: number;
+}
+
+// Validação de entrada de dados
+
+
+
+const GamificationScreen: React.FC<GamificationScreenProps> = ({
+  navigation}) => {
+  // Hooks
+  const { user } = useAuth();
+
+  // Estados
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [familyId, setFamilyId] = useState<string>('family-123');
+  const [showWelcome, setShowWelcome] = useState<boolean>(false);
+  const [stats, setStats] = useState<UserStats>({
+    totalFamilies: 0,
+    activeUsers: 0,
+    totalPoints: 0,
+    averageEngagement: 0
+  });
+
+  // Validações críticas
+  useEffect(() => {
+    try {
+      if (!user?.id) {
+        throw new Error('Usuário não autenticado');
+      }
+
+      initializeGamificationScreen();
+      checkFirstTimeUser();
+      
+    } catch (error) {
+      
+      Toast.show('Erro ao inicializar gamificação', 'error');
+    }
+  }, [user]);
+
+  // Gerenciar botão voltar do Android
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      handleBackPress();
+      return true;
+    });
+
+    return () => backHandler.remove();
+  }, []);
+
+  // Inicializar tela de gamificação
+  const initializeGamificationScreen = async () => {
+    try {
+      setIsLoading(true);
+      await loadGamificationStats();
+    } catch (error) { /* TODO: Implement error handling */ } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Carregar estatísticas gerais
+  const loadGamificationStats = async () => {
+    try {
+      // Simulação de API - substituir por chamada real
+      const mockStats: UserStats = {
+        totalFamilies: 1247,
+        activeUsers: 3891,
+        totalPoints: 2850340,
+        averageEngagement: 78.5
+      };
+
+      setStats(mockStats);
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  // Verificar se é primeira vez do usuário
+  const checkFirstTimeUser = () => {
+    try {
+      // Verificar se é primeira vez (localStorage ou AsyncStorage)
+      const hasSeenGamification = false; // Implementar verificação real
+      
+      if (!hasSeenGamification && user?.role === 'FAMILY') {
+        setShowWelcome(true);
+      }
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  // Handler de atividade completada
+  const handleActivityComplete = (activity: unknown, points: number) => {
+    try {
+
+      // Atualizar estatísticas globais
+      setStats(prev => ({
+        ...prev,
+        totalPoints: prev.totalPoints + points
+      }));
+
+      // Animação ou feedback adicional se necessário
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  // Handler de resgate de recompensa
+  const handleRewardClaim = (reward: unknown) => {
+    try {
+
+      // Feedback visual ou integração com outros sistemas
+      Alert.alert(
+        'Recompensa Resgatada! 🎉',
+        `"${reward.name}" foi adicionada às suas recompensas ativas. Aproveite!`,
+        [{ text: 'Legal!', style: 'default' }]
+      );
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  // Handler de voltar
+  const handleBackPress = () => {
+    try {
+      // Navegar de volta para dashboard principal ou menu
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.navigate('DashboardScreen');
+      }
+      
+    } catch (error) { /* TODO: Implement error handling */ } };
+
+  // Renderizar modal de boas-vindas
+  const renderWelcomeModal = () => {
+    if (!showWelcome) return null;
+
+    return (
+      <View style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000
+      }}>
+        <Card style={{
+          margin: 20,
+          padding: 24,
+          alignItems: 'center',
+          maxWidth: 350
+        }}>
+          <Text style={{ fontSize: 48, marginBottom: 16 }}>🎮</Text>
+          
+          <Text style={{
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: '#333333',
+            marginBottom: 12,
+            textAlign: 'center'
+          }}>
+            Bem-vindo à Gamificação!
+          </Text>
+          
+          <Text style={{
+            fontSize: 14,
+            color: '#666666',
+            textAlign: 'center',
+            lineHeight: 20,
+            marginBottom: 20
+          }}>
+            Transforme as tarefas domésticas em diversão! Ganhe pontos, conquiste badges, desafie sua família e resgate recompensas incríveis.
+          </Text>
+
+          <View style={{
+            marginBottom: 20,
+            alignSelf: 'stretch'
+          }}>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 8
+            }}>
+              <Text style={{ fontSize: 20, marginRight: 8 }}>⭐</Text>
+              <Text style={{ fontSize: 12, color: '#666666' }}>
+                Complete tarefas e ganhe pontos
+              </Text>
+            </View>
+            
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 8
+            }}>
+              <Text style={{ fontSize: 20, marginRight: 8 }}>🏆</Text>
+              <Text style={{ fontSize: 12, color: '#666666' }}>
+                Conquiste badges exclusivos
+              </Text>
+            </View>
+            
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 8
+            }}>
+              <Text style={{ fontSize: 20, marginRight: 8 }}>🎁</Text>
+              <Text style={{ fontSize: 12, color: '#666666' }}>
+                Resgate recompensas especiais
+              </Text>
+            </View>
+            
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}>
+              <Text style={{ fontSize: 20, marginRight: 8 }}>👨‍👩‍👧‍👦</Text>
+              <Text style={{ fontSize: 12, color: '#666666' }}>
+                Compita com sua família
+              </Text>
+            </View>
+          </View>
+
+          <Button
+            title="Vamos Começar! 🚀"
+            onPress={() => {
+              setShowWelcome(false);
+              // Marcar como visto no localStorage/AsyncStorage
+            }}
+            style={{
+              backgroundColor: '#007bff',
+              borderRadius: 25,
+              paddingHorizontal: 32,
+              paddingVertical: 12
+            }}
+          />
+        </Card>
+      </View>
+    );
+  };
+
+  // Renderizar header de estatísticas globais
+  const renderGlobalStats = () => (
+    <Card style={{ margin: 16, padding: 16 }}>
+      <Text style={{
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 12,
+        color: '#333333',
+        textAlign: 'center'
+      }}>
+        🌟 Comunidade DOM v2
+      </Text>
+
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+      }}>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#007bff'
+          }}>
+            {stats.totalFamilies.toLocaleString()}
+          </Text>
+          <Text style={{
+            fontSize: 10,
+            color: '#666666'
+          }}>
+            Famílias
+          </Text>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#28a745'
+          }}>
+            {stats.activeUsers.toLocaleString()}
+          </Text>
+          <Text style={{
+            fontSize: 10,
+            color: '#666666'
+          }}>
+            Usuários Ativos
+          </Text>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#fd7e14'
+          }}>
+            {(stats.totalPoints / 1000000).toFixed(1)}M
+          </Text>
+          <Text style={{
+            fontSize: 10,
+            color: '#666666'
+          }}>
+            Pontos Totais
+          </Text>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#6f42c1'
+          }}>
+            {stats.averageEngagement.toFixed(0)}%
+          </Text>
+          <Text style={{
+            fontSize: 10,
+            color: '#666666'
+          }}>
+            Engajamento
+          </Text>
+        </View>
+      </View>
+    </Card>
+  );
+
+  // Renderizar shortcuts rápidos
+  const renderQuickActions = () => (
+    <View style={{
+      flexDirection: 'row',
+      paddingHorizontal: 16,
+      marginBottom: 8
+    }}>
+      <TouchableOpacity accessibilityLabel="Botão"
+        onPress={() => {
+          // Navegar para tela de desafios familiares
+          Toast.show('Desafios familiares em breve!', 'info');
+        }}
+        style={{
+          flex: 1,
+          backgroundColor: '#6f42c1',
+          borderRadius: 12,
+          padding: 12,
+          alignItems: 'center',
+          marginRight: 8
+        }}
+      >
+        <Text style={{ fontSize: 20, marginBottom: 4 }}>🎯</Text>
+        <Text style={{
+          color: '#ffffff',
+          fontSize: 12,
+          fontWeight: 'bold'
+        }}>
+          Desafios
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity accessibilityLabel="Botão"
+        onPress={() => {
+          // Navegar para hall da fama
+          Toast.show('Hall da fama em breve!', 'info');
+        }}
+        style={{
+          flex: 1,
+          backgroundColor: '#ffd700',
+          borderRadius: 12,
+          padding: 12,
+          alignItems: 'center',
+          marginLeft: 8
+        }}
+      >
+        <Text style={{ fontSize: 20, marginBottom: 4 }}>🏆</Text>
+        <Text style={{
+          color: '#333333',
+          fontSize: 12,
+          fontWeight: 'bold'
+        }}>
+          Hall da Fama
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  // Verificar se usuário tem permissão para gamificação
+  const hasGamificationAccess = () => {
+    return user?.role === 'FAMILY' || user?.role === 'EMPLOYER' || user?.role === 'EMPLOYEE';
+  };
+
+  // Renderizar tela de acesso negado
+  const renderAccessDenied = () => (
+    <View style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20
+    }}>
+      <Text style={{ fontSize: 48, marginBottom: 16 }}>🔒</Text>
+      <Text style={{
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333333',
+        marginBottom: 8,
+        textAlign: 'center'
+      }}>
+        Acesso Restrito
+      </Text>
+      <Text style={{
+        fontSize: 14,
+        color: '#666666',
+        textAlign: 'center',
+        marginBottom: 20
+      }}>
+        A gamificação está disponível apenas para membros da família e funcionários.
+      </Text>
+      <Button
+        title="Voltar"
+        onPress={handleBackPress}
+        style={{ backgroundColor: '#007bff' }}
+      />
+    </View>
+  );
+
+  if (!hasGamificationAccess()) {
+    return (
+      <BaseScreen 
+        title="Gamificação"
+        showBack
+        navigation={navigation}
+      >
+        {renderAccessDenied()}
+      </BaseScreen>
+    );
+  }
+
+  return (
+    <BaseScreen 
+      title="Gamificação Familiar"
+      showBack
+      navigation={navigation}
+    >
+      <View style={{ flex: 1, backgroundColor: '#f8f9fa' }}>
+        {/* Estatísticas globais */}
+        {renderGlobalStats()}
+        
+        {/* Ações rápidas */}
+        {renderQuickActions()}
+        
+        {/* Componente principal de gamificação */}
+        <View style={{ flex: 1 }}>
+          {isLoading ? (
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <Text style={{ color: '#666666', fontSize: 16 }}>
+                Carregando gamificação...
+              </Text>
+            </View>
+          ) : (
+            <FamilyGamification
+              familyId={familyId}
+              userId={user?.id || ''}
+              onActivityComplete={handleActivityComplete}
+              onRewardClaim={handleRewardClaim}
+              style={{ flex: 1 }}
+            />
+          )}
+        </View>
+
+        {/* Modal de boas-vindas */}
+        {renderWelcomeModal()}
+      </View>
+    </BaseScreen>
+  );
+};
+
+export default GamificationScreen;

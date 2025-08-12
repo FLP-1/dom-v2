@@ -1,0 +1,42 @@
+{
+  "enabled": true,
+  "schedule": "0 2 * * *",
+  "retention": {
+    "daily": 7,
+    "weekly": 4,
+    "monthly": 12
+  },
+  "targets": {
+    "database": {
+      "enabled": true,
+      "compression": true,
+      "encryption": true
+    },
+    "files": {
+      "enabled": true,
+      "paths": [
+        "/app/uploads",
+        "/app/logs"
+      ],
+      "compression": true
+    },
+    "configuration": {
+      "enabled": true,
+      "paths": [
+        "/app/config"
+      ],
+      "encryption": true
+    }
+  },
+  "storage": {
+    "type": "s3",
+    "bucket": "dom-v2-backups-sudeste",
+    "region": "sa-east-1",
+    "encryption": "AES256"
+  },
+  "verification": {
+    "enabled": true,
+    "schedule": "0 4 * * 1",
+    "testRestore": true
+  }
+}

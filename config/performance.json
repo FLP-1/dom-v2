@@ -1,0 +1,32 @@
+{
+  "caching": {
+    "redis": {
+      "enabled": true,
+      "ttl": 3600,
+      "maxMemory": "256mb"
+    },
+    "cdn": {
+      "enabled": true,
+      "ttl": 86400,
+      "compression": true
+    }
+  },
+  "compression": {
+    "enabled": true,
+    "algorithm": "gzip",
+    "level": 6
+  },
+  "optimization": {
+    "enableCluster": true,
+    "maxWorkers": 4,
+    "gracefulShutdown": 30000,
+    "requestTimeout": 30000,
+    "bodyLimit": "50mb"
+  },
+  "staticAssets": {
+    "maxAge": 31536000,
+    "compression": true,
+    "etag": true,
+    "lastModified": true
+  }
+}

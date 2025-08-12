@@ -12,6 +12,16 @@ const config: Config = {
   transformIgnorePatterns: ['/node_modules/'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   verbose: false,
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/index.{ts,tsx}',
+    '!src/**/*.d.ts'
+  ],
+  coverageReporters: ['text', 'lcov'],
+  coverageThreshold: {
+    global: { branches: 85, functions: 85, lines: 85, statements: 85 },
+  },
 };
 
 export default config;

@@ -1,0 +1,295 @@
+
+
+/**
+ * @param {string} message - Mensagem de erro
+  */
+// Função removida - causava erros de referência no frontend`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Validação crítica removida - causava erro de referência
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} message - Mensagem do log
+ * @param {any} data - Dados adicionais
+  */
+function log(level: string, message: string, data?: any): void {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}
+
+/**
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+  */
+function validateType(value: any, expectedType: string): boolean {
+  switch (expectedType) {
+    case 'string':
+      return typeof value === 'string';
+    case 'number':
+      return typeof value === 'number' && !isNaN(value);
+    case 'boolean':
+      return typeof value === 'boolean';
+    case 'object':
+      return typeof value === 'object' && value !== null;
+    case 'array':
+      return Array.isArray(value);
+    default:
+      return false;
+  }
+}] [${level.toUpperCase()}] ${message}`, data || '');
+}/**
+ * @directory frontend/src/utils
+ * @created 2024-12-19
+ * @lastModified 2024-12-19
+ * @author DOM Team v2
+  */
+
+import React from 'react';
+
+/**
+ * @param {any} data - Dados a serem validados
+  */
+function validateInput(data: any): boolean {
+  if (!data) return false;
+  if (typeof data !== 'object') return false;
+  return true;
+}
+
+/**
+ * Tratamento de erros centralizado
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+  */
+function handleError(error: Error, context: string): void {
+  console.error(`[ERROR] ${context}:`, error.message);
+}
+import { Dimensions, Platform } from 'react-native';
+
+// Tipos de dispositivo
+export type DeviceType = 'SMARTPHONE' | 'TABLET' | 'DESKTOP';
+
+export interface DeviceOptimization {
+  device: DeviceType;
+  touchOptimized: boolean;
+  buttonSize: 'SMALL' | 'MEDIUM' | 'LARGE';
+  fontSize: {
+    small: number;
+    medium: number;
+    large: number;
+    xlarge: number;
+  };
+  spacing: {
+    small: number;
+    medium: number;
+    large: number;
+    xlarge: number;
+  };
+  navigation: 'SWIPE' | 'TAP' | 'CLICK';
+  features: {
+    shortcuts: boolean;
+    detailedInfo: boolean;
+    helpText: boolean;
+  };
+}
+
+// Detectar tipo de dispositivo
+export function detectDeviceType(): DeviceType {
+  const { width, height } = Dimensions.get('window');
+  const screenWidth = Math.min(width, height);
+  const screenHeight = Math.max(width, height);
+  
+  // Desktop (web)
+  if (Platform.OS === 'web') {
+    return 'DESKTOP';
+  }
+  
+  // Tablet (diagonal > 7 polegadas)
+  if (screenWidth >= 600 || screenHeight >= 900) {
+    return 'TABLET';
+  }
+  
+  return 'SMARTPHONE';
+}
+
+const DEVICE_CONFIGS: Record<DeviceType, DeviceOptimization> = {
+  SMARTPHONE: {
+    device: 'SMARTPHONE',
+    touchOptimized: true,
+    buttonSize: 'LARGE',
+    fontSize: {
+      small: 14,
+      medium: 16,
+      large: 18,
+      xlarge: 20,
+    },
+    spacing: {
+      small: 12,
+      medium: 20,
+      large: 28,
+      xlarge: 36,
+    },
+    navigation: 'TAP',
+    features: {
+      shortcuts: false,
+      detailedInfo: false,
+      helpText: true,
+    },
+  },
+
+  TABLET: {
+    device: 'TABLET',
+    touchOptimized: true,
+    buttonSize: 'MEDIUM',
+    fontSize: {
+      small: 12,
+      medium: 14,
+      large: 16,
+      xlarge: 18,
+    },
+    spacing: {
+      small: 8,
+      medium: 16,
+      large: 24,
+      xlarge: 32,
+    },
+    navigation: 'TAP',
+    features: {
+      shortcuts: true,
+      detailedInfo: true,
+      helpText: true,
+    },
+  },
+
+  DESKTOP: {
+    device: 'DESKTOP',
+    touchOptimized: false,
+    buttonSize: 'SMALL',
+    fontSize: {
+      small: 10,
+      medium: 12,
+      large: 14,
+      xlarge: 16,
+    },
+    spacing: {
+      small: 4,
+      medium: 8,
+      large: 12,
+      xlarge: 16,
+    },
+    navigation: 'CLICK',
+    features: {
+      shortcuts: true,
+      detailedInfo: true,
+      helpText: false,
+    },
+  },
+};
+
+export function useDeviceOptimization() {
+  const [deviceType, setDeviceType] = React.useState<DeviceType>('SMARTPHONE');
+  
+  React.useEffect(() => {
+    const detectedDevice = detectDeviceType();
+    setDeviceType(detectedDevice);
+  }, []);
+
+  const config = React.useMemo(() => DEVICE_CONFIGS[deviceType], [deviceType]);
+
+  return {
+    deviceType,
+    config,
+    setDeviceType,
+  };
+}
+
+export function getOptimizedButtonStyle(deviceType: DeviceType) {
+  const config = DEVICE_CONFIGS[deviceType];
+  
+  switch (config.buttonSize) {
+    case 'LARGE':
+      return {
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        borderRadius: 12,
+        minHeight: 56,
+      };
+    case 'MEDIUM':
+      return {
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+        minHeight: 48,
+      };
+    case 'SMALL':
+      return {
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 6,
+        minHeight: 40,
+      };
+  }
+}
+
+export function getOptimizedTextStyle(deviceType: DeviceType, size: 'small' | 'medium' | 'large' | 'xlarge') {
+  const config = DEVICE_CONFIGS[deviceType];
+  
+  return {
+    fontSize: config.fontSize[size],
+    lineHeight: config.fontSize[size] * 1.4,
+  };
+}
+
+export function getOptimizedSpacing(deviceType: DeviceType, size: 'small' | 'medium' | 'large' | 'xlarge') {
+  const config = DEVICE_CONFIGS[deviceType];
+  return config.spacing[size];
+}
+
+// Verificar se deve mostrar funcionalidade
+export function shouldShowFeature(deviceType: DeviceType, feature: keyof DeviceOptimization['features']): boolean {
+  const config = DEVICE_CONFIGS[deviceType];
+  return config.features[feature];
+}
+
+export function getNavigationConfig(deviceType: DeviceType) {
+  const config = DEVICE_CONFIGS[deviceType];
+  
+  switch (config.navigation) {
+    case 'SWIPE':
+      return {
+        gestureEnabled: true,
+        swipeEnabled: true,
+        tapEnabled: true,
+      };
+    case 'TAP':
+      return {
+        gestureEnabled: false,
+        swipeEnabled: false,
+        tapEnabled: true,
+      };
+    case 'CLICK':
+      return {
+        gestureEnabled: false,
+        swipeEnabled: false,
+        tapEnabled: false,
+        clickEnabled: true,
+      };
+  }
+} 
+
+/**
+ * 
+/**
+ * Alternativas consideradas:
+  */
+ * - Node.js: https://nodejs.org/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * - Express: https://expressjs.com/
+ * - Prisma: https://www.prisma.io/docs
+ * - React: https://react.dev/
+ * - Jest: https://jestjs.io/docs
+ * - React Native: https://reactnative.dev/
+ * - Webpack: https://webpack.js.org/
+  */

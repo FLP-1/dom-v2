@@ -1,0 +1,89 @@
+{
+  "region": "sudeste",
+  "leadSources": [
+    "google_ads_sao_paulo",
+    "facebook_ads_rio_janeiro",
+    "organic_search",
+    "referral",
+    "partnership",
+    "content_marketing"
+  ],
+  "stages": [
+    {
+      "id": "lead",
+      "name": "Lead Capturado",
+      "duration": 1
+    },
+    {
+      "id": "qualified",
+      "name": "Lead Qualificado",
+      "duration": 2
+    },
+    {
+      "id": "demo",
+      "name": "Demo Agendada",
+      "duration": 3
+    },
+    {
+      "id": "trial",
+      "name": "Trial Iniciado",
+      "duration": 30
+    },
+    {
+      "id": "customer",
+      "name": "Cliente Ativo",
+      "duration": null
+    },
+    {
+      "id": "churned",
+      "name": "Churn",
+      "duration": null
+    }
+  ],
+  "automations": [
+    {
+      "trigger": "lead_captured",
+      "actions": [
+        "send_welcome_email",
+        "assign_to_sales",
+        "schedule_follow_up"
+      ]
+    },
+    {
+      "trigger": "trial_started",
+      "actions": [
+        "send_onboarding_sequence",
+        "schedule_check_in",
+        "track_usage"
+      ]
+    },
+    {
+      "trigger": "trial_ending",
+      "actions": [
+        "send_conversion_email",
+        "offer_discount",
+        "schedule_call"
+      ]
+    }
+  ],
+  "segmentation": {
+    "geographic": [
+      "SP",
+      "RJ",
+      "MG",
+      "ES"
+    ],
+    "demographic": [
+      "high_income",
+      "mid_income",
+      "early_adopter",
+      "conservative"
+    ],
+    "behavioral": [
+      "active_user",
+      "feature_adopter",
+      "support_frequent",
+      "referrer"
+    ]
+  }
+}

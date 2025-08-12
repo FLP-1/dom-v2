@@ -1,0 +1,38 @@
+{
+  "region": "sudeste",
+  "channels": [
+    "chat",
+    "email",
+    "phone",
+    "whatsapp"
+  ],
+  "hours": {
+    "weekdays": "08:00-18:00",
+    "saturday": "09:00-15:00",
+    "sunday": "closed"
+  },
+  "timezone": "America/Sao_Paulo",
+  "languages": [
+    "pt-BR"
+  ],
+  "sla": {
+    "chat": "2 minutes",
+    "email": "4 hours",
+    "phone": "immediate",
+    "whatsapp": "15 minutes"
+  },
+  "escalation": {
+    "level1": "support_agent",
+    "level2": "senior_support",
+    "level3": "tech_specialist",
+    "level4": "product_manager"
+  },
+  "knowledgeBase": [
+    "como_usar_esocial",
+    "adicionar_empregado",
+    "chat_familiar_guia",
+    "calcular_pagamentos",
+    "relatorios_explicacao",
+    "troubleshooting_comum"
+  ]
+}

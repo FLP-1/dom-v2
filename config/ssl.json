@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "tlsVersion": "1.3",
+  "ciphers": [
+    "ECDHE-RSA-AES256-GCM-SHA384",
+    "ECDHE-RSA-CHACHA20-POLY1305",
+    "ECDHE-RSA-AES128-GCM-SHA256"
+  ],
+  "certificates": {
+    "domain": "dom-v2.com.br",
+    "wildcardDomain": "*.dom-v2.com.br",
+    "validationMethod": "DNS",
+    "autoRenewal": true
+  },
+  "hsts": {
+    "enabled": true,
+    "maxAge": 31536000,
+    "includeSubDomains": true,
+    "preload": true
+  }
+}

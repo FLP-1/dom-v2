@@ -4,7 +4,7 @@
   "description": "Backend DOM v2 - Node.js + Express + TypeScript",
   "main": "dist/server.js",
   "scripts": {
-    "start": "node dist/server-prisma.js",
+    "start": "node dist/server-dev.js",
     "dev": "nodemon --exec ts-node src/server-dev.ts",
     "dev:simple": "nodemon --exec ts-node src/server-simple-dashboard.ts",
     "build": "tsc",

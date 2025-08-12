@@ -1,0 +1,50 @@
+{
+  "profile": "family",
+  "name": "Membro da Família",
+  "estimatedTime": "10 minutos",
+  "priority": "medium",
+  "steps": [
+    {
+      "id": "welcome",
+      "title": "Olá, Família!",
+      "description": "Vamos nos organizar e nos divertir juntos",
+      "type": "intro",
+      "duration": 45
+    },
+    {
+      "id": "family-chat",
+      "title": "Chat da Família",
+      "description": "Como usar o chat para se coordenar",
+      "type": "tutorial",
+      "duration": 120,
+      "highlights": [
+        "family-chat",
+        "emojis",
+        "reactions"
+      ]
+    },
+    {
+      "id": "fun-points",
+      "title": "Pontos e Diversão",
+      "description": "Ganhe pontos ajudando em casa e troque por recompensas",
+      "type": "tutorial",
+      "duration": 150,
+      "highlights": [
+        "earn-points",
+        "level-up",
+        "rewards"
+      ]
+    },
+    {
+      "id": "lets-play",
+      "title": "Vamos Jogar!",
+      "description": "Você está pronto para se divertir organizando a casa",
+      "type": "celebration",
+      "duration": 45,
+      "rewards": {
+        "points": 25,
+        "badge": "family-member"
+      }
+    }
+  ]
+}

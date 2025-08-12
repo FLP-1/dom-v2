@@ -1,0 +1,36 @@
+{
+  "environment": "production",
+  "region": "sudeste",
+  "timestamp": "2025-08-10T02:11:55.684Z",
+  "domain": "dom-v2.com.br",
+  "services": {
+    "api": {
+      "url": "https://api.dom-v2.com.br",
+      "healthCheck": "https://api.dom-v2.com.br/health"
+    },
+    "app": {
+      "url": "https://app.dom-v2.com.br",
+      "healthCheck": "https://app.dom-v2.com.br/"
+    },
+    "cdn": {
+      "url": "https://cdn.dom-v2.com.br",
+      "healthCheck": "https://cdn.dom-v2.com.br/health"
+    }
+  },
+  "features": {
+    "ssl": true,
+    "monitoring": true,
+    "backup": true,
+    "caching": true,
+    "compression": true,
+    "gamification": true,
+    "communication": true,
+    "pilotAnalytics": true
+  },
+  "deployment": {
+    "strategy": "blue-green",
+    "rollbackEnabled": true,
+    "healthChecks": true,
+    "monitoringDuration": 300000
+  }
+}

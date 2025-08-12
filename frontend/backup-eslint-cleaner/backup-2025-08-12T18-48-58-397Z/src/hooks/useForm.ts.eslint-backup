@@ -1,0 +1,601 @@
+
+
+/**
+ * Validação de tipos TypeScript/JavaScript
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ * @returns {boolean} - True se o tipo está correto
+ */
+
+}
+
+// Aplicar validação de tipos
+ {
+  throw new TypeError('Dados devem ser um objeto válido');
+}
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} level - Nível do log (info, warn, error, debug)
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = 'logs/application.log', 'logs');
+    if (!false) {
+      // File system operation removed for frontend;
+    }
+    // File system operation removed for frontend,
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+/**
+ * Asserções de validação crítica
+ * @param {any} condition - Condição a ser validada
+ * @param {string} message - Mensagem de erro
+ * @throws {Error} Se a condição for falsa
+ */
+`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Aplicar asserções críticas
+
+if (!Object.keys(data) throw new Error('Assertion failed');.length > 0, 'Dados não podem estar vazios');
+
+/**
+ * Validação de entrada de dados
+ * @param {any} data - Dados a serem validados
+ * @returns {boolean} - True se válido, false caso contrário
+ */
+function validateInput(data) {
+  if (!data) return false;
+  if (typeof data === 'string' && data.trim().length === 0) return false;
+  if (Array.isArray(data) && data.length === 0) return false;
+  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
+  return true;
+}
+
+// Aplicar validação
+ {
+  throw new Error('Dados de entrada inválidos');
+}
+
+/**
+ * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Custom Hook React
+ * seguindo as diretivas críticas do projeto DOM v2.
+ * 
+ * @dependencies
+ * - Dependências específicas do contexto
+ * 
+ * @usage
+ * Ver documentação específica para detalhes de uso
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
+/**
+ * @created 2025-01-23
+ * @lastModified 2025-01-23
+ * @author DOM Team v2
+ */
+
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { getMessage } from '../utils/messages-centralized';
+
+interface ValidationRule {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+  custom?: (value: any) => string | null;
+  email?: boolean;
+  phone?: boolean;
+  cpf?: boolean;
+  cnpj?: boolean;
+  cep?: boolean;
+}
+
+interface FormField {
+  name: string;
+  value: any;
+  validation?: ValidationRule;
+  touched?: boolean;
+  error?: string;
+}
+
+interface FormConfig {
+  initialValues: Record<string, any>;
+  validationSchema?: Record<string, ValidationRule>;
+  onSubmit: (values: Record<string, any>) => void | Promise<void>;
+  onValidate?: (values: Record<string, any>) => Record<string, string>;
+  validateOnChange?: boolean;
+  validateOnBlur?: boolean;
+  validateOnSubmit?: boolean;
+}
+
+interface FormState {
+  values: Record<string, any>;
+  errors: Record<string, string>;
+  touched: Record<string, boolean>;
+  dirty: Record<string, boolean>;
+  isValid: boolean;
+  isDirty: boolean;
+  isSubmitting: boolean;
+  submitCount: number;
+}
+
+interface FormActions {
+  setValue: (name: string, value: any) => void;
+  setValues: (values: Record<string, any>) => void;
+  setError: (name: string, error: string) => void;
+  setErrors: (errors: Record<string, string>) => void;
+  setTouched: (name: string, touched: boolean) => void;
+  setTouchedAll: (touched: boolean) => void;
+  reset: (values?: Record<string, any>) => void;
+  validate: (name?: string) => boolean;
+  validateAll: () => boolean;
+  submit: () => Promise<void>;
+  getFieldProps: (name: string) => {
+    value: any;
+    error: string | undefined;
+    touched: boolean;
+    onChange: (value: any) => void;
+    onBlur: () => void;
+  };
+}
+
+/**
+ */
+export function useForm(config: FormConfig): [FormState, FormActions] {
+  const {
+    initialValues,
+    validationSchema = {},
+    onSubmit,
+    onValidate,
+    validateOnChange = false,
+    validateOnBlur = true,
+    validateOnSubmit = true
+  } = config;
+
+  const [state, setState] = useState<FormState>({
+    values: { ...initialValues },
+    errors: {},
+    touched: {},
+    dirty: {},
+    isValid: true,
+    isDirty: false,
+    isSubmitting: false,
+    submitCount: 0
+  });
+
+  const initialValuesRef = useRef(initialValues);
+  const validationSchemaRef = useRef(validationSchema);
+
+  /**
+   */
+  const validateValue = useCallback((name: string, value: any): string | null => {
+    const rules = validationSchemaRef.current[name];
+    if (!rules) return null;
+
+    if (rules.required && (!value || value.toString().trim() === '')) {
+      return getMessage('validation.required');
+    }
+
+    if (!value || value.toString().trim() === '') {
+      return null;
+    }
+
+    if (rules.minLength && value.toString().length < rules.minLength) {
+    }
+
+    if (rules.maxLength && value.toString().length > rules.maxLength) {
+    }
+
+    if (rules.pattern && !rules.pattern.test(value)) {
+    }
+
+    if (rules.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        return getMessage('validation.email.invalid');
+      }
+    }
+
+    if (rules.phone) {
+      const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+      if (!phoneRegex.test(value.replace(/\D/g, ''))) {
+        return getMessage('validation.phone.invalid');
+      }
+    }
+
+    if (rules.cpf) {
+      if (!validateCPF(value)) {
+        return getMessage('validation.cpf.invalid');
+      }
+    }
+
+    if (rules.cnpj) {
+      if (!validateCNPJ(value)) {
+        return getMessage('validation.cnpj.invalid');
+      }
+    }
+
+    if (rules.cep) {
+      const cepRegex = /^\d{5}-?\d{3}$/;
+      if (!cepRegex.test(value)) {
+        return getMessage('validation.cep.invalid');
+      }
+    }
+
+    if (rules.custom) {
+      return rules.custom(value);
+    }
+
+    return null;
+  }, []);
+
+  /**
+   * Valida CPF
+   */
+  const validateCPF = (cpf: string): boolean => {
+    cpf = cpf.replace(/[^\d]/g, '');
+    
+    if (cpf.length !== 11) return false;
+    
+    if (/^(\d)\1{10}$/.test(cpf)) return false;
+    
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+      sum += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    let remainder = 11 - (sum % 11);
+    let digit1 = remainder < 2 ? 0 : remainder;
+    
+    sum = 0;
+    for (let i = 0; i < 10; i++) {
+      sum += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    remainder = 11 - (sum % 11);
+    let digit2 = remainder < 2 ? 0 : remainder;
+    
+    return parseInt(cpf.charAt(9)) === digit1 && parseInt(cpf.charAt(10)) === digit2;
+  };
+
+  /**
+   * Valida CNPJ
+   */
+  const validateCNPJ = (cnpj: string): boolean => {
+    cnpj = cnpj.replace(/[^\d]/g, '');
+    
+    if (cnpj.length !== 14) return false;
+    
+    if (/^(\d)\1{13}$/.test(cnpj)) return false;
+    
+    let sum = 0;
+    let weight = 2;
+    for (let i = 11; i >= 0; i--) {
+      sum += parseInt(cnpj.charAt(i)) * weight;
+      weight = weight === 9 ? 2 : weight + 1;
+    }
+    let remainder = sum % 11;
+    let digit1 = remainder < 2 ? 0 : 11 - remainder;
+    
+    sum = 0;
+    weight = 2;
+    for (let i = 12; i >= 0; i--) {
+      sum += parseInt(cnpj.charAt(i)) * weight;
+      weight = weight === 9 ? 2 : weight + 1;
+    }
+    remainder = sum % 11;
+    let digit2 = remainder < 2 ? 0 : 11 - remainder;
+    
+    return parseInt(cnpj.charAt(12)) === digit1 && parseInt(cnpj.charAt(13)) === digit2;
+  };
+
+  /**
+   */
+  const validateField = useCallback((name: string): boolean => {
+    const value = state.values[name];
+    const error = validateValue(name, value);
+    
+    setState(prev => ({
+      ...prev,
+      errors: {
+        ...prev.errors,
+        [name]: error || ''
+      }
+    }));
+
+    return !error;
+  }, [state.values, validateValue]);
+
+  /**
+   * Valida todos os campos
+   */
+  const validateAll = useCallback((): boolean => {
+    const newErrors: Record<string, string> = {};
+    let isValid = true;
+
+    Object.keys(validationSchemaRef.current).forEach(name => {
+      const error = validateValue(name, state.values[name]);
+      if (error) {
+        newErrors[name] = error;
+        isValid = false;
+      }
+    });
+
+    if (onValidate) {
+      const customErrors = onValidate(state.values);
+      Object.assign(newErrors, customErrors);
+      isValid = isValid && Object.keys(customErrors).length === 0;
+    }
+
+    setState(prev => ({
+      ...prev,
+      errors: newErrors,
+      isValid
+    }));
+
+    return isValid;
+  }, [state.values, validateValue, onValidate]);
+
+  /**
+   * Define o valor de um campo
+   */
+  const setValue = useCallback((name: string, value: any) => {
+    setState(prev => {
+      const newValues = { ...prev.values, [name]: value };
+      const newDirty = { ...prev.dirty, [name]: value !== initialValuesRef.current[name] };
+      
+      return {
+        ...prev,
+        values: newValues,
+        dirty: newDirty,
+        isDirty: Object.values(newDirty).some(Boolean)
+      };
+    });
+
+    if (validateOnChange) {
+      validateField(name);
+    }
+  }, [validateOnChange, validateField]);
+
+  /**
+   */
+  const setValues = useCallback((values: Record<string, any>) => {
+    setState(prev => {
+      const newValues = { ...prev.values, ...values };
+      const newDirty = { ...prev.dirty };
+      
+      Object.keys(values).forEach(name => {
+        newDirty[name] = values[name] !== initialValuesRef.current[name];
+      });
+      
+      return {
+        ...prev,
+        values: newValues,
+        dirty: newDirty,
+        isDirty: Object.values(newDirty).some(Boolean)
+      };
+    });
+  }, []);
+
+  /**
+   * Define erro de um campo
+   */
+  const setError = useCallback((name: string, error: string) => {
+    setState(prev => ({
+      ...prev,
+      errors: { ...prev.errors, [name]: error }
+    }));
+  }, []);
+
+  /**
+   */
+  const setErrors = useCallback((errors: Record<string, string>) => {
+    setState(prev => ({
+      ...prev,
+      errors: { ...prev.errors, ...errors }
+    }));
+  }, []);
+
+  /**
+   * Define se um campo foi tocado
+   */
+  const setTouched = useCallback((name: string, touched: boolean) => {
+    setState(prev => ({
+      ...prev,
+      touched: { ...prev.touched, [name]: touched }
+    }));
+  }, []);
+
+  /**
+   * Define se todos os campos foram tocados
+   */
+  const setTouchedAll = useCallback((touched: boolean) => {
+    setState(prev => {
+      const newTouched: Record<string, boolean> = {};
+      Object.keys(prev.values).forEach(name => {
+        newTouched[name] = touched;
+      });
+      
+      return {
+        ...prev,
+        touched: newTouched
+      };
+    });
+  }, []);
+
+  /**
+   */
+  const reset = useCallback((values?: Record<string, any>) => {
+    const newValues = values || { ...initialValuesRef.current };
+    
+    setState({
+      values: newValues,
+      errors: {},
+      touched: {},
+      dirty: {},
+      isValid: true,
+      isDirty: false,
+      isSubmitting: false,
+      submitCount: 0
+    });
+  }, []);
+
+  /**
+   */
+  const submit = useCallback(async () => {
+    setState(prev => ({
+      ...prev,
+      isSubmitting: true,
+      submitCount: prev.submitCount + 1
+    }));
+
+    try {
+      // Marca todos os campos como tocados
+      setTouchedAll(true);
+
+      if (validateOnSubmit && !validateAll()) {
+      }
+
+      await onSubmit(state.values);
+    } catch (error) {
+      throw error;
+    } finally {
+      setState(prev => ({
+        ...prev,
+        isSubmitting: false
+      }));
+    }
+  }, [state.values, onSubmit, validateOnSubmit, validateAll, setTouchedAll]);
+
+  /**
+   */
+  const getFieldProps = useCallback((name: string) => ({
+    value: state.values[name],
+    error: state.errors[name],
+    touched: state.touched[name],
+    onChange: (value: any) => setValue(name, value),
+    onBlur: () => {
+      setTouched(name, true);
+      if (validateOnBlur) {
+        validateField(name);
+      }
+    }
+  }), [state.values, state.errors, state.touched, setValue, setTouched, validateOnBlur, validateField]);
+
+  // Atualiza isValid quando errors mudam
+  useEffect(() => {
+    const isValid = Object.keys(state.errors).length === 0 || 
+                   Object.values(state.errors).every(error => !error);
+    
+    setState(prev => ({
+      ...prev,
+      isValid
+    }));
+  }, [state.errors]);
+
+  const actions: FormActions = {
+    setValue,
+    setValues,
+    setError,
+    setErrors,
+    setTouched,
+    setTouchedAll,
+    reset,
+    validate: validateField,
+    validateAll,
+    submit,
+    getFieldProps
+  };
+
+  return [state, actions];
+}
+
+/**
+ */
+export function useFieldValidation(
+  value: any,
+  rules: ValidationRule,
+  touched: boolean = false
+): { error: string | null; isValid: boolean } {
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!touched) {
+      setError(null);
+      return;
+    }
+
+    if (rules.required && (!value || value.toString().trim() === '')) {
+      setError(getMessage('validation.required'));
+      return;
+    }
+
+    if (!value || value.toString().trim() === '') {
+      setError(null);
+      return;
+    }
+
+    if (rules.minLength && value.toString().length < rules.minLength) {
+      return;
+    }
+
+    if (rules.maxLength && value.toString().length > rules.maxLength) {
+      return;
+    }
+
+    if (rules.pattern && !rules.pattern.test(value)) {
+      return;
+    }
+
+    if (rules.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        setError(getMessage('validation.email.invalid'));
+        return;
+      }
+    }
+
+    if (rules.custom) {
+      const customError = rules.custom(value);
+      setError(customError);
+      return;
+    }
+
+    setError(null);
+  }, [value, rules, touched]);
+
+  return {
+    error,
+    isValid: !error
+  };
+}

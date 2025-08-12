@@ -1,0 +1,39 @@
+{
+  "dimensions": [
+    "registration_week",
+    "first_payment_week",
+    "feature_adoption_week",
+    "region",
+    "acquisition_channel"
+  ],
+  "metrics": [
+    "retention_rate",
+    "revenue_per_cohort",
+    "feature_adoption",
+    "engagement_score"
+  ],
+  "periods": [
+    "week_1",
+    "week_2",
+    "week_4",
+    "week_8",
+    "week_12"
+  ],
+  "analysis": {
+    "retentionCohorts": {
+      "enabled": true,
+      "groupBy": "registration_week",
+      "metric": "active_users"
+    },
+    "revenueCohorts": {
+      "enabled": true,
+      "groupBy": "first_payment_week",
+      "metric": "cumulative_revenue"
+    },
+    "featureCohorts": {
+      "enabled": true,
+      "groupBy": "feature_adoption_week",
+      "metric": "feature_usage"
+    }
+  }
+}

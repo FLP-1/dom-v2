@@ -1,0 +1,100 @@
+{
+  "channels": {
+    "email": {
+      "enabled": true,
+      "recipients": [
+        "alerts@dom-v2.com.br",
+        "pilot@dom-v2.com.br"
+      ],
+      "template": "pilot-alert-template"
+    },
+    "slack": {
+      "enabled": true,
+      "webhook": "SLACK_WEBHOOK_URL",
+      "channel": "#pilot-alerts"
+    },
+    "sms": {
+      "enabled": false,
+      "numbers": [
+        "+5511999999999"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "name": "Critical KPI Alert",
+      "condition": "kpi_below_critical_threshold",
+      "metrics": [
+        "conversionRate",
+        "dau",
+        "uptime"
+      ],
+      "threshold": "critical",
+      "channels": [
+        "email",
+        "slack"
+      ],
+      "frequency": "immediate",
+      "escalation": true
+    },
+    {
+      "name": "Revenue Drop Alert",
+      "condition": "revenue_drop",
+      "metrics": [
+        "mrr",
+        "dailyRevenue"
+      ],
+      "threshold": -20,
+      "channels": [
+        "email",
+        "slack",
+        "sms"
+      ],
+      "frequency": "immediate",
+      "priority": "critical"
+    },
+    {
+      "name": "User Acquisition Slowdown",
+      "condition": "acquisition_below_target",
+      "metrics": [
+        "signups",
+        "familiesRegistered"
+      ],
+      "threshold": -30,
+      "channels": [
+        "email"
+      ],
+      "frequency": "daily",
+      "priority": "warning"
+    },
+    {
+      "name": "Technical Performance Issue",
+      "condition": "technical_degradation",
+      "metrics": [
+        "responseTime",
+        "errorRate",
+        "uptime"
+      ],
+      "threshold": "warning",
+      "channels": [
+        "email",
+        "slack"
+      ],
+      "frequency": "immediate",
+      "priority": "high"
+    },
+    {
+      "name": "Churn Rate Spike",
+      "condition": "churn_spike",
+      "metrics": [
+        "churnRate"
+      ],
+      "threshold": 15,
+      "channels": [
+        "email"
+      ],
+      "frequency": "immediate",
+      "priority": "critical"
+    }
+  ]
+}

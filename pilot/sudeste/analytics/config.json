@@ -1,0 +1,61 @@
+{
+  "region": "sudeste",
+  "mode": "production",
+  "trackingId": "GA-PILOT-PROD",
+  "goals": {
+    "week4": {
+      "families": 50,
+      "cac": 200,
+      "retention": 70,
+      "revenue": 4000
+    },
+    "week8": {
+      "families": 200,
+      "cac": 150,
+      "retention": 80,
+      "revenue": 18000
+    },
+    "week12": {
+      "families": 500,
+      "cac": 120,
+      "retention": 85,
+      "revenue": 45000
+    }
+  },
+  "events": [
+    "pilot_user_registered",
+    "pilot_family_onboarded",
+    "pilot_employee_added",
+    "pilot_chat_first_use",
+    "pilot_payment_processed",
+    "pilot_feature_adoption"
+  ],
+  "customDimensions": {
+    "region": 1,
+    "userType": 2,
+    "pilotWeek": 3,
+    "acquisitionChannel": 4
+  },
+  "funnels": {
+    "registration": [
+      "landing_page_view",
+      "signup_start",
+      "signup_complete"
+    ],
+    "onboarding": [
+      "signup_complete",
+      "profile_setup",
+      "first_employee_added"
+    ],
+    "activation": [
+      "first_employee_added",
+      "first_task_created",
+      "first_chat_sent"
+    ],
+    "retention": [
+      "day_1_return",
+      "day_7_return",
+      "day_30_return"
+    ]
+  }
+}

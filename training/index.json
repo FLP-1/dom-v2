@@ -1,0 +1,150 @@
+{
+  "title": "DOM v2 - Central de Treinamento",
+  "description": "Material completo de treinamento e suporte para todos os usuários",
+  "lastUpdated": "2025-08-10T02:36:53.734Z",
+  "version": "2.0.0",
+  "sections": {
+    "onboarding": {
+      "title": "🎯 Onboarding",
+      "description": "Guias de primeiros passos personalizados por perfil",
+      "items": [
+        {
+          "id": "employer",
+          "title": "Empregador/Família",
+          "duration": "25 min",
+          "steps": 8
+        },
+        {
+          "id": "employee",
+          "title": "Empregado Doméstico",
+          "duration": "15 min",
+          "steps": 5
+        },
+        {
+          "id": "family",
+          "title": "Membro da Família",
+          "duration": "10 min",
+          "steps": 4
+        },
+        {
+          "id": "admin",
+          "title": "Administrador",
+          "duration": "45 min",
+          "steps": 12
+        }
+      ]
+    },
+    "tutorials": {
+      "title": "🎮 Tutoriais Interativos",
+      "description": "Aprenda usando a própria interface do sistema",
+      "items": [
+        {
+          "id": "communication",
+          "title": "Sistema de Comunicação",
+          "duration": "8 min"
+        },
+        {
+          "id": "gamification",
+          "title": "Sistema de Gamificação",
+          "duration": "6 min"
+        },
+        {
+          "id": "tasks",
+          "title": "Gestão de Tarefas",
+          "duration": "5 min"
+        }
+      ]
+    },
+    "videos": {
+      "title": "🎬 Vídeos de Treinamento",
+      "description": "Vídeos explicativos para cada funcionalidade",
+      "items": [
+        {
+          "id": "introducao-dom-v2",
+          "title": "Introdução ao DOM v2",
+          "duration": "3:30"
+        },
+        {
+          "id": "chat-familiar-tutorial",
+          "title": "Como Usar o Chat Familiar",
+          "duration": "2:45"
+        },
+        {
+          "id": "gamificacao-explicacao",
+          "title": "Sistema de Gamificação",
+          "duration": "4:00"
+        }
+      ]
+    },
+    "guides": {
+      "title": "📖 Guias de Melhores Práticas",
+      "description": "Dicas e estratégias para uso otimizado",
+      "items": [
+        {
+          "id": "employer-best-practices",
+          "title": "Melhores Práticas para Empregadores"
+        },
+        {
+          "id": "employee-best-practices",
+          "title": "Melhores Práticas para Empregados"
+        },
+        {
+          "id": "family-engagement",
+          "title": "Engajamento Familiar"
+        }
+      ]
+    },
+    "faq": {
+      "title": "❓ FAQ",
+      "description": "Perguntas frequentes organizadas por categoria",
+      "items": [
+        {
+          "id": "getting-started",
+          "title": "Primeiros Passos",
+          "questions": 3
+        },
+        {
+          "id": "communication",
+          "title": "Comunicação",
+          "questions": 3
+        },
+        {
+          "id": "gamification",
+          "title": "Gamificação",
+          "questions": 3
+        },
+        {
+          "id": "technical",
+          "title": "Suporte Técnico",
+          "questions": 3
+        }
+      ]
+    },
+    "support": {
+      "title": "🆘 Suporte",
+      "description": "Solução de problemas e contatos de ajuda",
+      "items": [
+        {
+          "id": "troubleshooting-guide",
+          "title": "Guia de Solução de Problemas"
+        },
+        {
+          "id": "feature-requests",
+          "title": "Como Solicitar Funcionalidades"
+        }
+      ]
+    }
+  },
+  "quickLinks": {
+    "Começar Agora": "/onboarding",
+    "Problemas Técnicos": "/support/troubleshooting-guide",
+    "Perguntas Frequentes": "/faq",
+    "Contatar Suporte": "mailto:suporte@dom-v2.com.br"
+  },
+  "statistics": {
+    "totalMaterials": 19,
+    "totalDuration": "0 horas",
+    "completionRate": 0,
+    "averageRating": 4.8
+  }
+}

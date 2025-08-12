@@ -1,0 +1,27 @@
+import React from 'react';
+import { View, Text } from 'react-native';
+
+interface NotificationCenterProps {
+  notifications?: any[];
+}
+
+export const NotificationCenter: React.FC<NotificationCenterProps> = ({ 
+  notifications = [] 
+}) => {
+  return (
+    <View style={{ flex: 1, padding: 16 }}>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+        Centro de Notificações
+      </Text>
+      {notifications.length === 0 ? (
+        <Text style={{ color: '#666', textAlign: 'center' }}>
+          Nenhuma notificação
+        </Text>
+      ) : (
+        <Text style={{ color: '#666' }}>
+          {notifications.length} notificações
+        </Text>
+      )}
+    </View>
+  );
+};

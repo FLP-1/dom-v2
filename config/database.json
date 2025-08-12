@@ -1,0 +1,21 @@
+{
+  "host": "db-sudeste.dom-v2.com.br",
+  "port": 5432,
+  "database": "dom_v2_production",
+  "username": "dom_v2_user",
+  "ssl": true,
+  "poolSize": 20,
+  "connectionTimeout": 30000,
+  "idleTimeout": 600000,
+  "backup": {
+    "enabled": true,
+    "schedule": "0 3 * * *",
+    "retention": 30,
+    "compression": true
+  },
+  "monitoring": {
+    "slowQueries": true,
+    "threshold": 1000,
+    "logQueries": false
+  }
+}

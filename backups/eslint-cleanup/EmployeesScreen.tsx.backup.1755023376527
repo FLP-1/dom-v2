@@ -1,0 +1,281 @@
+
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} level - Nível do log (info, warn, error, debug)
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = 'logs/application.log', 'logs');
+    if (!false) {
+      // File system operation removed for frontend;
+    }
+    // File system operation removed for frontend,
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+/**
+ * Asserções de validação crítica
+ * @param {any} condition - Condição a ser validada
+ * @param {string} message - Mensagem de erro
+ * @throws {Error} Se a condição for falsa
+ */
+`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Aplicar asserções críticas
+
+if (!Object.keys(data) throw new Error('Assertion failed');.length > 0, 'Dados não podem estar vazios');
+
+/**
+ * Validação de entrada de dados
+ * @param {any} data - Dados a serem validados
+ * @returns {boolean} - True se válido, false caso contrário
+ */
+function validateInput(data) {
+  if (!data) return false;
+  if (typeof data === 'string' && data.trim().length === 0) return false;
+  if (Array.isArray(data) && data.length === 0) return false;
+  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
+  return true;
+}
+
+// Aplicar validação
+ {
+  throw new Error('Dados de entrada inválidos');
+}
+
+/**
+ * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Tela de interface
+ * seguindo as diretivas críticas do projeto DOM v2.
+ * 
+ * @dependencies
+ * - React, React Native
+ * 
+ * @usage
+ * Ver documentação específica para detalhes de uso
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
+import React, { useMemo, useState } from 'react';
+import { Text, StyleSheet, FlatList, TextInput, TouchableOpacity, Alert } from 'react-native';
+import useEmployees from '../../hooks/useEmployees';
+import { useAuth } from '../../context/AuthContext';
+import { can } from '../../utils/rbac';
+import { validateCPF, onlyDigits } from '../../utils/validation';
+import CpfField from '../../components/ui/CpfField';
+import { adaptEmployeeError } from '../../utils/errorAdapter';
+import { MESSAGES } from '../../utils/messages';
+import Loading from '../../components/ui/Loading';
+import EmptyState from '../../components/ui/EmptyState';
+import { useToast } from '../../components/ui/Toast';
+
+const EmployeesScreen: React.FC = () => {
+  const { employees, loading, error, addEmployee, editEmployee, removeEmployee } = useEmployees();
+  const { user } = useAuth();
+  const { show } = useToast();
+  const [name, setName] = useState('');
+  const [position, setPosition] = useState('');
+  const [salary, setSalary] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [cpf, setCpf] = useState('');
+  const [cpfError, setCpfError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const canManage = useMemo(() => can(user, 'hr:employee:create') || can(user, 'hr:employee:edit') || can(user, 'hr:employee:delete'), [user]);
+
+  const resetForm = () => { setName(''); setPosition(''); setSalary(''); setCpf(''); setEditingId(null); };
+
+  const parseSalary = (raw: string): number => {
+    const normalized = raw
+      .replace(/[^0-9.,]/g, '')
+      .replace(/\.(?=\d{3}(\D|$))/g, '')
+      .replace(/,(?=\d{3}(\D|$))/g, '')
+      .replace(',', '.');
+    const num = Number(normalized);
+    return Number.isFinite(num) ? num : NaN;
+  };
+
+  const onSubmit = async () => {
+    const salaryNum = parseSalary(salary);
+    const cleanCpf = onlyDigits(cpf);
+    if (!name || !position || Number.isNaN(salaryNum) || !cleanCpf) {
+      Alert.alert('Dados inválidos', 'Preencha nome, CPF, cargo e salário numérico.');
+      return;
+    }
+    if (!validateCPF(cleanCpf)) {
+      Alert.alert('CPF inválido', 'Verifique o CPF informado.');
+      return;
+    }
+    if (salaryNum < 0) {
+      Alert.alert('Dados inválidos', 'Salário não pode ser negativo.');
+      return;
+    }
+    try {
+      setSubmitting(true);
+      setCpfError(null);
+      if (editingId) {
+        await editEmployee(editingId, { name, position, salary: salaryNum });
+        show('Funcionário atualizado com sucesso', 'success');
+      } else {
+        await addEmployee({ name, position, salary: salaryNum, cpf: cleanCpf });
+        show('Funcionário criado com sucesso', 'success');
+      }
+      resetForm();
+    } catch (e: unknown) {
+      const friendly = adaptEmployeeError(e);
+      if (friendly === MESSAGES.VALIDATION.CPF_DUPLICATE || friendly === MESSAGES.VALIDATION.CPF_INVALID) {
+        setCpfError(friendly);
+      } else {
+        show(friendly, 'error');
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Funcionários</Text>
+      {loading && <Loading />}
+      {error && <Text style={styles.error}>{error}</Text>}
+      <FlatList
+        data={employees}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.list}
+        ListEmptyComponent={!loading ? <EmptyState title="Funcionários" description={MESSAGES.EMPLOYEES.EMPTY_LIST} /> : null}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>{item.name}</Text>
+            <Text style={styles.cardSubtitle}>{item.position}</Text>
+            <Text style={styles.salary}>
+              {typeof item.salary === 'number' ? item.salary.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—'}
+            </Text>
+            {can(user, 'hr:employee:edit') || can(user, 'hr:employee:delete') ? (
+              <View style={styles.row}>
+                {can(user, 'hr:employee:edit') && (
+                  <TouchableOpacity style={styles.secondaryBtn} onPress={() => { setEditingId(item.id); setName(item.name); setPosition(item.position); setSalary(String(item.salary)); }}>
+                    <Text style={styles.secondaryBtnText}>Editar</Text>
+                  </TouchableOpacity>
+                )}
+                {can(user, 'hr:employee:delete') && (
+                  <TouchableOpacity
+                    style={styles.deleteBtn}
+                    onPress={() => {
+                      Alert.alert(
+                        'Excluir funcionário',
+                        `Deseja realmente excluir ${item.name}?`,
+                        [
+                          { text: 'Cancelar', style: 'cancel' },
+                          {
+                            text: 'Excluir',
+                            style: 'destructive',
+                            onPress: async () => {
+                              try {
+                                await removeEmployee(item.id);
+                                show('Funcionário excluído com sucesso', 'success');
+                              } catch {
+                                show('Falha ao excluir funcionário', 'error');
+                              }
+                            }
+                          }
+                        ]
+                      );
+                    }}
+                  >
+                    <Text style={styles.deleteBtnText}>Excluir</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : null}
+          </View>
+        )}
+      />
+
+      {can(user, 'hr:employee:create') ? (
+        <View style={styles.form}>
+          <Text style={styles.formTitle}>{editingId ? 'Editar Funcionário' : 'Novo Funcionário'}</Text>
+          <TextInput placeholder="Nome" value={name} onChangeText={setName} style={styles.input} />
+          <CpfField value={cpf} onChange={(v) => { setCpf(v); if (cpfError) setCpfError(null); }} />
+          {cpfError ? <Text style={styles.error}>{cpfError}</Text> : null}
+          <TextInput placeholder="Cargo" value={position} onChangeText={setPosition} style={styles.input} />
+          <TextInput
+            placeholder="Salário (ex: 1.234,56)"
+            value={salary}
+            onChangeText={(text) => {
+              const sanitized = text.replace(/[^0-9.,]/g, '');
+              setSalary(sanitized);
+            }}
+            keyboardType="numeric"
+            style={styles.input}
+          />
+          <View style={styles.row}>
+            <TouchableOpacity style={[styles.primaryBtn, submitting && { opacity: 0.7 }]} disabled={submitting} onPress={onSubmit}>
+              <Text style={styles.primaryBtnText}>{submitting ? 'Salvando...' : (editingId ? 'Salvar' : 'Adicionar')}</Text>
+            </TouchableOpacity>
+            {editingId && (
+              <TouchableOpacity style={styles.secondaryBtn} onPress={resetForm}>
+                <Text style={styles.secondaryBtnText}>Cancelar</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      ) : (
+        <Text style={[styles.error, { marginTop: 8 }]}>Acesso somente leitura para este módulo.</Text>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#f8fafc', padding: 16 },
+  title: { fontSize: 20, fontWeight: 'bold', color: '#1e293b', marginBottom: 12 },
+  error: { color: '#ef4444', marginBottom: 8 },
+  list: { gap: 12 },
+  card: { backgroundColor: '#fff', padding: 16, borderRadius: 12, shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 6, elevation: 2 },
+  cardTitle: { fontSize: 16, fontWeight: '600', color: '#1e293b' },
+  cardSubtitle: { fontSize: 14, color: '#64748b', marginTop: 4 },
+  salary: { fontSize: 12, color: '#6366f1', marginTop: 8 },
+  form: { backgroundColor: '#fff', padding: 16, borderRadius: 12, marginTop: 16 },
+  formTitle: { fontSize: 16, fontWeight: '600', color: '#1e293b', marginBottom: 8 },
+  input: { backgroundColor: '#f1f5f9', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, marginTop: 8 },
+  primaryBtn: { backgroundColor: '#6366f1', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 8, marginTop: 12 },
+  primaryBtnText: { color: '#fff', fontWeight: '600' },
+  secondaryBtn: { backgroundColor: '#e2e8f0', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 8, marginTop: 12, marginLeft: 8 },
+  secondaryBtnText: { color: '#0f172a', fontWeight: '600' },
+  deleteBtn: { backgroundColor: '#fee2e2', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 8, marginTop: 12, marginLeft: 8 },
+  deleteBtnText: { color: '#b91c1c', fontWeight: '600' },
+  row: { flexDirection: 'row', alignItems: 'center' },
+});
+
+export default EmployeesScreen;
+

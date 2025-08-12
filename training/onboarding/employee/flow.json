@@ -1,0 +1,63 @@
+{
+  "profile": "employee",
+  "name": "Empregado Doméstico",
+  "estimatedTime": "15 minutos",
+  "priority": "critical",
+  "steps": [
+    {
+      "id": "welcome",
+      "title": "Bem-vindo, Profissional!",
+      "description": "O DOM v2 vai facilitar seu trabalho e reconhecer seu esforço",
+      "type": "intro",
+      "duration": 60
+    },
+    {
+      "id": "profile-basics",
+      "title": "Seu Perfil Profissional",
+      "description": "Configure informações básicas do seu perfil",
+      "type": "form",
+      "duration": 120,
+      "fields": [
+        "name",
+        "experience",
+        "specialties",
+        "availability"
+      ]
+    },
+    {
+      "id": "communication-basics",
+      "title": "Comunicação Simples",
+      "description": "Como usar chat e áudio para se comunicar",
+      "type": "tutorial",
+      "duration": 180,
+      "highlights": [
+        "simple-chat",
+        "audio-messages",
+        "notifications"
+      ]
+    },
+    {
+      "id": "points-system",
+      "title": "Sistema de Pontos",
+      "description": "Ganhe pontos completando tarefas com qualidade",
+      "type": "tutorial",
+      "duration": 120,
+      "highlights": [
+        "task-completion",
+        "points-earned",
+        "level-progress"
+      ]
+    },
+    {
+      "id": "ready-to-work",
+      "title": "Tudo Pronto!",
+      "description": "Você está pronto para começar a trabalhar com o DOM v2",
+      "type": "celebration",
+      "duration": 60,
+      "rewards": {
+        "points": 50,
+        "badge": "professional-ready"
+      }
+    }
+  ]
+}

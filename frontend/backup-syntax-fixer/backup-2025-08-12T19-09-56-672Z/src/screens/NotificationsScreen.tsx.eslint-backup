@@ -1,0 +1,443 @@
+
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useNotificationsData } from '../hooks/useNotificationsData.ts';
+
+const NotificationsScreen: React.FC = () => {
+  const { 
+    notifications, 
+    loading, 
+    error, 
+    stats, 
+    reload, 
+    markAsRead,
+    removeNotification,
+    markAllAsRead
+  } = useNotificationsData();
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'critical': return '#dc2626';
+      case 'high': return '#ef4444';
+      case 'medium': return '#f59e0b';
+      case 'low': return '#10b981';
+      default: return '#6b7280';
+    }
+  };
+
+  const getPriorityIcon = (priority: string) => {
+    switch (priority) {
+      case 'critical': return '🚨';
+      case 'high': return '🔴';
+      case 'medium': return '🟡';
+      case 'low': return '🟢';
+      default: return '📋';
+    }
+  };
+
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'budget': return '💰';
+      case 'payment': return '💳';
+      case 'task': return '📝';
+      case 'system': return '⚙️';
+      case 'reminder': return '⏰';
+      default: return '📢';
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+    if (diffInHours < 1) {
+      return 'Agora há pouco';
+    } else if (diffInHours < 24) {
+      return `${Math.floor(diffInHours)}h atrás`;
+    } else if (diffInHours < 48) {
+      return 'Ontem';
+    } else {
+      return date.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
+      });
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <Text style={styles.loadingText}>Carregando notificações...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.title}>🔔 Central de Notificações</Text>
+        <Text style={styles.subtitle}>
+          {error ? error : 'Acompanhe todas as atualizações importantes'}
+        </Text>
+        {error && (
+          <TouchableOpacity style={styles.retryButton} onPress={reload}>
+            <Text style={styles.retryButtonText}>🔄 Tentar Novamente</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {/* Cards de Estatísticas */}
+      <View style={styles.statsContainer}>
+        <View style={[styles.statCard, styles.totalCard]}>
+          <Text style={styles.statNumber}>{stats.total}</Text>
+          <Text style={styles.statLabel}>Total</Text>
+        </View>
+        
+        <View style={[styles.statCard, styles.unreadCard]}>
+          <Text style={styles.statNumber}>{stats.unread}</Text>
+          <Text style={styles.statLabel}>Não Lidas</Text>
+        </View>
+        
+        <View style={[styles.statCard, styles.priorityCard]}>
+          <Text style={styles.statNumber}>{stats.high_priority + stats.critical}</Text>
+          <Text style={styles.statLabel}>Prioridade Alta</Text>
+        </View>
+      </View>
+
+      {/* Ações */}
+      {stats.unread > 0 && (
+        <View style={styles.actionsContainer}>
+          <TouchableOpacity style={styles.markAllButton} onPress={markAllAsRead}>
+            <Text style={styles.markAllButtonText}>✅ Marcar Todas como Lidas</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Lista de Notificações */}
+      <View style={styles.notificationsContainer}>
+        <Text style={styles.sectionTitle}>📋 Suas Notificações</Text>
+        
+        {notifications.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyIcon}>📭</Text>
+            <Text style={styles.emptyTitle}>Nenhuma notificação</Text>
+            <Text style={styles.emptyDescription}>
+              Você está em dia! Não há notificações pendentes.
+            </Text>
+          </View>
+        ) : (
+          notifications.map((notification) => (
+            <View 
+              key={notification.id} 
+              style={[
+                styles.notificationCard,
+                !notification.read && styles.unreadNotificationCard
+              ]}
+            >
+              {/* Header da Notificação */}
+              <View style={styles.notificationHeader}>
+                <View style={styles.notificationMeta}>
+                  <Text style={styles.categoryIcon}>
+                    {getCategoryIcon(notification.category)}
+                  </Text>
+                  <View style={styles.priorityBadge}>
+                    <Text style={styles.priorityIcon}>
+                      {getPriorityIcon(notification.priority)}
+                    </Text>
+                    <View 
+                      style={[
+                        styles.priorityDot, 
+                        { backgroundColor: getPriorityColor(notification.priority) }
+                      ]} 
+                    />
+                  </View>
+                </View>
+                
+                <Text style={styles.notificationTime}>
+                  {formatDate(notification.created_at)}
+                </Text>
+              </View>
+
+              {/* Conteúdo da Notificação */}
+              <View style={styles.notificationContent}>
+                <Text style={[
+                  styles.notificationTitle,
+                  !notification.read && styles.unreadTitle
+                ]}>
+                  {notification.title}
+                </Text>
+                <Text style={styles.notificationMessage}>
+                  {notification.message}
+                </Text>
+              </View>
+
+              {/* Ações da Notificação */}
+              <View style={styles.notificationActions}>
+                {!notification.read && (
+                  <TouchableOpacity 
+                    style={styles.markReadButton}
+                    onPress={() => markAsRead(notification.id)}
+                  >
+                    <Text style={styles.markReadButtonText}>👁️ Marcar como Lida</Text>
+                  </TouchableOpacity>
+                )}
+                
+                <TouchableOpacity 
+                  style={styles.removeButton}
+                  onPress={() => removeNotification(notification.id)}
+                >
+                  <Text style={styles.removeButtonText}>🗑️ Remover</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))
+        )}
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#6b7280',
+    textAlign: 'center',
+  },
+  
+  // Header
+  header: {
+    padding: 20,
+    backgroundColor: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginBottom: 12,
+  },
+  retryButton: {
+    backgroundColor: '#3b82f6',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  retryButtonText: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+
+  // Stats
+  statsContainer: {
+    flexDirection: 'row',
+    padding: 20,
+    gap: 12,
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  totalCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#3b82f6',
+  },
+  unreadCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#ef4444',
+  },
+  priorityCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#f59e0b',
+  },
+  statNumber: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#6b7280',
+    textAlign: 'center',
+  },
+
+  // Actions
+  actionsContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 16,
+  },
+  markAllButton: {
+    backgroundColor: '#10b981',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  markAllButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  // Notifications
+  notificationsContainer: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 16,
+  },
+  
+  // Empty State
+  emptyState: {
+    alignItems: 'center',
+    paddingVertical: 40,
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+  },
+  emptyIcon: {
+    fontSize: 48,
+    marginBottom: 16,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 8,
+  },
+  emptyDescription: {
+    fontSize: 14,
+    color: '#6b7280',
+    textAlign: 'center',
+    maxWidth: 200,
+  },
+
+  // Notification Cards
+  notificationCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  unreadNotificationCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#3b82f6',
+    backgroundColor: '#f8faff',
+  },
+  
+  notificationHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  notificationMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  categoryIcon: {
+    fontSize: 20,
+  },
+  priorityBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  priorityIcon: {
+    fontSize: 12,
+  },
+  priorityDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  notificationTime: {
+    fontSize: 12,
+    color: '#6b7280',
+  },
+
+  notificationContent: {
+    marginBottom: 12,
+  },
+  notificationTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  unreadTitle: {
+    color: '#1e40af',
+  },
+  notificationMessage: {
+    fontSize: 14,
+    color: '#4b5563',
+    lineHeight: 20,
+  },
+
+  notificationActions: {
+    flexDirection: 'row',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  markReadButton: {
+    backgroundColor: '#e5e7eb',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  markReadButtonText: {
+    fontSize: 12,
+    color: '#374151',
+    fontWeight: '500',
+  },
+  removeButton: {
+    backgroundColor: '#fee2e2',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  removeButtonText: {
+    fontSize: 12,
+    color: '#dc2626',
+    fontWeight: '500',
+  },
+});
+
+export default NotificationsScreen;
+
+

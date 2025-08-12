@@ -1,0 +1,18 @@
+{
+  "provider": "mixpanel",
+  "apiKey": "MIXPANEL_API_KEY_PILOT",
+  "project": "dom-v2-pilot-sudeste",
+  "settings": {
+    "trackAnonymousUsers": true,
+    "persistentStorage": true,
+    "crossDomainTracking": true,
+    "respectDoNotTrack": true,
+    "dataRetention": 365
+  },
+  "customProperties": {
+    "environment": "production",
+    "pilotRegion": "sudeste",
+    "appVersion": "2.0.0",
+    "buildNumber": "local"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "profile": "admin",
+  "name": "Administrador do Sistema",
+  "estimatedTime": "45 minutos",
+  "priority": "high",
+  "steps": [
+    {
+      "id": "admin-welcome",
+      "title": "Painel de Administração",
+      "description": "Gerencie e monitore toda a plataforma DOM v2",
+      "type": "intro",
+      "duration": 90
+    },
+    {
+      "id": "analytics-overview",
+      "title": "Dashboard de Analytics",
+      "description": "Monitore KPIs e métricas em tempo real",
+      "type": "tutorial",
+      "duration": 360
+    },
+    {
+      "id": "user-management",
+      "title": "Gestão de Usuários",
+      "description": "Como gerenciar usuários e famílias",
+      "type": "tutorial",
+      "duration": 240
+    },
+    {
+      "id": "support-tools",
+      "title": "Ferramentas de Suporte",
+      "description": "Como dar suporte aos usuários",
+      "type": "tutorial",
+      "duration": 300
+    },
+    {
+      "id": "system-config",
+      "title": "Configurações do Sistema",
+      "description": "Como configurar parâmetros da plataforma",
+      "type": "tutorial",
+      "duration": 360
+    }
+  ]
+}

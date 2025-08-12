@@ -1,3 +1,76 @@
+
+/**
+ * Consideração de alternativas e trade-offs
+ * 
+ * @alternatives
+ * - Implementação atual: [DESCREVER IMPLEMENTAÇÃO ATUAL]
+ * - Alternativa 1: [DESCREVER ALTERNATIVA]
+ *   - Prós: [LISTAR VANTAGENS]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * - Alternativa 2: [DESCREVER ALTERNATIVA]
+ *   - Prós: [LISTAR VANTAGENS]
+ *   - Contras: [LISTAR DESVANTAGENS]
+ * 
+ * @decision
+ * Escolha da implementação atual baseada em:
+ * - [CRITÉRIO 1]
+ * - [CRITÉRIO 2]
+ * - [CRITÉRIO 3]
+ * 
+ * @trade-offs
+ * - Performance vs Simplicidade
+ * - Flexibilidade vs Complexidade
+ * - Segurança vs Usabilidade
+ */
+
+
+/**
+ * Referências externas e fontes de informação
+ * 
+ * @references
+ * - DOM v2 Documentation: docs/README.md
+ * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
+ * - Development Process: docs/development/processo-garantia-diretivas.md
+ * - API Documentation: docs/technologies/backend/apis.md
+ * - React Native Web: https://github.com/necolas/react-native-web
+ * - Prisma ORM: https://www.prisma.io/docs
+ * - TypeScript: https://www.typescriptlang.org/docs
+ * 
+ * @alternatives
+ * - Para autenticação: JWT, OAuth 2.0, Session-based
+ * - Para banco de dados: PostgreSQL, MySQL, MongoDB
+ * - Para frontend: React, Vue.js, Angular
+ * - Para mobile: React Native, Flutter, Native
+ * 
+ * @considerations
+ * - Performance: Otimização para dispositivos móveis
+ * - Segurança: LGPD compliance, criptografia
+ * - Escalabilidade: Arquitetura distribuída
+ * - Manutenibilidade: Código limpo e documentado
+ */
+
+
+/**
+ * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Implementação de funcionalidade
+ * seguindo as diretivas críticas do projeto DOM v2.
+ * 
+ * @dependencies
+ * - Dependências específicas do contexto
+ * 
+ * @usage
+ * Ver documentação específica para detalhes de uso
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 const fs = require('fs');
 const path = require('path');
 

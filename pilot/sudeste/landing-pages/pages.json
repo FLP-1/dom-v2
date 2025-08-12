@@ -1,0 +1,130 @@
+[
+  {
+    "state": "SP",
+    "url": "dom.app/sp",
+    "title": "Gestão Doméstica Inteligente - São Paulo",
+    "description": "Transforme a gestão da sua casa em São Paulo com tecnologia de ponta",
+    "keywords": [
+      "gestão doméstica São Paulo",
+      "empregada SP",
+      "eSocial São Paulo"
+    ],
+    "content": {
+      "hero": {
+        "headline": "Sua casa organizada com tecnologia paulista",
+        "subheadline": "Mais de 700k famílias em São Paulo precisam de uma solução inteligente",
+        "cta": "Teste Grátis - São Paulo"
+      },
+      "features": [
+        "eSocial automático para empregados domésticos",
+        "Chat familiar em tempo real",
+        "Controle de pagamentos e direitos",
+        "Relatórios de produtividade"
+      ],
+      "socialProof": {
+        "testimonials": [
+          {
+            "name": "Maria S. - São Paulo",
+            "text": "Revolucionou a gestão da minha casa. Recomendo!"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "state": "RJ",
+    "url": "dom.app/rj",
+    "title": "Gestão Doméstica Inteligente - Rio de Janeiro",
+    "description": "Transforme a gestão da sua casa em Rio de Janeiro com tecnologia de ponta",
+    "keywords": [
+      "gestão doméstica Rio de Janeiro",
+      "empregada RJ",
+      "eSocial Rio de Janeiro"
+    ],
+    "content": {
+      "hero": {
+        "headline": "Sua casa organizada com tecnologia carioca",
+        "subheadline": "Mais de 700k famílias em Rio de Janeiro precisam de uma solução inteligente",
+        "cta": "Teste Grátis - Rio de Janeiro"
+      },
+      "features": [
+        "eSocial automático para empregados domésticos",
+        "Chat familiar em tempo real",
+        "Controle de pagamentos e direitos",
+        "Relatórios de produtividade"
+      ],
+      "socialProof": {
+        "testimonials": [
+          {
+            "name": "Maria S. - Rio de Janeiro",
+            "text": "Revolucionou a gestão da minha casa. Recomendo!"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "state": "MG",
+    "url": "dom.app/mg",
+    "title": "Gestão Doméstica Inteligente - Minas Gerais",
+    "description": "Transforme a gestão da sua casa em Minas Gerais com tecnologia de ponta",
+    "keywords": [
+      "gestão doméstica Minas Gerais",
+      "empregada MG",
+      "eSocial Minas Gerais"
+    ],
+    "content": {
+      "hero": {
+        "headline": "Sua casa organizada com tecnologia mineira",
+        "subheadline": "Mais de 700k famílias em Minas Gerais precisam de uma solução inteligente",
+        "cta": "Teste Grátis - Minas Gerais"
+      },
+      "features": [
+        "eSocial automático para empregados domésticos",
+        "Chat familiar em tempo real",
+        "Controle de pagamentos e direitos",
+        "Relatórios de produtividade"
+      ],
+      "socialProof": {
+        "testimonials": [
+          {
+            "name": "Maria S. - Belo Horizonte",
+            "text": "Revolucionou a gestão da minha casa. Recomendo!"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "state": "ES",
+    "url": "dom.app/es",
+    "title": "Gestão Doméstica Inteligente - Espírito Santo",
+    "description": "Transforme a gestão da sua casa em Espírito Santo com tecnologia de ponta",
+    "keywords": [
+      "gestão doméstica Espírito Santo",
+      "empregada ES",
+      "eSocial Espírito Santo"
+    ],
+    "content": {
+      "hero": {
+        "headline": "Sua casa organizada com tecnologia capixaba",
+        "subheadline": "Mais de 700k famílias em Espírito Santo precisam de uma solução inteligente",
+        "cta": "Teste Grátis - Espírito Santo"
+      },
+      "features": [
+        "eSocial automático para empregados domésticos",
+        "Chat familiar em tempo real",
+        "Controle de pagamentos e direitos",
+        "Relatórios de produtividade"
+      ],
+      "socialProof": {
+        "testimonials": [
+          {
+            "name": "Maria S. - Vitória",
+            "text": "Revolucionou a gestão da minha casa. Recomendo!"
+          }
+        ]
+      }
+    }
+  }
+]

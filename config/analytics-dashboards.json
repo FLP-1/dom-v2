@@ -1,0 +1,111 @@
+{
+  "mainDashboard": {
+    "name": "Pilot Overview Dashboard",
+    "url": "https://analytics.dom-v2.com.br/pilot-sudeste",
+    "refresh": 300,
+    "widgets": [
+      {
+        "type": "kpi-grid",
+        "title": "KPIs Principais",
+        "metrics": [
+          "totalUsers",
+          "familiesRegistered",
+          "dau",
+          "mrr",
+          "conversionRate",
+          "churnRate",
+          "nps",
+          "responseTime"
+        ],
+        "size": "large"
+      },
+      {
+        "type": "line-chart",
+        "title": "Crescimento de Usuários",
+        "metrics": [
+          "totalUsers",
+          "familiesRegistered"
+        ],
+        "timeRange": "30d",
+        "size": "medium"
+      },
+      {
+        "type": "funnel",
+        "title": "Funil de Conversão",
+        "steps": [
+          "landing_page_visit",
+          "signup_started",
+          "signup_completed",
+          "onboarding_completed",
+          "first_task_completed",
+          "subscription_started"
+        ],
+        "size": "medium"
+      },
+      {
+        "type": "cohort-table",
+        "title": "Análise de Coortes",
+        "metric": "retention",
+        "groupBy": "week",
+        "size": "large"
+      },
+      {
+        "type": "geographic-map",
+        "title": "Distribuição Regional",
+        "metric": "activeUsers",
+        "region": "sudeste",
+        "size": "medium"
+      }
+    ]
+  },
+  "businessDashboard": {
+    "name": "Business Metrics Dashboard",
+    "url": "https://analytics.dom-v2.com.br/business-sudeste",
+    "widgets": [
+      {
+        "type": "revenue-chart",
+        "title": "Receita e Projeções",
+        "metrics": [
+          "mrr",
+          "projectedRevenue",
+          "ltv"
+        ],
+        "size": "large"
+      },
+      {
+        "type": "acquisition-cost",
+        "title": "CAC por Canal",
+        "channels": [
+          "google_ads",
+          "meta_ads",
+          "organic",
+          "referral"
+        ],
+        "size": "medium"
+      }
+    ]
+  },
+  "technicalDashboard": {
+    "name": "Technical Performance Dashboard",
+    "url": "https://analytics.dom-v2.com.br/tech-sudeste",
+    "widgets": [
+      {
+        "type": "performance-metrics",
+        "title": "Performance Técnica",
+        "metrics": [
+          "responseTime",
+          "uptime",
+          "errorRate",
+          "loadTime"
+        ],
+        "size": "large"
+      },
+      {
+        "type": "error-tracking",
+        "title": "Tracking de Erros",
+        "groupBy": "errorType",
+        "size": "medium"
+      }
+    ]
+  }
+}

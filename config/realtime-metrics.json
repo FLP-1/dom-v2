@@ -1,0 +1,54 @@
+{
+  "streams": [
+    {
+      "name": "user_activity",
+      "source": "application_events",
+      "aggregation": "count",
+      "window": "1m",
+      "metrics": [
+        "active_users",
+        "page_views",
+        "api_calls"
+      ]
+    },
+    {
+      "name": "business_metrics",
+      "source": "business_events",
+      "aggregation": "sum",
+      "window": "5m",
+      "metrics": [
+        "revenue",
+        "signups",
+        "conversions"
+      ]
+    },
+    {
+      "name": "technical_metrics",
+      "source": "system_events",
+      "aggregation": "avg",
+      "window": "30s",
+      "metrics": [
+        "response_time",
+        "error_rate",
+        "cpu_usage"
+      ]
+    }
+  ],
+  "alerts": {
+    "enabled": true,
+    "thresholds": {
+      "high_error_rate": {
+        "metric": "error_rate",
+        "threshold": 0.05
+      },
+      "slow_response": {
+        "metric": "response_time",
+        "threshold": 1000
+      },
+      "low_activity": {
+        "metric": "active_users",
+        "threshold": 10
+      }
+    }
+  }
+}

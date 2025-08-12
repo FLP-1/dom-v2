@@ -28,21 +28,47 @@ jobs:
       run: |
         cd frontend
         npm ci
+        cd ..
+        npm ci
         
-    - name: Run linting
+    - name: Validate directives (root)
+      run: |
+        npm run validate-directives
+
+    - name: Run linting (frontend)
       run: |
         cd frontend
         npm run lint
         
-    - name: Run tests
+    - name: Typecheck (frontend)
+      run: |
+        cd frontend
+        npm run typecheck
+
+    - name: Run tests (frontend)
       run: |
         cd frontend
         npm test
         
-    - name: Build application
+    - name: Build application (frontend)
       run: |
         cd frontend
         npm run build
+
+    - name: Backend - Install deps
+      run: |
+        cd backend
+        npm ci
+
+    - name: Backend - Build
+      run: |
+        cd backend
+        npm run build
+
+    - name: Backend - Tests
+      run: |
+        cd backend
+        npm run test:ci
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4

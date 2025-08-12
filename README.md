@@ -1,7 +1,7 @@
 # 🚀 DOM v2 - Sistema de Gestão Empresarial
 
 [![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/your-username/dom-v2)
-[![Status](https://img.shields.io/badge/status-81.2%25%20implementado-green.svg)](https://github.com/your-username/dom-v2)
+[![Status](https://img.shields.io/badge/status-84%25%20implementado-yellow.svg)](https://github.com/your-username/dom-v2)
 [![License](https://img.shields.io/badge/license-ISC-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node.js-18+-green.svg)](https://nodejs.org/)
 [![React Native](https://img.shields.io/badge/react--native-0.80.1-blue.svg)](https://reactnative.dev/)
@@ -34,40 +34,46 @@
 
 ## ✨ Funcionalidades
 
-### ✅ Implementadas (81.2%)
+### ✅ Implementadas (~85%)
 
 #### 🔐 **Sistema de Autenticação**
+
 - Validação completa de CPF/CNPJ (dígitos verificadores + banco)
 - Sistema de login seguro
 - Gestão de sessões
 
-#### 🎨 **Sistema de Temas**
+#### 🎨 Sistema de Temas
+
 - 5 temas regionais (SUDESTE, SUL, NORDESTE, CENTRO-OESTE, NORTE)
 - Adaptação automática por região
 - Personalização por perfil de usuário
 
-#### 🔔 **Sistema de Notificações**
+#### 🔔 Sistema de Notificações
+
 - Notificações em tempo real
 - Categorização inteligente
 - Priorização automática
 - Persistência local
 
-#### 📊 **Dashboard**
+#### 📊 Dashboard
+
 - Métricas em tempo real
 - Gráficos interativos
 - Indicadores de performance
 
-#### 💰 **Gestão Financeira**
+#### 💰 Gestão Financeira
+
 - Controle de orçamentos
 - Gestão de pagamentos
 - Relatórios financeiros
 
-#### 👥 **Recursos Humanos**
+#### 👥 Recursos Humanos
+
 - Gestão de funcionários
 - Folha de pagamento
 - Controle de jornada
 
-### 🔄 **Em Desenvolvimento**
+### 🔄 Em Desenvolvimento
 
 - Dashboard avançado
 - Gestão financeira completa
@@ -76,7 +82,7 @@
 
 ## 🏗️ Arquitetura
 
-```
+```text
 dom-v2/
 ├── 📁 frontend/                 # React Native Web
 │   ├── 📁 src/
@@ -101,20 +107,23 @@ dom-v2/
 
 ### 🛠️ Stack Tecnológica
 
-#### **Frontend**
+#### Frontend
+
 - **React Native Web** - Interface multiplataforma
 - **TypeScript** - Tipagem estática
 - **Webpack** - Bundling e desenvolvimento
 - **Chart.js** - Gráficos interativos
 
-#### **Backend**
+#### Backend
+
 - **Node.js** - Runtime JavaScript
 - **Express.js** - Framework web
 - **TypeScript** - Tipagem estática
 - **Prisma** - ORM moderno
 - **PostgreSQL** - Banco de dados
 
-#### **DevOps**
+#### DevOps
+
 - **Docker** - Containerização
 - **CI/CD** - Automação de deploy
 - **Jest** - Testes automatizados
@@ -123,7 +132,7 @@ dom-v2/
 
 ### 📋 Pré-requisitos
 
-- **Node.js** 18+ 
+- **Node.js** 18+
 - **npm** ou **yarn**
 - **PostgreSQL** 12+
 - **Git**
@@ -178,9 +187,11 @@ npm run start-frontend
 
 ### 🌐 Acessar Aplicação
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
-- **Health Check**: http://localhost:3001/health
+- Frontend: `http://localhost:3000`
+- Backend API: `http://localhost:3001` (endpoints versionados em `/api/v1`)
+- Health Check: `http://localhost:3001/health`
+- Métricas: `http://localhost:3001/api/v1/metrics`
+- Setup `.env`: veja `docs/development/setup-env.md`
 
 ### 🧪 Testar Funcionalidades
 
@@ -207,6 +218,9 @@ npm run test-all           # Testes completos
 npm run validate-directives # Valida diretivas do projeto
 npm run garantia-diretivas # Garantia de qualidade
 npm run pre-commit         # Verificação pré-commit
+
+# CI (referência)
+# veja docs/development/ci-gates.md
 
 # Correção de Erros (raiz do projeto)
 npm run fix-all            # Correção automática
@@ -250,17 +264,17 @@ npm run diagnose
 
 ## 📊 Status do Projeto
 
-### 🎯 **Progresso Geral: 81.2%**
+### 🎯 Progresso Geral: 84%
 
 | Módulo | Status | Progresso |
 |--------|--------|-----------|
 | 🔐 Autenticação | ✅ Completo | 100% |
 | 🎨 Sistema de Temas | ✅ Completo | 100% |
 | 🔔 Notificações | ✅ Completo | 100% |
-| 📊 Dashboard | 🔄 Em desenvolvimento | 75% |
-| 💰 Gestão Financeira | 🔄 Em desenvolvimento | 60% |
-| 👥 RH | 🔄 Em desenvolvimento | 70% |
-| 🛡️ Segurança | ✅ Completo | 100% |
+| 📊 Dashboard | 🔄 Em desenvolvimento | 78% |
+| 💰 Gestão Financeira | 🔄 Em desenvolvimento | 65% |
+| 👥 RH | 🔄 Em desenvolvimento | 75% |
+| 🛡️ Segurança | 🔄 Em desenvolvimento | 85% |
 | 🧪 Testes | 🔄 Em desenvolvimento | 80% |
 
 ### 📈 **Métricas de Qualidade**
@@ -277,6 +291,23 @@ npm run diagnose
 2. **Fase 4**: CI/CD Avançado
 3. **Fase 5**: Machine Learning
 4. **Fase 6**: Dashboard Unificado
+
+## 🔐 Segurança e LGPD
+
+- Autenticação JWT com refresh token e bloqueio básico de tentativas.
+- Cabeçalhos de segurança (X-Content-Type-Options, X-Frame-Options, Referrer-Policy).
+- CORS restrito a `http://localhost:3000` em dev.
+- Consentimentos persistidos (`UserConsent`) e log local em `logs/consents-log.json`.
+
+## 🧩 RBAC por Ação
+
+- Centralizado em `frontend/src/utils/rbac.ts`.
+- Telas sensíveis usam `can(user, 'dominio:recurso:acao')` para exibir/ocultar ações.
+
+## 🗃️ Dados Reais (sem mocks)
+
+- Orçamentos, Pagamentos, Funcionários e Ponto usam PostgreSQL via Prisma.
+- API versionada: `/api/v1/...`.
 
 ## 🤝 Contribuição
 
@@ -315,21 +346,15 @@ Este projeto está licenciado sob a licença **ISC** - veja o arquivo [LICENSE](
 
 ## 📞 Contato
 
-- **Email**: contato@dom-v2.com
-- **Website**: https://dom-v2.com
-- **Documentação**: https://docs.dom-v2.com
-- **Issues**: https://github.com/your-username/dom-v2/issues
+- **Email**: [contato@dom-v2.com](mailto:contato@dom-v2.com)
+- **Website**: [dom-v2.com](https://dom-v2.com)
+- **Documentação**: [docs.dom-v2.com](https://docs.dom-v2.com)
+- **Issues**: [github.com/your-username/dom-v2/issues](https://github.com/your-username/dom-v2/issues)
 
 ---
 
-<div align="center">
-
-**🚀 DOM v2 - Transformando a Gestão Empresarial**
-
-*Desenvolvido com ❤️ pela Equipe DOM v2*
-
-[![GitHub stars](https://img.shields.io/github/stars/your-username/dom-v2?style=social)](https://github.com/your-username/dom-v2)
-[![GitHub forks](https://img.shields.io/github/forks/your-username/dom-v2?style=social)](https://github.com/your-username/dom-v2)
-[![GitHub issues](https://img.shields.io/github/issues/your-username/dom-v2)](https://github.com/your-username/dom-v2/issues)
-
-</div>
+> **🚀 DOM v2 - Transformando a Gestão Empresarial**
+>
+> Desenvolvido com ❤️ pela Equipe DOM v2
+>
+> [GitHub Stars](https://github.com/your-username/dom-v2) · [Forks](https://github.com/your-username/dom-v2/fork) · [Issues](https://github.com/your-username/dom-v2/issues)

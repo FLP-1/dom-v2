@@ -51,7 +51,18 @@
     "setup-dev": "node scripts/install-dependencies.js",
     "clean-obsolete": "node scripts/limpeza-obsoletos-simples.js",
     "clean-obsolete-advanced": "node scripts/analisar-arquivos-obsoletos.js",
-    "clean-obsolete-powershell": "powershell -ExecutionPolicy Bypass -File scripts/limpeza-obsoletos.ps1"
+    "clean-obsolete-powershell": "powershell -ExecutionPolicy Bypass -File scripts/limpeza-obsoletos.ps1",
+    "validate-architecture": "node scripts/validate-architecture.js",
+    "validate-architecture-report": "node scripts/validate-architecture.js --report",
+    "setup-architecture-hooks": "node scripts/setup-architecture-hooks.js",
+    "generate:screen": "node scripts/generate-screen.js",
+    "generate:hook": "node scripts/generate-hook.js",
+    "generate:service": "node scripts/generate-service.js",
+    "architecture-guardian": "node scripts/architecture-guardian.js",
+    "guardian-start": "node scripts/architecture-guardian.js start",
+    "guardian-report": "node scripts/architecture-guardian.js report",
+    "generate-test-data": "cd backend && node ../scripts/generate-test-data.js",
+    "reset-db": "cd backend && npx prisma migrate reset --force && npx prisma db push && node ../scripts/generate-test-data.js"
   },
   "keywords": [
     "dom",
@@ -63,6 +74,10 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.2.0",
+    "glob": "^11.0.3",
     "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "react-router-dom": "^6.30.1"
   }
 }

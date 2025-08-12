@@ -1,5 +1,47 @@
 
 /**
+ * Sistema de logging estruturado
+ * @param {string} level - Nível do log (info, warn, error, debug)
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+function logStructured(level, message, data = {}) {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    level,
+    message,
+    data,
+    file: __filename,
+    function: arguments.callee.name || 'anonymous'
+  };
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+logStructured('info', 'Iniciando execução', { context: 'main' });
+
+
+/**
  * 
  * @alternatives
  * - Alternativa 1: [DESCREVER ALTERNATIVA]

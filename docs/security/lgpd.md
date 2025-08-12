@@ -1,5 +1,24 @@
 
 /**
+ * Validação de entrada de dados
+ * @param {any} data - Dados a serem validados
+ * @returns {boolean} - True se válido, false caso contrário
+ */
+function validateInput(data) {
+  if (!data) return false;
+  if (typeof data === 'string' && data.trim().length === 0) return false;
+  if (Array.isArray(data) && data.length === 0) return false;
+  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
+  return true;
+}
+
+// Aplicar validação
+if (!validateInput(inputData)) {
+  throw new Error('Dados de entrada inválidos');
+}
+
+
+/**
  * Consideração de alternativas e trade-offs
  * 
  * @alternatives
@@ -106,19 +125,14 @@ function assertCritical(condition, message = 'Assertion failed') {
   }
 }
 
-// Aplicar asserções críticas
-assertCritical(data !== null, 'Dados não podem ser null');
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
+// Nota: exemplos antigos com asserts genéricos foram removidos para evitar código não executável no doc.
 
 
 
-// Validação de entrada de dados
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}
+// Resumo técnico da implementação (MVP)
+// - Coleta: frontend via `AuthContext.login` com flags de consentimento
+// - Persistência: backend `server-dev.ts` (arquivo consents-log.json) + Prisma `UserConsent`
+// - Minimização: apenas campos necessários trafegam e são armazenados
 
 // Validação de tipos
 function validateType(value: any, expectedType: string): boolean {
@@ -140,21 +154,9 @@ function validateType(value: any, expectedType: string): boolean {
 
 
 
-// Tratamento de erros centralizado
-function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}:`, error.message);
-  // Implementar logging, notificação, etc.
-}
-
-// Wrapper para funções com tratamento de erro
-function safeExecute(fn: Function, context: string): any {
-  try {
-    return fn();
-  } catch (error) {
-    handleError(error as Error, context);
-    throw error;
-  }
-}
+// Próximos passos LGPD
+// - Tela “Minha Conta” para exportação/retificação
+// - Revogação/renovação de consentimento com trilha de auditoria
 
 /**
  * @fileoverview lgpd
@@ -164,34 +166,50 @@ function safeExecute(fn: Function, context: string): any {
  * @since 2025-07-26
  */
 
-# LGPD – Política e Implementação Técnica (DOM v2)
+## LGPD – Política e Implementação Técnica (DOM v2)
 
 Atualizado em: 2025-08-08
 
-## Fluxo de Consentimento (MVP)
+### 1) Escopo de dados pessoais tratados (MVP)
+- Identificação de usuário: `users.id` (UUID), `users.name`, `users.email`, `users.cpf`.
+- Consentimentos: `user_consents.(user_id?, cpf, termsAccepted, privacyAccepted, marketingAccepted, user_agent, ip_address, created_at)`.
+- Registros operacionais dev (file-store): `logs/*-dev.json` (budgets, payments, employees, timeclock) não devem conter dados sensíveis além do necessário para o MVP.
+
+Observação: `cpf` é dado pessoal sensível no contexto; limitar uso a autenticação e vinculação de consentimentos.
+
+### 2) Fluxo de consentimento (MVP)
 - Coleta no login (web):
-  - Termos de Uso: obrigatório (checkbox)
-  - Política de Privacidade: obrigatório (checkbox)
-  - Marketing: opcional (checkbox)
+  - Termos de Uso: obrigatório
+  - Política de Privacidade: obrigatório
+  - Marketing: opcional
 - Envio ao backend: `POST /api/auth/login` com `termsAccepted`, `privacyAccepted`, `marketingAccepted`.
-- Prova de consentimento (dev): registro em `logs/consents-log.json` com timestamp, cpf, userAgent e IP.
+- Prova (dev): registro em `logs/consents-log.json` com `timestamp`, `cpf`, `userAgent`, `ip`.
+- Persistência DB: criação em `user_consents` via Prisma com `user_id` quando identificável e `cpf` como fallback.
 
-## Próximos Passos (Backlog de Compliance)
-- Persistir consentimentos em banco (tabela `user_consents` com histórico).
-- Tela “Minha Conta” para gestão de consentimentos e exportação (LGPD Art. 18).
-- Política de retenção de logs e dados pessoais.
-- Relatórios de auditoria e trilhas de acesso.
+### 3) Retenção e descarte
+- Consentimentos: reter por no mínimo 5 anos após revogação ou término da relação, salvo obrigação legal distinta.
+- Logs dev (`logs/*.json`): rotacionar semanalmente em ambientes de desenvolvimento e não promover para produção.
+- Dados de sessão: seguir política de expiração definida em `user_sessions.expires_at`.
 
-## Checklists
-- Login exige consentimentos obrigatórios antes de autenticar.
-- Consentimentos enviados ao backend junto com as credenciais.
-- Registro de consentimentos armazenado (dev) e previsto para DB em produção.
+### 4) Direitos do titular (Art. 18)
+- Exportação e correção: backlog para tela “Minha Conta”.
+- Revogação de consentimento: incluir endpoint e UI em fase posterior (registrar nova linha em `user_consents`).
 
-## Comandos (PowerShell)
+### 5) Checklists de conformidade (MVP)
+- [x] Consentimentos obrigatórios antes de autenticar.
+- [x] Persistência de consentimentos em arquivo + tentativa de gravação em `user_consents` (dev) com `user_id` quando possível.
+- [x] Minimização: apenas dados necessários no login e nos módulos MVP.
+- [x] Auditoria: trilha básica via `consents-log.json` e tabelas relacionais.
+
+### 6) Notas técnicas
+- Backend: `backend/src/server-dev.ts` registra consentimentos (arquivo) e insere em `user_consents` quando disponível.
+- Banco: `backend/prisma/schema.prisma` contém o modelo `UserConsent` com índices por `user_id` e `cpf`.
+
+### 7) Comandos (PowerShell)
 ```powershell
 # Diretório: C:\dom-v2\frontend
-npm run dev
+npm install; npm run dev
 
 # Diretório: C:\dom-v2\backend
-npm run dev
+npm install; npm run dev
 ```

@@ -28,14 +28,23 @@
     }
   },
   "include": [
-    "src/**/*",
-    "prisma/**/*"
+    "src/server-dev.ts",
+    "src/utils/**/*",
+    "src/generated/**/*"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "**/*.test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "prisma/**/*.ts",
+    "src/server.ts",
+    "src/server-simple.ts",
+    "src/server-simple-test.ts",
+    "src/server-simple-dashboard.ts",
+    "src/server-real-database.ts",
+    "src/server-dashboard-test.ts",
+    "src/server-prisma.ts"
   ],
   "ts-node": {
     "transpileOnly": true

@@ -19,6 +19,12 @@ npm run dev
   - `POST http://localhost:3001/api/budgets`
   - `GET http://localhost:3001/api/payments`
   - `POST http://localhost:3001/api/payments`
+  - `GET http://localhost:3001/api/timeclock`
+  - `POST http://localhost:3001/api/timeclock`
+  - `GET http://localhost:3001/api/employees`
+  - `POST http://localhost:3001/api/employees`
+  - `PUT http://localhost:3001/api/employees/:id`
+  - `DELETE http://localhost:3001/api/employees/:id`
 
 Certifique-se de rodar o backend:
 
@@ -65,6 +71,35 @@ This is one way to run your app — you can also build it directly from Android 
 - Use “+ Novo” para criar registros de exemplo (ambiente dev).
 
 Now that you have successfully run the app, let's make changes!
+## Como usar Ponto (Time Clock)
+
+- Faça login no app.
+- No dashboard, clique em “Ponto”.
+- Use os botões para bater ponto (entrada/saída) e veja o histórico listado.
+
+## Como usar Funcionários
+
+- Faça login no app.
+- No dashboard, clique em “Funcionários”.
+- Veja a lista de funcionários.
+- Use o formulário na parte inferior para adicionar um novo.
+- Clique em “Editar” para carregar os dados no formulário, altere e “Salvar”.
+- Clique em “Excluir” para remover um registro.
+
+Observação: ao criar um funcionário, o backend dev associa o registro ao usuário logado (via `cpf`) quando disponível.
+
+### RBAC (perfis e permissões)
+
+- Perfis com gestão (admin, employer):
+  - Podem criar/editar/excluir em Funcionários.
+  - Podem criar novos registros em Orçamentos e Pagamentos.
+- Perfis sem gestão (employee, family):
+  - Visualização apenas (sem botões de criação/edição/exclusão).
+
+### Dicas de UX
+
+- Campo de salário aceita formatos PT-BR (ex.: `1.234,56`). O valor é sanitizado e validado antes do envio.
+
 
 Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
 

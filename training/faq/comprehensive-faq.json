@@ -1,0 +1,153 @@
+{
+  "categories": {
+    "getting-started": {
+      "name": "Primeiros Passos",
+      "icon": "🚀",
+      "questions": [
+        {
+          "id": "what-is-dom-v2",
+          "question": "O que é o DOM v2?",
+          "answer": "O DOM v2 é uma plataforma revolucionária para gestão doméstica que conecta famílias e empregados domésticos através de comunicação em tempo real, gamificação e organização inteligente de tarefas.",
+          "tags": [
+            "básico",
+            "introdução"
+          ]
+        },
+        {
+          "id": "how-to-register",
+          "question": "Como me cadastro no DOM v2?",
+          "answer": "Para se cadastrar: 1) Baixe o app ou acesse nosso site, 2) Clique em \"Cadastrar\", 3) Escolha seu perfil (Empregador, Empregado ou Família), 4) Preencha suas informações básicas, 5) Confirme seu email. Pronto!",
+          "tags": [
+            "cadastro",
+            "registro",
+            "conta"
+          ]
+        },
+        {
+          "id": "first-steps",
+          "question": "Quais são os primeiros passos após o cadastro?",
+          "answer": "Após o cadastro, siga nosso onboarding: 1) Complete seu perfil, 2) Adicione membros da família ou empregados, 3) Faça o tour pelas funcionalidades, 4) Crie sua primeira tarefa, 5) Teste o chat familiar. O sistema te guiará em cada passo!",
+          "tags": [
+            "onboarding",
+            "primeiros-passos"
+          ]
+        }
+      ]
+    },
+    "communication": {
+      "name": "Comunicação",
+      "icon": "💬",
+      "questions": [
+        {
+          "id": "how-chat-works",
+          "question": "Como funciona o chat familiar?",
+          "answer": "O chat familiar permite comunicação em tempo real entre todos os membros. Você pode enviar mensagens de texto, áudios, emojis e até mencionar pessoas específicas. Todas as mensagens ficam salvas para consulta posterior.",
+          "tags": [
+            "chat",
+            "comunicação",
+            "mensagens"
+          ]
+        },
+        {
+          "id": "audio-messages",
+          "question": "Como enviar mensagens de áudio?",
+          "answer": "Para enviar áudio: 1) Abra o chat, 2) Pressione e segure o botão do microfone, 3) Fale sua mensagem (máximo 60 segundos), 4) Solte o botão para enviar automaticamente. É perfeito para instruções detalhadas!",
+          "tags": [
+            "áudio",
+            "mensagens",
+            "microfone"
+          ]
+        },
+        {
+          "id": "notifications",
+          "question": "Como funcionam as notificações?",
+          "answer": "As notificações são inteligentes e categorizadas por prioridade: Urgentes (vermelho), Importantes (amarelo), Informativas (azul). Você pode personalizar quais tipos receber e definir horários silenciosos.",
+          "tags": [
+            "notificações",
+            "alertas",
+            "configurações"
+          ]
+        }
+      ]
+    },
+    "gamification": {
+      "name": "Gamificação",
+      "icon": "🎮",
+      "questions": [
+        {
+          "id": "points-system",
+          "question": "Como funciona o sistema de pontos?",
+          "answer": "Você ganha pontos completando tarefas. Cada tarefa tem uma pontuação base, mas você pode ganhar bônus por qualidade (+25%), consistência (+10% por dia consecutivo) e trabalho em equipe (+15%). Pontos podem ser trocados por recompensas!",
+          "tags": [
+            "pontos",
+            "gamificação",
+            "recompensas"
+          ]
+        },
+        {
+          "id": "badges",
+          "question": "O que são badges e como ganhá-las?",
+          "answer": "Badges são conquistas especiais por atividades únicas: Mestre da Limpeza (100 tarefas), Streak de Fogo (30 dias consecutivos), Espírito de Equipe (50 ajudas). Cada badge tem raridade: comum, rara, épica ou lendária!",
+          "tags": [
+            "badges",
+            "conquistas",
+            "gamificação"
+          ]
+        },
+        {
+          "id": "rewards-store",
+          "question": "Como funciona a loja de recompensas?",
+          "answer": "Use seus pontos para resgatar: Privilégios (escolher filme, passe livre), Tratamentos (sobremesa, pizza), Atividades (noite de jogos, amigo para dormir), Compras (itens até R$ 50). Cada família pode personalizar as recompensas!",
+          "tags": [
+            "recompensas",
+            "loja",
+            "pontos"
+          ]
+        }
+      ]
+    },
+    "technical": {
+      "name": "Suporte Técnico",
+      "icon": "🔧",
+      "questions": [
+        {
+          "id": "app-not-working",
+          "question": "O app não está funcionando, o que fazer?",
+          "answer": "Tente estas soluções: 1) Feche e abra o app novamente, 2) Verifique sua conexão com internet, 3) Atualize o app na loja, 4) Reinicie seu celular, 5) Se persistir, entre em contato conosco com detalhes do problema.",
+          "tags": [
+            "problemas",
+            "app",
+            "suporte"
+          ]
+        },
+        {
+          "id": "sync-issues",
+          "question": "Minhas informações não estão sincronizando",
+          "answer": "Para resolver problemas de sincronização: 1) Verifique se está conectado à internet, 2) Force a atualização puxando a tela para baixo, 3) Saia e entre novamente na conta, 4) Se não resolver, contate nosso suporte.",
+          "tags": [
+            "sincronização",
+            "dados",
+            "conectividade"
+          ]
+        },
+        {
+          "id": "account-recovery",
+          "question": "Esqueci minha senha, como recuperar?",
+          "answer": "Na tela de login, clique em \"Esqueci minha senha\", digite seu email e clique em \"Enviar\". Você receberá um link para criar uma nova senha. Verifique também a pasta de spam. O link expira em 24h.",
+          "tags": [
+            "senha",
+            "recuperação",
+            "conta"
+          ]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "lastUpdated": "2025-08-10T02:36:53.716Z",
+    "totalQuestions": 12,
+    "averageRating": 4.7,
+    "language": "pt-BR",
+    "version": "2.0.0"
+  }
+}

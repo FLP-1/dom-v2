@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": "test-user-1",
+      "name": "Test User 1",
+      "email": "test1@dom-v2.com",
+      "role": "EMPLOYER"
+    },
+    {
+      "id": "test-user-2",
+      "name": "Test User 2",
+      "email": "test2@dom-v2.com",
+      "role": "EMPLOYEE"
+    },
+    {
+      "id": "test-user-3",
+      "name": "Test User 3",
+      "email": "test3@dom-v2.com",
+      "role": "FAMILY"
+    }
+  ],
+  "families": [
+    {
+      "id": "test-family-1",
+      "name": "Família Teste 1",
+      "members": [
+        "test-user-1",
+        "test-user-3"
+      ]
+    }
+  ],
+  "communications": [
+    {
+      "id": "test-chat-1",
+      "familyId": "test-family-1",
+      "type": "family_chat"
+    }
+  ],
+  "gamification": [
+    {
+      "userId": "test-user-3",
+      "points": 150,
+      "level": 2,
+      "badges": [
+        "first-task"
+      ]
+    }
+  ]
+}

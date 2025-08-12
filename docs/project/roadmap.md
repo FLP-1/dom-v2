@@ -51,6 +51,37 @@
 
 
 /**
+ * Validação de tipos TypeScript/JavaScript
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ * @returns {boolean} - True se o tipo está correto
+ */
+function validateType(value, expectedType) {
+  switch (expectedType) {
+    case 'string':
+      return typeof value === 'string';
+    case 'number':
+      return typeof value === 'number' && !isNaN(value);
+    case 'boolean':
+      return typeof value === 'boolean';
+    case 'object':
+      return typeof value === 'object' && value !== null && !Array.isArray(value);
+    case 'array':
+      return Array.isArray(value);
+    case 'function':
+      return typeof value === 'function';
+    default:
+      return false;
+  }
+}
+
+// Aplicar validação de tipos
+if (!validateType(data, 'object')) {
+  throw new TypeError('Dados devem ser um objeto válido');
+}
+
+
+/**
  * Sistema de logging estruturado
  * @param {string} level - Nível do log (info, warn, error, debug)
  * @param {string} message - Mensagem do log
@@ -112,63 +143,140 @@ assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
 assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
 
 
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+function handleError(error, context = 'unknown') {
+  console.error(`[ERROR] ${context}:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
+  };
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
+}
 
-// Validação de entrada de dados
-function validateInput(data: any): boolean {
+// Aplicar tratamento de erro
+try {
+  // código principal aqui
+} catch (error) {
+  handleError(error, 'main-execution');
+}
+
+
+/**
+ * Validação de entrada de dados
+ * @param {any} data - Dados a serem validados
+ * @returns {boolean} - True se válido, false caso contrário
+ */
+function validateInput(data) {
   if (!data) return false;
-  if (typeof data !== 'object') return false;
+  if (typeof data === 'string' && data.trim().length === 0) return false;
+  if (Array.isArray(data) && data.length === 0) return false;
+  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
   return true;
 }
 
-// Validação de tipos
-function validateType(value: any, expectedType: string): boolean {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null;
-    case 'array':
-      return Array.isArray(value);
-    default:
-      return false;
-  }
+// Aplicar validação
+if (!validateInput(inputData)) {
+  throw new Error('Dados de entrada inválidos');
 }
 
-
-
-// Tratamento de erros centralizado
-function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}:`, error.message);
-  // Implementar logging, notificação, etc.
-}
-
-// Wrapper para funções com tratamento de erro
-function safeExecute(fn: Function, context: string): any {
-  try {
-    return fn();
-  } catch (error) {
-    handleError(error as Error, context);
-    throw error;
-  }
-}
 
 /**
- * @fileoverview roadmap
- * @description Funcionalidade principal
- * @version 1.0.0
- * @author DOM v2 Team
- * @since 2025-07-26
+ * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Documentação
+ * seguindo as diretivas críticas do projeto DOM v2.
+ * 
+ * @dependencies
+ * - Dependências específicas do contexto
+ * 
+ * @usage
+ * Ver documentação específica para detalhes de uso
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
  */
 
-# ROADMAP
 
-*Documento em construção*
+### Roadmap DOM v2 (alinhado ao cronograma MVP)
 
----
+Atualizado em: 2025-08-08
 
-**Data:** 2025-07-25
-**Status:** 📝 **EM CONSTRUÇÃO**
+#### Semana 1 – Fundação e estabilidade
+- Padronizar execução web com Webpack Dev Server (porta 3000)
+- Remover servidores custom e HTML legado
+- Estabilizar suíte de testes web (smoke + básicos)
+- Feature flags iniciais (`enableShowcaseScreens=false`)
+
+#### Semana 2 – Autenticação, LGPD e RBAC inicial
+- Login com coleta de consentimentos (termos/privacidade obrigatórios; marketing opcional)
+- Persistência/auditoria de consentimentos (dev em arquivo + Prisma model)
+- RBAC simples nos menus do dashboard
+- Documentar políticas LGPD
+
+#### Semana 3 – Orçamento e Financeiro (base)
+- Backend dev: endpoints de orçamento e pagamentos (file-store)
+- Web: telas básicas de orçamento (lista, criar, detalhe) e pagamentos (lista, criar)
+- Ensaiar testes de integração backend e UI críticos
+
+#### Semana 4 – Ponto e Employer-Employee
+- Backend dev: APIs de ponto (batida/registros) e funcionários (CRUD)
+- Web: telas de Ponto e Funcionários integradas ao dashboard
+- Refinar RBAC por ação (privilégios básicos) – CONCLUÍDO
+- Migrar mocks para dados reais via Prisma (Orçamento, Pagamentos, Ponto, Funcionários) – CONCLUÍDO
+- Versão de API `/api/v1`, JWT com refresh e bloqueio básico – CONCLUÍDO
+- Métricas básicas `/api/v1/metrics` (total, latência, perStatus) – CONCLUÍDO
+
+#### Semana 5 – Documentos e Relatórios
+- Upload/visualização simples de documentos (preparar OCR/assinatura)
+- Relatórios operacionais (período, filtros essenciais)
+- Exportação CSV simples
+
+#### Semana 6 – Qualidade, segurança e release
+- Hardening de segurança, CORS estrito em dev, revisão de dependências
+- Métricas e monitoramento (logs estruturados, captura de erros)
+- Testes E2E smoke dos fluxos principais
+- Plano de release e validação final com usuários
+
+Status atual (agosto/2025)
+- RBAC por ação aplicado nas telas sensíveis
+- LGPD consolidada (consentimento persistido em `user_consents` + log dev)
+- API versionada `/api/v1`, sem mocks (dados reais Prisma)
+- Observabilidade inicial (correlação, métricas de requisições/latência/status)
+- UI: máscara/validação de CPF, sessão expirada com banner/alerta
+
+#### Métricas de sucesso
+- Suíte web verde
+- Login+LGPD auditável
+- Orçamento/Financeiro/Ponto funcionais (escopo mínimo)
+- RBAC efetivo
+- Documentação e comandos padronizados

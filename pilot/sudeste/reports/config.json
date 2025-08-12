@@ -1,0 +1,54 @@
+{
+  "region": "sudeste",
+  "frequency": {
+    "daily": [
+      "user_registrations",
+      "revenue",
+      "support_tickets"
+    ],
+    "weekly": [
+      "cohort_analysis",
+      "marketing_performance",
+      "feature_adoption"
+    ],
+    "monthly": [
+      "churn_analysis",
+      "ltv_calculation",
+      "regional_comparison"
+    ]
+  },
+  "recipients": {
+    "daily": [
+      "operations@dom.app"
+    ],
+    "weekly": [
+      "management@dom.app",
+      "marketing@dom.app"
+    ],
+    "monthly": [
+      "executives@dom.app",
+      "board@dom.app"
+    ]
+  },
+  "templates": [
+    {
+      "name": "Weekly Pilot Report",
+      "sections": [
+        "executive_summary",
+        "key_metrics",
+        "marketing_performance",
+        "user_feedback",
+        "next_steps"
+      ]
+    },
+    {
+      "name": "Monthly Regional Analysis",
+      "sections": [
+        "regional_breakdown",
+        "competitive_analysis",
+        "market_penetration",
+        "financial_summary"
+      ]
+    }
+  ]
+}

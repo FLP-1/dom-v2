@@ -1,0 +1,609 @@
+{
+  "user": {
+    "user_registered": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "registrationMethod": {
+          "type": "string"
+        },
+        "referralSource": {
+          "type": "string"
+        }
+      }
+    },
+    "profile_completed": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "first_login": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "onboarding_completed": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "subscription_started": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "subscription_cancelled": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "feature": {
+    "chat_first_message": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "audio_first_sent": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "gamification_first_points": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "task_completed": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "taskType": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "pointsEarned": {
+          "type": "number"
+        }
+      }
+    },
+    "badge_earned": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "reward_claimed": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "business": {
+    "payment_attempted": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "payment_successful": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "paymentMethod": {
+          "type": "string"
+        }
+      }
+    },
+    "payment_failed": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "upgrade_requested": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "downgrade_requested": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "refund_requested": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "support": {
+    "help_requested": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "ticket_created": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "bug_reported": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "feedback_submitted": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "rating_given": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "required": true
+        },
+        "timestamp": {
+          "type": "datetime",
+          "required": true
+        },
+        "sessionId": {
+          "type": "string",
+          "required": false
+        },
+        "device": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

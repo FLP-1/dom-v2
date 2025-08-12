@@ -1,0 +1,293 @@
+
+
+/**
+ * Validação de tipos TypeScript/JavaScript
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ * @returns {boolean} - True se o tipo está correto
+ */
+
+}
+
+// Aplicar validação de tipos
+ {
+  throw new TypeError('Dados devem ser um objeto válido');
+}
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} level - Nível do log (info, warn, error, debug)
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+;
+  
+  // Console output
+  const consoleMethod = level === 'error' ? 'error' : 
+                       level === 'warn' ? 'warn' : 
+                       level === 'debug' ? 'debug' : 'log';
+  
+  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
+  
+  // File logging
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'application.log'),
+      JSON.stringify(logEntry) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+}
+
+// Aplicar logging
+
+/**
+ * Asserções de validação crítica
+ * @param {any} condition - Condição a ser validada
+ * @param {string} message - Mensagem de erro
+ * @throws {Error} Se a condição for falsa
+ */
+`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
+}
+
+// Aplicar asserções críticas
+
+assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
+
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+:`, error.message);
+  
+  // Log estruturado para debugging
+  const errorLog = {
+    timestamp: new Date().toISOString(),
+    context,
+    message: error.message,
+    stack: error.stack,
+    type: error.constructor.name
+  };
+  
+  // Salvar log de erro
+  try {
+    const logsDir = path.join(__dirname, 'logs');
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+    fs.appendFileSync(
+      path.join(logsDir, 'error-log.json'),
+      JSON.stringify(errorLog) + '\n'
+    );
+  } catch (logError) {
+    console.error('Erro ao salvar log:', logError.message);
+  }
+  
+  // Re-throw para tratamento superior
+  throw error;
+}
+
+// Aplicar tratamento de erro
+try {
+  // código principal aqui
+} catch (error) {
+  
+}
+
+/**
+ * Validação de entrada de dados
+ * @param {any} data - Dados a serem validados
+ * @returns {boolean} - True se válido, false caso contrário
+ */
+function validateInput(data) {
+  if (!data) return false;
+  if (typeof data === 'string' && data.trim().length === 0) return false;
+  if (Array.isArray(data) && data.length === 0) return false;
+  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
+  return true;
+}
+
+// Aplicar validação
+ {
+  throw new Error('Dados de entrada inválidos');
+}
+
+/**
+ * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Utilitários e funções auxiliares
+ * seguindo as diretivas críticas do projeto DOM v2.
+ * 
+ * @dependencies
+ * - Dependências específicas do contexto
+ * 
+ * @usage
+ * import { functionName } from "./utils";
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
+export type MessageType = 'success' | 'error' | 'warning' | 'info' | 'loading';
+export type MessageCategory = 'auth' | 'task' | 'finance' | 'system' | 'notification';
+export type UserProfile = 'employer' | 'employee' | 'family' | 'partner' | 'admin' | 'owner';
+export type BrazilianRegion = 'southeast' | 'south' | 'northeast' | 'centerwest' | 'north';
+
+export interface MessageConfig {
+  type: MessageType;
+  category: MessageCategory;
+  title?: string;
+  message?: string;
+  description?: string;
+  actionText?: string;
+  icon?: string;
+}
+
+export interface ProfileMessages {
+  [key: string]: MessageConfig;
+}
+
+export interface RegionalMessages {
+  [key: string]: string;
+}
+
+const profileMessages: Record<UserProfile, ProfileMessages> = {
+  employer: {
+    'auth.login.success': {
+      type: 'success',
+      category: 'auth',
+      title: 'Bem-vindo de volta!',
+      message: 'Login realizado com sucesso. Acesse seu dashboard para gerenciar sua casa.',
+      actionText: 'Ir para Dashboard',
+      icon: 'home',
+    },
+  },
+  employee: {
+    'auth.login.success': {
+      type: 'success',
+      category: 'auth',
+      message: 'Login realizado com sucesso. Veja suas tarefas do dia.',
+      actionText: 'Ver Tareras',
+      icon: 'task',
+    },
+  },
+  family: {
+    'auth.login.success': {
+      type: 'success',
+      category: 'auth',
+      message: 'Login realizado com sucesso. Participe das atividades familiares.',
+      actionText: 'Ver Atividades',
+      icon: 'family',
+    },
+  },
+  partner: {
+    'auth.login.success': {
+      type: 'success',
+      category: 'auth',
+      title: 'Acesso ao Sistema',
+      message: 'Login realizado com sucesso. Gerencie suas propriedades.',
+      actionText: 'Dashboard Executivo',
+      icon: 'chart',
+    },
+  },
+  admin: {
+    'auth.login.success': {
+      type: 'success',
+      category: 'auth',
+      title: 'Acesso Administrativo',
+      actionText: 'Painel Admin',
+      icon: 'admin',
+    },
+  },
+  owner: {
+    'auth.login.success': {
+      type: 'success',
+      category: 'auth',
+      title: 'Acesso Executivo',
+      actionText: 'Dashboard Executivo',
+      icon: 'owner',
+    },
+  },
+};
+
+const regionalAdaptations: Record<BrazilianRegion, RegionalMessages> = {
+  southeast: {
+    welcome: 'Bem-vindo ao DOM v2!',
+    success: 'Sucesso!',
+    error: 'Ops! Algo deu errado.',
+    loading: 'Carregando...',
+  },
+  south: {
+    welcome: 'Bem-vindo ao DOM v2!'
+  },
+  northeast: {
+    welcome: 'Bem-vindo ao DOM v2!'
+  },
+  centerwest: {
+    welcome: 'Bem-vindo ao DOM v2!'
+  },
+  north: {
+    welcome: 'Bem-vindo ao DOM v2!'
+  },
+};
+
+export const getProfileMessage = (
+  profile: UserProfile,
+  messageKey: string,
+  region: BrazilianRegion = 'southeast'
+): MessageConfig | null => {
+  const profileMsg = profileMessages[profile]?.[messageKey];
+  if (!profileMsg) return null;
+  const regional = regionalAdaptations[region] || {};
+  return {
+    ...profileMsg,
+    title: profileMsg.title || regional['welcome'] || 'Mensagem',
+    message: profileMsg.message || regional['success'] || 'Sucesso',
+  };
+};
+
+export const getRegionalText = (
+  key: string,
+  region: BrazilianRegion = 'southeast'
+): string => {
+  return regionalAdaptations[region]?.[key] || key;
+};
+
+export const createCustomMessage = (
+  type: MessageType,
+  category: MessageCategory,
+  title: string,
+  message: string,
+  options: Partial<MessageConfig> = {}
+): MessageConfig => ({ type, category, title, message, ...options });
+
+export const getProfileMessages = (profile: UserProfile): ProfileMessages => {
+  return profileMessages[profile] || {};
+};
+
+export const getRegionalAdaptations = (region: BrazilianRegion): RegionalMessages => {
+  return regionalAdaptations[region] || {};
+};
+
+export default {
+  getProfileMessage,
+  getRegionalText,
+  createCustomMessage,
+  getProfileMessages,
+  getRegionalAdaptations,
+};
+

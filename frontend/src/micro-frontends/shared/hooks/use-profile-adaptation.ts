@@ -1,39 +1,4 @@
 
-/**
- * 
- * @alternatives
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
-  */
-
-
-/**
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
-  */
-
 
 /**
  * @param {string} message - Mensagem de erro
@@ -46,14 +11,12 @@
 
 // Validação crítica removida - causava erro de referência
 
-
-
 /**
  * Sistema de logging estruturado
  * @param {string} message - Mensagem do log
  * @param {any} data - Dados adicionais
   */
-function log(level: string, message: string, data?: any): void {
+function log(level: string, message: string, data?: unknown): void {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}
 
@@ -61,7 +24,7 @@ function log(level: string, message: string, data?: any): void {
  * @param {any} value - Valor a ser validado
  * @param {string} expectedType - Tipo esperado
   */
-function validateType(value: any, expectedType: string): boolean {
+function typeof value: unknown === expectedType: string: boolean {
   switch (expectedType) {
     case 'string':
       return typeof value === 'string';
@@ -89,22 +52,16 @@ import { useTheme } from '../utils/theme-provider';
 /**
  * @param {any} data - Dados a serem validados
   */
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}
 
 /**
  * Tratamento de erros centralizado
  * @param {Error} error - Erro capturado
  * @param {string} context - Contexto onde o erro ocorreu
   */
-function handleError(error: Error, context: string): void {
+function console.error('Error in context: string:', error: Error);: void {
   console.error(`[ERROR] ${context}:`, error.message);
 }
 import { getMessage } from '../utils/messages';
-
 
 export function useProfileAdaptation() {
   const { profile, config } = useTheme();

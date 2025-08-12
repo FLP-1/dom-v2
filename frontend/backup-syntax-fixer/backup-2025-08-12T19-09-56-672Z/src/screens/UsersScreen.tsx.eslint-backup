@@ -1,0 +1,673 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Modal, Alert } from 'react-native';
+import { useUsersData } from '../hooks/useUsersData.ts';
+
+const UsersScreen: React.FC = () => {
+  const { 
+    users, 
+    selectedUser,
+    stats, 
+    loading, 
+    creating,
+    error, 
+    filters,
+    loadUserDetail,
+    createUser,
+    updateUser,
+    deactivateUser,
+    resetPassword,
+    applyFilters,
+    reload,
+    clearSelectedUser,
+    hasUsers,
+    getProfileColor,
+    formatCpf,
+    formatPhone
+  } = useUsersData();
+
+  // Estados locais
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [searchText, setSearchText] = useState(filters.search || '');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
+  
+  // Estados do formulário
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    cpf: '',
+    phone: '',
+    profile: 'employer'
+  });
+
+  // Aplicar filtros
+  const handleSearch = () => {
+    applyFilters({
+      search: searchText || undefined,
+      status: statusFilter === 'all' ? undefined : statusFilter
+    });
+  };
+
+  // Submeter criação
+  const handleSubmitCreate = async () => {
+    if (!formData.name || !formData.email || !formData.cpf) {
+      Alert.alert('Erro', 'Nome, email e CPF são obrigatórios');
+      return;
+    }
+
+    const result = await createUser({
+      name: formData.name,
+      email: formData.email,
+      cpf: formData.cpf,
+      phone: formData.phone || undefined,
+      profile: formData.profile
+    });
+
+    if (result) {
+      Alert.alert('Sucesso', `Usuário criado! Senha temporária: ${result.temp_password}`);
+      setShowCreateModal(false);
+    }
+  };
+
+  if (loading && users.length === 0) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.loadingText}>Carregando usuários...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.title}>👥 Gestão de Usuários</Text>
+        <Text style={styles.subtitle}>Administre usuários do sistema.</Text>
+      </View>
+
+      {/* Estatísticas */}
+      <View style={styles.statsContainer}>
+        <View style={styles.statCard}>
+          <Text style={styles.statValue}>{stats.total_users}</Text>
+          <Text style={styles.statLabel}>Total</Text>
+        </View>
+        <View style={styles.statCard}>
+          <Text style={[styles.statValue, { color: '#34C759' }]}>{stats.active_users}</Text>
+          <Text style={styles.statLabel}>Ativos</Text>
+        </View>
+        <View style={styles.statCard}>
+          <Text style={[styles.statValue, { color: '#FF3B30' }]}>{stats.inactive_users}</Text>
+          <Text style={styles.statLabel}>Inativos</Text>
+        </View>
+        <View style={styles.statCard}>
+          <Text style={[styles.statValue, { color: '#007AFF' }]}>{stats.activity_rate}%</Text>
+          <Text style={styles.statLabel}>Taxa Ativa</Text>
+        </View>
+      </View>
+
+      {/* Filtros */}
+      <View style={styles.filtersContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Buscar por nome, email ou CPF..."
+          value={searchText}
+          onChangeText={setSearchText}
+          onSubmitEditing={handleSearch}
+        />
+        
+        <View style={styles.filterRow}>
+          <TouchableOpacity 
+            style={[styles.filterButton, statusFilter === 'all' && styles.filterButtonActive]}
+            onPress={() => setStatusFilter('all')}
+          >
+            <Text style={[styles.filterButtonText, statusFilter === 'all' && styles.filterButtonTextActive]}>Todos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.filterButton, statusFilter === 'active' && styles.filterButtonActive]}
+            onPress={() => setStatusFilter('active')}
+          >
+            <Text style={[styles.filterButtonText, statusFilter === 'active' && styles.filterButtonTextActive]}>Ativos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.filterButton, statusFilter === 'inactive' && styles.filterButtonActive]}
+            onPress={() => setStatusFilter('inactive')}
+          >
+            <Text style={[styles.filterButtonText, statusFilter === 'inactive' && styles.filterButtonTextActive]}>Inativos</Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+          <Text style={styles.searchButtonText}>🔍 Buscar</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Botão Novo Usuário */}
+      <TouchableOpacity style={styles.createButton} onPress={() => setShowCreateModal(true)}>
+        <Text style={styles.createButtonText}>➕ Novo Usuário</Text>
+      </TouchableOpacity>
+
+      {/* Lista de Usuários */}
+      <View style={styles.usersContainer}>
+        {!hasUsers ? (
+          <Text style={styles.noUsersText}>Nenhum usuário encontrado.</Text>
+        ) : (
+          users.filter(user => {
+            if (statusFilter !== 'all' && user.active !== (statusFilter === 'active')) return false;
+            return true;
+          }).map((user) => {
+            const statusColor = user.active ? '#34C759' : '#FF3B30';
+            
+            return (
+              <TouchableOpacity 
+                key={user.id} 
+                style={styles.userCard}
+                onPress={async () => {
+                  await loadUserDetail(user.id);
+                  setShowDetailModal(true);
+                }}
+              >
+                <View style={styles.userHeader}>
+                  <View style={styles.userInfo}>
+                    <Text style={styles.userName}>{user.name}</Text>
+                    <Text style={styles.userEmail}>{user.email}</Text>
+                    <Text style={styles.userCpf}>{formatCpf(user.cpf)}</Text>
+                  </View>
+                  <View style={styles.userStatus}>
+                    <View style={[styles.statusIndicator, { backgroundColor: statusColor }]} />
+                    <Text style={[styles.statusText, { color: statusColor }]}>
+                      {user.active ? 'Ativo' : 'Inativo'}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.userDetails}>
+                  <View style={styles.userTag}>
+                    <Text style={[styles.userTagText, { color: getProfileColor(user.profile) }]}>
+                      {user.profile.toUpperCase()}
+                    </Text>
+                  </View>
+                  <Text style={styles.userPhone}>{formatPhone(user.phone)}</Text>
+                </View>
+
+                <View style={styles.userActions}>
+                  <TouchableOpacity 
+                    style={[styles.actionButton, { backgroundColor: user.active ? '#FF3B30' : '#34C759' }]}
+                    onPress={async (e) => {
+                      e.stopPropagation();
+                      if (user.active) {
+                        await deactivateUser(user.id);
+                      } else {
+                        await updateUser(user.id, { active: true });
+                      }
+                    }}
+                  >
+                    <Text style={styles.actionButtonText}>
+                      {user.active ? 'Desativar' : 'Ativar'}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={[styles.actionButton, { backgroundColor: '#007AFF' }]}
+                    onPress={async (e) => {
+                      e.stopPropagation();
+                      const tempPassword = await resetPassword(user.id);
+                      if (tempPassword) {
+                        Alert.alert('Senha resetada', `Nova senha: ${tempPassword}`);
+                      }
+                    }}
+                  >
+                    <Text style={styles.actionButtonText}>Reset Senha</Text>
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        )}
+      </View>
+
+      {/* Modal de Criação */}
+      <Modal visible={showCreateModal} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Novo Usuário</Text>
+            
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Nome completo *"
+              value={formData.name}
+              onChangeText={(text) => setFormData(prev => ({ ...prev, name: text }))}
+            />
+            
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Email *"
+              value={formData.email}
+              onChangeText={(text) => setFormData(prev => ({ ...prev, email: text }))}
+              keyboardType="email-address"
+            />
+            
+            <TextInput
+              style={styles.modalInput}
+              placeholder="CPF *"
+              value={formData.cpf}
+              onChangeText={(text) => setFormData(prev => ({ ...prev, cpf: text }))}
+              keyboardType="numeric"
+            />
+            
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Telefone"
+              value={formData.phone}
+              onChangeText={(text) => setFormData(prev => ({ ...prev, phone: text }))}
+              keyboardType="phone-pad"
+            />
+
+            <View style={styles.modalActions}>
+              <TouchableOpacity 
+                style={[styles.modalButton, { backgroundColor: '#8E8E93' }]}
+                onPress={() => setShowCreateModal(false)}
+              >
+                <Text style={styles.modalButtonText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={[styles.modalButton, { backgroundColor: '#007AFF' }]}
+                onPress={handleSubmitCreate}
+                disabled={creating}
+              >
+                <Text style={styles.modalButtonText}>
+                  {creating ? 'Criando...' : 'Criar'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal de Detalhes */}
+      <Modal visible={showDetailModal} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            {selectedUser && (
+              <>
+                <Text style={styles.modalTitle}>Detalhes do Usuário</Text>
+                
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Nome:</Text>
+                  <Text style={styles.detailValue}>{selectedUser.name}</Text>
+                </View>
+                
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Email:</Text>
+                  <Text style={styles.detailValue}>{selectedUser.email}</Text>
+                </View>
+                
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>CPF:</Text>
+                  <Text style={styles.detailValue}>{formatCpf(selectedUser.cpf)}</Text>
+                </View>
+                
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Status:</Text>
+                  <Text style={[styles.detailValue, { color: selectedUser.active ? '#34C759' : '#FF3B30' }]}>
+                    {selectedUser.active ? 'Ativo' : 'Inativo'}
+                  </Text>
+                </View>
+
+                {selectedUser.stats && (
+                  <View style={styles.statsSection}>
+                    <Text style={styles.statsTitle}>Estatísticas:</Text>
+                    <Text style={styles.statsText}>Orçamentos: {selectedUser.stats.budgets}</Text>
+                    <Text style={styles.statsText}>Pagamentos: {selectedUser.stats.payments}</Text>
+                    <Text style={styles.statsText}>Tarefas: {selectedUser.stats.tasks}</Text>
+                    <Text style={styles.statsText}>Mensagens: {selectedUser.stats.messages}</Text>
+                  </View>
+                )}
+              </>
+            )}
+            
+            <TouchableOpacity 
+              style={[styles.modalButton, { backgroundColor: '#007AFF', alignSelf: 'center' }]}
+              onPress={() => {
+                setShowDetailModal(false);
+                clearSelectedUser();
+              }}
+            >
+              <Text style={styles.modalButtonText}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {error && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>⚠️ {error}</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={reload}>
+            <Text style={styles.retryButtonText}>Tentar novamente</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8fafc',
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#6b7280',
+  },
+  header: {
+    padding: 20,
+    backgroundColor: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#6b7280',
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    padding: 16,
+    gap: 12,
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  statValue: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#6b7280',
+    textAlign: 'center',
+  },
+  filtersContainer: {
+    padding: 16,
+    backgroundColor: '#ffffff',
+    marginBottom: 8,
+  },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    backgroundColor: '#f9fafb',
+    marginBottom: 12,
+  },
+  filterRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
+  },
+  filterButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: '#f3f4f6',
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+  },
+  filterButtonActive: {
+    backgroundColor: '#dbeafe',
+    borderColor: '#3b82f6',
+  },
+  filterButtonText: {
+    fontSize: 12,
+    color: '#6b7280',
+  },
+  filterButtonTextActive: {
+    color: '#1d4ed8',
+    fontWeight: '600',
+  },
+  searchButton: {
+    backgroundColor: '#007AFF',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  searchButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  createButton: {
+    margin: 16,
+    backgroundColor: '#34C759',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  createButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  usersContainer: {
+    padding: 16,
+  },
+  noUsersText: {
+    textAlign: 'center',
+    color: '#6b7280',
+    fontSize: 16,
+    marginTop: 32,
+  },
+  userCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  userHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  userEmail: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginBottom: 2,
+  },
+  userCpf: {
+    fontSize: 14,
+    color: '#6b7280',
+  },
+  userStatus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  statusIndicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  userDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  userTag: {
+    backgroundColor: '#f3f4f6',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  userTagText: {
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  userPhone: {
+    fontSize: 12,
+    color: '#6b7280',
+  },
+  userActions: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  actionButton: {
+    flex: 1,
+    padding: 8,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  actionButtonText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    padding: 20,
+    width: '90%',
+    maxWidth: 400,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    marginBottom: 12,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
+  },
+  modalButton: {
+    flex: 1,
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  detailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  detailLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+  },
+  detailValue: {
+    fontSize: 14,
+    color: '#111827',
+    flex: 1,
+    textAlign: 'right',
+  },
+  statsSection: {
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: '#f9fafb',
+    borderRadius: 8,
+  },
+  statsTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 8,
+  },
+  statsText: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginBottom: 4,
+  },
+  errorContainer: {
+    margin: 16,
+    padding: 16,
+    backgroundColor: '#fef2f2',
+    borderRadius: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#ef4444',
+  },
+  errorText: {
+    color: '#dc2626',
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  retryButton: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#dc2626',
+    borderRadius: 4,
+  },
+  retryButtonText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+});
+
+export default UsersScreen;

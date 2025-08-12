@@ -1,0 +1,58 @@
+{
+  "metrics": {
+    "enabled": true,
+    "interval": 60000,
+    "retention": 2592000000
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "rotation": {
+      "maxSize": "10mb",
+      "maxFiles": 10
+    }
+  },
+  "alerts": {
+    "responseTime": {
+      "threshold": 1000,
+      "severity": "warning"
+    },
+    "errorRate": {
+      "threshold": 0.05,
+      "severity": "critical"
+    },
+    "memoryUsage": {
+      "threshold": 0.85,
+      "severity": "warning"
+    },
+    "diskSpace": {
+      "threshold": 0.8,
+      "severity": "critical"
+    }
+  },
+  "region": "sudeste",
+  "environment": "production",
+  "dashboards": {
+    "main": "https://monitoring.dom-v2.com.br/dashboard",
+    "errors": "https://monitoring.dom-v2.com.br/errors",
+    "performance": "https://monitoring.dom-v2.com.br/performance"
+  },
+  "endpoints": {
+    "health": "/health",
+    "metrics": "/metrics",
+    "status": "/status"
+  },
+  "notifications": {
+    "email": [
+      "admin@dom-v2.com.br"
+    ],
+    "slack": {
+      "enabled": false,
+      "webhook": "REPLACE_WITH_SLACK_WEBHOOK"
+    },
+    "sms": {
+      "enabled": false,
+      "numbers": []
+    }
+  }
+}

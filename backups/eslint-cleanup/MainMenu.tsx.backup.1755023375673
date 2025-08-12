@@ -1,0 +1,699 @@
+
+
+/**
+ * Validação de tipos TypeScript/JavaScript
+ * @param {any} value - Valor a ser validado
+ * @param {string} expectedType - Tipo esperado
+ * @returns {boolean} - True se o tipo está correto
+ */
+
+}
+
+// Aplicar validação de tipos
+ {
+  throw new TypeError('Dados devem ser um objeto válido');
+}
+
+/**
+ * Sistema de logging estruturado
+ * @param {string} level - Nível do log (info, warn, error, debug)
+ * @param {string} message - Mensagem do log
+ * @param {object} data - Dados adicionais
+ */
+
+// Aplicar logging
+
+/**
+ * Asserções de validação crítica
+ * @param {any} condition - Condição a ser validada
+ * @param {string} message - Mensagem de erro
+ * @throws {Error} Se a condição for falsa
+ */
+
+// Aplicar asserções críticas
+
+if (!Object.keys(data) throw new Error('Assertion failed');.length > 0, 'Dados não podem estar vazios');
+
+/**
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
+ */
+
+// Aplicar tratamento de erro
+try {
+  // código principal aqui
+} catch (error) { /* TODO: Implement error handling */ } /**
+ * Validação de entrada de dados
+ * @param {any} data - Dados a serem validados
+ * @returns {boolean} - True se válido, false caso contrário
+ */
+
+// Aplicar validação
+ {
+  throw new Error('Dados de entrada inválidos');
+}
+
+/**
+ * @fileoverview Menu Principal do DOM v2
+ * @description Menu completo com todas as funcionalidades organizadas por categorias
+ * @created 2025-01-23
+ * @lastModified 2025-01-23
+ * @author DOM Team v2
+ */
+
+import 
+import { validateType } from '../utils/validation';
+
+import { handleError } from '../utils/errorHandler';
+import { assertCritical } from '../utils/assertions';
+import { validateInput } from '../utils/validation';
+React, { useState, useEffect } from 'react';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Dimensions,
+  Platform
+} from 'react-native';
+import { Colors, Spacing, Typography, BorderRadius, Shadows } from '../styles/design-tokens';
+import { getMessage } from '../utils/messages-centralized';
+
+interface MenuItem {
+  id: string;
+  title: string;
+  icon: string;
+  screen: string;
+  category: string;
+  description: string;
+  status: 'active' | 'development' | 'planned';
+  permissions: string[];
+  badge?: string;
+}
+
+interface MenuCategory {
+  id: string;
+  title: string;
+  icon: string;
+  color: string;
+  items: MenuItem[];
+}
+
+interface MainMenuProps {
+  visible: boolean;
+  onClose: () => void;
+  onNavigate: (screen: string) => void;
+  userProfile?: string;
+  userPermissions?: string[];
+}
+
+const { width, height } = Dimensions.get('window');
+
+export const MainMenu: React.FC<MainMenuProps> = ({
+  visible,
+  onClose,
+  onNavigate,
+  userProfile = 'employer',
+  userPermissions = []
+}) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('dashboard');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const menuCategories: MenuCategory[] = [
+    {
+      id: 'dashboard',
+      color: Colors.primary,
+      items: [
+        {
+          id: 'admin-dashboard',
+          title: 'Dashboard Administrativo',
+          screen: 'AdminDashboard',
+          category: 'dashboard',
+          status: 'active',
+          permissions: ['admin']
+        },
+        {
+          id: 'employer-dashboard',
+          title: 'Dashboard Empregador',
+          screen: 'EmployerDashboard',
+          category: 'dashboard',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'employee-dashboard',
+          screen: 'EmployeeDashboard',
+          category: 'dashboard',
+          status: 'active',
+          permissions: ['employee', 'admin']
+        },
+        {
+          id: 'family-dashboard',
+          title: 'Dashboard Familiar',
+          screen: 'FamilyDashboard',
+          category: 'dashboard',
+          status: 'active',
+          permissions: ['family', 'admin']
+        }
+      ]
+    },
+    {
+      id: 'finance',
+      color: Colors.success,
+      items: [
+        {
+          id: 'budget-management',
+          screen: 'BudgetScreen',
+          category: 'finance',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'payments',
+          screen: 'PaymentsScreen',
+          category: 'finance',
+          description: 'Controle de pagamentos e recebimentos',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'purchases',
+          title: 'Controle de Compras',
+          screen: 'PurchasesScreen',
+          category: 'finance',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'financial-reports',
+          screen: 'FinanceScreen',
+          category: 'finance',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'payment-integrations',
+          screen: 'PaymentIntegrationsScreen',
+          category: 'finance',
+          status: 'development',
+          permissions: ['employer', 'admin']
+        }
+      ]
+    },
+    {
+      id: 'hr',
+      color: Colors.warning,
+      items: [
+        {
+          id: 'employees',
+          screen: 'EmployeesScreen',
+          category: 'hr',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'payroll',
+          title: 'Folha de Pagamento',
+          screen: 'PayrollScreen',
+          category: 'hr',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'timecard',
+          title: 'Controle de Jornada',
+          screen: 'AdvancedTimecardScreen',
+          category: 'hr',
+          description: 'Controle de ponto e jornada de trabalho',
+          status: 'active',
+          permissions: ['employer', 'employee', 'admin']
+        },
+        {
+          id: 'hr-reports',
+          screen: 'HrScreen',
+          category: 'hr',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        }
+      ]
+    },
+    {
+      id: 'users',
+      color: Colors.info,
+      items: [
+        {
+          id: 'user-management',
+          screen: 'UsersScreen',
+          category: 'users',
+          status: 'active',
+          permissions: ['admin']
+        },
+        {
+          id: 'profiles',
+          screen: 'ProfilesScreen',
+          category: 'users',
+          status: 'active',
+          permissions: ['admin']
+        },
+        {
+          id: 'authentication',
+          screen: 'LoginScreen',
+          category: 'users',
+          status: 'active',
+          permissions: ['all']
+        }
+      ]
+    },
+    {
+      id: 'tasks',
+      color: Colors.secondary,
+      items: [
+        {
+          id: 'task-management',
+          screen: 'TasksScreen',
+          category: 'tasks',
+          status: 'active',
+          permissions: ['all']
+        },
+        {
+          id: 'task-reports',
+          screen: 'TaskReportsScreen',
+          category: 'tasks',
+          status: 'development',
+          permissions: ['employer', 'admin']
+        }
+      ]
+    },
+    {
+      id: 'notifications',
+      color: Colors.accent,
+      items: [
+        {
+          id: 'notification-center',
+          screen: 'NotificationsScreen',
+          category: 'notifications',
+          status: 'active',
+          permissions: ['all']
+        },
+        {
+          id: 'communication-center',
+          screen: 'CommunicationScreen',
+          category: 'notifications',
+          status: 'active',
+          permissions: ['all']
+        },
+        {
+          id: 'gamification-center',
+          screen: 'GamificationScreen',
+          category: 'notifications',
+          status: 'active',
+          permissions: ['family', 'employer', 'employee']
+        },
+        {
+          id: 'notification-settings',
+          screen: 'NotificationSettingsScreen',
+          category: 'notifications',
+          status: 'active',
+          permissions: ['all']
+        }
+      ]
+    },
+    {
+      id: 'reports',
+      color: Colors.purple,
+      items: [
+        {
+          id: 'general-reports',
+          screen: 'ReportsScreen',
+          category: 'reports',
+          status: 'active',
+          permissions: ['employer', 'admin']
+        },
+        {
+          id: 'analytics',
+          screen: 'AnalyticsScreen',
+          category: 'reports',
+          status: 'development',
+          permissions: ['admin']
+        }
+      ]
+    },
+    {
+      id: 'settings',
+      color: Colors.gray,
+      items: [
+        {
+          id: 'system-settings',
+          screen: 'SystemSettingsScreen',
+          category: 'settings',
+          status: 'active',
+          permissions: ['admin']
+        },
+        {
+          id: 'theme-settings',
+          screen: 'ThemeSettingsScreen',
+          category: 'settings',
+          status: 'active',
+          permissions: ['all']
+        },
+        {
+          id: 'regional-settings',
+          screen: 'RegionalSettingsScreen',
+          category: 'settings',
+          status: 'active',
+          permissions: ['all']
+        }
+      ]
+    }
+  ];
+
+  const hasPermission = (itemPermissions: string[]): boolean => {
+    if (itemPermissions.includes('all')) return true;
+    if (itemPermissions.includes(userProfile)) return true;
+    return userPermissions.some(permission => itemPermissions.includes(permission));
+  };
+
+  const filteredCategories = menuCategories.map(category => ({
+    ...category,
+    items: category.items.filter(item => hasPermission(item.permissions))
+  })).filter(category => category.items.length > 0);
+
+  const filteredItems = selectedCategory === 'all' 
+    ? filteredCategories.flatMap(cat => cat.items)
+    : filteredCategories.find(cat => cat.id === selectedCategory)?.items || [];
+
+  const searchFilteredItems = searchTerm 
+    ? filteredItems.filter(item => 
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : filteredItems;
+
+  const handleItemPress = (item: MenuItem) => {
+    onNavigate(item.screen);
+    onClose();
+  };
+
+  const renderMenuItem = (item: MenuItem) => (
+    <TouchableOpacity
+      key={item.id}
+      style={[styles.menuItem, { opacity: item.status === 'active' ? 1 : 0.6 }]}
+      onPress={() => handleItemPress(item)}
+      disabled={item.status !== 'active'}
+    >
+      <View style={styles.menuItemHeader}>
+        <Text style={styles.menuItemIcon}>{item.icon}</Text>
+        <View style={styles.menuItemInfo}>
+          <Text style={styles.menuItemTitle}>{item.title}</Text>
+          <Text style={styles.menuItemDescription}>{item.description}</Text>
+        </View>
+        {item.badge && (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{item.badge}</Text>
+          </View>
+        )}
+      </View>
+      {item.status !== 'active' && (
+        <View style={styles.statusIndicator}>
+          <Text style={styles.statusText}>
+          </Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+
+  const renderCategoryTab = (category: MenuCategory) => (
+    <TouchableOpacity
+      key={category.id}
+      style={[
+        styles.categoryTab,
+        selectedCategory === category.id && styles.categoryTabActive
+      ]}
+      onPress={() => setSelectedCategory(category.id)}
+    >
+      <Text style={styles.categoryTabIcon}>{category.icon}</Text>
+      <Text style={[
+        styles.categoryTabTitle,
+        selectedCategory === category.id && styles.categoryTabTitleActive
+      ]}>
+        {category.title}
+      </Text>
+    </TouchableOpacity>
+  );
+
+  return (
+    <Modal
+      visible={visible}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={onClose}
+    >
+      <View style={styles.overlay}>
+        <View style={styles.container}>
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={styles.headerSubtitle}>Menu Principal</Text>
+            <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+            </TouchableOpacity>
+          </View>
+
+          {/* Category Tabs */}
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoryTabs}
+            contentContainerStyle={styles.categoryTabsContent}
+          >
+            <TouchableOpacity
+              style={[
+                styles.categoryTab,
+                selectedCategory === 'all' && styles.categoryTabActive
+              ]}
+              onPress={() => setSelectedCategory('all')}
+            >
+              <Text style={[
+                styles.categoryTabTitle,
+                selectedCategory === 'all' && styles.categoryTabTitleActive
+              ]}>
+                Todas
+              </Text>
+            </TouchableOpacity>
+            {filteredCategories.map(renderCategoryTab)}
+          </ScrollView>
+
+          {/* Search Bar */}
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchPlaceholder}>
+              {searchTerm ? searchTerm : 'Buscar funcionalidades...'}
+            </Text>
+          </View>
+
+          {/* Menu Items */}
+          <ScrollView style={styles.menuItems} showsVerticalScrollIndicator={false}>
+            {searchFilteredItems.length > 0 ? (
+              searchFilteredItems.map(renderMenuItem)
+            ) : (
+              <View style={styles.emptyState}>
+                <Text style={styles.emptyStateTitle}>Nenhuma funcionalidade encontrada</Text>
+                <Text style={styles.emptyStateDescription}>
+                </Text>
+              </View>
+            )}
+          </ScrollView>
+
+          {/* Footer */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Total: {searchFilteredItems.length} funcionalidades
+            </Text>
+            <Text style={styles.footerText}>
+              Perfil: {userProfile}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    width: width * 0.9,
+    maxWidth: 600,
+    height: height * 0.8,
+    backgroundColor: Colors.background.primary,
+    borderRadius: BorderRadius.lg,
+    ...Shadows.large,
+  },
+  header: {
+    padding: Spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border.light,
+    alignItems: 'center',
+    position: 'relative',
+  },
+  headerTitle: {
+    ...Typography.h2,
+    color: Colors.text.primary,
+    marginBottom: Spacing.xs,
+  },
+  headerSubtitle: {
+    ...Typography.body,
+    color: Colors.text.secondary,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: Spacing.md,
+    right: Spacing.md,
+    width: 32,
+    height: 32,
+    borderRadius: BorderRadius.full,
+    backgroundColor: Colors.background.secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    fontSize: 18,
+    color: Colors.text.primary,
+  },
+  categoryTabs: {
+    maxHeight: 80,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border.light,
+  },
+  categoryTabsContent: {
+    paddingHorizontal: Spacing.md,
+  },
+  categoryTab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    marginRight: Spacing.sm,
+    borderRadius: BorderRadius.md,
+    backgroundColor: Colors.background.secondary,
+  },
+  categoryTabActive: {
+    backgroundColor: Colors.primary,
+  },
+  categoryTabIcon: {
+    fontSize: 16,
+    marginRight: Spacing.xs,
+  },
+  categoryTabTitle: {
+    ...Typography.small,
+    color: Colors.text.secondary,
+  },
+  categoryTabTitleActive: {
+    color: Colors.text.white,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: Spacing.md,
+    padding: Spacing.md,
+    backgroundColor: Colors.background.secondary,
+    borderRadius: BorderRadius.md,
+  },
+  searchIcon: {
+    fontSize: 16,
+    marginRight: Spacing.sm,
+    color: Colors.text.secondary,
+  },
+  searchPlaceholder: {
+    ...Typography.body,
+    color: Colors.text.secondary,
+    flex: 1,
+  },
+  menuItems: {
+    flex: 1,
+    paddingHorizontal: Spacing.md,
+  },
+  menuItem: {
+    backgroundColor: Colors.background.secondary,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.md,
+    marginBottom: Spacing.sm,
+    ...Shadows.small,
+  },
+  menuItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  menuItemIcon: {
+    fontSize: 24,
+    marginRight: Spacing.md,
+  },
+  menuItemInfo: {
+    flex: 1,
+  },
+  menuItemTitle: {
+    ...Typography.subtitle,
+    color: Colors.text.primary,
+    marginBottom: Spacing.xs,
+  },
+  menuItemDescription: {
+    ...Typography.small,
+    color: Colors.text.secondary,
+  },
+  badge: {
+    backgroundColor: Colors.accent,
+    borderRadius: BorderRadius.full,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.xs,
+  },
+  badgeText: {
+    ...Typography.small,
+    color: Colors.text.white,
+    fontWeight: 'bold',
+  },
+  statusIndicator: {
+    marginTop: Spacing.sm,
+    paddingTop: Spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border.light,
+  },
+  statusText: {
+    ...Typography.small,
+    color: Colors.text.secondary,
+    fontStyle: 'italic',
+  },
+  emptyState: {
+    alignItems: 'center',
+    padding: Spacing.xl,
+  },
+  emptyStateIcon: {
+    fontSize: 48,
+    marginBottom: Spacing.md,
+  },
+  emptyStateTitle: {
+    ...Typography.h3,
+    color: Colors.text.primary,
+    marginBottom: Spacing.sm,
+  },
+  emptyStateDescription: {
+    ...Typography.body,
+    color: Colors.text.secondary,
+    textAlign: 'center',
+  },
+  footer: {
+    padding: Spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border.light,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  footerText: {
+    ...Typography.small,
+    color: Colors.text.secondary,
+  },
+});
+
+export default MainMenu;

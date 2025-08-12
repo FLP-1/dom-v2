@@ -1,0 +1,40 @@
+{
+  "enabled": true,
+  "domain": "cdn.dom-v2.com.br",
+  "origins": [
+    {
+      "domain": "api.dom-v2.com.br",
+      "path": "/static/*",
+      "ttl": 31536000
+    },
+    {
+      "domain": "app.dom-v2.com.br",
+      "path": "/assets/*",
+      "ttl": 31536000
+    }
+  ],
+  "caching": {
+    "defaultTtl": 86400,
+    "maxTtl": 31536000,
+    "compression": true,
+    "browserCaching": true
+  },
+  "security": {
+    "httpsRedirect": true,
+    "tlsVersion": "1.2",
+    "waf": {
+      "enabled": true,
+      "rules": [
+        "CommonAttacks",
+        "SQLInjection",
+        "XSS"
+      ]
+    }
+  },
+  "geoBlocking": {
+    "enabled": false,
+    "allowedCountries": [
+      "BR"
+    ]
+  }
+}

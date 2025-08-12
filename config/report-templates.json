@@ -1,0 +1,82 @@
+{
+  "daily": {
+    "name": "Relatório Diário do Piloto",
+    "frequency": "daily",
+    "sections": [
+      {
+        "title": "KPIs do Dia",
+        "metrics": [
+          "signups",
+          "dau",
+          "sessionTime",
+          "revenue"
+        ],
+        "visualization": "table"
+      },
+      {
+        "title": "Alertas e Problemas",
+        "content": "critical_issues",
+        "visualization": "list"
+      },
+      {
+        "title": "Top Insights",
+        "content": "daily_insights",
+        "visualization": "cards"
+      }
+    ]
+  },
+  "weekly": {
+    "name": "Relatório Semanal do Piloto",
+    "frequency": "weekly",
+    "sections": [
+      {
+        "title": "Resumo da Semana",
+        "metrics": [
+          "all_kpis"
+        ],
+        "visualization": "dashboard"
+      },
+      {
+        "title": "Análise de Coortes",
+        "content": "cohort_analysis",
+        "visualization": "cohort_table"
+      },
+      {
+        "title": "Funil de Conversão",
+        "content": "conversion_funnel",
+        "visualization": "funnel_chart"
+      },
+      {
+        "title": "Recomendações",
+        "content": "weekly_recommendations",
+        "visualization": "action_items"
+      }
+    ]
+  },
+  "monthly": {
+    "name": "Relatório Mensal Executivo",
+    "frequency": "monthly",
+    "sections": [
+      {
+        "title": "Executive Summary",
+        "content": "executive_summary",
+        "visualization": "executive_cards"
+      },
+      {
+        "title": "Growth Analysis",
+        "content": "growth_trends",
+        "visualization": "trend_charts"
+      },
+      {
+        "title": "Financial Analysis",
+        "content": "financial_analysis",
+        "visualization": "financial_charts"
+      },
+      {
+        "title": "Strategic Recommendations",
+        "content": "strategic_recommendations",
+        "visualization": "strategy_matrix"
+      }
+    ]
+  }
+}

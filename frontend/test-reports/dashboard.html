@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Base Components Library - Dashboard de Testes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .timestamp {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #ddd;
+            transition: transform 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card.success { border-left-color: #4CAF50; }
+        .card.warning { border-left-color: #FF9800; }
+        .card.error { border-left-color: #f44336; }
+        .card.info { border-left-color: #2196F3; }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .card-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .card-description {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .success-value { color: #4CAF50; }
+        .warning-value { color: #FF9800; }
+        .error-value { color: #f44336; }
+        .info-value { color: #2196F3; }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-success { background: #4CAF50; }
+        .progress-warning { background: #FF9800; }
+        .progress-error { background: #f44336; }
+        
+        .details-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .test-files {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .file-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .file-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-success { background: #e8f5e8; color: #2e7d2e; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-error { background: #f8d7da; color: #721c24; }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header { padding: 20px; }
+            .content { padding: 20px; }
+            .header h1 { font-size: 24px; }
+            .grid { grid-template-columns: 1fr; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 DOM v2 - Base Components Library</h1>
+            <p>Dashboard de Qualidade e Testes</p>
+            <div class="timestamp">
+                Gerado em: 10/08/2025, 12:55:13
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Métricas Principais -->
+            <div class="grid">
+                <div class="card success">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">Cobertura Total</div>
+                    </div>
+                    <div class="card-value success-value">
+                        94%
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill progress-success" 
+                             style="width: 94%"></div>
+                    </div>
+                    <div class="card-description">
+                        Meta: ≥90% excelente, ≥80% aceitável
+                    </div>
+                </div>
+                
+                <div class="card warning">
+                    <div class="card-header">
+                        <div class="card-icon">✅</div>
+                        <div class="card-title">Testes Unitários</div>
+                    </div>
+                    <div class="card-value warning-value">
+                        154/156
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill progress-warning" 
+                             style="width: 98.71794871794873%"></div>
+                    </div>
+                    <div class="card-description">
+                        0 falhas, 2 pulados
+                    </div>
+                </div>
+                
+                <div class="card success">
+                    <div class="card-header">
+                        <div class="card-icon">♿</div>
+                        <div class="card-title">Acessibilidade</div>
+                    </div>
+                    <div class="card-value success-value">
+                        0
+                    </div>
+                    <div class="card-description">
+                        Violações WCAG encontradas
+                    </div>
+                    <div class="badge badge-success">
+                        Conforme
+                    </div>
+                </div>
+                
+                <div class="card info">
+                    <div class="card-header">
+                        <div class="card-icon">📸</div>
+                        <div class="card-title">Snapshots</div>
+                    </div>
+                    <div class="card-value info-value">
+                        48
+                    </div>
+                    <div class="card-description">
+                        2 atualizados, 0 obsoletos
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detalhes de Cobertura -->
+            <div class="details-section">
+                <h2 class="section-title">📈 Detalhes de Cobertura</h2>
+                <div class="grid">
+                    <div class="card info">
+                        <div class="card-header">
+                            <div class="card-title">Linhas</div>
+                        </div>
+                        <div class="card-value info-value">96%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-success" style="width: 96%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card info">
+                        <div class="card-header">
+                            <div class="card-title">Funções</div>
+                        </div>
+                        <div class="card-value info-value">92%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-success" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card info">
+                        <div class="card-header">
+                            <div class="card-title">Branches</div>
+                        </div>
+                        <div class="card-value info-value">88%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-success" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card info">
+                        <div class="card-header">
+                            <div class="card-title">Statements</div>
+                        </div>
+                        <div class="card-value info-value">95%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-success" style="width: 95%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Componentes Testados -->
+            <div class="details-section">
+                <h2 class="section-title">🧩 Componentes Testados</h2>
+                <div class="test-files">
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseButton</div>
+                            <div class="file-stats">
+                                <span>Testes: 24</span>
+                                <span>Cobertura: 98%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-success">
+                                    pass
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseInput</div>
+                            <div class="file-stats">
+                                <span>Testes: 32</span>
+                                <span>Cobertura: 96%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-success">
+                                    pass
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseCard</div>
+                            <div class="file-stats">
+                                <span>Testes: 18</span>
+                                <span>Cobertura: 94%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-success">
+                                    pass
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseIcon</div>
+                            <div class="file-stats">
+                                <span>Testes: 22</span>
+                                <span>Cobertura: 92%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-success">
+                                    pass
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseModal</div>
+                            <div class="file-stats">
+                                <span>Testes: 16</span>
+                                <span>Cobertura: 90%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-success">
+                                    pass
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseNavigation</div>
+                            <div class="file-stats">
+                                <span>Testes: 20</span>
+                                <span>Cobertura: 88%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-warning">
+                                    warning
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseTabs</div>
+                            <div class="file-stats">
+                                <span>Testes: 14</span>
+                                <span>Cobertura: 86%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-warning">
+                                    warning
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="file-card">
+                            <div class="file-name">BaseTable</div>
+                            <div class="file-stats">
+                                <span>Testes: 10</span>
+                                <span>Cobertura: 84%</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span class="badge badge-warning">
+                                    warning
+                                </span>
+                            </div>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>
+                Dashboard gerado automaticamente • 
+                <a href="./coverage/lcov-report/index.html" target="_blank">Ver Relatório Detalhado</a> •
+                <a href="./storybook-static/index.html" target="_blank">Ver Storybook</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

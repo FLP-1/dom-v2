@@ -1,0 +1,22 @@
+{
+  "dashboards": [
+    {
+      "name": "Pilot Overview",
+      "widgets": [
+        "user_acquisition",
+        "retention_rates",
+        "revenue_metrics",
+        "regional_breakdown"
+      ]
+    },
+    {
+      "name": "Marketing Performance",
+      "widgets": [
+        "campaign_performance",
+        "channel_attribution",
+        "cost_metrics",
+        "conversion_funnels"
+      ]
+    }
+  ]
+}

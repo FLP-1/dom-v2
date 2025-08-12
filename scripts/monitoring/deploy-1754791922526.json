@@ -1,0 +1,12 @@
+{
+  "deployId": "deploy-1754791922526",
+  "environment": "production",
+  "region": "sudeste",
+  "interval": 300000,
+  "duration": 86400000,
+  "alerts": [
+    "response_time",
+    "error_rate",
+    "memory_usage"
+  ]
+}

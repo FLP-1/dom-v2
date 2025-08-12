@@ -1,0 +1,444 @@
+/**
+ * @fileoverview Pilot Analytics Dashboard - Dashboard principal do piloto
+ * @description Dashboard completo de analytics para acompanhamento do piloto regional
+ * @version 2.0.0
+ * @generated 2025-08-10T02:27:47.677Z
+ */
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import { analyticsService } from '../../services/analyticsService';
+import { LoadingIndicator } from '../common/LoadingIndicator';
+import { ErrorBoundary } from '../common/ErrorBoundary';
+
+interface KPIData {
+  name: string;
+  value: number;
+  target: number;
+  change: number;
+  status: 'good' | 'warning' | 'critical';
+  format: 'number' | 'percentage' | 'currency' | 'duration';
+}
+
+interface DashboardData {
+  kpis: KPIData[];
+  chartData: any[];
+  lastUpdated: Date;
+  isLoading: boolean;
+  error?: string;
+}
+
+export const PilotAnalyticsDashboard: React.FC = () => {
+  const [data, setData] = useState<DashboardData>({
+    kpis: [],
+    chartData: [],
+    lastUpdated: new Date(),
+    isLoading: true
+  });
+  
+  const [refreshing, setRefreshing] = useState(false);
+  
+  useEffect(() => {
+    loadDashboardData();
+    
+    // Auto-refresh a cada 5 minutos
+    const interval = setInterval(loadDashboardData, 5 * 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const loadDashboardData = async () => {
+    try {
+      setData(prev => ({ ...prev, isLoading: true, error: undefined }));
+      
+      const [kpisData, chartsData] = await Promise.all([
+        analyticsService.getKPIs(),
+        analyticsService.getChartData()
+      ]);
+      
+      setData({
+        kpis: kpisData,
+        chartData: chartsData,
+        lastUpdated: new Date(),
+        isLoading: false
+      });
+      
+    } catch (error) {
+      console.error('Erro ao carregar dashboard:', error);
+      setData(prev => ({
+        ...prev,
+        isLoading: false,
+        error: 'Erro ao carregar dados'
+      }));
+    }
+  };
+  
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadDashboardData();
+    setRefreshing(false);
+  };
+  
+  const formatValue = (value: number, format: string): string => {
+    switch (format) {
+      case 'percentage':
+        return `${(value * 100).toFixed(1)}%`;
+      case 'currency':
+        return `R$ ${value.toLocaleString('pt-BR')}`;
+      case 'duration':
+        return `${value.toFixed(1)}min`;
+      default:
+        return value.toLocaleString('pt-BR');
+    }
+  };
+  
+  const getStatusColor = (status: string): string => {
+    switch (status) {
+      case 'good': return '#28a745';
+      case 'warning': return '#ffc107';
+      case 'critical': return '#dc3545';
+      default: return '#6c757d';
+    }
+  };
+  
+  if (data.isLoading && data.kpis.length === 0) {
+    return (
+      <View style={styles.container}>
+        <LoadingIndicator message="Carregando analytics..." />
+      </View>
+    );
+  }
+  
+  if (data.error) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>{data.error}</Text>
+      </View>
+    );
+  }
+  
+  return (
+    <ErrorBoundary>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.header}>
+          <Text style={styles.title}>📊 Analytics do Piloto - sudeste</Text>
+          <Text style={styles.subtitle}>
+            Última atualização: {data.lastUpdated.toLocaleTimeString('pt-BR')}
+          </Text>
+        </View>
+        
+        <View style={styles.kpiGrid}>
+          {data.kpis.map((kpi, index) => (
+            <View key={index} style={[styles.kpiCard, { borderLeftColor: getStatusColor(kpi.status) }]}>
+              <View style={styles.kpiHeader}>
+                <Text style={styles.kpiName}>{kpi.name}</Text>
+                <View style={[styles.statusBadge, { backgroundColor: getStatusColor(kpi.status) }]}>
+                  <Text style={styles.statusText}>
+                    {kpi.status === 'good' ? '✓' : kpi.status === 'warning' ? '⚠' : '✗'}
+                  </Text>
+                </View>
+              </View>
+              
+              <Text style={styles.kpiValue}>
+                {formatValue(kpi.value, kpi.format)}
+              </Text>
+              
+              <View style={styles.kpiMeta}>
+                <Text style={styles.kpiTarget}>
+                  Meta: {formatValue(kpi.target, kpi.format)}
+                </Text>
+                <Text style={[styles.kpiChange, { 
+                  color: kpi.change >= 0 ? '#28a745' : '#dc3545' 
+                }]}>
+                  {kpi.change >= 0 ? '↗' : '↘'} {Math.abs(kpi.change).toFixed(1)}%
+                </Text>
+              </View>
+              
+              <View style={styles.progressBar}>
+                <View 
+                  style={[
+                    styles.progressFill, 
+                    { 
+                      width: `${Math.min((kpi.value / kpi.target) * 100, 100)}%`,
+                      backgroundColor: getStatusColor(kpi.status)
+                    }
+                  ]} 
+                />
+              </View>
+            </View>
+          ))}
+        </View>
+        
+        <View style={styles.insights}>
+          <Text style={styles.sectionTitle}>💡 Insights Automáticos</Text>
+          <GenerateInsights kpis={data.kpis} />
+        </View>
+        
+        <View style={styles.quickActions}>
+          <Text style={styles.sectionTitle}>⚡ Ações Rápidas</Text>
+          <QuickActions />
+        </View>
+      </ScrollView>
+    </ErrorBoundary>
+  );
+};
+
+const GenerateInsights: React.FC<{ kpis: KPIData[] }> = ({ kpis }) => {
+  const insights = generateAutomaticInsights(kpis);
+  
+  return (
+    <View style={styles.insightsList}>
+      {insights.map((insight, index) => (
+        <View key={index} style={styles.insightCard}>
+          <Text style={styles.insightText}>{insight.message}</Text>
+          <Text style={styles.insightAction}>{insight.action}</Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
+const QuickActions: React.FC = () => {
+  return (
+    <View style={styles.actionsList}>
+      <ActionButton 
+        title="📊 Relatório Detalhado" 
+        onPress={() => {/* Navigate to detailed report */}}
+      />
+      <ActionButton 
+        title="🚨 Configurar Alertas" 
+        onPress={() => {/* Navigate to alerts config */}}
+      />
+      <ActionButton 
+        title="📈 Análise de Coortes" 
+        onPress={() => {/* Navigate to cohort analysis */}}
+      />
+      <ActionButton 
+        title="💰 ROI Calculator" 
+        onPress={() => {/* Navigate to ROI calculator */}}
+      />
+    </View>
+  );
+};
+
+const ActionButton: React.FC<{ title: string; onPress: () => void }> = ({ title, onPress }) => (
+  <TouchableOpacity style={styles.actionButton} onPress={onPress}>
+    <Text style={styles.actionButtonText}>{title}</Text>
+  </TouchableOpacity>
+);
+
+function generateAutomaticInsights(kpis: KPIData[]): Array<{ message: string; action: string }> {
+  const insights = [];
+  
+  // Análise automática de KPIs
+  const criticalKpis = kpis.filter(kpi => kpi.status === 'critical');
+  const warningKpis = kpis.filter(kpi => kpi.status === 'warning');
+  const goodKpis = kpis.filter(kpi => kpi.status === 'good');
+  
+  if (criticalKpis.length > 0) {
+    insights.push({
+      message: `🚨 ${criticalKpis.length} métricas críticas precisam de atenção imediata`,
+      action: 'Revisar estratégia de aquisição e retenção'
+    });
+  }
+  
+  if (warningKpis.length > 2) {
+    insights.push({
+      message: `⚠️ Múltiplas métricas em estado de alerta`,
+      action: 'Implementar ações corretivas preventivas'
+    });
+  }
+  
+  const growthKpis = kpis.filter(kpi => kpi.change > 10);
+  if (growthKpis.length > 0) {
+    insights.push({
+      message: `📈 ${growthKpis.length} métricas com crescimento acelerado`,
+      action: 'Escalar estratégias que estão funcionando'
+    });
+  }
+  
+  return insights;
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+    padding: 16,
+  },
+  
+  header: {
+    marginBottom: 24,
+    alignItems: 'center',
+  },
+  
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#2c3e50',
+    marginBottom: 8,
+  },
+  
+  subtitle: {
+    fontSize: 14,
+    color: '#6c757d',
+  },
+  
+  kpiGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 24,
+  },
+  
+  kpiCard: {
+    width: '48%',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderLeftWidth: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  
+  kpiHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  
+  kpiName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#495057',
+    flex: 1,
+  },
+  
+  statusBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
+  statusText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  
+  kpiValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#2c3e50',
+    marginBottom: 8,
+  },
+  
+  kpiMeta: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  
+  kpiTarget: {
+    fontSize: 12,
+    color: '#6c757d',
+  },
+  
+  kpiChange: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  
+  progressBar: {
+    height: 4,
+    backgroundColor: '#e9ecef',
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  
+  progressFill: {
+    height: '100%',
+    borderRadius: 2,
+  },
+  
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2c3e50',
+    marginBottom: 16,
+  },
+  
+  insights: {
+    marginBottom: 24,
+  },
+  
+  insightsList: {
+    gap: 12,
+  },
+  
+  insightCard: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 16,
+    borderLeftWidth: 3,
+    borderLeftColor: '#007bff',
+  },
+  
+  insightText: {
+    fontSize: 14,
+    color: '#495057',
+    marginBottom: 8,
+  },
+  
+  insightAction: {
+    fontSize: 13,
+    color: '#007bff',
+    fontWeight: '600',
+  },
+  
+  quickActions: {
+    marginBottom: 24,
+  },
+  
+  actionsList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  
+  actionButton: {
+    backgroundColor: '#007bff',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    minWidth: '48%',
+  },
+  
+  actionButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  
+  errorText: {
+    fontSize: 16,
+    color: '#dc3545',
+    textAlign: 'center',
+    marginTop: 32,
+  },
+});
+
+export default PilotAnalyticsDashboard;

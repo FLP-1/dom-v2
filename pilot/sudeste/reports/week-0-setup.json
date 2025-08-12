@@ -1,0 +1,21 @@
+{
+  "date": "2025-08-10T01:55:39.230Z",
+  "region": "sudeste",
+  "week": 0,
+  "status": "setup_complete",
+  "metrics": {
+    "users": 0,
+    "families": 0,
+    "employees": 0,
+    "revenue": 0,
+    "cac": 0,
+    "retention": 0
+  },
+  "goals": {
+    "families": 50,
+    "cac": 200,
+    "retention": 70,
+    "revenue": 4000
+  },
+  "notes": "Piloto regional configurado e pronto para início"
+}

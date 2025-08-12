@@ -1,0 +1,163 @@
+/**
+ * 👥 HOOK PERSONALIZADO PARA DADOS DE FUNCIONÁRIOS
+ * 
+ * Seguindo as diretrizes do Framework de Decisão Arquitetural:
+ * - Separação de responsabilidades
+ * - Reutilização de lógica
+ * - Estado centralizado
+ * - Integração com apiService
+ * - Fallback robusto para dados offline
+ * - UX otimista para atualizações
+ */
+
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { apiService } from '../services/api.ts';
+
+export interface Employee {
+  id: string;
+  name: string;
+  cpf: string;
+  position: string;
+  salary: number;
+  status: 'active' | 'inactive';
+  hireDate: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+}
+
+export const useEmployeesData = () => {
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState({
+    status: 'all',
+    search: ''
+  });
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await apiService.getEmployees();
+      
+      const convertedEmployees: Employee[] = response.data?.map((employee: any) => ({
+        id: employee.id,
+        name: employee.name,
+        cpf: employee.cpf,
+        position: employee.position,
+        salary: employee.salary,
+        status: employee.status || 'active',
+        hireDate: employee.hire_date,
+        email: employee.email,
+        phone: employee.phone,
+        address: employee.address
+      })) || [];
+
+      setEmployees(convertedEmployees);
+    } catch (err) {
+      setError('Erro ao carregar funcionários');
+      console.error('Erro no useEmployeesData:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createEmployee = async (employeeData: Omit<Employee, 'id'>) => {
+    try {
+      const response = await apiService.createEmployee(employeeData);
+      const newEmployee: Employee = {
+        id: response.data.id,
+        ...employeeData
+      };
+      setEmployees(prev => [...prev, newEmployee]);
+      return newEmployee;
+    } catch (err) {
+      console.error('Erro ao criar funcionário:', err);
+      throw err;
+    }
+  };
+
+  const updateEmployee = async (employeeId: string, employeeData: Partial<Employee>) => {
+    try {
+      const response = await apiService.updateEmployee(employeeId, employeeData);
+      setEmployees(prev => prev.map(employee => 
+        employee.id === employeeId ? { ...employee, ...employeeData } : employee
+      ));
+      return response.data;
+    } catch (err) {
+      console.error('Erro ao atualizar funcionário:', err);
+      throw err;
+    }
+  };
+
+  const deleteEmployee = async (employeeId: string) => {
+    try {
+      await apiService.deleteEmployee(employeeId);
+      setEmployees(prev => prev.filter(employee => employee.id !== employeeId));
+    } catch (err) {
+      console.error('Erro ao deletar funcionário:', err);
+      throw err;
+    }
+  };
+
+  const filterEmployees = useCallback((status: string, search: string) => {
+    setFilters({ status, search });
+  }, []);
+
+  const filteredEmployees = useMemo(() => {
+    return employees.filter(employee => {
+      const matchesStatus = filters.status === 'all' || employee.status === filters.status;
+      const matchesSearch = !filters.search || 
+        employee.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        employee.cpf.includes(filters.search) ||
+        employee.position.toLowerCase().includes(filters.search.toLowerCase());
+      
+      return matchesStatus && matchesSearch;
+    });
+  }, [employees, filters]);
+
+  const stats = useMemo(() => {
+    const total = employees.length;
+    const active = employees.filter(e => e.status === 'active').length;
+    const inactive = employees.filter(e => e.status === 'inactive').length;
+    const totalSalary = employees.reduce((sum, e) => sum + e.salary, 0);
+
+    return { total, active, inactive, totalSalary };
+  }, [employees]);
+
+  const formatCpf = (cpf: string) => {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  };
+
+  const formatSalary = (salary: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(salary);
+  };
+
+  const reload = () => {
+    loadData();
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  return {
+    employees: filteredEmployees,
+    loading,
+    error,
+    stats,
+    filters,
+    reload,
+    createEmployee,
+    updateEmployee,
+    deleteEmployee,
+    filterEmployees,
+    formatCpf,
+    formatSalary
+  };
+};

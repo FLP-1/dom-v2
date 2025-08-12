@@ -1,0 +1,103 @@
+{
+  "region": "sudeste",
+  "budget": {
+    "total": 50000,
+    "googleAds": 0.4,
+    "metaAds": 0.35,
+    "content": 0.15,
+    "partnerships": 0.1
+  },
+  "campaigns": {
+    "googleAds": [
+      {
+        "name": "Gestão Doméstica São Paulo",
+        "keywords": [
+          "empregada doméstica",
+          "eSocial doméstico",
+          "gestão casa"
+        ],
+        "dailyBudget": 200,
+        "targetLocation": "São Paulo, SP",
+        "targetAudience": "Renda 15k+, 35-55 anos"
+      },
+      {
+        "name": "Compliance Trabalhista Rio de Janeiro",
+        "keywords": [
+          "direitos empregada",
+          "folha pagamento doméstica"
+        ],
+        "dailyBudget": 150,
+        "targetLocation": "Rio de Janeiro, RJ",
+        "targetAudience": "Superior completo, Zona Sul"
+      }
+    ],
+    "metaAds": [
+      {
+        "name": "Família Moderna Conectada SP",
+        "audience": "Mulheres, 35-55, superior completo",
+        "interests": [
+          "Casa e jardim",
+          "Gestão",
+          "Produtividade"
+        ],
+        "location": "10km Jardins, São Paulo",
+        "dailyBudget": 120
+      },
+      {
+        "name": "Gestão Eficiente Casa RJ",
+        "audience": "Mulheres, 30-50, renda alta",
+        "interests": [
+          "Organização",
+          "Tecnologia",
+          "Família"
+        ],
+        "location": "Zona Sul, Rio de Janeiro",
+        "dailyBudget": 100
+      }
+    ]
+  },
+  "schedule": {
+    "week1": [
+      "setup_campaigns",
+      "create_audiences",
+      "launch_content"
+    ],
+    "week2": [
+      "optimize_targeting",
+      "a_b_test_creatives",
+      "expand_keywords"
+    ],
+    "week3": [
+      "scale_performing_campaigns",
+      "add_remarketing",
+      "partnership_outreach"
+    ],
+    "week4": [
+      "performance_review",
+      "budget_reallocation",
+      "prepare_week_5_8"
+    ]
+  },
+  "kpis": {
+    "cpc": {
+      "target": 2.5,
+      "max": 4
+    },
+    "ctr": {
+      "target": 3,
+      "min": 2
+    },
+    "conversionRate": {
+      "target": 3.5,
+      "min": 2
+    },
+    "cac": {
+      "target": 150,
+      "max": 200
+    },
+    "roas": {
+      "target": 300,
+      "min": 200
+    }
+  }
+}
