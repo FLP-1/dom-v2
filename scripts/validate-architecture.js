@@ -1,218 +1,322 @@
 #!/usr/bin/env node
 
 /**
- * 🏗️ VALIDADOR AUTOMÁTICO DE ARQUITETURA DOM v2
+ * Script de Validação de Arquitetura - DOM v2
  * 
- * Este script valida se o código segue o Framework de Decisão Arquitetural
- * antes de commits, PRs ou deploys.
+ * Este script valida se o projeto está seguindo a arquitetura HTML nativo
+ * conforme definido nas diretrizes do projeto.
  * 
- * Uso: npm run validate-architecture
+ * @author DOM v2 Team
+ * @version 2.0.0
+ * @date 2025-08-06
  */
 
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
 
-// 🎯 REGRAS DO FRAMEWORK DE DECISÃO ARQUITETURAL
-const ARCHITECTURE_RULES = {
-  // Regra 1: Separação de Responsabilidades
-  SEPARATION_OF_CONCERNS: {
-    name: 'Separação de Responsabilidades',
-    description: 'Componentes UI não devem conter lógica de API diretamente',
-    validate: (filePath, content) => {
-      // Screens não devem ter fetch direto
-      if (filePath.includes('screens') && filePath.endsWith('.tsx')) {
-        const hasFetch = content.includes('fetch(') && !content.includes('// FRAMEWORK_EXCEPTION');
-        const hasApiLogic = /API_BASE_URL/.test(content);
-        
-        // Debug para arquivo específico
-        if (filePath.includes('TesteViolacao')) {
-          console.log(`🔍 DEBUG ${filePath}:`);
-          console.log(`   hasFetch: ${hasFetch}`);
-          console.log(`   hasApiLogic: ${hasApiLogic}`);
-        }
-        
-        if (hasFetch || hasApiLogic) {
-          return {
-            valid: false,
-            message: `❌ Screen ${path.basename(filePath)} contém lógica de API direta. Use hooks customizados.`,
-            suggestion: 'Mova a lógica para um hook customizado (ex: useTasksData, useFinanceData)'
-          };
-        }
-      }
-      return { valid: true };
-    }
-  },
-
-  // Regra 2: Uso de Hooks Customizados
-  CUSTOM_HOOKS_USAGE: {
-    name: 'Uso de Hooks Customizados',
-    description: 'Telas devem usar hooks customizados para lógica de estado',
-    validate: (filePath, content) => {
-      if (filePath.includes('/screens/') && filePath.endsWith('.tsx')) {
-        // Verificar se usa useState diretamente para dados de API
-        const hasState = content.includes('useState');
-        const hasApiRelatedState = /useState.*\[\]/.test(content) && 
-          (content.includes('loading') || content.includes('error'));
-        
-        if (hasState && hasApiRelatedState && !content.includes('use') && !content.includes('Data')) {
-          return {
-            valid: false,
-            message: `⚠️ Screen ${path.basename(filePath)} pode se beneficiar de hook customizado.`,
-            suggestion: 'Considere criar um hook customizado para gerenciar o estado dos dados'
-          };
-        }
-      }
-      return { valid: true };
-    }
-  },
-
-  // Regra 3: Centralização de APIs
-  API_CENTRALIZATION: {
-    name: 'Centralização de APIs',
-    description: 'Chamadas de API devem usar o apiService centralizado',
-    validate: (filePath, content) => {
-      if (filePath.includes('/hooks/') && filePath.endsWith('.ts')) {
-        const hasFetch = content.includes('fetch(');
-        const hasApiService = content.includes('apiService');
-        
-        if (hasFetch && !hasApiService) {
-          return {
-            valid: false,
-            message: `❌ Hook ${path.basename(filePath)} usa fetch direto em vez do apiService.`,
-            suggestion: 'Use apiService.getXXX() em vez de fetch direto para consistência e retry automático'
-          };
-        }
-      }
-      return { valid: true };
-    }
-  },
-
-  // Regra 4: Documentação de Decisões
-  DECISION_DOCUMENTATION: {
-    name: 'Documentação de Decisões',
-    description: 'Arquivos novos devem ter documentação de decisões arquiteturais',
-    validate: (filePath, content) => {
-      if (filePath.includes('/screens/') || filePath.includes('/hooks/')) {
-        const hasDocumentation = content.includes('@description') || 
-          content.includes('Seguindo as diretrizes') ||
-          content.includes('Framework de Decisão');
-        
-        if (!hasDocumentation) {
-          return {
-            valid: false,
-            message: `📝 Arquivo ${path.basename(filePath)} precisa de documentação arquitetural.`,
-            suggestion: 'Adicione comentário explicando as decisões arquiteturais tomadas'
-          };
-        }
-      }
-      return { valid: true };
-    }
-  }
+// Configurações
+const CONFIG = {
+    projectRoot: process.cwd(),
+    frontendDir: 'frontend',
+    publicDir: 'frontend/public',
+    srcDir: 'frontend/src',
+    allowedExtensions: ['.html', '.css', '.js'],
+    forbiddenExtensions: ['.tsx', '.jsx', '.ts'],
+    requiredFiles: [
+        'frontend/public/index.html',
+        'frontend/public/payments-management.html'
+    ],
+    documentationFiles: [
+        'docs/architecture/ARQUITETURA_FRONTEND_ATUALIZADA.md',
+        'docs/directives/diretivas-pensamento-critico.md',
+        'docs/migration/PLANO_MIGRACAO_REACT_HTML.md'
+    ]
 };
 
-// 🔍 FUNÇÃO PRINCIPAL DE VALIDAÇÃO
-function validateArchitecture() {
-  console.log('🏗️ INICIANDO VALIDAÇÃO DE ARQUITETURA DOM v2\n');
-  
-  let totalFiles = 0;
-  let validFiles = 0;
-  let warnings = [];
-  let errors = [];
+// Cores para output
+const colors = {
+    reset: '\x1b[0m',
+    bright: '\x1b[1m',
+    red: '\x1b[31m',
+    green: '\x1b[32m',
+    yellow: '\x1b[33m',
+    blue: '\x1b[34m',
+    magenta: '\x1b[35m',
+    cyan: '\x1b[36m'
+};
 
-  // Buscar arquivos relevantes
-  const patterns = [
-    'frontend/src/screens/**/*.tsx',
-    'frontend/src/hooks/**/*.ts',
-    'frontend/src/services/**/*.ts'
-  ];
+// Função para log colorido
+function log(message, color = 'reset') {
+    console.log(`${colors[color]}${message}${colors.reset}`);
+}
 
-  patterns.forEach(pattern => {
-    const files = glob.sync(pattern);
+// Função para verificar se arquivo existe
+function fileExists(filePath) {
+    return fs.existsSync(path.join(CONFIG.projectRoot, filePath));
+}
+
+// Função para listar arquivos recursivamente
+function listFiles(dir, extensions = []) {
+    const files = [];
     
-    files.forEach(filePath => {
-      if (!fs.existsSync(filePath)) return;
-      
-      totalFiles++;
-      const content = fs.readFileSync(filePath, 'utf8');
-      let fileValid = true;
-
-      // Aplicar todas as regras
-      Object.entries(ARCHITECTURE_RULES).forEach(([ruleKey, rule]) => {
-        const result = rule.validate(filePath, content);
+    if (!fs.existsSync(dir)) return files;
+    
+    const items = fs.readdirSync(dir);
+    
+    for (const item of items) {
+        const fullPath = path.join(dir, item);
+        const stat = fs.statSync(fullPath);
         
-        if (!result.valid) {
-          fileValid = false;
-          const issue = {
-            file: filePath,
-            rule: rule.name,
-            message: result.message,
-            suggestion: result.suggestion
-          };
-
-          if (result.message.includes('❌')) {
-            errors.push(issue);
-          } else {
-            warnings.push(issue);
-          }
+        if (stat.isDirectory()) {
+            files.push(...listFiles(fullPath, extensions));
+        } else if (stat.isFile()) {
+            if (extensions.length === 0 || extensions.some(ext => item.endsWith(ext))) {
+                files.push(fullPath);
+            }
         }
-      });
-
-      if (fileValid) validFiles++;
-    });
-  });
-
-  // 📊 RELATÓRIO DE RESULTADOS
-  console.log('📊 RELATÓRIO DE VALIDAÇÃO ARQUITETURAL\n');
-  console.log(`Total de arquivos analisados: ${totalFiles}`);
-  console.log(`Arquivos válidos: ${validFiles}`);
-  console.log(`Arquivos com problemas: ${totalFiles - validFiles}\n`);
-  
-  // Debug: mostrar alguns arquivos analisados
-  if (totalFiles > 0) {
-    console.log('🔍 Últimos arquivos analisados:');
-    const lastFiles = glob.sync('frontend/src/screens/**/*.tsx').slice(-3);
-    lastFiles.forEach(file => console.log(`   - ${file}`));
-    console.log('');
-  }
-
-  // Mostrar erros (bloqueantes)
-  if (errors.length > 0) {
-    console.log('🚨 ERROS CRÍTICOS (devem ser corrigidos):');
-    errors.forEach((error, index) => {
-      console.log(`${index + 1}. ${error.message}`);
-      console.log(`   Arquivo: ${error.file}`);
-      console.log(`   Sugestão: ${error.suggestion}\n`);
-    });
-  }
-
-  // Mostrar warnings (recomendações)
-  if (warnings.length > 0) {
-    console.log('⚠️ AVISOS (recomendações):');
-    warnings.forEach((warning, index) => {
-      console.log(`${index + 1}. ${warning.message}`);
-      console.log(`   Arquivo: ${warning.file}`);
-      console.log(`   Sugestão: ${warning.suggestion}\n`);
-    });
-  }
-
-  // Resultado final
-  const success = errors.length === 0;
-  if (success) {
-    console.log('✅ VALIDAÇÃO CONCLUÍDA COM SUCESSO!');
-    console.log('🎯 Arquitetura está em conformidade com o Framework de Decisão Arquitetural\n');
-  } else {
-    console.log('❌ VALIDAÇÃO FALHOU!');
-    console.log(`🔧 Corrija os ${errors.length} erro(s) crítico(s) antes de prosseguir\n`);
-  }
-
-  return success;
+    }
+    
+    return files;
 }
 
-// 🚀 EXECUÇÃO
+// Função para validar estrutura de diretórios
+function validateDirectoryStructure() {
+    log('\n📁 VALIDANDO ESTRUTURA DE DIRETÓRIOS', 'cyan');
+    
+    const results = {
+        publicExists: fileExists(CONFIG.publicDir),
+        srcExists: fileExists(CONFIG.srcDir),
+        requiredFiles: [],
+        documentationFiles: []
+    };
+    
+    // Verificar arquivos obrigatórios
+    for (const file of CONFIG.requiredFiles) {
+        results.requiredFiles.push({
+            file,
+            exists: fileExists(file)
+        });
+    }
+    
+    // Verificar documentação
+    for (const file of CONFIG.documentationFiles) {
+        results.documentationFiles.push({
+            file,
+            exists: fileExists(file)
+        });
+    }
+    
+    // Exibir resultados
+    log(`✅ Diretório public/ existe: ${results.publicExists ? 'SIM' : 'NÃO'}`, results.publicExists ? 'green' : 'red');
+    log(`⚠️  Diretório src/ existe: ${results.srcExists ? 'SIM (LEGADO)' : 'NÃO'}`, results.srcExists ? 'yellow' : 'green');
+    
+    log('\n📄 ARQUIVOS OBRIGATÓRIOS:', 'cyan');
+    for (const item of results.requiredFiles) {
+        log(`  ${item.exists ? '✅' : '❌'} ${item.file}`, item.exists ? 'green' : 'red');
+    }
+    
+    log('\n📚 DOCUMENTAÇÃO:', 'cyan');
+    for (const item of results.documentationFiles) {
+        log(`  ${item.exists ? '✅' : '❌'} ${item.file}`, item.exists ? 'green' : 'red');
+    }
+    
+    return results;
+}
+
+// Função para validar arquivos HTML nativo
+function validateHtmlNativeFiles() {
+    log('\n🎯 VALIDANDO ARQUIVOS HTML NATIVO', 'cyan');
+    
+    const publicDir = path.join(CONFIG.projectRoot, CONFIG.publicDir);
+    const htmlFiles = listFiles(publicDir, ['.html']);
+    
+    log(`📊 Total de arquivos HTML encontrados: ${htmlFiles.length}`, 'blue');
+    
+    const results = {
+        totalFiles: htmlFiles.length,
+        validFiles: [],
+        invalidFiles: []
+    };
+    
+    for (const file of htmlFiles) {
+        const relativePath = path.relative(CONFIG.projectRoot, file);
+        const content = fs.readFileSync(file, 'utf8');
+        
+        // Validar estrutura básica HTML
+        const hasDoctype = content.includes('<!DOCTYPE html>');
+        const hasHtmlTag = content.includes('<html');
+        const hasHeadTag = content.includes('<head>');
+        const hasBodyTag = content.includes('<body>');
+        const hasViewport = content.includes('viewport');
+        const hasTitle = content.includes('<title>');
+        
+        const isValid = hasDoctype && hasHtmlTag && hasHeadTag && hasBodyTag && hasViewport && hasTitle;
+        
+        if (isValid) {
+            results.validFiles.push(relativePath);
+            log(`  ✅ ${relativePath}`, 'green');
+        } else {
+            results.invalidFiles.push(relativePath);
+            log(`  ❌ ${relativePath}`, 'red');
+        }
+    }
+    
+    return results;
+}
+
+// Função para detectar arquivos React obsoletos
+function detectReactFiles() {
+    log('\n⚠️  DETECTANDO ARQUIVOS REACT OBSOLETOS', 'yellow');
+    
+    const srcDir = path.join(CONFIG.projectRoot, CONFIG.srcDir);
+    const reactFiles = listFiles(srcDir, CONFIG.forbiddenExtensions);
+    
+    log(`📊 Total de arquivos React encontrados: ${reactFiles.length}`, 'yellow');
+    
+    const results = {
+        totalFiles: reactFiles.length,
+        files: reactFiles.map(file => path.relative(CONFIG.projectRoot, file))
+    };
+    
+    for (const file of results.files) {
+        log(`  ⚠️  ${file} (OBSOLETO)`, 'yellow');
+    }
+    
+    return results;
+}
+
+// Função para validar package.json
+function validatePackageJson() {
+    log('\n📦 VALIDANDO PACKAGE.JSON', 'cyan');
+    
+    const packagePath = path.join(CONFIG.projectRoot, 'frontend/package.json');
+    
+    if (!fileExists('frontend/package.json')) {
+        log('❌ package.json não encontrado', 'red');
+        return { exists: false };
+    }
+    
+    try {
+        const packageContent = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+        const dependencies = packageContent.dependencies || {};
+        const devDependencies = packageContent.devDependencies || {};
+        
+        const allDeps = { ...dependencies, ...devDependencies };
+        
+        // Verificar dependências proibidas
+        const forbiddenDeps = [
+            'react', 'react-dom', 'react-native', 'react-native-web',
+            'vue', 'angular', '@angular', 'next', 'nuxt'
+        ];
+        
+        const foundForbidden = forbiddenDeps.filter(dep => allDeps[dep]);
+        
+        log(`📊 Total de dependências: ${Object.keys(allDeps).length}`, 'blue');
+        
+        if (foundForbidden.length > 0) {
+            log('❌ Dependências proibidas encontradas:', 'red');
+            for (const dep of foundForbidden) {
+                log(`  ❌ ${dep}`, 'red');
+            }
+        } else {
+            log('✅ Nenhuma dependência proibida encontrada', 'green');
+        }
+        
+        return {
+            exists: true,
+            totalDeps: Object.keys(allDeps).length,
+            forbiddenDeps: foundForbidden
+        };
+        
+    } catch (error) {
+        log(`❌ Erro ao ler package.json: ${error.message}`, 'red');
+        return { exists: false, error: error.message };
+    }
+}
+
+// Função principal
+function main() {
+    log('🏗️  VALIDAÇÃO DE ARQUITETURA - DOM V2', 'bright');
+    log('=====================================', 'bright');
+    
+    const startTime = Date.now();
+    
+    // Executar validações
+    const dirStructure = validateDirectoryStructure();
+    const htmlFiles = validateHtmlNativeFiles();
+    const reactFiles = detectReactFiles();
+    const packageValidation = validatePackageJson();
+    
+    // Calcular score
+    let score = 0;
+    let totalChecks = 0;
+    
+    // Diretório public existe
+    totalChecks++;
+    if (dirStructure.publicExists) score++;
+    
+    // Arquivos obrigatórios
+    totalChecks += dirStructure.requiredFiles.length;
+    score += dirStructure.requiredFiles.filter(f => f.exists).length;
+    
+    // Documentação
+    totalChecks += dirStructure.documentationFiles.length;
+    score += dirStructure.documentationFiles.filter(f => f.exists).length;
+    
+    // Arquivos HTML válidos
+    totalChecks++;
+    if (htmlFiles.totalFiles > 0) score++;
+    
+    // Sem dependências proibidas
+    totalChecks++;
+    if (packageValidation.exists && packageValidation.forbiddenDeps.length === 0) score++;
+    
+    const percentage = Math.round((score / totalChecks) * 100);
+    
+    // Resultado final
+    log('\n📊 RESULTADO FINAL', 'bright');
+    log('==================', 'bright');
+    log(`🎯 Score de Arquitetura: ${score}/${totalChecks} (${percentage}%)`, percentage >= 80 ? 'green' : percentage >= 60 ? 'yellow' : 'red');
+    
+    if (percentage >= 80) {
+        log('✅ Arquitetura HTML nativo está sendo seguida corretamente!', 'green');
+    } else if (percentage >= 60) {
+        log('⚠️  Arquitetura precisa de ajustes menores', 'yellow');
+    } else {
+        log('❌ Arquitetura precisa de correções significativas', 'red');
+    }
+    
+    // Recomendações
+    log('\n💡 RECOMENDAÇÕES:', 'cyan');
+    
+    if (reactFiles.totalFiles > 0) {
+        log(`  🔄 Migrar ${reactFiles.totalFiles} arquivos React para HTML nativo`, 'yellow');
+    }
+    
+    if (packageValidation.forbiddenDeps.length > 0) {
+        log('  🧹 Remover dependências React do package.json', 'yellow');
+    }
+    
+    if (htmlFiles.invalidFiles.length > 0) {
+        log(`  🔧 Corrigir ${htmlFiles.invalidFiles.length} arquivos HTML inválidos`, 'yellow');
+    }
+    
+    const endTime = Date.now();
+    log(`\n⏱️  Tempo de execução: ${endTime - startTime}ms`, 'blue');
+    
+    // Exit code
+    process.exit(percentage >= 80 ? 0 : 1);
+}
+
+// Executar se chamado diretamente
 if (require.main === module) {
-  const success = validateArchitecture();
-  process.exit(success ? 0 : 1);
+    main();
 }
 
-module.exports = { validateArchitecture, ARCHITECTURE_RULES };
+module.exports = {
+    validateDirectoryStructure,
+    validateHtmlNativeFiles,
+    detectReactFiles,
+    validatePackageJson,
+    main
+};

@@ -80,6 +80,46 @@ function validateInput(data) {
   return true;
 }
 
+/**
+ * Valida CPF antes de processar login/registro
+ */
+function validateCPFForLogin(cpf: string): { isValid: boolean; cleanCPF: string; error?: string } {
+  // Limpar CPF (remover caracteres especiais)
+  const cleanCPF = cpf.replace(/\D/g, '');
+  
+  // Validar formato básico
+  if (cleanCPF.length !== 11) {
+    return {
+      isValid: false,
+      cleanCPF: '',
+      error: 'CPF deve ter 11 dígitos'
+    };
+  }
+  
+  // Validar se não são todos os mesmos dígitos
+  if (/^(\d)\1{10}$/.test(cleanCPF)) {
+    return {
+      isValid: false,
+      cleanCPF: '',
+      error: 'CPF inválido'
+    };
+  }
+  
+  // Validar dígitos verificadores
+  if (!validateCPF(cleanCPF)) {
+    return {
+      isValid: false,
+      cleanCPF: '',
+      error: 'CPF inválido'
+    };
+  }
+  
+  return {
+    isValid: true,
+    cleanCPF
+  };
+}
+
 // Aplicar validação
 
 
@@ -195,9 +235,10 @@ function signRefreshToken(payload: Record<string, any>): { token: string; record
 // Lockout simples por tentativas (dev): 5 erros em 10min -> bloqueio 15min
 type AttemptInfo = { count: number; firstAt: number; blockedUntil?: number };
 const failedAttempts = new Map<string, AttemptInfo>(); // key: cpf|ip
-const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 10 * 60 * 1000;
-const BLOCK_MS = 15 * 60 * 1000;
+// Rate limiting mais permissivo para desenvolvimento
+const MAX_ATTEMPTS = 20; // Aumentado de 5 para 20
+const WINDOW_MS = 5 * 60 * 1000; // Reduzido de 10 para 5 minutos
+const BLOCK_MS = 2 * 60 * 1000; // Reduzido de 15 para 2 minutos
 
 function getAttemptKey(cpf: string, ip?: string | string[]): string {
   return `${cpf || 'unknown'}|${Array.isArray(ip) ? ip[0] : ip || 'ip'}`;
@@ -339,21 +380,23 @@ apiRouter.post('/auth/login', (req: Request, res: Response) => {
     return;
   }
 
-  const cleanCPF = cpf.replace(/\D/g, '');
-  
-  if (!validateCPF(cleanCPF)) {
-    const key = getAttemptKey(cleanCPF, req.ip || req.headers['x-forwarded-for'] || '');
+  // Validar CPF antes de processar
+  const cpfValidation = validateCPFForLogin(cpf);
+  if (!cpfValidation.isValid) {
+    const key = getAttemptKey(cpfValidation.cleanCPF || cpf, req.ip || req.headers['x-forwarded-for'] || '');
     if (checkBlocked(key)) {
       res.status(429).json({ success: false, error: 'Muitas tentativas. Tente novamente mais tarde.' });
       return;
     }
     registerFailure(key);
-    res.status(400).json({ success: false, error: 'CPF inválido' });
+    res.status(400).json({ success: false, error: cpfValidation.error || 'CPF inválido' });
     return;
   }
+  
+  const cleanCPF = cpfValidation.cleanCPF;
 
   // Simular delay de processamento
-  setTimeout(() => {
+  setTimeout(async () => {
     // Determinar perfil baseado no CPF
     let profile = 'user';
     if (cleanCPF.endsWith('00')) {
@@ -434,35 +477,83 @@ apiRouter.post('/auth/login', (req: Request, res: Response) => {
     // limpar tentativas
     clearAttempts(getAttemptKey(cleanCPF, req.ip || req.headers['x-forwarded-for'] || ''));
 
-    // Retornar dados simulados com perfil correto
-    res.json({
-      success: true,
-      user: {
-        id: userId,
-        name: `Usuário ${cleanCPF}`,
-        email: `${cleanCPF}@dev.com`,
-        profile: profile,
-        cpf: cleanCPF
-      },
-      organizations: [{
-        id: 'dev-org-123',
-        type: 'user',
-        role: 'user'
-      }],
-      message: `Login realizado com sucesso - Perfil: ${profile}`,
-      preferences: {
-        rememberMe,
-        biometricEnabled: biometricUsed,
-        marketingAccepted
-       },
-      consents: {
-        termsAccepted: !!termsAccepted,
-        privacyAccepted: !!privacyAccepted,
-        marketingAccepted: !!marketingAccepted
-      },
-      token: accessToken,
-      refreshToken
-    });
+    // Buscar dados reais do usuário no banco de dados
+    try {
+      const dbUser = await prisma.users.findUnique({ 
+        where: { cpf: cleanCPF },
+        select: {
+          id: true,
+          name: true,
+          nickname: true,
+          email: true,
+          profile: true,
+          cpf: true
+        }
+      });
+
+      // Retornar dados reais do banco ou simulados se não encontrar
+      res.json({
+        success: true,
+        user: {
+          id: dbUser?.id || userId,
+          name: dbUser?.name || `Usuário ${cleanCPF}`,
+          nickname: dbUser?.nickname || `Nick_${cleanCPF.slice(-4)}`,
+          email: dbUser?.email || `${cleanCPF}@dev.com`,
+          profile: dbUser?.profile || profile,
+          cpf: dbUser?.cpf || cleanCPF
+        },
+        organizations: [{
+          id: 'dev-org-123',
+          type: 'user',
+          role: 'user'
+        }],
+        message: `Login realizado com sucesso - Perfil: ${profile}`,
+        preferences: {
+          rememberMe,
+          biometricEnabled: biometricUsed,
+          marketingAccepted
+         },
+        consents: {
+          termsAccepted: !!termsAccepted,
+          privacyAccepted: !!privacyAccepted,
+          marketingAccepted: !!marketingAccepted
+        },
+        token: accessToken,
+        refreshToken
+      });
+    } catch (error) {
+      console.error('Erro ao buscar usuário no banco:', error);
+      // Em caso de erro, retornar dados simulados
+      res.json({
+        success: true,
+        user: {
+          id: userId,
+          name: `Usuário ${cleanCPF}`,
+          nickname: `Nick_${cleanCPF.slice(-4)}`,
+          email: `${cleanCPF}@dev.com`,
+          profile: profile,
+          cpf: cleanCPF
+        },
+        organizations: [{
+          id: 'dev-org-123',
+          type: 'user',
+          role: 'user'
+        }],
+        message: `Login realizado com sucesso - Perfil: ${profile}`,
+        preferences: {
+          rememberMe,
+          biometricEnabled: biometricUsed,
+          marketingAccepted
+         },
+        consents: {
+          termsAccepted: !!termsAccepted,
+          privacyAccepted: !!privacyAccepted,
+          marketingAccepted: !!marketingAccepted
+        },
+        token: accessToken,
+        refreshToken
+      });
+    }
   }, 1000);
 });
 
@@ -512,6 +603,35 @@ apiRouter.post('/auth/refresh', (req: Request, res: Response) => {
   } catch {
     refreshStore.delete(refreshToken);
     return res.status(401).json({ success: false, error: 'Refresh token expirado' });
+  }
+});
+
+// Validate Token Endpoint
+apiRouter.get('/auth/validate', (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ success: false, error: 'Token de autorização não fornecido' });
+  }
+
+  const token = authHeader.substring(7);
+  
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    if (!decoded || !decoded.sub) {
+      return res.status(401).json({ success: false, error: 'Token inválido' });
+    }
+    
+    // Token válido
+    return res.json({ 
+      success: true, 
+      user: {
+        id: decoded.sub,
+        cpf: decoded.cpf,
+        profile: decoded.profile
+      }
+    });
+  } catch (error) {
+    return res.status(401).json({ success: false, error: 'Token expirado ou inválido' });
   }
 });
 
@@ -615,7 +735,7 @@ apiRouter.get('/notifications', async (req: Request, res: Response) => {
     if (recipientId) where.recipient_id = recipientId;
     if (unread_only === 'true') where.read = false;
 
-    const notifications = await prisma.notification.findMany({
+    const notifications = await prisma.notifications.findMany({
       where,
       orderBy: { created_at: 'desc' },
       take: 50 // Limite de 50 notificações por vez
@@ -646,7 +766,7 @@ apiRouter.put('/notifications/:id/read', async (req: Request, res: Response) => 
     const { id } = req.params;
     const { read = true } = req.body;
 
-    const updated = await prisma.notification.update({
+    const updated = await prisma.notifications.update({
       where: { id },
       data: { 
         read: Boolean(read),
@@ -666,7 +786,7 @@ apiRouter.delete('/notifications/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    await prisma.notification.update({
+    await prisma.notifications.update({
       where: { id },
       data: { active: false, updated_at: new Date() }
     });
@@ -1909,7 +2029,7 @@ apiRouter.get('/messages/:groupId', async (req: Request, res: Response) => {
 apiRouter.post('/messages', async (req: Request, res: Response) => {
   try {
     const { content, type = 'text', group_id, reply_to_id, metadata } = req.body;
-    const sender_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const sender_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     if (!content || !group_id) {
       return res.status(400).json({ 
@@ -1980,7 +2100,7 @@ apiRouter.post('/messages', async (req: Request, res: Response) => {
 apiRouter.post('/messages/:messageId/read', async (req: Request, res: Response) => {
   try {
     const { messageId } = req.params;
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     await prisma.messageRead.upsert({
       where: {
@@ -2009,7 +2129,7 @@ apiRouter.post('/messages/:messageId/read', async (req: Request, res: Response) 
 // Buscar grupos do usuário
 apiRouter.get('/groups', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     const userGroups = await prisma.user_group_roles.findMany({
       where: { 
@@ -2051,7 +2171,7 @@ apiRouter.get('/groups', async (req: Request, res: Response) => {
 // Estatísticas de comunicação
 apiRouter.get('/communication/stats', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     // Buscar grupos do usuário
     const userGroups = await prisma.user_group_roles.findMany({
@@ -2111,7 +2231,7 @@ apiRouter.get('/communication/stats', async (req: Request, res: Response) => {
 // Buscar estatísticas de gamificação do usuário
 apiRouter.get('/gamification/stats', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     // Buscar pontos totais do usuário
     const totalPointsResult = await prisma.userPoints.aggregate({
@@ -2186,7 +2306,7 @@ apiRouter.get('/gamification/stats', async (req: Request, res: Response) => {
 // Buscar achievements do usuário
 apiRouter.get('/gamification/achievements', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
     const { unlocked_only } = req.query as Record<string, string | undefined>;
 
     let achievements;
@@ -2250,7 +2370,7 @@ apiRouter.get('/gamification/achievements', async (req: Request, res: Response) 
 // Buscar desafios ativos
 apiRouter.get('/gamification/challenges', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
     const { status = 'active' } = req.query as Record<string, string | undefined>;
 
     const now = new Date();
@@ -2308,7 +2428,7 @@ apiRouter.get('/gamification/challenges', async (req: Request, res: Response) =>
 apiRouter.post('/gamification/challenges/:challengeId/accept', async (req: Request, res: Response) => {
   try {
     const { challengeId } = req.params;
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     // Verificar se o desafio existe e está ativo
     const challenge = await prisma.challenge.findFirst({
@@ -2377,7 +2497,7 @@ apiRouter.post('/gamification/challenges/:challengeId/accept', async (req: Reque
 apiRouter.post('/gamification/points', async (req: Request, res: Response) => {
   try {
     const { action, points, category, reference_id, metadata } = req.body;
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     if (!action || !points || !category) {
       return res.status(400).json({
@@ -2475,7 +2595,7 @@ apiRouter.get('/gamification/leaderboard', async (req: Request, res: Response) =
 // Buscar configurações do usuário
 apiRouter.get('/settings', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
 
     let userSettings = await prisma.userSettings.findUnique({
       where: { user_id }
@@ -2558,7 +2678,7 @@ apiRouter.get('/settings', async (req: Request, res: Response) => {
 // Atualizar configurações do usuário
 apiRouter.put('/settings', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
     const { theme, preferences, ui_config, notifications, privacy } = req.body;
 
     // Buscar configurações existentes
@@ -2626,7 +2746,7 @@ apiRouter.put('/settings', async (req: Request, res: Response) => {
 // Atualizar apenas configurações de tema
 apiRouter.put('/settings/theme', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
     const themeConfig = req.body;
 
     const userSettings = await prisma.userSettings.upsert({
@@ -2659,7 +2779,7 @@ apiRouter.put('/settings/theme', async (req: Request, res: Response) => {
 // Resetar configurações para padrão
 apiRouter.post('/settings/reset', async (req: Request, res: Response) => {
   try {
-    const user_id = 'user-temp-id'; // TODO: Pegar do token de autenticação
+    const user_id = '550e8400-e29b-41d4-a716-446655440000'; // TODO: Pegar do token de autenticação
     const { section } = req.body; // 'all', 'theme', 'preferences', etc.
 
     const defaultSettings = {
@@ -3954,6 +4074,623 @@ apiRouter.post('/esocial/events/retry', async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Erro ao reprocessar eventos:', error);
     res.status(500).json({ success: false, error: 'Erro interno do servidor' });
+  }
+});
+
+// Integrações de Pagamento
+apiRouter.get('/payment-integrations', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para integrações de pagamento
+    const integrations = [
+      {
+        id: 'mercadopago',
+        name: 'Mercado Pago',
+        type: 'pix',
+        status: 'active',
+        icon: '💳',
+        description: 'Solução completa de pagamentos online',
+        setupDate: '2025-01-15',
+        lastTransaction: '2025-01-27',
+        transactionCount: 156,
+        totalAmount: 45230.50,
+        apiKey: 'mp_test_123456789',
+        environment: 'sandbox'
+      },
+      {
+        id: 'pix',
+        name: 'PIX Direto',
+        type: 'pix',
+        status: 'active',
+        icon: '📱',
+        description: 'Transferências instantâneas via PIX',
+        setupDate: '2025-01-10',
+        lastTransaction: '2025-01-27',
+        transactionCount: 89,
+        totalAmount: 12340.75,
+        apiKey: 'pix_direct_987654321',
+        environment: 'production'
+      },
+      {
+        id: 'stripe',
+        name: 'Stripe',
+        type: 'card',
+        status: 'inactive',
+        icon: '💳',
+        description: 'Processamento de cartões internacionais',
+        setupDate: '2024-12-20',
+        lastTransaction: '2024-12-28',
+        transactionCount: 23,
+        totalAmount: 5670.30,
+        apiKey: 'sk_test_stripe_456789',
+        environment: 'sandbox'
+      },
+      {
+        id: 'boleto',
+        name: 'Boleto Bancário',
+        type: 'boleto',
+        status: 'pending',
+        icon: '📄',
+        description: 'Geração de boletos bancários',
+        setupDate: null,
+        lastTransaction: null,
+        transactionCount: 0,
+        totalAmount: 0,
+        apiKey: null,
+        environment: null
+      },
+      {
+        id: 'transfer',
+        name: 'Transferência Bancária',
+        type: 'transfer',
+        status: 'inactive',
+        icon: '🏦',
+        description: 'Transferências entre contas bancárias',
+        setupDate: null,
+        lastTransaction: null,
+        transactionCount: 0,
+        totalAmount: 0,
+        apiKey: null,
+        environment: null
+      }
+    ];
+
+    res.json({ success: true, integrations });
+  } catch (error) {
+    console.error('Erro ao buscar integrações de pagamento:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar integrações' });
+  }
+});
+
+apiRouter.post('/payment-integrations/setup', async (req: Request, res: Response) => {
+  try {
+    const { providerId, apiKey, secretKey, webhookUrl, environment } = req.body;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Aqui seria feita a validação e configuração real do provedor
+    console.log('Configurando provedor:', { providerId, apiKey, secretKey, webhookUrl, environment, userId });
+
+    res.json({ 
+      success: true, 
+      message: 'Provedor configurado com sucesso',
+      integration: {
+        id: providerId,
+        status: 'active',
+        setupDate: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao configurar provedor:', error);
+    res.status(500).json({ success: false, error: 'Erro ao configurar provedor' });
+  }
+});
+
+apiRouter.put('/payment-integrations/:id/activate', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    console.log('Ativando provedor:', { id, status, userId });
+
+    res.json({ 
+      success: true, 
+      message: 'Provedor ativado com sucesso',
+      integration: { id, status: 'active' }
+    });
+  } catch (error) {
+    console.error('Erro ao ativar provedor:', error);
+    res.status(500).json({ success: false, error: 'Erro ao ativar provedor' });
+  }
+});
+
+apiRouter.put('/payment-integrations/:id/deactivate', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    console.log('Desativando provedor:', { id, status, userId });
+
+    res.json({ 
+      success: true, 
+      message: 'Provedor desativado com sucesso',
+      integration: { id, status: 'inactive' }
+    });
+  } catch (error) {
+    console.error('Erro ao desativar provedor:', error);
+    res.status(500).json({ success: false, error: 'Erro ao desativar provedor' });
+  }
+});
+
+// Turnos (dados mockados para funcionalidades avançadas)
+apiRouter.get('/shifts', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para turnos
+    const shifts = [
+      {
+        id: 'SHIFT001',
+        name: 'Manhã',
+        startTime: '08:00',
+        endTime: '17:00',
+        employees: ['EMP001', 'EMP002'],
+        description: 'Turno padrão da manhã',
+        active: true
+      },
+      {
+        id: 'SHIFT002',
+        name: 'Tarde',
+        startTime: '14:00',
+        endTime: '23:00',
+        employees: ['EMP003'],
+        description: 'Turno da tarde',
+        active: true
+      },
+      {
+        id: 'SHIFT003',
+        name: 'Noite',
+        startTime: '22:00',
+        endTime: '07:00',
+        employees: ['EMP004'],
+        description: 'Turno noturno',
+        active: true
+      }
+    ];
+
+    res.json({ success: true, shifts });
+  } catch (error) {
+    console.error('Erro ao buscar turnos:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar turnos' });
+  }
+});
+
+apiRouter.post('/shifts', async (req: Request, res: Response) => {
+  try {
+    const { name, startTime, endTime, employees, description } = req.body;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    console.log('Criando turno:', { name, startTime, endTime, employees, description, userId });
+
+    res.json({ 
+      success: true, 
+      message: 'Turno criado com sucesso',
+      shift: {
+        id: `SHIFT${Date.now()}`,
+        name,
+        startTime,
+        endTime,
+        employees,
+        description,
+        active: true
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao criar turno:', error);
+    res.status(500).json({ success: false, error: 'Erro ao criar turno' });
+  }
+});
+
+apiRouter.put('/shifts/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { name, startTime, endTime, employees, description, active } = req.body;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    console.log('Atualizando turno:', { id, name, startTime, endTime, employees, description, active, userId });
+
+    res.json({ 
+      success: true, 
+      message: 'Turno atualizado com sucesso',
+      shift: { id, name, startTime, endTime, employees, description, active }
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar turno:', error);
+    res.status(500).json({ success: false, error: 'Erro ao atualizar turno' });
+  }
+});
+
+// Comunicação (dados mockados para funcionalidades avançadas)
+apiRouter.get('/communication/messages', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para mensagens
+    const messages = [
+      {
+        id: '1',
+        type: 'email',
+        recipient: 'maria.silva@email.com',
+        subject: 'Bem-vinda ao DOM v2!',
+        content: 'Olá Maria! Seja bem-vinda ao nosso sistema de gestão doméstica.',
+        status: 'delivered',
+        sentAt: '2025-01-27T10:30:00Z',
+        deliveredAt: '2025-01-27T10:31:00Z',
+        readAt: '2025-01-27T10:35:00Z'
+      },
+      {
+        id: '2',
+        type: 'sms',
+        recipient: '+55 11 99999-9999',
+        subject: 'Lembrete de Pagamento',
+        content: 'Seu pagamento vence em 3 dias. Valor: R$ 1.250,00',
+        status: 'sent',
+        sentAt: '2025-01-27T09:15:00Z'
+      },
+      {
+        id: '3',
+        type: 'whatsapp',
+        recipient: '+55 11 88888-8888',
+        subject: 'Confirmação de Agendamento',
+        content: 'Seu agendamento para limpeza foi confirmado para amanhã às 14h.',
+        status: 'delivered',
+        sentAt: '2025-01-26T16:45:00Z',
+        deliveredAt: '2025-01-26T16:46:00Z'
+      },
+      {
+        id: '4',
+        type: 'push',
+        recipient: 'João Silva',
+        subject: 'Nova Tarefa Atribuída',
+        content: 'Você tem uma nova tarefa: "Organizar documentos"',
+        status: 'failed',
+        sentAt: '2025-01-26T14:20:00Z'
+      }
+    ];
+
+    res.json({ success: true, messages });
+  } catch (error) {
+    console.error('Erro ao buscar mensagens:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar mensagens' });
+  }
+});
+
+apiRouter.get('/communication/templates', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para templates
+    const templates = [
+      {
+        id: '1',
+        name: 'Boas-vindas',
+        type: 'email',
+        subject: 'Bem-vindo ao DOM v2, {{nome}}!',
+        content: 'Olá {{nome}}! Seja bem-vindo ao nosso sistema de gestão doméstica. Estamos aqui para facilitar sua vida.',
+        variables: ['nome'],
+        usageCount: 45,
+        createdAt: '2025-01-15T10:00:00Z'
+      },
+      {
+        id: '2',
+        name: 'Lembrete de Pagamento',
+        type: 'sms',
+        subject: 'Lembrete de Pagamento',
+        content: 'Olá {{nome}}! Seu pagamento de R$ {{valor}} vence em {{dias}} dias.',
+        variables: ['nome', 'valor', 'dias'],
+        usageCount: 23,
+        createdAt: '2025-01-10T14:30:00Z'
+      },
+      {
+        id: '3',
+        name: 'Confirmação de Agendamento',
+        type: 'whatsapp',
+        subject: 'Agendamento Confirmado',
+        content: 'Olá {{nome}}! Seu agendamento para {{servico}} foi confirmado para {{data}} às {{hora}}.',
+        variables: ['nome', 'servico', 'data', 'hora'],
+        usageCount: 12,
+        createdAt: '2025-01-05T09:15:00Z'
+      }
+    ];
+
+    res.json({ success: true, templates });
+  } catch (error) {
+    console.error('Erro ao buscar templates:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar templates' });
+  }
+});
+
+apiRouter.post('/communication/send', async (req: Request, res: Response) => {
+  try {
+    const { type, recipients, subject, content } = req.body;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    console.log('Enviando mensagem:', { type, recipients, subject, content, userId });
+
+    res.json({ 
+      success: true, 
+      message: 'Mensagem enviada com sucesso',
+      messageId: `MSG${Date.now()}`
+    });
+  } catch (error) {
+    console.error('Erro ao enviar mensagem:', error);
+    res.status(500).json({ success: false, error: 'Erro ao enviar mensagem' });
+  }
+});
+
+apiRouter.post('/communication/templates', async (req: Request, res: Response) => {
+  try {
+    const { name, type, subject, content, variables } = req.body;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    console.log('Criando template:', { name, type, subject, content, variables, userId });
+
+    res.json({ 
+      success: true, 
+      message: 'Template criado com sucesso',
+      template: {
+        id: `TEMPLATE${Date.now()}`,
+        name,
+        type,
+        subject,
+        content,
+        variables,
+        usageCount: 0,
+        createdAt: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao criar template:', error);
+    res.status(500).json({ success: false, error: 'Erro ao criar template' });
+  }
+});
+
+// Gamificação (dados mockados para funcionalidades avançadas)
+apiRouter.get('/gamification/user', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para perfil do usuário
+    const user = {
+      id: userId,
+      name: 'Maria Silva',
+      avatar: '👩',
+      level: 8,
+      points: 2840,
+      rank: 3,
+      streak: 12,
+      achievements: 15
+    };
+
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error('Erro ao buscar dados do usuário:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar dados do usuário' });
+  }
+});
+
+apiRouter.get('/gamification/achievements', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para conquistas
+    const achievements = [
+      {
+        id: '1',
+        name: 'Primeira Tarefa',
+        description: 'Complete sua primeira tarefa',
+        icon: '✅',
+        points: 50,
+        category: 'task',
+        unlocked: true,
+        unlockedAt: '2025-01-15T10:30:00Z'
+      },
+      {
+        id: '2',
+        name: 'Organizador Financeiro',
+        description: 'Configure seu primeiro orçamento',
+        icon: '💰',
+        points: 100,
+        category: 'finance',
+        unlocked: true,
+        unlockedAt: '2025-01-16T14:20:00Z'
+      },
+      {
+        id: '3',
+        name: 'Família Unida',
+        description: 'Adicione 3 membros da família',
+        icon: '👨‍👩‍👧‍👦',
+        points: 150,
+        category: 'family',
+        unlocked: true,
+        unlockedAt: '2025-01-18T09:15:00Z'
+      },
+      {
+        id: '4',
+        name: 'Dedicação Diária',
+        description: 'Complete tarefas por 7 dias seguidos',
+        icon: '🔥',
+        points: 200,
+        category: 'streak',
+        unlocked: false,
+        progress: 5,
+        maxProgress: 7
+      },
+      {
+        id: '5',
+        name: 'Mestre das Tarefas',
+        description: 'Complete 50 tarefas',
+        icon: '🏆',
+        points: 500,
+        category: 'task',
+        unlocked: false,
+        progress: 32,
+        maxProgress: 50
+      },
+      {
+        id: '6',
+        name: 'Economista',
+        description: 'Economize R$ 1.000 em um mês',
+        icon: '💎',
+        points: 300,
+        category: 'finance',
+        unlocked: false,
+        progress: 650,
+        maxProgress: 1000
+      },
+      {
+        id: '7',
+        name: 'Aniversariante',
+        description: 'Use o sistema por 1 ano',
+        icon: '🎂',
+        points: 1000,
+        category: 'special',
+        unlocked: false
+      }
+    ];
+
+    res.json({ success: true, achievements });
+  } catch (error) {
+    console.error('Erro ao buscar conquistas:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar conquistas' });
+  }
+});
+
+apiRouter.get('/gamification/leaderboard', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para ranking
+    const leaderboard = [
+      {
+        id: '2',
+        name: 'João Santos',
+        avatar: '👨',
+        level: 12,
+        points: 4560,
+        rank: 1,
+        isCurrentUser: false
+      },
+      {
+        id: '3',
+        name: 'Ana Costa',
+        avatar: '👩',
+        level: 10,
+        points: 3890,
+        rank: 2,
+        isCurrentUser: false
+      },
+      {
+        id: '1',
+        name: 'Maria Silva',
+        avatar: '👩',
+        level: 8,
+        points: 2840,
+        rank: 3,
+        isCurrentUser: true
+      },
+      {
+        id: '4',
+        name: 'Pedro Lima',
+        avatar: '👨',
+        level: 7,
+        points: 2150,
+        rank: 4,
+        isCurrentUser: false
+      },
+      {
+        id: '5',
+        name: 'Carla Ferreira',
+        avatar: '👩',
+        level: 6,
+        points: 1890,
+        rank: 5,
+        isCurrentUser: false
+      }
+    ];
+
+    res.json({ success: true, leaderboard });
+  } catch (error) {
+    console.error('Erro ao buscar ranking:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar ranking' });
+  }
+});
+
+apiRouter.get('/gamification/rewards', async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    // Dados mockados para recompensas
+    const rewards = [
+      {
+        id: '1',
+        name: 'Café Grátis',
+        description: 'Vale para uma cafeteria parceira',
+        icon: '☕',
+        pointsRequired: 500,
+        available: true
+      },
+      {
+        id: '2',
+        name: 'Desconto 10%',
+        description: 'Desconto em produtos domésticos',
+        icon: '🏠',
+        pointsRequired: 1000,
+        available: true
+      },
+      {
+        id: '3',
+        name: 'Jantar Especial',
+        description: 'Vale para um restaurante premium',
+        icon: '🍽️',
+        pointsRequired: 2000,
+        available: false
+      },
+      {
+        id: '4',
+        name: 'Viagem Fim de Semana',
+        description: 'Pacote para 2 pessoas',
+        icon: '✈️',
+        pointsRequired: 5000,
+        available: false
+      }
+    ];
+
+    res.json({ success: true, rewards });
+  } catch (error) {
+    console.error('Erro ao buscar recompensas:', error);
+    res.status(500).json({ success: false, error: 'Erro ao buscar recompensas' });
+  }
+});
+
+apiRouter.post('/gamification/rewards/:id/redeem', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = req.headers['user-id'] as string || 'user-mock';
+
+    console.log('Resgatando recompensa:', { rewardId: id, userId });
+
+    res.json({
+      success: true,
+      message: 'Recompensa resgatada com sucesso',
+      rewardId: id,
+      redeemedAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Erro ao resgatar recompensa:', error);
+    res.status(500).json({ success: false, error: 'Erro ao resgatar recompensa' });
   }
 });
 

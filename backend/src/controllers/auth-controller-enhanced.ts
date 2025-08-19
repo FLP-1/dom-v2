@@ -174,6 +174,47 @@ if (!validateInput(inputData)) {
 
 
 /**
+ * Valida CPF antes de processar login/registro
+ */
+function validateCPFForLogin(cpf: string): { isValid: boolean; cleanCPF: string; error?: string } {
+  // Limpar CPF (remover caracteres especiais)
+  const cleanCPF = cpf.replace(/\D/g, '');
+  
+  // Validar formato básico
+  if (cleanCPF.length !== 11) {
+    return {
+      isValid: false,
+      cleanCPF: '',
+      error: 'CPF deve ter 11 dígitos'
+    };
+  }
+  
+  // Validar se não são todos os mesmos dígitos
+  if (/^(\d)\1{10}$/.test(cleanCPF)) {
+    return {
+      isValid: false,
+      cleanCPF: '',
+      error: 'CPF inválido'
+    };
+  }
+  
+  // Validar dígitos verificadores
+  if (!validateCPF(cleanCPF)) {
+    return {
+      isValid: false,
+      cleanCPF: '',
+      error: 'CPF inválido'
+    };
+  }
+  
+  return {
+    isValid: true,
+    cleanCPF
+  };
+}
+
+
+/**
  * @author Sistema DOM v2
  * @version 2.0.0
  * @since 2025-01-01

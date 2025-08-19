@@ -2,113 +2,39 @@
   "name": "dom-v2-frontend",
   "version": "2.0.0",
   "private": true,
-  "description": "DOM v2 - Sistema de Gestão Doméstica Familiar",
-  "main": "index.js",
+  "description": "DOM v2 - Sistema de Gestão Doméstica Familiar (HTML Nativo)",
+  "main": "public/index.html",
   "scripts": {
-    "start": "react-scripts start",
-    "dev": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest --watchAll=false",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --watchAll=false",
-    "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:accessibility": "jest --testNamePattern=\"accessibility\" --watchAll=false",
-    "test:visual": "jest --testNamePattern=\"visual\" --watchAll=false",
-    "test:unit": "jest --testPathPattern=\"\\.test\\.(ts|tsx)$\" --watchAll=false",
-    "test:integration": "jest --testPathPattern=\"\\.integration\\.test\\.(ts|tsx)$\" --watchAll=false",
-    "test:suite": "node scripts/run-test-suite.js",
-    "test:dashboard": "node scripts/generate-test-dashboard.js",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "lint": "eslint src/",
-    "lint:fix": "eslint src/ --fix",
-    "type-check": "tsc --noEmit",
-    "validate": "npm run type-check && npm run lint && npm run test:ci",
-    "quality:full": "npm run test:suite && npm run test:dashboard",
-    "quality:components": "npm run test:coverage -- src/components/base/"
+    "start": "npx serve public -p 3000",
+    "dev": "npx serve public -p 3000",
+    "build": "echo 'Build não necessário para HTML nativo'",
+    "serve": "npx serve public -p 3000",
+    "validate-html": "npx html-validate public/**/*.html",
+    "validate-architecture": "node scripts/validate-architecture.js",
+    "lint": "echo 'Linting não necessário para HTML nativo'",
+    "test": "echo 'Testes serão implementados conforme necessário'",
+    "clean": "echo 'Limpeza concluída'"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-native": "^0.72.0",
-    "react-native-web": "^0.19.0",
-    "react-router-dom": "^6.30.1",
-    "typescript": "^5.0.0"
+    "serve": "^14.2.0"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^7.0.0",
-    "@storybook/addon-backgrounds": "^7.0.0",
-    "@storybook/addon-docs": "^7.0.0",
-    "@storybook/addon-essentials": "^7.0.0",
-    "@storybook/addon-interactions": "^7.0.0",
-    "@storybook/addon-viewport": "^7.0.0",
-    "@storybook/react": "^7.0.0",
-    "@storybook/react-vite": "^7.0.0",
-    "@storybook/testing-library": "^0.2.0",
-    "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/react-hooks": "^8.0.1",
-    "@testing-library/react-native": "^12.0.0",
-    "@testing-library/user-event": "^14.0.0",
-    "@types/jest": "^29.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "chromatic": "^7.0.0",
-    "eslint": "^8.0.0",
-    "eslint-plugin-jest": "^27.0.0",
-    "eslint-plugin-jsx-a11y": "^6.7.0",
-    "eslint-plugin-react": "^7.32.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-testing-library": "^6.0.0",
-    "jest": "^29.0.0",
-    "jest-axe": "^8.0.0",
-    "jest-canvas-mock": "^2.5.0",
-    "jest-environment-jsdom": "^29.0.0",
-    "react-scripts": "5.0.1",
-    "react-test-renderer": "^18.2.0"
+    "html-validate": "^8.0.0"
   },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.ts"
-    ],
-    "moduleNameMapping": {
-      "^@/(.*)$": "<rootDir>/src/$1",
-      "^@components/(.*)$": "<rootDir>/src/components/$1",
-      "^@utils/(.*)$": "<rootDir>/src/utils/$1"
-    },
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/**/*.d.ts",
-      "!src/index.tsx",
-      "!src/setupTests.ts",
-      "!src/**/*.stories.{ts,tsx}",
-      "!src/**/__tests__/**",
-      "!src/**/__mocks__/**"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    },
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{ts,tsx}",
-      "<rootDir>/src/**/*.{test,spec}.{ts,tsx}"
-    ]
+  "engines": {
+    "node": ">=16.0.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dom-v2/frontend.git"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "javascript",
+    "domestic-management",
+    "family-system"
+  ],
+  "author": "DOM v2 Team",
+  "license": "MIT"
 }

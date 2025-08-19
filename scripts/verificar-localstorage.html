@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar LocalStorage - Nickname</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .info { background: #d1ecf1; border-color: #bee5eb; }
+        button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056CC; }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Verificador de LocalStorage - Nickname</h1>
+        
+        <div class="test-section info">
+            <h3>📋 Instruções</h3>
+            <p>1. Faça login na tela de login com CPF: 59876913700 e senha: 123456</p>
+            <p>2. Volte para esta página e clique em "Verificar LocalStorage"</p>
+            <p>3. Verifique se o nickname está sendo salvo corretamente</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Testes</h3>
+            <button onclick="verificarLocalStorage()">Verificar LocalStorage</button>
+            <button onclick="limparLocalStorage()">Limpar LocalStorage</button>
+            <button onclick="simularLogin()">Simular Login (Teste)</button>
+        </div>
+
+        <div id="resultados" class="test-section">
+            <h3>📊 Resultados</h3>
+            <div id="conteudo"></div>
+        </div>
+    </div>
+
+    <script>
+        function verificarLocalStorage() {
+            const conteudo = document.getElementById('conteudo');
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            let html = '<h4>🔍 Dados do LocalStorage:</h4>';
+            
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    html += `
+                        <div class="success">
+                            <h5>✅ Usuário encontrado:</h5>
+                            <pre>${JSON.stringify(user, null, 2)}</pre>
+                            
+                            <h5>📝 Verificação do Nickname:</h5>
+                            <ul>
+                                <li><strong>ID:</strong> ${user.id || 'N/A'}</li>
+                                <li><strong>Nome:</strong> ${user.name || 'N/A'}</li>
+                                <li><strong>Nickname:</strong> ${user.nickname || '❌ NÃO ENCONTRADO'}</li>
+                                <li><strong>Email:</strong> ${user.email || 'N/A'}</li>
+                                <li><strong>Perfil:</strong> ${user.profile || 'N/A'}</li>
+                                <li><strong>CPF:</strong> ${user.cpf || 'N/A'}</li>
+                            </ul>
+                            
+                            ${user.nickname ? 
+                                '<p class="success">🎉 <strong>Nickname encontrado!</strong> O problema pode estar na exibição.</p>' :
+                                '<p class="error">❌ <strong>Nickname não encontrado!</strong> O problema está no salvamento.</p>'
+                            }
+                        </div>
+                    `;
+                } catch (error) {
+                    html += `<div class="error">❌ Erro ao parsear dados do usuário: ${error.message}</div>`;
+                }
+            } else {
+                html += '<div class="error">❌ Nenhum usuário encontrado no localStorage</div>';
+            }
+            
+            if (token) {
+                html += `<div class="info"><strong>Token:</strong> ${token.substring(0, 50)}...</div>`;
+            } else {
+                html += '<div class="error">❌ Nenhum token encontrado</div>';
+            }
+            
+            conteudo.innerHTML = html;
+        }
+
+        function limparLocalStorage() {
+            localStorage.removeItem('dom_v2_user');
+            localStorage.removeItem('dom_v2_token');
+            localStorage.removeItem('dom_v2_login_time');
+            document.getElementById('conteudo').innerHTML = '<div class="info">🗑️ LocalStorage limpo!</div>';
+        }
+
+        function simularLogin() {
+            // Simular dados de login para teste
+            const userData = {
+                id: "dev-user-59876913700",
+                name: "Usuário 59876913700",
+                nickname: "Nick_3700",
+                email: "59876913700@dev.com",
+                profile: "admin",
+                cpf: "59876913700"
+            };
+            
+            localStorage.setItem('dom_v2_user', JSON.stringify(userData));
+            localStorage.setItem('dom_v2_token', 'test-token-123');
+            localStorage.setItem('dom_v2_login_time', Date.now().toString());
+            
+            document.getElementById('conteudo').innerHTML = '<div class="success">✅ Dados de teste salvos no localStorage!</div>';
+        }
+
+        // Verificar automaticamente ao carregar a página
+        window.onload = function() {
+            verificarLocalStorage();
+        };
+    </script>
+</body>
+</html>

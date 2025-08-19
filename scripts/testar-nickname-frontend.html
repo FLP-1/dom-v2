@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Nickname - DOM v2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .info { color: #3b82f6; }
+        button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste de Nickname - Frontend</h1>
+    
+    <div class="test-section">
+        <h2>1. Verificar LocalStorage</h2>
+        <button onclick="verificarLocalStorage()">Verificar LocalStorage</button>
+        <div id="localStorageResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Simular Login</h2>
+        <button onclick="simularLogin()">Simular Login com Nickname Real</button>
+        <button onclick="simularLoginFake()">Simular Login com Nickname Fake</button>
+        <div id="loginResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Testar Exibição</h2>
+        <button onclick="testarExibicao()">Testar Exibição do Nickname</button>
+        <div id="exibicaoResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Testar API</h2>
+        <button onclick="testarAPI()">Testar API de Login</button>
+        <div id="apiResult"></div>
+    </div>
+
+    <script>
+        function verificarLocalStorage() {
+            const result = document.getElementById('localStorageResult');
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (userData && token) {
+                try {
+                    const user = JSON.parse(userData);
+                    result.innerHTML = `
+                        <div class="success">
+                            <h3>✅ Usuário encontrado no LocalStorage:</h3>
+                            <pre>${JSON.stringify(user, null, 2)}</pre>
+                            <p><strong>Nickname:</strong> ${user.nickname || '❌ NÃO ENCONTRADO'}</p>
+                            <p><strong>Nome:</strong> ${user.name || '❌ NÃO ENCONTRADO'}</p>
+                        </div>
+                    `;
+                } catch (error) {
+                    result.innerHTML = `<div class="error">❌ Erro ao parsear dados: ${error.message}</div>`;
+                }
+            } else {
+                result.innerHTML = `<div class="info">ℹ️ Nenhum usuário logado encontrado</div>`;
+            }
+        }
+
+        function simularLogin() {
+            const user = {
+                id: "a2112b94-c861-478d-8565-438c010a79d9",
+                name: "Dono do Sistema",
+                nickname: "Xiko",
+                email: "sistema@domv2.com",
+                profile: "system_owner",
+                cpf: "59876913700"
+            };
+            
+            localStorage.setItem('dom_v2_user', JSON.stringify(user));
+            localStorage.setItem('dom_v2_token', 'fake-token-for-testing');
+            
+            const result = document.getElementById('loginResult');
+            result.innerHTML = `
+                <div class="success">
+                    <h3>✅ Login simulado com sucesso!</h3>
+                    <pre>${JSON.stringify(user, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        function simularLoginFake() {
+            const user = {
+                id: "dev-user-59876913700",
+                name: "Usuário 59876913700",
+                nickname: "Nick_3700",
+                email: "59876913700@dev.com",
+                profile: "admin",
+                cpf: "59876913700"
+            };
+            
+            localStorage.setItem('dom_v2_user', JSON.stringify(user));
+            localStorage.setItem('dom_v2_token', 'fake-token-for-testing');
+            
+            const result = document.getElementById('loginResult');
+            result.innerHTML = `
+                <div class="info">
+                    <h3>ℹ️ Login simulado com nickname fake!</h3>
+                    <pre>${JSON.stringify(user, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        function testarExibicao() {
+            const result = document.getElementById('exibicaoResult');
+            const userData = localStorage.getItem('dom_v2_user');
+            
+            if (!userData) {
+                result.innerHTML = `<div class="error">❌ Nenhum usuário logado</div>`;
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                const displayName = user.nickname || user.name || 'Usuário';
+                const avatarText = displayName.charAt(0).toUpperCase();
+                
+                result.innerHTML = `
+                    <div class="success">
+                        <h3>✅ Teste de Exibição:</h3>
+                        <p><strong>Nome para exibição:</strong> ${displayName}</p>
+                        <p><strong>Avatar (primeira letra):</strong> ${avatarText}</p>
+                        <p><strong>Nickname disponível:</strong> ${user.nickname ? '✅ Sim' : '❌ Não'}</p>
+                        <p><strong>Nome disponível:</strong> ${user.name ? '✅ Sim' : '❌ Não'}</p>
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Erro ao testar exibição: ${error.message}</div>`;
+            }
+        }
+
+        async function testarAPI() {
+            const result = document.getElementById('apiResult');
+            result.innerHTML = `<div class="info">🔄 Testando API...</div>`;
+            
+            try {
+                const response = await fetch('http://localhost:3001/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cpf: '59876913700',
+                        password: '123456',
+                        termsAccepted: true,
+                        privacyAccepted: true
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    result.innerHTML = `
+                        <div class="success">
+                            <h3>✅ API funcionando!</h3>
+                            <p><strong>Nickname retornado:</strong> ${data.user.nickname || '❌ NÃO ENCONTRADO'}</p>
+                            <p><strong>Nome retornado:</strong> ${data.user.name || '❌ NÃO ENCONTRADO'}</p>
+                            <pre>${JSON.stringify(data.user, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `<div class="error">❌ Erro na API: ${data.error}</div>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Erro ao conectar com API: ${error.message}</div>`;
+            }
+        }
+
+        // Verificar localStorage ao carregar a página
+        window.onload = function() {
+            verificarLocalStorage();
+        };
+    </script>
+</body>
+</html>

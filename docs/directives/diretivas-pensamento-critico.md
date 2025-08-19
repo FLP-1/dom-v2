@@ -226,144 +226,232 @@ if (!validateInput(inputData)) {
  * - docs/development/processo-garantia-diretivas.md
  */
 
-# DIRETIVAS DE PENSAMENTO CRÍTICO E HONESTIDADE INTELECTUAL
+# 🧠 Diretivas de Pensamento Crítico - DOM v2
 
-## 🎯 DIRETIVAS FUNDAMENTAIS
+## 🎯 **DECISÃO ARQUITETURAL DEFINITIVA**
 
-### 1. NÃO PRESUMA - BUSQUE CERTEZA
-- **REGRAS OBRIGATÓRIAS:**
-  - Sempre buscar informações de fontes confiáveis e reconhecidas
-  - Preferir fontes acadêmicas quando disponíveis
-  - Nunca assumir conhecimento sem verificação
-  - Documentar fontes de informação
+### **✅ ARQUITETURA FRONTEND: HTML NATIVO**
 
-### 2. SEJA CRÍTICO CONSTRUTIVO
-- **REGRAS OBRIGATÓRIAS:**
-  - Questionar sempre antes de concordar
-  - Apresentar argumentos fundamentados
-  - Identificar pontos fracos e fortes
-  - Sugerir melhorias específicas
+**DECISÃO CRÍTICA:** O projeto DOM v2 utiliza **HTML nativo** como tecnologia principal para o frontend.
 
-### 3. QUESTIONE SUPOSIÇÕES
-- **REGRAS OBRIGATÓRIAS:**
-  - Nunca aceitar "verdades" sem questionamento
-  - Verificar premissas antes de prosseguir
-  - Identificar e expor suposições ocultas
-  - Pedir evidências quando necessário
+**JUSTIFICATIVA:**
+- Simplicidade extrema (conforme diretrizes do projeto)
+- Performance superior
+- Manutenção simplificada
+- Compatibilidade universal
+- Menor curva de aprendizado
 
-### 4. APRESENTE CONTRAPONTOS
-- **REGRAS OBRIGATÓRIAS:**
-  - Sempre considerar múltiplas perspectivas
-  - Apresentar alternativas viáveis
-  - Ser cético e criativo simultaneamente
-  - Interpretar sob diferentes óticas
-
-### 5. TESTE A LÓGICA
-- **REGRAS OBRIGATÓRIAS:**
-  - Avaliar se argumentos fazem sentido
-  - Identificar falhas e lacunas lógicas
-  - Verificar consistência interna
-  - Testar conclusões com dados
-
-### 6. PRIORIZE VERDADE E HONESTIDADE
-- **REGRAS OBRIGATÓRIAS:**
-  - Corrigir erros imediatamente quando identificados
-  - Explicar claramente os motivos das correções
-  - Não priorizar concordância sobre verdade
-  - Ser transparente sobre incertezas
-
-## 🔧 SISTEMA DE VALIDAÇÃO IMPLEMENTADO
-
-### CHECKLIST OBRIGATÓRIO PARA TODAS AS DECISÕES:
-
-#### ANTES DE IMPLEMENTAR:
-- [ ] Informação foi verificada em fonte confiável?
-- [ ] Alternativas foram consideradas?
-- [ ] Suposições foram identificadas e questionadas?
-- [ ] Lógica foi testada e validada?
-- [ ] Contrapontos foram apresentados?
-
-#### DURANTE IMPLEMENTAÇÃO:
-- [ ] Código segue padrões estabelecidos?
-- [ ] Funcionalidade foi testada adequadamente?
-- [ ] Documentação foi atualizada?
-- [ ] Possíveis problemas foram identificados?
-
-#### APÓS IMPLEMENTAÇÃO:
-- [ ] Resultado foi validado?
-- [ ] Feedback foi coletado?
-- [ ] Melhorias foram identificadas?
-- [ ] Aprendizados foram documentados?
-
-## 🚨 PROCEDIMENTOS DE CORREÇÃO
-
-### QUANDO IDENTIFICAR ERROS:
-1. **PARAR IMEDIATAMENTE** a implementação
-2. **DOCUMENTAR** o erro encontrado
-3. **EXPLICAR** claramente os motivos
-4. **PROPOR** solução fundamentada
-5. **VALIDAR** antes de prosseguir
-
-### QUANDO HOUVER INCERTEZA:
-1. **DECLARAR** a incerteza explicitamente
-2. **BUSCAR** informações adicionais
-3. **CONSULTAR** fontes confiáveis
-4. **TESTAR** hipóteses
-5. **DOCUMENTAR** o processo
-
-## 📋 SISTEMA DE NOTIFICAÇÕES CRÍTICAS
-
-### TIPOS DE ALERTA:
-- **ALERTA CRÍTICO:** Erro identificado que requer correção imediata
-- **ALERTA DE VALIDAÇÃO:** Necessidade de verificação adicional
-- **ALERTA DE SUPOSIÇÃO:** Suposição identificada que precisa ser questionada
-- **ALERTA DE LÓGICA:** Possível falha lógica identificada
-
-### PROCEDIMENTO DE ALERTA:
-1. Usar função `createSystemNotification()` com tipo específico
-2. Documentar no sistema de logs
-3. Requerir confirmação antes de prosseguir
-4. Registrar decisão tomada
-
-## 🎯 OBJETIVO FINAL
-
-**NÃO É DISCORDAR POR DISCORDAR**
-**É AJUDAR A PENSAR MELHOR, COM MAIS CLAREZA E PRECISÃO**
-
-### RESULTADOS ESPERADOS:
-- Decisões mais fundamentadas
-- Código mais robusto e confiável
-- Aprendizado contínuo e documentado
-- Qualidade superior em todas as entregas
-- Transparência total no processo
-
-## 📚 REFERÊNCIAS E FONTES
-
-### FONTES CONFIÁVEIS PARA VALIDAÇÃO:
-- Documentação oficial das tecnologias
-- Artigos acadêmicos sobre boas práticas
-- Comunidades técnicas reconhecidas
-- Especialistas na área
-- Padrões internacionais estabelecidos
-
-### DOCUMENTAÇÃO OBRIGATÓRIA:
-- Todas as decisões devem ser documentadas
-- Fontes de informação devem ser citadas
-- Raciocínio deve ser explicitado
-- Alternativas consideradas devem ser registradas
+**CONSEQUÊNCIAS:**
+- ❌ NÃO usar React/React Native
+- ❌ NÃO usar frameworks complexos
+- ✅ SEMPRE implementar em HTML nativo
+- ✅ SEGUIR padrões estabelecidos
 
 ---
 
-**ESTA DOCUMENTAÇÃO É OBRIGATÓRIA PARA TODOS OS PARTICIPANTES DO PROJETO (HUMANOS E AGENTES DE IA)** 
+## 🧠 **DIRETIVAS DE PENSAMENTO CRÍTICO**
 
-## ⚠️ **LIMITAÇÕES E CONSIDERAÇÕES**
+### **1. QUESTIONAR SUPOSIÇÕES**
+- **SEMPRE** questionar: "Por que estamos fazendo isso?"
+- **VERIFICAR** se a suposição está baseada em fatos
+- **BUSCAR** evidências antes de aceitar
+- **CONSIDERAR** alternativas viáveis
 
-### **Limitações Identificadas:**
-- Análise baseada no contexto atual do projeto
-- Métricas podem variar conforme evolução do sistema
-- Necessidade de validação contínua
+### **2. BUSCAR MÚLTIPLAS PERSPECTIVAS**
+- **ANALISAR** pelo menos 3 perspectivas diferentes
+- **CONSIDERAR** pontos de vista opostos
+- **AVALIAR** impactos em diferentes stakeholders
+- **DOCUMENTAR** trade-offs identificados
 
-### **Suposições:**
-- Sistema mantém estabilidade técnica
-- Equipe continua comprometida com qualidade
-- Mercado mantém características identificadas
+### **3. VERIFICAR FONTES E EVIDÊNCIAS**
+- **SEMPRE** verificar a origem das informações
+- **BUSCAR** evidências empíricas
+- **AVALIAR** a credibilidade das fontes
+- **DOCUMENTAR** referências utilizadas
+
+### **4. IDENTIFICAR VIÉSES E LIMITAÇÕES**
+- **RECONHECER** viés de confirmação
+- **CONSIDERAR** limitações do conhecimento atual
+- **AVALIAR** impactos de decisões passadas
+- **DOCUMENTAR** incertezas e riscos
+
+### **5. APLICAR LÓGICA E RAZÃO**
+- **USAR** pensamento lógico estruturado
+- **EVITAR** falácias lógicas comuns
+- **CONSTRUIR** argumentos sólidos
+- **VALIDAR** conclusões através de evidências
+
+---
+
+## 🏗️ **DIRETIVAS ARQUITETURAIS**
+
+### **FRONTEND (OBRIGATÓRIO)**
+```bash
+✅ HTML NATIVO - Tecnologia principal
+✅ CSS3 puro - Estilização
+✅ JavaScript vanilla - Interatividade
+✅ Mobile-first - Responsividade
+✅ Acessibilidade - LGPD compliance
+```
+
+### **PROIBIDO (VIOLAÇÃO CRÍTICA)**
+```bash
+❌ React/React Native
+❌ React Native Web
+❌ Vue.js/Angular
+❌ Frameworks complexos
+❌ Bundlers desnecessários
+```
+
+---
+
+## 📋 **CHECKLIST OBRIGATÓRIO**
+
+### **ANTES DE IMPLEMENTAR QUALQUER COISA:**
+
+#### **1. VERIFICAÇÃO ARQUITETURAL:**
+- [ ] **ARQUITETURA:** Estou usando HTML nativo?
+- [ ] **SIMPLICIDADE:** A solução é a mais simples possível?
+- [ ] **MVP:** A funcionalidade é essencial para o MVP?
+- [ ] **PADRÕES:** Estou seguindo os padrões estabelecidos?
+
+#### **2. ANÁLISE CRÍTICA:**
+- [ ] **SUPOSIÇÕES:** Identifiquei todas as suposições?
+- [ ] **ALTERNATIVAS:** Considerei pelo menos 3 alternativas?
+- [ ] **EVIDÊNCIAS:** Tenho evidências para minhas decisões?
+- [ ] **VIÉSES:** Identifiquei possíveis viéses?
+
+#### **3. VALIDAÇÃO TÉCNICA:**
+- [ ] **PERFORMANCE:** A solução é performática?
+- [ ] **MANUTENIBILIDADE:** O código é fácil de manter?
+- [ ] **ESCALABILIDADE:** A solução escala adequadamente?
+- [ ] **SEGURANÇA:** Considero aspectos de segurança?
+
+#### **4. DOCUMENTAÇÃO:**
+- [ ] **DECISÕES:** Documentei as decisões tomadas?
+- [ ] **JUSTIFICATIVAS:** Expliquei o porquê das escolhas?
+- [ ] **ALTERNATIVAS:** Liste as alternativas consideradas?
+- [ ] **RISCOS:** Identifiquei e documentei os riscos?
+
+---
+
+## 🚨 **VIOLAÇÕES CRÍTICAS**
+
+### **VIOLAÇÃO ARQUITETURAL (BLOQUEIO IMEDIATO):**
+```bash
+❌ Tentar usar React/React Native
+❌ Implementar frameworks complexos
+❌ Ignorar padrões HTML nativo
+❌ Não seguir mobile-first
+```
+
+### **VIOLAÇÃO DE PENSAMENTO CRÍTICO:**
+```bash
+❌ Implementar sem questionar
+❌ Não considerar alternativas
+❌ Ignorar evidências
+❌ Não documentar decisões
+```
+
+---
+
+## 📊 **MATRIZ DE DECISÃO**
+
+### **CRITÉRIOS DE AVALIAÇÃO:**
+| Critério | Peso | Descrição |
+|----------|------|-----------|
+| Simplicidade | 40% | Quão simples é a solução? |
+| Performance | 25% | Qual o impacto na performance? |
+| Manutenibilidade | 20% | Fácil de manter e evoluir? |
+| Compatibilidade | 15% | Funciona em todos os dispositivos? |
+
+### **PONTUAÇÃO MÍNIMA:**
+- **MÍNIMO:** 80 pontos (escala 0-100)
+- **RECOMENDADO:** 90+ pontos
+- **EXCELENTE:** 95+ pontos
+
+---
+
+## 🔧 **PROCESSO DE APLICAÇÃO**
+
+### **1. ANÁLISE INICIAL:**
+```bash
+# Verificar arquitetura
+if (tecnologia !== 'HTML_NATIVO') {
+    throw new Error('VIOLAÇÃO ARQUITETURAL');
+}
+
+# Aplicar checklist
+if (!checklistCompleto()) {
+    throw new Error('CHECKLIST INCOMPLETO');
+}
+```
+
+### **2. IMPLEMENTAÇÃO:**
+```bash
+# Seguir padrões
+- Usar HTML nativo
+- CSS inline ou externo
+- JavaScript vanilla
+- Mobile-first
+- Acessibilidade
+```
+
+### **3. VALIDAÇÃO:**
+```bash
+# Testes obrigatórios
+- Responsividade
+- Performance
+- Acessibilidade
+- Compatibilidade
+```
+
+---
+
+## 📚 **REFERÊNCIAS OBRIGATÓRIAS**
+
+### **DOCUMENTAÇÃO:**
+- `docs/architecture/ARQUITETURA_FRONTEND_ATUALIZADA.md`
+- `docs/profiles/perfis-usuarios-detalhados.md`
+- `docs/profiles/perfis-enriquecidos.md`
+
+### **EXEMPLOS:**
+- `frontend/public/payments-management.html` - Implementação completa
+- `frontend/public/index.html` - Entry point
+
+---
+
+## 🎯 **DIRETRIZES PARA IA ASSISTANTS**
+
+### **ANTES DE RESPONDER:**
+1. **VERIFICAR** arquitetura HTML nativo
+2. **APLICAR** checklist completo
+3. **DOCUMENTAR** decisões
+4. **ALERTAR** sobre violações
+5. **SUGERIR** alternativas simples
+
+### **RESPOSTA ESTRUTURADA:**
+```markdown
+## 🎯 ANÁLISE CRÍTICA
+
+### **ARQUITETURA:**
+- ✅ HTML nativo (conforme diretrizes)
+
+### **SUPOSIÇÕES:**
+- [Listar suposições identificadas]
+
+### **ALTERNATIVAS:**
+- [Listar alternativas consideradas]
+
+### **DECISÃO:**
+- [Justificar escolha]
+
+### **IMPLEMENTAÇÃO:**
+- [Código HTML nativo]
+```
+
+---
+
+**ÚLTIMA ATUALIZAÇÃO:** 06/08/2025  
+**VERSÃO:** 2.0.0  
+**STATUS:** OBRIGATÓRIA E DEFINITIVA

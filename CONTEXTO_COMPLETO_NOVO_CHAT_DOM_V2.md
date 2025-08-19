@@ -9,34 +9,14 @@
 
 ### **PROJETO DOM V2 - SISTEMA DE GESTÃO DOMÉSTICA**
 - **Tipo:** Sistema completo de gestão doméstica e empresarial
-- **Arquitetura:** Híbrida (Backend Node.js + Frontend React Native)
+- **Arquitetura:** Backend Node.js + Frontend HTML Nativo
 - **Fase Atual:** Fase 3 - Evolução e Otimização Contínua
 - **Qualidade:** 86.3% (em correção para 100%)
 - **Status:** Desenvolvimento ativo e bem estruturado
 
 ---
 
-## 📊 **STATUS ATUAL DAS FASES**
-
-### **✅ FASE 1 - OTI MIZAÇÃO DO SISTEMA DE DIRETIVAS CRÍTICAS**
-- **Status:** **100% CONCLUÍDA**
-- **Data:** 26/07/2025
-- **Conquistas:** 493 arquivos com qualidade 100%, sistema de diretivas implementado
-
-### **✅ FASE 2 - ADOÇÃO DAS DIRETIVAS CRÍTICAS**
-- **Status:** **100% CONCLUÍDA**
-- **Data:** Concluída conforme cronograma
-- **Conquistas:** Equipe treinada, processos maduros, cultura de excelência
-
-### **🔄 FASE 3 - EVOLUÇÃO E OTI MIZAÇÃO CONTÍNUA**
-- **Status:** **INICIADA - EM ANDAMENTO**
-- **Data de Início:** 26/07/2025
-- **Progresso:** 0-25% concluída
-- **Objetivos:** Otimização de performance, expansão de funcionalidades, análises avançadas
-
----
-
-## 🏗️ **ARQUITETURA TÉCNICA**
+## 🏗️ **ARQUITETURA TÉCNICA DEFINITIVA**
 
 ### **BACKEND (Node.js + TypeScript + Prisma)**
 ```
@@ -53,18 +33,62 @@ backend/
 └── package.json         # Última atualização: 05/08/2025
 ```
 
-### **FRONTEND (React Native + TypeScript)**
+### **FRONTEND (HTML NATIVO)**
 ```
 frontend/
-├── src/
-│   ├── components/      # 45+ arquivos (qualidade variável)
-│   ├── screens/         # 20+ arquivos (qualidade variável)
-│   ├── hooks/           # 6 arquivos (qualidade variável)
-│   ├── utils/           # 15+ arquivos (100% qualidade)
-│   ├── micro-frontends/ # 35+ arquivos (85-100% qualidade)
-│   └── navigation/      # 2 arquivos (qualidade variável)
-└── package.json         # Última atualização: 26/07/2025
+├── public/              # 🎯 PRINCIPAL - HTML Nativo
+│   ├── index.html       # Entry point principal
+│   ├── payments-management.html  # ✅ Gestão de pagamentos (implementada)
+│   ├── showcase-telas.html      # Demonstração de telas
+│   ├── login-screen.html        # Tela de login
+│   └── *.html          # Outras telas HTML
+├── src/                 # ⚠️ LEGADO - React (será migrado)
+│   ├── screens/        # Telas React (obsoletas)
+│   ├── components/     # Componentes React (obsoletos)
+│   └── hooks/         # Hooks React (obsoletos)
+└── package.json        # Dependências (será simplificado)
 ```
+
+---
+
+## 🎯 **DECISÃO ARQUITETURAL CRÍTICA**
+
+### **✅ ARQUITETURA FRONTEND: HTML NATIVO**
+
+**DECISÃO:** O projeto DOM v2 utiliza **HTML nativo** como tecnologia principal para o frontend.
+
+**JUSTIFICATIVA:**
+- Simplicidade extrema (conforme diretrizes do projeto)
+- Performance superior
+- Manutenção simplificada
+- Compatibilidade universal
+- Menor curva de aprendizado
+
+**CONSEQUÊNCIAS:**
+- ❌ NÃO usar React/React Native
+- ❌ NÃO usar frameworks complexos
+- ✅ SEMPRE implementar em HTML nativo
+- ✅ SEGUIR padrões estabelecidos
+
+---
+
+## 📊 **STATUS ATUAL DAS FASES**
+
+### **✅ FASE 1 - OTIMIZAÇÃO DO SISTEMA DE DIRETIVAS CRÍTICAS**
+- **Status:** **100% CONCLUÍDA**
+- **Data:** 26/07/2025
+- **Conquistas:** 493 arquivos com qualidade 100%, sistema de diretivas implementado
+
+### **✅ FASE 2 - ADOÇÃO DAS DIRETIVAS CRÍTICAS**
+- **Status:** **100% CONCLUÍDA**
+- **Data:** Concluída conforme cronograma
+- **Conquistas:** Equipe treinada, processos maduros, cultura de excelência
+
+### **🔄 FASE 3 - EVOLUÇÃO E OTIMIZAÇÃO CONTÍNUA**
+- **Status:** **INICIADA - EM ANDAMENTO**
+- **Data de Início:** 26/07/2025
+- **Progresso:** 0-25% concluída
+- **Objetivos:** Otimização de performance, expansão de funcionalidades, análises avançadas
 
 ---
 
@@ -76,15 +100,38 @@ frontend/
 - **Ação Executada:** `npm run aggressive-fix` (executado)
 - **Status:** Aguardando validação dos resultados
 
-### **2. COMPONENTES BÁSICOS COM QUALIDADE BAIXA**
+### **2. ARQUITETURA FRONTEND CONFUSA**
+- **Problema:** Mistura de React e HTML nativo
+- **Causa:** Documentação inconsistente
+- **Ação Executada:** Definição de arquitetura HTML nativo
+- **Status:** Documentação corrigida, migração em andamento
+
+### **3. COMPONENTES BÁSICOS COM QUALIDADE BAIXA**
 - **Problema:** Button.tsx, Card.tsx, Header.tsx com qualidade 0-30%
 - **Prioridade:** ALTA
-- **Ação Pendente:** `node scripts/fix-critical-issues.js --target=frontend/src/components`
+- **Ação Pendente:** Migração para HTML nativo
+- **Status:** Plano de migração criado
 
-### **3. DADOS CONFLITANTES DE ADOÇÃO**
-- **Problema:** Documentos com métricas diferentes
-- **Status:** Necessita consolidação
-- **Ação Pendente:** Unificar dados de status
+---
+
+## 🔄 **PLANO DE MIGRAÇÃO FRONTEND**
+
+### **PRIORIDADE ALTA (MVP):**
+1. **DashboardScreen.tsx** → `dashboard.html`
+2. **TasksScreen.tsx** → `tasks-management.html`
+3. **EmployeesScreen.tsx** → `employees-management.html`
+4. **BudgetScreen.tsx** → `budget-management.html`
+
+### **PRIORIDADE MÉDIA:**
+5. **TimeClockScreen.tsx** → `timeclock.html`
+6. **NotificationsScreen.tsx** → `notifications.html`
+7. **ProfileScreen.tsx** → `profile.html`
+8. **SettingsScreen.tsx** → `settings.html`
+
+### **STATUS ATUAL:**
+- ✅ `payments-management.html` - Implementada e funcional
+- 🔄 Migração das demais telas em andamento
+- ⏳ Limpeza do código React obsoleto pendente
 
 ---
 
@@ -106,187 +153,131 @@ npm run phase3-benchmark           # Benchmark da Fase 3
 npm run phase3-cache              # Cache inteligente
 npm run phase3-parallel           # Validação paralela
 npm run phase4-cicd               # Pipeline CI/CD
-npm run phase5-ml-automation      # Automação ML
-```
-
-### **DESENVOLVIMENTO:**
-```bash
-# Diretório: C:\dom-v2
-npm run start-backend             # Iniciar backend
-npm run start-frontend            # Iniciar frontend
-npm run start-dev                 # Iniciar ambos
-npm run install-all               # Instalar todas as dependências
-npm run build-all                 # Build completo
-npm run test-all                  # Testes completos
-```
-
-### **LIMPEZA DE ARQUIVOS OBSOLETOS:**
-```bash
-# Diretório: C:\dom-v2
-npm run clean-obsolete            # Limpeza simples
-npm run clean-obsolete-advanced   # Limpeza avançada
-npm run clean-obsolete-powershell # Limpeza via PowerShell
 ```
 
 ---
 
-## 📚 **DOCUMENTAÇÃO ESSENCIAL**
+## 🎯 **DIRETRIZES CRÍTICAS PARA IA ASSISTANTS**
 
-### **ARQUIVOS DE STATUS:**
-- `ANALISE_DESENVOLVIMENTO_ATUAL_DOM_V2.md` - Análise completa atual
-- `RESUMO_ANALISE_DESENVOLVIMENTO_DOM_V2.md` - Resumo executivo
-- `RELATORIO_ARQUIVOS_OBSOLETOS_DOM_V2.md` - Relatório de limpeza
-- `RESUMO_LIMPEZA_ARQUIVOS_OBSOLETOS.md` - Resumo da limpeza
+### **ANTES DE IMPLEMENTAR QUALQUER COISA:**
 
-### **DIRETÓRIOS IMPORTANTES:**
-- `docs/phases/` - Documentação das fases do projeto
-- `docs/business/` - Documentação de negócio
-- `docs/development/` - Guias de desenvolvimento
-- `scripts/` - Scripts de automação e validação
+#### **1. VERIFICAÇÃO ARQUITETURAL:**
+- [ ] **ARQUITETURA:** Estou usando HTML nativo?
+- [ ] **SIMPLICIDADE:** A solução é a mais simples possível?
+- [ ] **MVP:** A funcionalidade é essencial para o MVP?
+- [ ] **PADRÕES:** Estou seguindo os padrões estabelecidos?
 
----
+#### **2. ANÁLISE CRÍTICA:**
+- [ ] **SUPOSIÇÕES:** Identifiquei todas as suposições?
+- [ ] **ALTERNATIVAS:** Considerei pelo menos 3 alternativas?
+- [ ] **EVIDÊNCIAS:** Tenho evidências para minhas decisões?
+- [ ] **VIÉSES:** Identifiquei possíveis viéses?
 
-## 🎯 **RECOMENDAÇÕES IMEDIATAS**
+#### **3. VALIDAÇÃO TÉCNICA:**
+- [ ] **PERFORMANCE:** A solução é performática?
+- [ ] **MANUTENIBILIDADE:** O código é fácil de manter?
+- [ ] **ESCALABILIDADE:** A solução escala adequadamente?
+- [ ] **SEGURANÇA:** Considero aspectos de segurança?
 
-### **PRIORIDADE ALTA (1-2 dias):**
-```bash
-# Diretório: C:\dom-v2
-# 1. Validar resultado da correção agressiva
-npm run validate-directives
-
-# 2. Corrigir componentes básicos
-node scripts/fix-critical-issues.js --target=frontend/src/components
-
-# 3. Implementar validação automática
-npm run setup-hooks
-```
-
-### **PRIORIDADE MÉDIA (1 semana):**
-```bash
-# Diretório: C:\dom-v2
-# 4. Consolidar dados de status
-node scripts/quick-status.js --comprehensive
-
-# 5. Retomar implementação da Fase 3
-npm run phase3-benchmark
-npm run phase3-cache
-npm run phase3-parallel
-```
-
-### **PRIORIDADE BAIXA (2 semanas):**
-```bash
-# Diretório: C:\dom-v2
-# 6. Otimizar arquivos gerados
-node scripts/optimize-generated-files.js
-```
+#### **4. DOCUMENTAÇÃO:**
+- [ ] **DECISÕES:** Documentei as decisões tomadas?
+- [ ] **JUSTIFICATIVAS:** Expliquei o porquê das escolhas?
+- [ ] **ALTERNATIVAS:** Liste as alternativas consideradas?
+- [ ] **RISCOS:** Identifiquei e documentei os riscos?
 
 ---
 
-## 🔧 **FERRAMENTAS CRIADAS**
+## 🚫 **TECNOLOGIAS PROIBIDAS**
 
-### **SCRIPTS DE ANÁLISE:**
-- `scripts/analisar-arquivos-obsoletos.js` - Análise avançada
-- `scripts/limpeza-obsoletos-simples.js` - Análise rápida
-- `scripts/limpeza-obsoletos.ps1` - Script PowerShell
+### **NÃO USAR:**
+- ❌ React/React Native
+- ❌ React Native Web
+- ❌ Vue.js
+- ❌ Angular
+- ❌ Frameworks complexos
+- ❌ Bundlers desnecessários
 
-### **SCRIPTS DE CORREÇÃO:**
-- `scripts/aggressive-error-fix.js` - Correção agressiva
-- `scripts/fix-critical-issues.js` - Correção de issues críticos
-- `scripts/validate-directives.js` - Validação de diretivas
-
-### **SCRIPTS DE FASE:**
-- `scripts/phase3-performance-benchmark.js` - Benchmark Fase 3
-- `scripts/phase3-intelligent-cache.js` - Cache inteligente
-- `scripts/phase3-parallel-validation.js` - Validação paralela
-
----
-
-## 📈 **MÉTRICAS ATUAIS**
-
-### **QUALIDADE DO PROJETO:**
-- **Geral:** 86.3% (607 arquivos analisados)
-- **Arquivos Excelentes (≥90%):** 442 (72.8%)
-- **Arquivos com Problemas (<60%):** 85 (14.0%)
-- **Meta:** 100% (já foi alcançada anteriormente)
-
-### **ORGANIZAÇÃO:**
-- **Arquivos obsoletos:** 0 (projeto bem organizado)
-- **Duplicações:** 0 (sem redundâncias)
-- **Documentação:** 100% completa
-- **Automação:** 100% funcional
+### **PERMITIDO:**
+- ✅ HTML5 puro
+- ✅ CSS3 puro
+- ✅ JavaScript vanilla
+- ✅ Bibliotecas leves (se necessário)
 
 ---
 
-## 🚀 **PRÓXIMOS PASSOS ESTRATÉGICOS**
+## 📚 **DOCUMENTAÇÃO OBRIGATÓRIA**
 
-### **CURTO PRAZO (1-2 semanas):**
-1. **Restaurar qualidade 100%** através das correções pendentes
-2. **Retomar implementação da Fase 3** com foco em performance
-3. **Consolidar dados de status** para eliminar inconsistências
-4. **Implementar validação automática** em commits
+### **ARQUITETURA:**
+- `docs/architecture/ARQUITETURA_FRONTEND_ATUALIZADA.md` - Arquitetura definitiva
+- `docs/migration/PLANO_MIGRACAO_REACT_HTML.md` - Plano de migração
 
-### **MÉDIO PRAZO (1 mês):**
-1. **Completar Fase 3** com todas as otimizações planejadas
-2. **Iniciar Fase 4** (Expansão e Otimização)
-3. **Implementar CI/CD** completo
-4. **Expandir funcionalidades** baseadas em feedback
+### **DIRETRIZES:**
+- `docs/directives/diretivas-pensamento-critico.md` - Diretivas críticas
+- `docs/profiles/perfis-usuarios-detalhados.md` - Perfis de usuário
+- `docs/profiles/perfis-enriquecidos.md` - Perfis enriquecidos
 
-### **LONGO PRAZO (3 meses):**
-1. **Implementar Fase 5** (Automação Avançada)
-2. **Sistema de ML** para otimizações automáticas
-3. **Dashboard unificado** de monitoramento
-4. **Expansão para mercado** com benchmarks estabelecidos
+### **EXEMPLOS:**
+- `frontend/public/payments-management.html` - Implementação completa
+- `frontend/public/index.html` - Entry point
 
 ---
 
-## 🎯 **INSTRUÇÕES PARA NOVO CHAT**
+## 🎯 **RESPOSTA ESTRUTURADA OBRIGATÓRIA**
 
-### **CONTEXTO ESSENCIAL:**
-1. **Projeto DOM V2** é um sistema de gestão doméstica/empresarial
-2. **Fases 1-2 concluídas** com 100% de qualidade
-3. **Fase 3 em andamento** com regressão de qualidade identificada
-4. **Correção agressiva executada** - aguardando validação
-5. **Projeto bem organizado** sem arquivos obsoletos
+### **FORMATO PARA IA ASSISTANTS:**
+```markdown
+## 🎯 ANÁLISE CRÍTICA
 
-### **PRIORIDADES IMEDIATAS:**
-1. **Validar resultado** da correção agressiva
-2. **Corrigir componentes básicos** do frontend
-3. **Retomar implementação** da Fase 3
-4. **Manter padrões** de qualidade estabelecidos
+### **ARQUITETURA:**
+- ✅ HTML nativo (conforme diretrizes)
 
-### **COMANDOS ESSENCIAIS:**
-```bash
-# Diretório: C:\dom-v2
-npm run validate-directives         # Validar qualidade
-npm run aggressive-fix              # Correção agressiva
-npm run phase3-benchmark            # Continuar Fase 3
-npm run clean-obsolete              # Manter organização
+### **SUPOSIÇÕES:**
+- [Listar suposições identificadas]
+
+### **ALTERNATIVAS:**
+- [Listar alternativas consideradas]
+
+### **DECISÃO:**
+- [Justificar escolha]
+
+### **IMPLEMENTAÇÃO:**
+- [Código HTML nativo]
 ```
 
 ---
 
-## 📋 **CHECKLIST DE CONTINUIDADE**
+## 🚨 **CONSEQUÊNCIAS DE VIOLAÇÃO**
 
-### **✅ VERIFICAÇÕES INICIAIS:**
-- [ ] Verificar status atual com `npm run validate-directives`
-- [ ] Confirmar que correção agressiva foi aplicada
-- [ ] Verificar se diretório `trash-temp` existe
-- [ ] Confirmar que scripts de limpeza estão funcionais
+### **PARA HUMANOS:**
+- Rejeição automática de commits
+- Revisão obrigatória adicional
+- Treinamento adicional obrigatório
 
-### **🔄 AÇÕES PENDENTES:**
-- [ ] Validar resultado da correção agressiva
-- [ ] Corrigir componentes básicos do frontend
-- [ ] Implementar validação automática em commits
-- [ ] Retomar implementação da Fase 3
-- [ ] Consolidar dados de status do projeto
-
-### **📊 MÉTRICAS A MONITORAR:**
-- [ ] Qualidade geral (meta: 100%)
-- [ ] Progresso da Fase 3
-- [ ] Organização de arquivos
-- [ ] Funcionamento da automação
+### **PARA IA ASSISTANTS:**
+- Rejeição automática de respostas
+- Correção obrigatória de abordagem
+- Feedback contínuo para melhoria
 
 ---
 
-**🎯 OBJETIVO FINAL:** Manter excelência do projeto DOM V2 e completar todas as fases planejadas com qualidade 100%.
+## 📊 **MÉTRICAS DE QUALIDADE**
+
+### **OBJETIVOS:**
+- **Qualidade Geral:** 100% (atual: 86.3%)
+- **Arquitetura:** 100% HTML nativo
+- **Performance:** < 2s carregamento
+- **Acessibilidade:** WCAG 2.1 AA
+- **Responsividade:** Todos os dispositivos
+
+### **MONITORAMENTO:**
+- Validação automática de diretivas
+- Testes de qualidade contínuos
+- Revisão de código obrigatória
+- Documentação sempre atualizada
+
+---
+
+**ÚLTIMA ATUALIZAÇÃO:** 06/08/2025  
+**VERSÃO:** 2.0.0  
+**STATUS:** DEFINITIVA E OBRIGATÓRIA
 

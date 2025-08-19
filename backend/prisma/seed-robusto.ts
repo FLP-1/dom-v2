@@ -7,7 +7,7 @@
  * @since 2025-08-06
  */
 
-import { PrismaClient } from '../src/generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -147,7 +147,7 @@ async function createUsers() {
   
   const createdUsers = [];
   for (const userData of users) {
-    const user = await prisma.user.create({
+    const user = await prisma.users.create({
       data: userData
     });
     createdUsers.push(user);
@@ -547,8 +547,6 @@ async function main() {
   try {
     // Limpar dados existentes (se houver)
     console.log('🧹 Limpando dados existentes...');
-    await prisma.user_sessions.deleteMany();
-    await prisma.user_group_roles.deleteMany();
     await prisma.notification.deleteMany();
     await prisma.task.deleteMany();
     await prisma.payroll.deleteMany();
@@ -556,8 +554,7 @@ async function main() {
     await prisma.purchase.deleteMany();
     await prisma.budget.deleteMany();
     await prisma.employee.deleteMany();
-    await prisma.groups.deleteMany();
-    await prisma.user.deleteMany();
+    await prisma.users.deleteMany();
     console.log('✅ Dados limpos\n');
     
     // Criar dados
@@ -592,10 +589,12 @@ async function main() {
 }
 
 // Execução principal
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  });
+if (require.main === module) {
+  main()
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    });
+}
 
 export { main };

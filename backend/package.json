@@ -5,10 +5,10 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server-dev.js",
-    "dev": "nodemon --exec ts-node src/server-dev.ts",
+    "dev": "nodemon src/server-dev.ts",
     "dev:simple": "nodemon --exec ts-node src/server-simple-dashboard.ts",
     "build": "tsc",
-    "test": "jest --config jest.config.ts",
+    "test": "jest",
     "test:watch": "jest --config jest.config.ts --watch",
     "test:coverage": "jest --config jest.config.ts --coverage",
     "test:api": "jest api-endpoints.test.ts",
@@ -18,8 +18,15 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "ts-node prisma/seed-robusto.ts",
-    "db:reset": "prisma migrate reset --force && ts-node prisma/seed-robusto.ts"
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "ts-node prisma/seed-simple.ts",
+    "db:seed:advanced": "ts-node prisma/seed-advanced.ts",
+    "db:test": "ts-node prisma/seed-simple-fixed.ts",
+    "db:reset": "prisma migrate reset --force",
+    "db:reset:advanced": "prisma migrate reset --force && ts-node prisma/seed-advanced.ts",
+    "db:migrate:profiles": "ts-node prisma/migrate-profiles.ts",
+    "db:migrate:profiles:rollback": "ts-node prisma/migrate-profiles.ts --rollback",
+    "db:setup:complete": "prisma migrate reset --force && ts-node prisma/seed-advanced.ts && ts-node prisma/migrate-profiles.ts"
   },
   "keywords": [
     "dom",
@@ -38,6 +45,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.0.2",
     "prisma": "^6.12.0",
     "ts-node": "^10.9.1",
