@@ -107,6 +107,21 @@ C:\dom-v2\frontend\public\financial-management.html ✅
 C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
 ```
 
+#### SEMANA 6: SISTEMA DE TAREFAS ✅ CONCLUÍDA
+**Objetivos:**
+- ✅ Criação e gerenciamento de tarefas
+- ✅ Workflow de status (pendente → em progresso → concluída)
+- ✅ Priorização e categorização
+- ✅ Relatórios e dashboard de tarefas
+- ✅ Interface completa de gestão de tarefas
+
+**Arquivos implementados:**
+```
+C:\dom-v2\backend\src\routes\tasks-prisma.ts ✅
+C:\dom-v2\frontend\public\task-management.html ✅
+C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
+```
+
 ### 🎯 METAS REALISTAS
 
 #### 2 SEMANAS:
@@ -114,6 +129,8 @@ C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
 - ✅ Autenticação completa
 - ✅ CRUD básico de usuários
 - ✅ Sistema de ponto
+- ✅ Gestão Financeira
+- ✅ Sistema de Tarefas
 
 #### 1 MÊS:
 - [ ] Sistema completo funcional
