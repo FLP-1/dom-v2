@@ -24,7 +24,7 @@
 
 ### 🎨 Características Principais
 
-- **🔄 Arquitetura Híbrida**: Frontend React Native Web + Backend Node.js
+- **🔄 Arquitetura Híbrida**: Frontend HTML/JavaScript (Web) + React Native/TypeScript (Mobile) + Backend Node.js
 - **📱 Multiplataforma**: Web, Mobile (Android/iOS)
 - **🔐 Validação Completa**: CPF/CNPJ com verificação em banco de dados
 - **🎨 Sistema de Temas**: Adaptação regional automática
@@ -84,7 +84,7 @@
 
 ```text
 dom-v2/
-├── 📁 frontend/                 # React Native Web
+├── 📁 frontend/                 # HTML + JavaScript (Web)
 │   ├── 📁 src/
 │   │   ├── 📁 components/       # Componentes reutilizáveis
 │   │   ├── 📁 screens/          # Telas da aplicação
@@ -109,7 +109,8 @@ dom-v2/
 
 #### Frontend
 
-- **React Native Web** - Interface multiplataforma
+- **HTML + JavaScript** - Interface web
+- **React Native + TypeScript** - Interface mobile
 - **TypeScript** - Tipagem estática
 - **Webpack** - Bundling e desenvolvimento
 - **Chart.js** - Gráficos interativos

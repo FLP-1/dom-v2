@@ -58,7 +58,6 @@ function validateType(value, expectedType) {
   }
 }
 
-if (!validateType(data, 'object')) {
 }
 
 
@@ -113,7 +112,6 @@ function assertCritical(condition, message = 'Assertion failed') {
   }
 }
 
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
 
 
 /**
@@ -154,7 +152,6 @@ function handleError(error, context = 'unknown') {
 // Aplicar tratamento de erro
 try {
 } catch (error) {
-  handleError(error, 'main-execution');
 }
 
 
@@ -169,7 +166,6 @@ function validateInput(data) {
   return true;
 }
 
-if (!validateInput(inputData)) {
 }
 
 

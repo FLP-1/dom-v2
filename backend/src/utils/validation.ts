@@ -91,7 +91,6 @@ function logStructured(level, message, data = {}) {
 }
 
 // Aplicar logging
-logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
 /**
@@ -148,7 +147,6 @@ function handleError(error, context = 'unknown') {
 try {
   // código principal aqui
 } catch (error) {
-  handleError(error, 'main-execution');
 }
 
 

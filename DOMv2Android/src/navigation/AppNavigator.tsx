@@ -1,467 +1,197 @@
-
 /**
- * 
- * @alternatives
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
- */
-
-
-/**
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- */
-
-
-/**
- * @author Sistema DOM v2
+ * @fileoverview Navegador principal da aplicação
+ * @description Gerencia a navegação entre telas e estados da aplicação
  * @version 2.0.0
+ * @author DOM v2 Team
  * @since 2025-01-01
- * 
- * @description
- * 
- * @dependencies
- * - React, React Native
- * 
- * @usage
- * 
- * @see
- * - docs/directives/diretivas-pensamento-critico.md
- * - docs/development/processo-garantia-diretivas.md
  */
 
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+// Telas
+import LoginScreen from '../screens/LoginScreen';
+import DashboardScreen from '../screens/DashboardScreen';
+import TasksScreen from '../screens/TasksScreen';
+import EmployeesScreen from '../screens/EmployeesScreen';
+import PayrollScreen from '../screens/PayrollScreen';
+import BudgetScreen from '../screens/BudgetScreen';
+import PurchasesScreen from '../screens/PurchasesScreen';
+import PaymentsScreen from '../screens/PaymentsScreen';
+import { DocumentsScreen } from '../screens/documents-screen';
+import NotificationsScreen from '../screens/NotificationsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
+// Componentes
+import SideMenu from '../micro-frontends/shared/components/layout/SideMenu';
+import Header from '../micro-frontends/shared/components/layout/Header';
 
+// Hooks e serviços
+import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../hooks/useTheme';
 
-
-
-
-
-function logStructured(level, message, data = {}) {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-    data,
-    file: __filename,
-    function: arguments.callee.name || 'anonymous'
-  };
-  
-  // Console output
-  const consoleMethod = level === 'error' ? 'error' : 
-                       level === 'warn' ? 'warn' : 
-                       level === 'debug' ? 'debug' : 'log';
-  
-  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
-  
-  // File logging
-  try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
-    }
-    fs.appendFileSync(
-      path.join(logsDir, 'application.log'),
-      JSON.stringify(logEntry) + '\n'
-    );
-  } catch (logError) {
-    console.error('Erro ao salvar log:', logError.message);
-  }
-}
-
-// Aplicar logging
-
-
-
-function assertCritical(condition, message = 'Assertion failed') {
-  if (!condition) {
-    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
-    error.name = 'CriticalAssertionError';
-    throw error;
-  }
-}
-
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-
-
-
-import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { UltraPremiumLoginScreen } from '../screens/UltraPremiumLoginScreen';
-import { DashboardScreen } from '../screens/dashboard-screen';
-import { TasksScreen } from '../screens/tasks-screen';
-import { EmployeesScreen } from '../screens/employees-screen';
-import { PurchasesScreen } from '../screens/purchases-screen';
-import { PaymentsScreen } from '../screens/payments-screen';
-import { NotificationsScreen } from '../screens/notifications-screen';
-import EmployerDashboard from '../screens/EmployerDashboard';
-import EmployeeDashboard from '../screens/EmployeeDashboard';
-import FamilyDashboard from '../screens/FamilyDashboard';
-import AdminDashboard from '../screens/AdminDashboard';
-import Header from '../components/Header';
-import SideMenu from '../components/SideMenu';
-
-// Tratamento de erros centralizado
-function handleError(error: Error, context: string): void {
-  console.error(`[ERROR] ${context}:`, error.message);
-}
-
-function safeExecute(fn: Function, context: string): any {
-  try {
-    return fn();
-  } catch (error) {
-    handleError(error as Error, context);
-    throw error;
-
-function validateInput(data: any): boolean {
-  if (!data) return false;
-  if (typeof data !== 'object') return false;
-  return true;
-}
-
-function validateType(value: any, expectedType: string): boolean {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null;
-    case 'array':
-      return Array.isArray(value);
-    default:
-      return false;
-  }
-}
-
-
-  }
-}
-
-
-import Modal from '../components/ui/Modal';
-
-type Screen = 'login' | 'dashboard' | 'tasks' | 'employees' | 'payroll' | 'budget' | 'purchases' | 'payments' | 'notifications' | 'profile' | 'settings';
+// Tipos
+type Screen = 'login' | 'dashboard' | 'tasks' | 'employees' | 'payroll' | 'budget' | 'purchases' | 'payments' | 'documents' | 'notifications' | 'profile' | 'settings';
 
 interface User {
   id: string;
   name: string;
   email: string;
-  profile: string;
   cpf: string;
+  profile: string;
 }
 
 const AppNavigator: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('login');
+  const [sideMenuVisible, setSideMenuVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+  
+  const { isAuthenticated, login, logout } = useAuth();
+  const theme = useTheme();
 
-  const handleLogin = (loggedInUser: User) => {
-    setUser(loggedInUser);
-    setCurrentScreen('dashboard');
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    setCurrentScreen('login');
-    setMenuVisible(false);
-  };
+  useEffect(() => {
+    if (isAuthenticated) {
+      setCurrentScreen('dashboard');
+    } else {
+      setCurrentScreen('login');
+    }
+  }, [isAuthenticated]);
 
   const handleNavigate = (screen: Screen) => {
     setCurrentScreen(screen);
+    setSideMenuVisible(false);
   };
 
-  const handleMenuPress = () => {
-    setMenuVisible(true);
+  const handleLogout = () => {
+    logout();
+    setUser(null);
+    setCurrentScreen('login');
   };
 
-  const handleCloseMenu = () => {
-    setMenuVisible(false);
-  };
-
-  const showModal = (content: React.ReactNode) => {
-    setModalContent(content);
-    setModalVisible(true);
-  };
-
-  const hideModal = () => {
-    setModalVisible(false);
-    setModalContent(null);
+  const handleLogin = async (credentials: { email: string; password: string }) => {
+    try {
+      const userData = await login(credentials);
+      setUser(userData);
+      setCurrentScreen('dashboard');
+    } catch (error) {
+      console.error('Erro no login:', error);
+    }
   };
 
   const renderScreen = () => {
     switch (currentScreen) {
       case 'login':
-        return (
-          <UltraPremiumLoginScreen onLogin={handleLogin} />
-        );
-
+        return <LoginScreen onLogin={handleLogin} />;
+      
       case 'dashboard':
         return (
-          <View style={styles.screenContainer}>
-            <Header
-              title="Dashboard"
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            {user?.profile === 'EMPLOYER' && (
-              <EmployerDashboard />
-            )}
-            {user?.profile === 'EMPLOYEE' && (
-              <EmployeeDashboard />
-            )}
-                         {user?.profile === 'FAMILY' && (
-               <FamilyDashboard />
-             )}
-             {user?.profile === 'ADMIN' && (
-               <AdminDashboard />
-             )}
-             {!['EMPLOYER', 'EMPLOYEE', 'FAMILY', 'ADMIN'].includes(user?.profile || '') && (
-               <DashboardScreen
-                 user={user!}
-                 onLogout={handleLogout}
-                 onNavigateToTasks={() => handleNavigate('tasks')}
-                 onNavigateToNotifications={() => handleNavigate('notifications')}
-                 onNavigateToPayroll={() => handleNavigate('payroll')}
-               />
-             )}
-          </View>
+          <DashboardScreen
+            user={user!}
+            onLogout={handleLogout}
+            onNavigateToTasks={() => handleNavigate('tasks')}
+            onNavigateToNotifications={() => handleNavigate('notifications')}
+            onNavigateToPayroll={() => handleNavigate('payroll')}
+            onNavigateToNavigation={() => setSideMenuVisible(true)}
+            onNavigateToUsers={() => handleNavigate('employees')}
+            onNavigateToFinance={() => handleNavigate('budget')}
+            onNavigateToHR={() => handleNavigate('employees')}
+            onNavigateToAdvancedTimeCard={() => handleNavigate('payroll')}
+            onNavigateToPaymentIntegrations={() => handleNavigate('payments')}
+            onNavigateToReports={() => handleNavigate('dashboard')}
+            onNavigateToDocuments={() => handleNavigate('documents')}
+          />
         );
-
+      
       case 'tasks':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              title="Tarefas"
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <TasksScreen />
-          </View>
-        );
-
+        return <TasksScreen />;
+      
       case 'employees':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <EmployeesScreen />
-          </View>
-        );
-
+        return <EmployeesScreen />;
+      
       case 'payroll':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              title="Folha de Pagamento"
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <View style={styles.content}>
-              {/* Aqui seria renderizado o PayrollComponent  */}
-              <View style={styles.placeholder}>
-                <Text style={styles.placeholderSubtext}>Componente em desenvolvimento</Text>
-              </View>
-            </View>
-          </View>
-        );
-
+        return <PayrollScreen />;
+      
       case 'budget':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <View style={styles.content}>
-              {/* Aqui seria renderizado o BudgetComponent  */}
-              <View style={styles.placeholder}>
-                <Text style={styles.placeholderSubtext}>Componente em desenvolvimento</Text>
-              </View>
-            </View>
-          </View>
-        );
-
+        return <BudgetScreen />;
+      
       case 'purchases':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              title="Compras"
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <PurchasesScreen />
-          </View>
-        );
-
+        return <PurchasesScreen />;
+      
       case 'payments':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              title="Pagamentos"
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <PaymentsScreen />
-          </View>
-        );
-
+        return <PaymentsScreen />;
+      
+      case 'documents':
+        return <DocumentsScreen />;
+      
       case 'notifications':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <NotificationsScreen />
-          </View>
-        );
-
+        return <NotificationsScreen />;
+      
       case 'profile':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              title="Perfil"
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <View style={styles.content}>
-              <View style={styles.placeholder}>
-              </View>
-            </View>
-          </View>
-        );
-
+        return <ProfileScreen />;
+      
       case 'settings':
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <View style={styles.content}>
-              <View style={styles.placeholder}>
-              </View>
-            </View>
-          </View>
-        );
-
+        return <SettingsScreen />;
+      
       default:
-        return (
-          <View style={styles.screenContainer}>
-            <Header
-              onMenuPress={handleMenuPress}
-              onLogout={handleLogout}
-              user={user}
-            />
-            <View style={styles.content}>
-              <View style={styles.placeholder}>
-              </View>
-            </View>
-          </View>
-        );
+        return <LoginScreen onLogin={handleLogin} />;
     }
   };
 
-  return (
-    <View style={styles.container}>
-      {renderScreen()}
-      
-      <SideMenu
-        visible={menuVisible}
-        onClose={handleCloseMenu}
-        onNavigate={handleNavigate}
-        onLogout={handleLogout}
-        user={user}
-      />
+  if (currentScreen === 'login') {
+    return (
+      <SafeAreaProvider>
+        {renderScreen()}
+      </SafeAreaProvider>
+    );
+  }
 
-      <Modal
-        visible={modalVisible}
-        onClose={hideModal}
-        title="Modal"
-        size="medium"
-      >
-        {modalContent}
-      </Modal>
-    </View>
+  return (
+    <SafeAreaProvider>
+      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <Header
+          title={getScreenTitle(currentScreen)}
+          onMenuPress={() => setSideMenuVisible(true)}
+          onBackPress={currentScreen !== 'dashboard' ? () => handleNavigate('dashboard') : undefined}
+        />
+        
+        {renderScreen()}
+        
+        <SideMenu
+          visible={sideMenuVisible}
+          onClose={() => setSideMenuVisible(false)}
+          onNavigate={handleNavigate}
+          onLogout={handleLogout}
+          user={user}
+        />
+      </View>
+    </SafeAreaProvider>
   );
+};
+
+const getScreenTitle = (screen: Screen): string => {
+  const titles: Record<Screen, string> = {
+    login: 'Login',
+    dashboard: 'Dashboard',
+    tasks: 'Tarefas',
+    employees: 'Funcionários',
+    payroll: 'Folha de Pagamento',
+    budget: 'Orçamento',
+    purchases: 'Compras',
+    payments: 'Pagamentos',
+    documents: 'Documentos',
+    notifications: 'Notificações',
+    profile: 'Perfil',
+    settings: 'Configurações'
+  };
+  
+  return titles[screen];
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  screenContainer: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    padding: 16,
-  },
-  placeholder: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 32,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  placeholderText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#212529',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  placeholderSubtext: {
-    fontSize: 16,
-    color: '#6c757d',
-    textAlign: 'center',
   },
 });
 

@@ -191,7 +191,7 @@ npm run phase4-cicd               # Pipeline CI/CD
 
 ### **NÃO USAR:**
 - ❌ React/React Native
-- ❌ React Native Web
+- ❌ React Native Web (não usado mais)
 - ❌ Vue.js
 - ❌ Angular
 - ❌ Frameworks complexos

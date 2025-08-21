@@ -196,7 +196,7 @@ npx ts-node src/server-simple-dashboard.ts
 
 ```
 C:\dom-v2\
-├── frontend/                 # Interface React Native Web
+├── frontend/                 # Interface HTML + JavaScript (Web)
 │   ├── src/
 │   │   ├── screens/         # Telas da aplicação
 │   │   ├── services/        # Serviços (API, integrações)

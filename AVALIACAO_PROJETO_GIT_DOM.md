@@ -154,13 +154,13 @@ E:\git-dom\
 7. **Sistema de roles específico** - Roles adaptados ao contexto
 
 ### **🟡 PONTOS DE MELHORIA:**
-1. **UI Library diferente** - MUI vs React Native Web
+1. **UI Library diferente** - MUI vs HTML + JavaScript
 2. **Estrutura de pastas específica** - Organização por funcionalidade
 3. **Algumas dependências desatualizadas** - Versões mais antigas
 4. **Falta de testes** - Não encontrados arquivos de teste
 
 ### **🔴 LIMITAÇÕES:**
-1. **Tecnologia diferente** - React vs React Native Web
+1. **Tecnologia diferente** - React vs HTML + JavaScript
 2. **Escopo limitado** - Foco em registro de ponto
 3. **Falta de algumas funcionalidades** - Dashboard, tarefas, etc.
 
@@ -279,7 +279,7 @@ O projeto `E:\git-dom` possui uma base sólida e bem estruturada que pode ser si
 
 ### **🎯 PRÓXIMOS PASSOS:**
 1. **Criar plano detalhado de migração**
-2. **Adaptar componentes para React Native Web**
+2. **Adaptar componentes para HTML + JavaScript**
 3. **Integrar com arquitetura existente do DOM v2**
 4. **Manter compatibilidade com funcionalidades existentes**
 

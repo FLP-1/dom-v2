@@ -38,7 +38,6 @@ function logStructured(level, message, data = {}) {
 }
 
 // Aplicar logging
-logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
 /**
@@ -100,7 +99,6 @@ function validateType(value, expectedType) {
   }
 }
 
-if (!validateType(data, 'object')) {
 }
 
 
@@ -115,7 +113,6 @@ function assertCritical(condition, message = 'Assertion failed') {
   }
 }
 
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
 
 
 /**
@@ -129,7 +126,6 @@ function validateInput(data) {
   return true;
 }
 
-if (!validateInput(inputData)) {
 }
 
 /**

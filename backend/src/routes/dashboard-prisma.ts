@@ -1,165 +1,39 @@
-
 /**
+ * Consideração de alternativas e trade-offs
  * 
  * @alternatives
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
+ * - Implementação atual: Rotas RESTful com Prisma ORM
+ * - Alternativa 1: GraphQL para consultas complexas
+ *   - Prós: Flexibilidade, consultas otimizadas
+ *   - Contras: Complexidade adicional, curva de aprendizado
+ * - Alternativa 2: REST simples sem ORM
+ *   - Prós: Simplicidade, controle direto
+ *   - Contras: Mais código boilerplate, menos type safety
  * 
  * @decision
+ * Escolha da implementação atual baseada em:
+ * - Type safety com TypeScript + Prisma
+ * - Performance otimizada com queries eficientes
+ * - Manutenibilidade com código limpo
  * 
  * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
+ * - Performance vs Simplicidade: Otimização de queries
+ * - Flexibilidade vs Complexidade: RESTful padronizado
+ * - Segurança vs Usabilidade: Validação completa
  */
 
+import express from 'express';
+import { PrismaClient } from '@prisma/client';
+import { authenticateToken } from '../middleware/auth-middleware';
+import { logStructured } from '../utils/logging';
+
+const router = express.Router();
+const prisma = new PrismaClient();
 
 /**
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
- */
-
-
-/**
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- */
-function validateType(value, expectedType) {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null && !Array.isArray(value);
-    case 'array':
-      return Array.isArray(value);
-    case 'function':
-      return typeof value === 'function';
-    default:
-      return false;
-  }
-}
-
-if (!validateType(data, 'object')) {
-}
-
-
-/**
- * Sistema de logging estruturado
- * @param {string} message - Mensagem do log
- * @param {object} data - Dados adicionais
- */
-function logStructured(level, message, data = {}) {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-    data,
-    file: __filename,
-    function: arguments.callee.name || 'anonymous'
-  };
-  
-  // Console output
-  const consoleMethod = level === 'error' ? 'error' : 
-                       level === 'warn' ? 'warn' : 
-                       level === 'debug' ? 'debug' : 'log';
-  
-  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
-  
-  // File logging
-  try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
-    }
-    fs.appendFileSync(
-      path.join(logsDir, 'application.log'),
-      JSON.stringify(logEntry) + '\n'
-    );
-  } catch (logError) {
-    console.error('Erro ao salvar log:', logError.message);
-  }
-}
-
-// Aplicar logging
-
-
-/**
- * @param {string} message - Mensagem de erro
- */
-function assertCritical(condition, message = 'Assertion failed') {
-  if (!condition) {
-    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
-    error.name = 'CriticalAssertionError';
-    throw error;
-  }
-}
-
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-
-
-/**
- * Tratamento robusto de erros
- * @param {Error} error - Erro capturado
- * @param {string} context - Contexto onde o erro ocorreu
- */
-function handleError(error, context = 'unknown') {
-  console.error(`[ERROR] ${context}:`, error.message);
-  
-  // Log estruturado para debugging
-  const errorLog = {
-    timestamp: new Date().toISOString(),
-    context,
-    message: error.message,
-    stack: error.stack,
-    type: error.constructor.name
-  };
-  
-  // Salvar log de erro
-  try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
-    }
-    fs.appendFileSync(
-      path.join(logsDir, 'error-log.json'),
-      JSON.stringify(errorLog) + '\n'
-    );
-  } catch (logError) {
-    console.error('Erro ao salvar log:', logError.message);
-  }
-  
-  // Re-throw para tratamento superior
-  throw error;
-}
-
-// Aplicar tratamento de erro
-try {
-} catch (error) {
-  handleError(error, 'main-execution');
-}
-
-
-/**
+ * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
+ * @returns {boolean} - True se válido, false caso contrário
  */
 function validateInput(data) {
   if (!data) return false;
@@ -169,23 +43,362 @@ function validateInput(data) {
   return true;
 }
 
-if (!validateInput(inputData)) {
+/**
+ * Asserções de validação crítica
+ * @param {any} condition - Condição a ser validada
+ * @param {string} message - Mensagem de erro
+ * @throws {Error} Se a condição for falsa
+ */
+function assertCritical(condition, message = 'Assertion failed') {
+  if (!condition) {
+    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
+    error.name = 'CriticalAssertionError';
+    throw error;
+  }
 }
 
-
 /**
- * @author Sistema DOM v2
- * @version 2.0.0
- * @since 2025-01-01
- * 
- * @description
- * 
- * @dependencies
- * - Prisma ORM
- * 
- * @usage
- * 
- * @see
- * - docs/directives/diretivas-pensamento-critico.md
- * - docs/development/processo-garantia-diretivas.md
+ * Tratamento robusto de erros
+ * @param {Error} error - Erro capturado
+ * @param {string} context - Contexto onde o erro ocorreu
  */
+function handleError(error, context = 'unknown') {
+  logStructured('error', `Dashboard error in ${context}`, {
+    message: error.message,
+    stack: error.stack,
+    context
+  });
+  
+  throw error;
+}
+
+// GET /api/dashboard/metrics - Obter métricas do dashboard
+router.get('/metrics', authenticateToken, async (req, res) => {
+  try {
+    assertCritical(req.user, 'Usuário não autenticado');
+    
+    logStructured('info', 'Carregando métricas do dashboard', {
+      userId: req.user.id,
+      context: 'dashboard-metrics'
+    });
+
+    // Buscar métricas em paralelo para melhor performance
+    const [
+      usersCount,
+      budgetData,
+      tasksCount,
+      documentsCount
+    ] = await Promise.all([
+      // Contar usuários ativos
+      prisma.user.count({
+        where: {
+          status: 'ACTIVE'
+        }
+      }),
+      
+      // Buscar dados de orçamento
+      prisma.budget.findFirst({
+        where: {
+          userId: req.user.id,
+          status: 'ACTIVE'
+        },
+        select: {
+          amount: true,
+          spent: true,
+          startDate: true,
+          endDate: true
+        }
+      }),
+      
+      // Contar tarefas pendentes
+      prisma.task.count({
+        where: {
+          userId: req.user.id,
+          status: 'PENDING'
+        }
+      }),
+      
+      // Contar documentos
+      prisma.document.count({
+        where: {
+          userId: req.user.id
+        }
+      })
+    ]);
+
+    // Calcular mudanças percentuais (mock por enquanto)
+    const usersChange = 5; // +5% este mês
+    const budgetChange = budgetData ? -2 : 0; // -2% este mês
+    const tasksChange = 12; // +12% esta semana
+    const documentsChange = 8; // +8% este mês
+
+    const metrics = {
+      usersCount,
+      budgetAmount: budgetData?.amount || 0,
+      budgetSpent: budgetData?.spent || 0,
+      budgetRemaining: (budgetData?.amount || 0) - (budgetData?.spent || 0),
+      tasksCount,
+      documentsCount,
+      usersChange,
+      budgetChange,
+      tasksChange,
+      documentsChange,
+      lastUpdated: new Date().toISOString()
+    };
+
+    logStructured('info', 'Métricas carregadas com sucesso', {
+      userId: req.user.id,
+      metrics: {
+        usersCount,
+        tasksCount,
+        documentsCount
+      }
+    });
+
+    res.json({
+      success: true,
+      data: metrics
+    });
+
+  } catch (error) {
+    handleError(error, 'dashboard-metrics');
+    res.status(500).json({
+      success: false,
+      error: 'Erro ao carregar métricas do dashboard'
+    });
+  }
+});
+
+// GET /api/dashboard/activity - Obter atividade recente
+router.get('/activity', authenticateToken, async (req, res) => {
+  try {
+    assertCritical(req.user, 'Usuário não autenticado');
+    
+    logStructured('info', 'Carregando atividade recente', {
+      userId: req.user.id,
+      context: 'dashboard-activity'
+    });
+
+    // Buscar atividades recentes (últimas 24 horas)
+    const recentActivities = await prisma.activity.findMany({
+      where: {
+        userId: req.user.id,
+        createdAt: {
+          gte: new Date(Date.now() - 24 * 60 * 60 * 1000) // Últimas 24 horas
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 10,
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    // Se não há atividades reais, criar mock data
+    if (recentActivities.length === 0) {
+      const mockActivities = [
+        {
+          id: 1,
+          type: 'USER',
+          description: 'Novo usuário registrado: João Silva',
+          createdAt: new Date(Date.now() - 300000), // 5 minutos atrás
+          userId: req.user.id
+        },
+        {
+          id: 2,
+          type: 'TASK',
+          description: 'Tarefa concluída: Revisão de documentos',
+          createdAt: new Date(Date.now() - 900000), // 15 minutos atrás
+          userId: req.user.id
+        },
+        {
+          id: 3,
+          type: 'PAYMENT',
+          description: 'Pagamento processado: R$ 2.500,00',
+          createdAt: new Date(Date.now() - 1800000), // 30 minutos atrás
+          userId: req.user.id
+        },
+        {
+          id: 4,
+          type: 'DOCUMENT',
+          description: 'Documento enviado: Contrato de trabalho',
+          createdAt: new Date(Date.now() - 3600000), // 1 hora atrás
+          userId: req.user.id
+        }
+      ];
+
+      logStructured('info', 'Usando dados mock para atividade', {
+        userId: req.user.id,
+        activityCount: mockActivities.length
+      });
+
+      return res.json({
+        success: true,
+        data: mockActivities.map(activity => ({
+          id: activity.id,
+          type: activity.type.toLowerCase(),
+          description: activity.description,
+          timestamp: activity.createdAt.toISOString()
+        }))
+      });
+    }
+
+    // Mapear atividades reais
+    const mappedActivities = recentActivities.map(activity => ({
+      id: activity.id,
+      type: activity.type.toLowerCase(),
+      description: activity.description,
+      timestamp: activity.createdAt.toISOString()
+    }));
+
+    logStructured('info', 'Atividade carregada com sucesso', {
+      userId: req.user.id,
+      activityCount: mappedActivities.length
+    });
+
+    res.json({
+      success: true,
+      data: mappedActivities
+    });
+
+  } catch (error) {
+    handleError(error, 'dashboard-activity');
+    res.status(500).json({
+      success: false,
+      error: 'Erro ao carregar atividade recente'
+    });
+  }
+});
+
+// GET /api/dashboard/summary - Resumo geral do dashboard
+router.get('/summary', authenticateToken, async (req, res) => {
+  try {
+    assertCritical(req.user, 'Usuário não autenticado');
+    
+    logStructured('info', 'Carregando resumo do dashboard', {
+      userId: req.user.id,
+      context: 'dashboard-summary'
+    });
+
+    // Buscar dados de resumo
+    const summary = await prisma.$transaction(async (tx) => {
+      const [
+        totalUsers,
+        totalTasks,
+        totalDocuments,
+        totalPayments,
+        recentPayments,
+        pendingTasks
+      ] = await Promise.all([
+        tx.user.count({ where: { status: 'ACTIVE' } }),
+        tx.task.count({ where: { userId: req.user.id } }),
+        tx.document.count({ where: { userId: req.user.id } }),
+        tx.payment.count({ where: { userId: req.user.id } }),
+        tx.payment.findMany({
+          where: { userId: req.user.id },
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+          select: { amount: true, status: true, createdAt: true }
+        }),
+        tx.task.findMany({
+          where: { 
+            userId: req.user.id,
+            status: 'PENDING'
+          },
+          orderBy: { dueDate: 'asc' },
+          take: 5,
+          select: { title: true, dueDate: true, priority: true }
+        })
+      ]);
+
+      return {
+        totalUsers,
+        totalTasks,
+        totalDocuments,
+        totalPayments,
+        recentPayments,
+        pendingTasks
+      };
+    });
+
+    logStructured('info', 'Resumo carregado com sucesso', {
+      userId: req.user.id,
+      summary: {
+        totalUsers: summary.totalUsers,
+        totalTasks: summary.totalTasks,
+        totalDocuments: summary.totalDocuments
+      }
+    });
+
+    res.json({
+      success: true,
+      data: summary
+    });
+
+  } catch (error) {
+    handleError(error, 'dashboard-summary');
+    res.status(500).json({
+      success: false,
+      error: 'Erro ao carregar resumo do dashboard'
+    });
+  }
+});
+
+// GET /api/dashboard/health - Verificar saúde do sistema
+router.get('/health', authenticateToken, async (req, res) => {
+  try {
+    assertCritical(req.user, 'Usuário não autenticado');
+    
+    logStructured('info', 'Verificando saúde do sistema', {
+      userId: req.user.id,
+      context: 'dashboard-health'
+    });
+
+    // Verificar conectividade com banco de dados
+    const dbHealth = await prisma.$queryRaw`SELECT 1 as health_check`;
+    
+    // Verificar performance básica
+    const startTime = Date.now();
+    await prisma.user.count();
+    const responseTime = Date.now() - startTime;
+
+    const health = {
+      status: 'healthy',
+      database: 'connected',
+      responseTime: `${responseTime}ms`,
+      timestamp: new Date().toISOString(),
+      version: '2.0.0'
+    };
+
+    logStructured('info', 'Saúde do sistema verificada', {
+      userId: req.user.id,
+      health
+    });
+
+    res.json({
+      success: true,
+      data: health
+    });
+
+  } catch (error) {
+    handleError(error, 'dashboard-health');
+    res.status(500).json({
+      success: false,
+      error: 'Erro ao verificar saúde do sistema',
+      data: {
+        status: 'unhealthy',
+        database: 'disconnected',
+        timestamp: new Date().toISOString()
+      }
+    });
+  }
+});
+
+export default router;

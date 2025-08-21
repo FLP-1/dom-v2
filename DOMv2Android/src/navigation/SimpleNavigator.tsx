@@ -192,7 +192,7 @@ if (!validateInput(inputData)) {
 
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Modal } from 'react-native';
-import { DashboardScreen } from '../screens/dashboard-screen';
+import DashboardScreen from '../screens/DashboardScreen';
 import { UserProfileType } from '../utils/user-profiles';
 import { UsersScreen } from '../screens/users-screen';
 import { FinanceScreen } from '../screens/finance-screen';
@@ -204,6 +204,7 @@ import { NotificationsScreen } from '../screens/notifications-screen';
 import { LoginScreen } from '../screens/login-screen';
 import { TasksScreen } from '../screens/tasks-screen';
 import { PayrollScreen } from '../screens/payroll-screen';
+import { DocumentsScreen } from '../screens/documents-screen';
 import { useAuthContext } from '../context/AuthContext';
 
 interface User {
@@ -213,7 +214,7 @@ interface User {
   profile: UserProfileType;
 }
 
-type Screen = 'login' | 'dashboard' | 'tasks' | 'notifications' | 'payroll' | 'budget' | 'employees' | 'profile' | 'navigation' | 'users' | 'finance' | 'hr' | 'advancedTimeCard' | 'paymentIntegrations' | 'reports';
+type Screen = 'login' | 'dashboard' | 'tasks' | 'notifications' | 'payroll' | 'budget' | 'employees' | 'profile' | 'navigation' | 'users' | 'finance' | 'hr' | 'advancedTimeCard' | 'paymentIntegrations' | 'reports' | 'documents';
 
 const SimpleNavigator: React.FC = () => {
   const { user, isAuthenticated, loading, logout } = useAuthContext();
@@ -254,6 +255,7 @@ const SimpleNavigator: React.FC = () => {
   const handleNavigateToAdvancedTimeCard = () => handleNavigate('advancedTimeCard');
   const handleNavigateToPaymentIntegrations = () => handleNavigate('paymentIntegrations');
   const handleNavigateToReports = () => handleNavigate('reports');
+  const handleNavigateToDocuments = () => handleNavigate('documents');
 
   if (loading) {
     return (
@@ -284,6 +286,7 @@ const SimpleNavigator: React.FC = () => {
             onNavigateToAdvancedTimeCard={handleNavigateToAdvancedTimeCard}
             onNavigateToPaymentIntegrations={handleNavigateToPaymentIntegrations}
             onNavigateToReports={handleNavigateToReports}
+            onNavigateToDocuments={handleNavigateToDocuments}
           />
         );
       
@@ -325,6 +328,9 @@ const SimpleNavigator: React.FC = () => {
                 </Pressable>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('employees')}>
                 </Pressable>
+                <Pressable style={styles.navButton} onPress={() => handleNavigate('documents')}>
+                  <Text style={styles.navButtonText}>📄 Documentos</Text>
+                </Pressable>
                 <Pressable style={styles.navButton} onPress={() => handleNavigate('profile')}>
                 </Pressable>
               </View>
@@ -360,6 +366,11 @@ const SimpleNavigator: React.FC = () => {
       case 'reports':
         return (
           <ReportsScreen onNavigateBack={() => handleNavigate('dashboard')} />
+        );
+
+      case 'documents':
+        return (
+          <DocumentsScreen onNavigateBack={() => handleNavigate('dashboard')} />
         );
 
       default:
@@ -404,6 +415,9 @@ const SimpleNavigator: React.FC = () => {
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('budget')}>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('employees')}>
+            </Pressable>
+            <Pressable style={styles.menuItem} onPress={() => handleNavigate('documents')}>
+              <Text style={styles.menuItemText}>📄 Documentos</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={() => handleNavigate('profile')}>
             </Pressable>

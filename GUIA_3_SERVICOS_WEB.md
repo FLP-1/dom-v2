@@ -59,7 +59,7 @@ npm run dev
 **Resultado esperado:**
 ```
 🌐 Servidor web robusto rodando em http://localhost:3000
-📱 React Native Web disponível
+📱 HTML + JavaScript disponível
 🏥 Health check: http://localhost:3000/health
 ```
 
@@ -99,7 +99,7 @@ Invoke-RestMethod -Uri "http://localhost:8081/status" -Method GET
    ↓
 4. Metro compila App.tsx e componentes React Native
    ↓
-5. Aplicação React Native Web é renderizada
+5. Aplicação HTML + JavaScript é renderizada
    ↓
 6. App.tsx faz chamadas para Backend (porta 3001)
    ↓
@@ -116,7 +116,7 @@ Invoke-RestMethod -Uri "http://localhost:8081/status" -Method GET
 
 #### **Metro Bundler (porta 8081)**
 - ✅ Compila código React Native
-- ✅ Converte para React Native Web
+- ✅ Converte para HTML + JavaScript
 - ✅ Hot reload durante desenvolvimento
 - ✅ Bundle otimizado para web
 
@@ -191,7 +191,7 @@ Invoke-RestMethod -Uri "http://localhost:8081/status" -Method GET
 - Testabilidade
 
 ### **✅ Experiência Completa:**
-- Aplicação React Native Web real
+- Aplicação HTML + JavaScript real
 - Todas as funcionalidades
 - Interface adaptativa
 - Performance nativa

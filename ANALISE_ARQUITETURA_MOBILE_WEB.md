@@ -4,7 +4,7 @@
 
 **NÃO, você NÃO terá duas manutenções separadas!** 🎉
 
-O DOM v2 utiliza uma arquitetura **React Native Web** que permite **código único** funcionando em múltiplas plataformas com **adaptação automática** baseada no dispositivo.
+O DOM v2 utiliza uma arquitetura **híbrida** que permite **desenvolvimento separado** para web (HTML + JavaScript) e mobile (React Native + TypeScript) com **integração unificada** via backend Node.js/TypeScript.
 
 ## 🎯 **Arquitetura Atual: Código Único, Múltiplas Plataformas**
 
@@ -21,7 +21,7 @@ O DOM v2 utiliza uma arquitetura **React Native Web** que permite **código úni
 
 ## 🏗️ **Como Funciona a Arquitetura**
 
-### **1. React Native Web**
+### **1. Arquitetura Híbrida**
 ```javascript
 // Um componente funciona em TODAS as plataformas
 import { View, Text, TouchableOpacity } from 'react-native';
@@ -120,7 +120,8 @@ const config = {
   resolver: {
     platforms: ['ios', 'android', 'native', 'web'],
     alias: {
-      'react-native$': 'react-native-web', // Web automaticamente
+      // Web: HTML + JavaScript
+// Mobile: React Native + TypeScript
     },
     // Módulos nativos são mockados no web
     resolveRequest: (context, moduleName, platform) => {
@@ -147,7 +148,7 @@ const config = {
 - Fontes ajustadas automaticamente
 
 ### **✅ Performance Otimizada:**
-- Web: React Native Web (otimizado)
+- Web: HTML + JavaScript (otimizado)
 - Mobile: React Native nativo
 - Cache compartilhado
 - Assets otimizados por plataforma

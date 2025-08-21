@@ -57,7 +57,7 @@ npm run dev
 ### **Frontend Funcionando:**
 ```
 🌐 Servidor web robusto rodando em http://localhost:3000
-📱 React Native Web disponível
+📱 HTML + JavaScript disponível
 🏥 Health check: http://localhost:3000/health
 📊 Metro status: http://localhost:3000/metro-status
 ```

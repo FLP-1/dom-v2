@@ -64,7 +64,9 @@
     "generate-test-data": "cd backend && node ../scripts/generate-test-data.js",
     "reset-db": "cd backend && npx prisma migrate reset --force && npx prisma db push && node ../scripts/generate-test-data.js",
     "test-integration": "node scripts/test-integration.js",
-    "test-postgresql": "node scripts/test-integration.js"
+    "test-postgresql": "node scripts/test-integration.js",
+    "validate:sync": "node scripts/validate-sync.js",
+    "validate:architecture": "node scripts/validate-sync.js"
   },
   "keywords": [
     "dom",

@@ -38,7 +38,6 @@ function logStructured(level, message, data = {}) {
 }
 
 // Aplicar logging
-logStructured('info', 'Iniciando execução', { context: 'main' });
 
 
 /**
@@ -88,7 +87,6 @@ function validateInput(data) {
   return true;
 }
 
-if (!validateInput(inputData)) {
 }
 
 

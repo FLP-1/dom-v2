@@ -1,4 +1,3 @@
-
 /**
  * Consideração de alternativas e trade-offs
  * 
@@ -4741,6 +4740,27 @@ apiRouter.get('/esocial/reports/compliance', async (req: Request, res: Response)
     console.error('Erro ao gerar relatório de compliance:', error);
     res.status(500).json({ success: false, error: 'Erro interno do servidor' });
   }
+});
+
+// Importar rotas de documentos
+import documentsRouter from './routes/documents-prisma';
+// Importar rotas de perfis e configurações
+import profilesRouter from './routes/profiles-prisma';
+import settingsRouter from './routes/settings-prisma';
+
+// Montar rotas de documentos
+apiRouter.use('/documents', documentsRouter);
+// Montar rotas de perfis e configurações
+apiRouter.use('/profiles', profilesRouter);
+apiRouter.use('/settings', settingsRouter);
+
+// Rota de teste temporária para documentos sem autenticação
+apiRouter.get('/documents/test-no-auth', (req: Request, res: Response) => {
+  res.json({
+    success: true,
+    message: 'Rota de documentos funcionando sem autenticação',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Montar router nas versões /api e /api/v1 para compatibilidade

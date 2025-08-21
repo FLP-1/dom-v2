@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOM v2 - Sistema de Gestão</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
     <style>
         body {
             margin: 0;
@@ -26,7 +30,15 @@
     </style>
 </head>
 <body>
-    <div id="root">
+    <!-- Container para o header reutilizável -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizável -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div id="root">
         <div class="loading">
             Carregando DOM v2...
         </div>
@@ -61,6 +73,18 @@
         };
         
         console.log('✅ Polyfills carregados');
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+            componentManager.initPage('Web Simples');
+        });
     </script>
     
     <!-- Bundle do React Native Web -->

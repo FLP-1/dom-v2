@@ -1,4 +1,4 @@
-Frontend DOM v2 (React Native Web + TypeScript)
+Frontend DOM v2 (HTML + JavaScript + TypeScript)
 
 # Getting Started
 

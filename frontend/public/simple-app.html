@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOM v2 - Sistema de Gestão Doméstica</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
     <style>
         body {
             margin: 0;
@@ -73,7 +77,15 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Container para o header reutilizável -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizável -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
         <div class="content">
             <div class="title">🎉 DOM v2 FUNCIONANDO!</div>
             
@@ -109,9 +121,19 @@
                 Status: 100% Operacional
             </div>
         </div>
+        </div>
     </div>
-    
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
     <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+            componentManager.initPage('Aplicação Simples');
+        });
+        
         console.log('🎉 DOM v2 - Versão Simplificada Carregada!');
         console.log('✅ Sistema funcionando sem dependências problemáticas');
         console.log('🌐 Backend: http://localhost:3001');

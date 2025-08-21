@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOM v2 - Sistema de Gestão Doméstica</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
     <style>
         * {
             margin: 0;
@@ -228,7 +232,15 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Container para o header reutilizável -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizável -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
         <!-- Header -->
         <div class="header">
             <div class="title">🚀 DOM v2</div>
@@ -320,9 +332,20 @@
             <p>🚀 DOM v2 - Sistema de Gestão Doméstica | Versão 2.0.0</p>
             <p>✅ React Native | ✅ TypeScript | ✅ Sistema de Perfis | ✅ Adaptação Regional | ✅ Notificações Inteligentes</p>
         </div>
+        </div>
     </div>
-    
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
     <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+            componentManager.initPage('Aplicação Principal');
+        });
+        
+        // Demo JavaScript
         // Demo JavaScript
         function selectProfile(profile) {
             // Remove active class from all buttons

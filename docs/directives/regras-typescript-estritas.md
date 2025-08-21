@@ -1,3 +1,25 @@
+
+/**
+ * @fileoverview Descrição detalhada do propósito e funcionalidade deste arquivo
+ * @author Sistema DOM v2
+ * @version 2.0.0
+ * @since 2025-01-01
+ * 
+ * @description
+ * Este arquivo implementa Documentação
+ * seguindo as diretivas críticas do projeto DOM v2.
+ * 
+ * @dependencies
+ * - TypeScript
+ * 
+ * @usage
+ * Ver documentação específica para detalhes de uso
+ * 
+ * @see
+ * - docs/directives/diretivas-pensamento-critico.md
+ * - docs/development/processo-garantia-diretivas.md
+ */
+
 # Regras TypeScript Estritas - DOM v2
 
 ## 🚨 **VIOLAÇÃO GRAVE DETECTADA**

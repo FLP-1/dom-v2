@@ -2,7 +2,7 @@
 
 ## RESUMO EXECUTIVO
 
-**Problema:** React Native Web tentando acessar porta 8080 (Metro) quando deveria usar apenas porta 3000 (Webpack)
+**Problema:** HTML + JavaScript tentando acessar porta 8080 (Metro) quando deveria usar apenas porta 3000 (Webpack)
 
 **Causa Raiz:** Servidor web adicional (`server-web-webpack.js`) ainda referenciando porta 8080
 
@@ -73,7 +73,7 @@ POST http://localhost:3001/api/auth/login
 ### O que está quebrado:
 - ❌ Código JavaScript ainda referenciando porta 8080
 - ❌ Servidor web adicional interferindo
-- ❌ Erros de renderização React Native Web
+- ❌ Erros de renderização HTML + JavaScript
 - ❌ Validação de login (400 Bad Request)
 
 ## CÓDIGO PROBLEMÁTICO IDENTIFICADO
@@ -111,7 +111,8 @@ module.exports = {
   resolve: {
     extensions: ['.web.js', '.web.ts', '.web.tsx', '.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: {
-      'react-native$': 'react-native-web'
+      // Web: HTML + JavaScript
+// Mobile: React Native + TypeScript
     },
     fallback: {
       "crypto": require.resolve("crypto-browserify"),
@@ -137,7 +138,7 @@ module.exports = {
 
 1. **Problema Principal:** Mistura de configurações Metro/Webpack
 2. **Solução:** Usar apenas Webpack Dev Server (porta 3000)
-3. **Configuração:** Babel + Webpack + React Native Web
+3. **Configuração:** Babel + Webpack + HTML + JavaScript
 4. **Dependências:** crypto-browserify, stream-browserify, buffer
 
 ### Comandos para testar:
@@ -166,7 +167,7 @@ npm run dev
 
 1. **Testar a solução limpa** com `.\start-dom-v2-clean.ps1`
 2. **Verificar se não há mais referências à porta 8080**
-3. **Resolver erros de renderização React Native Web**
+3. **Resolver erros de renderização HTML + JavaScript**
 4. **Corrigir validação de login (400 Bad Request)**
 
 ## ARQUIVOS CRÍTICOS
