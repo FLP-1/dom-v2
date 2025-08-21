@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import { PrismaClient } from '@prisma/client';
 import usersRouter from './routes/users-prisma';
 import timeclockRouter from './routes/timeclock-prisma';
+import financialRouter from './routes/financial-prisma';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -31,6 +32,9 @@ app.use('/api/users', usersRouter);
 
 // Rotas de ponto
 app.use('/api/timeclock', timeclockRouter);
+
+// Rotas financeiras
+app.use('/api/financial', financialRouter);
 
 // Rota de saúde
 app.get('/health', (req, res) => {

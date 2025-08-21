@@ -92,6 +92,21 @@ C:\dom-v2\backend\src\routes\timeclock-prisma.ts ✅
 C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
 ```
 
+#### SEMANA 5: GESTÃO FINANCEIRA ✅ CONCLUÍDA
+**Objetivos:**
+- ✅ Sistema de orçamentos (criar, editar, excluir)
+- ✅ Sistema de pagamentos (criar, marcar como pago, excluir)
+- ✅ Dashboard financeiro com métricas
+- ✅ Relatórios financeiros (dashboard, mensal)
+- ✅ Interface completa de gestão financeira
+
+**Arquivos implementados:**
+```
+C:\dom-v2\backend\src\routes\financial-prisma.ts ✅
+C:\dom-v2\frontend\public\financial-management.html ✅
+C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
+```
+
 ### 🎯 METAS REALISTAS
 
 #### 2 SEMANAS:
