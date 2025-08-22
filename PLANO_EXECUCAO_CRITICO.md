@@ -259,6 +259,23 @@ C:\dom-v2\frontend\public\quality-management.html ✅
 C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
 ```
 
+#### SEMANA 16: SISTEMA DE PLANOS DE SERVIÇO ✅ CONCLUÍDA
+**Objetivos:**
+- ✅ 3 planos de serviço (Básico, Profissional, Enterprise)
+- ✅ Página de escolha de planos
+- ✅ Sistema de contratação e pagamento
+- ✅ Controle de funcionalidades por plano
+- ✅ Validação de assinatura ativa
+
+**Arquivos implementados:**
+```
+C:\dom-v2\backend\prisma\schema.prisma ✅ (modelos SubscriptionPlan e Subscription atualizados)
+C:\dom-v2\backend\src\routes\plans-prisma.ts ✅
+C:\dom-v2\frontend\public\plans.html ✅
+C:\dom-v2\backend\scripts\seed-plans.js ✅
+C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
+```
+
 ### 🎯 METAS REALISTAS
 
 #### 2 SEMANAS:
@@ -277,6 +294,7 @@ C:\dom-v2\backend\src\server-simple.ts ✅ (rotas integradas)
 - ✅ Sistema de Integração
 - ✅ Sistema de Relatórios Avançados e Analytics
 - ✅ Sistema de Qualidade e Inspeção
+- ✅ Sistema de Planos de Serviço
 
 #### 1 MÊS:
 - [ ] Sistema completo funcional
