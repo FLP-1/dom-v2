@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
         active: true
       },
       orderBy: {
-        price: 'asc'
+        price_monthly: 'asc'
       }
     });
 
@@ -112,12 +112,14 @@ router.post('/subscribe', async (req, res) => {
       data: {
         user_id: user_id as string,
         plan_id,
+        plan_name: plan.display_name,
         status: 'pending',
         current_period_start: start_date,
         current_period_end: end_date,
         payment_status: 'pending',
         payment_method,
-        amount_paid: plan.price,
+        amount_paid: plan.price_monthly,
+        plan_value: plan.price_monthly,
         currency: plan.currency,
         auto_renew
       },

@@ -429,15 +429,19 @@ model UserSettings {
 
 model SubscriptionPlan {
   id            String         @id @default(cuid()) @db.VarChar(50)
-  name          String         @db.VarChar(100) // 'basic', 'professional', 'enterprise'
+  name          String         @db.VarChar(100) // 'free', 'lar_doce_lar', 'super_domestica', 'ultra_pro', 'parceria_master'
   display_name  String         @db.VarChar(200)
   description   String?
-  price         Decimal        @db.Decimal(10, 2)
+  tagline       String?        @db.VarChar(500) // Frase motivacional do plano
+  price_monthly Decimal        @db.Decimal(10, 2) // Preço mensal
+  price_yearly  Decimal?       @db.Decimal(10, 2) // Preço anual com desconto
   currency      String         @default("BRL") @db.VarChar(3)
   interval      String         @db.VarChar(20) // 'monthly', 'yearly'
   duration_days Int            @default(30) // Duração em dias
   features      Json           @db.Json // Array de funcionalidades disponíveis
+  benefits      Json           @db.Json // Array de benefícios específicos
   limits        Json           @db.Json
+  trial_days    Int            @default(0) // Dias de teste gratuito
   active        Boolean        @default(true)
   created_at    DateTime       @default(now()) @db.Timestamp(6)
   updated_at    DateTime       @default(now()) @db.Timestamp(6)
@@ -450,9 +454,10 @@ model Subscription {
   id                   String           @id @default(cuid()) @db.VarChar(50)
   user_id              String           @db.Uuid
   plan_id              String           @db.VarChar(50)
+  plan_name            String           @db.VarChar(200) // Nome do plano contratado/vigente
   status               String           @db.VarChar(20) // 'pending', 'active', 'expired', 'cancelled'
-  current_period_start DateTime         @db.Timestamp(6)
-  current_period_end   DateTime         @db.Timestamp(6)
+  current_period_start DateTime         @db.Timestamp(6) // Data de contratação
+  current_period_end   DateTime         @db.Timestamp(6) // Data de validade (expira em)
   cancel_at_period_end Boolean          @default(false)
   cancelled_at         DateTime?        @db.Timestamp(6)
   trial_start          DateTime?        @db.Timestamp(6)
@@ -460,8 +465,11 @@ model Subscription {
   payment_status       String           @default("pending") @db.VarChar(20) // 'pending', 'paid', 'failed', 'refunded'
   payment_method       String?          @db.VarChar(50) // 'credit_card', 'pix', 'bank_transfer'
   payment_id           String?          @db.VarChar(100) // ID do pagamento externo
-  amount_paid          Decimal?         @db.Decimal(10,2)
+  amount_paid          Decimal?         @db.Decimal(10,2) // Valor pago
+  plan_value           Decimal          @db.Decimal(10,2) // Valor do plano
   currency             String           @default("BRL") @db.VarChar(3)
+  coupon_code          String?          @db.VarChar(50) // Código do cupom de desconto
+  discount_amount      Decimal?         @db.Decimal(10,2) // Valor do desconto aplicado
   auto_renew           Boolean          @default(false)
   metadata             Json?            @db.Json
   created_at           DateTime         @default(now()) @db.Timestamp(6)
