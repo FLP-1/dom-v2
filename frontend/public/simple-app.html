@@ -10,71 +10,119 @@
     
     <style>
         body {
+    
             margin: 0;
+    
             padding: 0;
+    
+            color: #ffffff;
+    
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    
             background-color: #1a1a1a;
-            color: #ffffff;
-        }
+}
         .container {
+    
             display: flex;
-            justify-content: center;
-            align-items: center;
+    
             height: 100vh;
+    
+            justify-content: center;
+    
+            align-items: center;
+    
             text-align: center;
-        }
+}
         .content {
-            max-width: 600px;
+    
             padding: 40px;
-        }
+    
+            max-width: 600px;
+}
         .title {
+    
+            color: #00ff00;
+    
             font-size: 32px;
+    
             font-weight: bold;
-            color: #00ff00;
+    
             margin-bottom: 30px;
-        }
+}
         .subtitle {
+    
+            color: #ffffff;
+    
             font-size: 18px;
-            color: #ffffff;
+    
             margin-bottom: 15px;
-        }
+}
         .message {
-            font-size: 16px;
+    
             color: #cccccc;
+    
+            font-size: 16px;
+    
             margin-top: 30px;
+    
             line-height: 1.6;
-        }
+}
         .status {
+    
             display: inline-block;
-            padding: 8px 16px;
+    
             margin: 5px;
+    
+            padding: 8px 16px;
+    
             border-radius: 20px;
+    
             font-size: 14px;
+    
             font-weight: bold;
-        }
+}
         .status.success {
-            background-color: #00ff00;
+    
             color: #000000;
-        }
+    
+            background-color: #00ff00;
+}
         .status.info {
-            background-color: #0066ff;
+    
             color: #ffffff;
-        }
+    
+            background-color: #0066ff;
+}
         .api-section {
-            margin-top: 40px;
+    
             padding: 20px;
+    
+            margin-top: 40px;
+    
             background-color: #2a2a2a;
+    
             border-radius: 10px;
-        }
+}
         .api-link {
-            color: #00ff00;
-            text-decoration: none;
+    
             margin: 0 10px;
-        }
+    
+            color: #00ff00;
+    
+            text-decoration: none;
+}
         .api-link:hover {
+    
             text-decoration: underline;
-        }
+}
     </style>
+  <style>
+    .extracted-style-1 {
+     color: #888888;
+     margin-top: 30px;
+     font-size: 14px;
+}
+  </style>
 </head>
 <body>
     <!-- Container para o header reutilizável -->
@@ -110,12 +158,12 @@
             
             <div class="api-section">
                 <h3>🔗 APIs Disponíveis:</h3>
-                <a href="http://localhost:3001/health" class="api-link" target="_blank">Health Check</a>
-                <a href="http://localhost:3001/api/payroll" class="api-link" target="_blank">Payroll API</a>
-                <a href="http://localhost:3001/api/budgets" class="api-link" target="_blank">Budget API</a>
+                <a href="http://localhost:3001/health" class="api-link" target="_blank" rel="noopener noreferrer" tabindex="0">Health Check</a>
+                <a href="http://localhost:3001/api/payroll" class="api-link" target="_blank" rel="noopener noreferrer" tabindex="0">Payroll API</a>
+                <a href="http://localhost:3001/api/budgets" class="api-link" target="_blank" rel="noopener noreferrer" tabindex="0">Budget API</a>
             </div>
             
-            <div class="message" style="margin-top: 30px; font-size: 14px; color: #888888;">
+            <div class="message" class="extracted-style-1">
                 Sistema DOM v2 - Desenvolvimento exclusivo via IA
                 <br>
                 Status: 100% Operacional
@@ -129,10 +177,12 @@
     <script>
         // Inicialização da página
         document.addEventListener('DOMContentLoaded', function() {
+    
             // Inicializar sistema de componentes
             const componentManager = new ComponentManager();
+    
             componentManager.initPage('Aplicação Simples');
-        });
+});
         
         console.log('🎉 DOM v2 - Versão Simplificada Carregada!');
         console.log('✅ Sistema funcionando sem dependências problemáticas');
