@@ -21,6 +21,9 @@ import integrationRouter from './routes/integration-prisma';
 import reportsAdvancedRouter from './routes/reports-advanced-prisma';
 import qualityRouter from './routes/quality-prisma';
 import plansRouter from './routes/plans-prisma';
+import purchasesRouter from './routes/purchases-prisma';
+import esocialValidationRouter from './routes/esocial-validation-prisma';
+import externalIntegrationsRouter from './routes/external-integrations-prisma';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -79,6 +82,15 @@ app.use('/api/quality', qualityRouter);
 
 // Rotas de planos de serviço
 app.use('/api/plans', plansRouter);
+
+// Rotas de compras
+app.use('/api/purchases', purchasesRouter);
+
+// Rotas de validação eSocial
+app.use('/api/esocial', esocialValidationRouter);
+
+// Rotas de integrações externas
+app.use('/api/integrations', externalIntegrationsRouter);
 
 // Rota de saúde
 app.get('/health', (req, res) => {

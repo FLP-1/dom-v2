@@ -1,0 +1,198 @@
+Agora, coloque em prática todo a sua expertise e talento, priorizando a excelência operacional e a sinergia entre os agentes, a fim de transformar o desenvolvimento do aplicativo em um processo integrado, ágil e de alta performance. 
+sua missão é criar, em conjunto com os outros agentes, um app que atenda o workflow abaixo: 
+ 
+ 
+Workflow Geral do Sistema 
+1. Registro, Autenticação e Onboarding 
+1.1. Cadastro e Verificação de Dados 
+• Entrada:  
+o O usuário acessa a tela de cadastro e insere o CPF, que é imediatamente validado (incluindo o dígito verificador). o Dados complementares (nome, endereço, etc.) são preenchidos conforme os requisitos do eSocial para empregadores e empregados; um cadastro simplificado para familiares; dados adicionais (como informações para emissão de NF e compliance) para parceiros e administradores do sistema. 
+• Verificações Adicionais:  
+o E-mail e telefone são capturados e um código de verificação (OTP) é enviado para confirmar a posse e autenticidade dos contatos. 
+• Resultado:  
+o Após a validação, o sistema gera o perfil correspondente e direciona o usuário para o dashboard específico ao seu papel. 
+2. Acesso aos Dashboards por Perfil ? Administrador do Sistema:  
+	o 	Acesso total a todos os módulos e à interface de auditoria e monitoramento. 
+	? 	Administrador do Núcleo (Empregador):  
+o Painel operacional para gerenciar cadastros, registros de ponto, documentos, compras, atividades, e notificações. 
+	? 	Empregado:  
+o Interface simplificada para registrar o ponto, realizar upload de documentos pessoais e acompanhar tarefas designadas. 
+	? 	Familiar:  
+	o 	Acesso restrito às informações autorizadas pelo empregador. 
+	? 	Parceiro:  
+o Painel exclusivo para gestão dos dados de emissão de notas fiscais e controle de compliance, com segregação dos dados operacionais. 
+ 
+Workflow dos Módulos e Interações 
+3. Módulo de Registro de Ponto Passo 3.1 - Registro pelo Empregado 
+	? 	Ação:  
+o O empregado clica no botão "Registrar Ponto". o O sistema capta automaticamente a data, hora (da nuvem evitando manipulação e gerando confiabilidade), geolocalização (via API, por exemplo do Google Maps) e identifica a rede Wi-Fi ativada (em uso no momento do registro). 
+	? 	Validações:  
+o Se o registro for efetuado fora do horário estipulado, ou se não houver registro em uma determinada data, o sistema marca o dia e horário como "pendente de regularização". o Geração de alertas se o registro estiver atrasado ou ausente. 
+	? 	Alertas:  
+o Notificações enviadas tanto para o empregado quanto para o administrador do núcleo, informando sobre a pendência. 
+Métricas: 
+? Precisão geográfica (erro máximo de 50 metros) e latência inferior a 1 segundo na captura dos dados. 
+ 
+4. Módulo de Gestão de Documentos Passo 4.1 - Upload e Armazenamento 
+	? 	Ação:  
+o Usuários (principalmente empregados e administradores do núcleo) realizam o upload de documentos (imagens, PDFs, planilhas, certificados digitais). 
+	? 	Processamento:  
+o Armazenamento seguro usando criptografia (por exemplo, AES-256). 
+o Registro de data de validade dos documentos. 
+	? 	Alertas:  
+o Alertas automáticos são programados para notificar os responsáveis quando os documentos estiverem próximos do vencimento ou já vencidos. 
+	? 	Acesso:  
+o 	Controle de acesso rigoroso baseado no perfil (somente administradores ou usuários 	autorizados 	podem 	visualizar 	ou 	modificar 	determinados documentos). 
+Métricas: 
+	? 	Tempo de upload abaixo de 5 segundos; taxa de erro inferior a 1%. 
+ 
+5. Módulo de Gestão de Compras  
+	? 	Ação:  
+o Em um grupo de compras (ex.: supermercado, manutenção, etc.), o responsável cadastra um novo item. 
+	? 	Interação:  
+o Após a inclusão de um item, o sistema pergunta se deseja disparar um alerta para o responsável designado ou para o grupo. 
+	? 	Notificação:  
+o 	Alerta enviado para o(s) perfil(is) responsável(is) conforme definido (por exemplo, notificação push ou e-mail). 
+6. Módulo de Gestão de Atividades/Tarefas 
+	? 	Ação:  
+o Criação e designação de atividades, com inclusão de prazos, checklist, observações e opção de upload de arquivos (integrado com o módulo de documentos). 
+	? 	Interação:  
+	o 	Notificações enviadas:  
+? Ao designar uma atividade, os responsáveis recebem o alerta. 
+? Em caso de atraso, o sistema emite um alerta para o administrador do núcleo e o colaborador designado. 
+Métricas: 
+? Tempo de resposta inferior a 3 segundos para inclusão e atualização; percentual de alertas disparados corretamente acima de 98%. 
+ 
+7. Módulo de Comunicação Interna (Chat) 
+Fluxo de Comunicação: 
+	? 	Conversa Individual e em Grupo:  
+o 	Usuários podem enviar mensagens individuais ou formar grupos, com funcionalidade similar ao WhatsApp. 
+	? 	Alertas e Notificações:  
+o Mensagens com status de entrega, tempo inferior a 1 segundo para o recebimento. o Atualização em tempo real no painel de chat, com notificação de nova mensagem, tanto via aplicativo quanto por canais adicionais (push, SMS, etc.). 
+Métricas: 
+	? 	Tempo de entrega menor que 1 segundo; taxa de entrega acima de 98%. 
+ 
+8. Módulo de Cálculo Salarial e Gestão de Empréstimos/Adiantamentos Integração e Cálculo: 
+	? 	Ação:  
+o 	Os dados dos registros de ponto são integrados com informações de adiantamentos e empréstimos para calcular o salário. o 	Emissão automática de comprovantes após o cálculo. 
+	? 	Integração com eSocial:  
+o Adaptar parâmetros, tokens e certificados conforme as documentações oficiais (consultar o Portal eSocial e NFSe para garantir conformidade). 
+Métricas: 
+? Precisão nos cálculos com erro inferior a 0,5%; emissão de comprovantes em menos de 3 segundos. 
+ 
+8. Módulo de White Label e Assinaturas Customização e Gestão: 
+• Interface Personalizável:  
+o Permitir que os parceiros personalizem cores, logotipo e demais elementos visuais da interface. 
+• Assinaturas:  
+o Cadastro e gerenciamento de assinaturas com controle de recebimentos e alertas para vencimentos ou problemas. 
+Métricas: 
+• Tempo de customização inferior a 2 minutos; alertas 100% entregues conforme o agendamento. 
+ 
+9. Segurança, Compliance, e Monitoramento 
+Controle de Acesso e Criptografia (Informações Sensíveis): 
+• Proteção dos Dados:  
+o O CPF não pode ser alterado; e-mail e telefone passam pela verificação via OTP. o Dados sensíveis (informações pessoais, endereços, dados bancários) são protegidos com criptografia e acesso restrito. 
+• Painel de Auditoria:  
+o Administradores do sistema monitoram logs e incidentes. o Integração com controles de mudanças: quando um dado sensível é alterado (por exemplo, tentativa de mudança no cadastro), um processo de validação dupla (ou escalonamento) é disparado. 
+Fluxo de Monitoramento e Alerta (E2): 
+• Sistema de Notificações:  
+o Cada alerta ou mensagem possui etiqueta (tipo, data, destinatário e canal - podendo ser push, e-mail ou SMS). o Registro e monitoramento de todos os alertas para auditoria. 
+Métricas: 
+• Tempo para disparo de alertas inferior a 2 segundos; taxa de notificações entregues > 98%. 
+ 
+10. Infraestrutura e Testes Escalabilidade e Performance (F): 
+• Ambiente de Nuvem:  
+o Utilizar serviços escaláveis (AWS, Azure ou Google Cloud) com suporte a picos (antecipar, por exemplo, até 50.000 usuários simultâneos). 
+• Testes Contínuos:  
+o Realizar testes unitários, de integração e de performance, garantindo cobertura superior a 90% dos módulos críticos. 
+o Auditorias de segurança e PenTests periódicos. 
+Métricas: 
+• Tempo médio de resposta do sistema: inferior a 3 segundos mesmo em picos; cobertura de testes automatizados acima de 90%. 
+ 
+Interação Entre Perfis - Fluxo Detalhado 
+1. Consulta às Documentações Oficiais 
+• Objetivo:  
+o Garantir que os cadastros dos perfis (especialmente os de empregador, empregado e parceiro) atendam às exigências do eSocial e da emissão de notas fiscais de serviços. 
+• Procedimento:  
+o Manter uma rotina de atualização periódica da documentação oficial (portal do eSocial e documentação NFSe da Prefeitura de São Paulo). o Utilizar essas fontes para atualizar os campos obrigatórios e as regras de negócios dentro do cadastro do sistema. 
+ 
+2. Eventos Disparadores e Notificações 
+Os seguintes eventos farão com que o sistema dispare interações entre perfis, acionando os alertas e fluxos correspondentes: 
+• Inclusão de Itens de Compra: 
+o Após a inclusão de um item em uma lista (ex.: supermercado, manutenção, etc.), o sistema pergunta se deseja disparar um alerta. 
+o Fluxo:  
+? O responsável pelo grupo ou item é notificado por meio de canais configurados (push, e-mail, SMS). 
+? A notificação contém informações sobre o item incluído, o responsável e a data da alteração. 
+• Inclusão/Alteração em Atividades ou Tarefas: 
+o Assim que uma atividade ou tarefa é criada ou modificada (ex.: uma nova tarefa designada ou alteração de prazo), o fluxo envia notificações aos envolvidos (dos responsáveis às partes interessadas). 
+o Fluxo:  
+? O administrador do núcleo e os colaboradores designados recebem alertas em tempo real, permitindo a rápida atualização do status e a confirmação da atividade. 
+• Atrasos ou Ausência no Registro de Ponto: 
+o Caso o registro não seja efetuado no horário definido ou se um registro estiver ausente, o sistema marca o dia como "pendente de regularização". 
+o Fluxo:  
+? Tanto o empregado quanto o administrador do núcleo serão notificados, possibilitando uma ação imediata para regularização do registro. 
+ 
+3. Validação e Proteção de Dados Sensíveis 
+Para garantir a segurança e a conformidade com a LGPD, o sistema implementará as seguintes medidas: 
+• CPF: 
+o O CPF é considerado um dado sensível e não poderá ser alterado após o cadastro. o Validação:  
+? Implementação máscara e de um verificador automático que confere o dígito verificador no momento da inserção. Quando houver cadastramento fazer a conexão com a api da receita federal e buscar os dados cadastrais que poderão ser alterados internamente somente no app 
+• E-mail e Telefone: 
+o São validados por meio de máscara e de envio de códigos (OTP) que o usuário deve confirmar para autenticar a posse dos contatos. (envio de email para o email cadatraddo, envio de SMS e Whatsapp para celular) 
+• CEP: 
+o O cep deve ter máscara e conexão com o viacep para busca de informações do endereço completo evitando erro de digitação ? Outros Dados Pessoais: 
+o Dados de endereço, informações bancárias ou outras informações críticas serão protegidos com criptografia (como AES-256) e só serão acessíveis por perfis com permissões específicas. 
+• Ação em Caso de Alteração: 
+o Qualquer tentativa de alterar dados sensíveis disparará um alerta que exigirá a validação adicional ou a intervenção do administrador do sistema por meio do painel de auditoria. 
+ 
+4. Resolução de Conflitos e Escalonamento 
+Quando surgirem inconsistências ou conflitos entre cadastros e registros, o sistema seguirá o seguinte fluxo: 
+• Detecção de Inconsistências: 
+o Qualquer alteração em dados sensíveis ou lacunas nos registros (como tentativa de alteração do CPF ou registro de ponto ausente) é automaticamente registrada em um log de auditoria. 
+• Acionamento do Administrador do Sistema: 
+o Um alerta de "incidente" é gerado e encaminhado para o painel do administrador do sistema. 
+o Fluxo de Escalonamento:  
+? O administrador do núcleo pode revisar a situação inicialmente, porém, se o conflito envolver dados sensíveis ou persistir, o incidente é escalonado automaticamente ao administrador do sistema. 
+• Interface de Resolução: 
+o O painel de controle inclui ferramentas para que o administrador revise o histórico da alteração, compare os dados anteriores e decida, com base nos logs, se a alteração deve ser revertida ou mantida. 
+• Registro e Auditoria: 
+o Toda intervenção é registrada com data, hora, e identificação do usuário que realizou a ação, garantindo rastreabilidade para futuras auditorias. 
+ 
+5. Segregação dos Dados para Compliance e Emissão de NF 
+Para assegurar que as informações utilizadas para a emissão de notas fiscais e operações de compliance sejam tratadas com segurança, o seguinte modelo será adotado: 
+• Armazenamento Separado: 
+o Os dados utilizados para a emissão de NF e compliance (como informações fiscais dos parceiros) serão armazenados em um esquema ou banco de dados segregado logicamente do restante dos dados operacionais, minimizando o risco de vazamento ou acesso não autorizado. 
+• Controle de Acesso Diferenciado: 
+o Apenas usuários com permissões específicas (administradores do sistema e parceiros) poderão acessar estes dados. o O acesso deverá ser realizado por meio de autenticação forte, podendo incluir MFA para operações críticas. 
+• Criptografia e Logs: 
+o Adicionalmente, estes dados serão submetidos a uma camada extra de criptografia. o Cada acesso, modificação ou tentativa de acesso será registrado em um log, permitindo auditoria completa e em tempo real. 
+ 
+Métricas de Sucesso e Monitoramento Contínuo 
+Para assegurar que as interações entre perfis ocorram conforme planejado e dentro dos parâmetros de segurança e performance, as seguintes métricas serão monitoradas: 
+• Taxa de Completude e Validação: 
+o Cadastro dos dados sensíveis (CPF, e-mail, telefone) deve atingir 100% de validação com os testes de código OTP e verificação do dígito. 
+• Tempo de Resposta dos Eventos: 
+o Notificações de alterações em registros, como inclusão de itens e alertas de ponto, devem ter latência inferior a 2 segundos. 
+• Precisão e Integridade dos Registros: 
+o O sistema deve manter a precisão dos registros de ponto e demais atividades acima de 98%, com detecção em tempo real de inconsistências. 
+• Cobertura de Auditoria: 
+o Todas as operações críticas devem estar registradas com uma cobertura de logs superior a 100% dos eventos de alteração e acesso aos dados sensíveis. 
+• Satisfação do Usuário (Feedback): 
+o Pesquisa de NPS (Net Promoter Score) direcionada a cada perfil para avaliar a experiência e identificar oportunidades de melhoria. Alvo: NPS = 70 para cada grupo. 
+ 
+Pesquisa e Links para Documentações 
+Para definir os requisitos técnicos (parâmetros, tokens, certificados digitais, etc.) e complementar os itens relacionados a integrações, seguem alguns links úteis - recomendase a verificação constante em razão de atualizações: 
+• eSocial Doméstico: 
+	o 	Portal eSocial: http://portal.esocial.gov.br 
+o Seção de Manuais e Documentações: normalmente encontrada no portal do eSocial (navegar até "Manual do Empregador Doméstico"). 
+	? 	Nota Fiscal de Serviços Eletrônica (NFSe) - Prefeitura de São Paulo: 
+	o 	Página oficial de NFSe: 
+ https://www.prefeitura.sp.gov.br/cidade/secretarias/fazenda/nfse/ 
+• SPTrans: 
+o Pesquisar "API SPTrans" pode direcionar para a documentação interna disponível no site oficial da SPTrans ou em portais como http://www.sptrans.com.br (verifique se há API pública e documentação técnica). 
+• Bilhete Único: 
+o Pesquisar "API Bilhete Único SP" ou consultar o portal da prefeitura de São Paulo, onde geralmente se encontram informações sobre integração com o Bilhete Único. 
+• Geolocalização e Identificação de Wi-Fi: 
+	o 	Google Maps API: https://developers.google.com/maps/documentation 
+o Para identificação de Wi-Fi, utilizar as APIs nativas do Android (WifiManager) e do iOS (NEHotspotConfigurationManager). 
+ 

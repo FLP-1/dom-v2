@@ -264,6 +264,7 @@ model users {
         quality_checks_assigned   QualityCheck[] @relation("QualityCheckAssigned")
         quality_templates         QualityTemplate[]
         quality_reports           QualityReport[]
+        purchaseGroups            PurchaseGroup[] @relation("UserPurchaseGroups")
 
   @@index([active], map: "idx_users_active")
   @@index([cpf], map: "idx_users_cpf")
@@ -1369,6 +1370,45 @@ model QualityReport {
   @@index([period], map: "idx_quality_reports_period")
   @@index([start_date], map: "idx_quality_reports_start_date")
   @@map("quality_reports")
+}
+
+// Sistema de Compras
+model PurchaseGroup {
+  id          String   @id @default(cuid())
+  name        String   // supermercado, manutenção, limpeza, etc.
+  description String?
+  responsible String   // ID do usuário responsável
+  isActive    Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  
+  items       PurchaseItem[]
+  users       users[]  @relation("UserPurchaseGroups")
+  
+  @@map("purchase_groups")
+}
+
+model PurchaseItem {
+  id              String   @id @default(cuid())
+  group_id        String
+  description     String
+  quantity        Float
+  unit            String   // kg, unidades, litros, etc.
+  responsible     String   // ID do usuário responsável
+  priority        String   @default("medium") // low, medium, high
+  status          String   @default("pending") // pending, approved, purchased, delivered
+  price           Float?
+  supplier        String?
+  notes           String?
+  alert_sent      Boolean  @default(false)
+  alert_recipients String[] // IDs dos usuários que receberam alerta
+  created_by      String
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  
+  group           PurchaseGroup @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  
+  @@map("purchase_items")
 }
 
 
