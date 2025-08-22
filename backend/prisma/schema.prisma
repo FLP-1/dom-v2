@@ -265,6 +265,8 @@ model users {
         quality_templates         QualityTemplate[]
         quality_reports           QualityReport[]
         purchaseGroups            PurchaseGroup[] @relation("UserPurchaseGroups")
+  approvalRequestsCreated ApprovalRequest[] @relation("UserApprovalRequests")
+  approvalHistories       ApprovalHistory[] @relation("UserApprovalHistories")
 
   @@index([active], map: "idx_users_active")
   @@index([cpf], map: "idx_users_cpf")
@@ -1409,6 +1411,83 @@ model PurchaseItem {
   group           PurchaseGroup @relation(fields: [group_id], references: [id], onDelete: Cascade)
   
   @@map("purchase_items")
+}
+
+// Sistema de Aprovações
+model ApprovalWorkflow {
+  id          String   @id @default(cuid())
+  name        String   // Nome do workflow (ex: "Aprovação de Despesas", "Aprovação de Contratos")
+  description String?
+  type        String   // 'expense', 'contract', 'purchase', 'general'
+  isActive    Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  steps       ApprovalStep[]
+  requests    ApprovalRequest[]
+  
+  @@map("approval_workflows")
+}
+
+model ApprovalStep {
+  id          String   @id @default(cuid())
+  workflow_id String
+  step_order  Int      // Ordem do passo no workflow
+  name        String   // Nome do passo
+  description String?
+  approver_type String // 'user', 'role', 'department', 'manager'
+  approver_id String   // ID do usuário, cargo ou departamento
+  is_required Boolean  @default(true)
+  timeout_days Int?    // Dias para timeout automático
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  workflow    ApprovalWorkflow @relation(fields: [workflow_id], references: [id], onDelete: Cascade)
+  histories   ApprovalHistory[]
+  
+  @@map("approval_steps")
+}
+
+model ApprovalRequest {
+  id          String   @id @default(cuid())
+  workflow_id String
+  requester_id String   @db.Uuid
+  title       String
+  description String?
+  data        Json     // Dados específicos da solicitação
+  priority    String   @default("medium") // low, medium, high, urgent
+  status      String   @default("pending") // pending, approved, rejected, cancelled, expired
+  current_step Int     @default(1)
+  total_steps Int
+  expires_at  DateTime?
+  approved_at DateTime?
+  rejected_at DateTime?
+  cancelled_at DateTime?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  workflow    ApprovalWorkflow @relation(fields: [workflow_id], references: [id])
+  requester   users            @relation("UserApprovalRequests", fields: [requester_id], references: [id])
+  histories   ApprovalHistory[]
+  
+  @@map("approval_requests")
+}
+
+model ApprovalHistory {
+  id          String   @id @default(cuid())
+  request_id  String
+  step_id     String
+  approver_id String   @db.Uuid
+  action      String   // 'approve', 'reject', 'comment', 'escalate'
+  comment     String?
+  data        Json?    // Dados adicionais da ação
+  created_at  DateTime @default(now())
+
+  request     ApprovalRequest @relation(fields: [request_id], references: [id], onDelete: Cascade)
+  step        ApprovalStep    @relation(fields: [step_id], references: [id])
+  approver    users           @relation("UserApprovalHistories", fields: [approver_id], references: [id])
+  
+  @@map("approval_histories")
 }
 
 

@@ -260,12 +260,15 @@ Desenvolver um sistema completo de gestão doméstica que atenda às necessidade
 
 ## 🎯 **PRÓXIMAS SEMANAS (PENDENTES)**
 
-### **SEMANA 20: SISTEMA DE APROVAÇÕES**
-- [ ] Workflow de aprovação genérico
-- [ ] Aprovação de despesas
-- [ ] Aprovação de contratos
-- [ ] Sistema de escalonamento
-- [ ] Interface web para gestão de aprovações
+### **SEMANA 20: ✅ SISTEMA DE APROVAÇÕES**
+- [x] Workflow de aprovação genérico
+- [x] Aprovação de despesas
+- [x] Aprovação de contratos
+- [x] Sistema de escalonamento
+- [x] Interface web para gestão de aprovações
+
+**Status**: ✅ **CONCLUÍDO**
+**Resultado**: Sistema de aprovações totalmente funcional com workflows personalizáveis
 
 ### **SEMANA 21: SISTEMA DE RECRUTAMENTO**
 - [ ] Publicação de vagas
