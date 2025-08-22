@@ -19,6 +19,7 @@ import communicationRouter from './routes/communication-prisma';
 import gamificationRouter from './routes/gamification-prisma';
 import integrationRouter from './routes/integration-prisma';
 import reportsAdvancedRouter from './routes/reports-advanced-prisma';
+import qualityRouter from './routes/quality-prisma';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -71,6 +72,9 @@ app.use('/api/integration', integrationRouter);
 
 // Rotas de relatórios avançados e analytics
 app.use('/api/reports-advanced', reportsAdvancedRouter);
+
+// Rotas de qualidade e inspeção
+app.use('/api/quality', qualityRouter);
 
 // Rota de saúde
 app.get('/health', (req, res) => {
