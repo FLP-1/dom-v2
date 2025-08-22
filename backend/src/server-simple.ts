@@ -25,6 +25,7 @@ import purchasesRouter from './routes/purchases-prisma';
 import esocialValidationRouter from './routes/esocial-validation-prisma';
 import externalIntegrationsRouter from './routes/external-integrations-prisma';
 import approvalsRouter from './routes/approvals-prisma';
+import recruitmentRouter from './routes/recruitment-prisma';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -95,6 +96,9 @@ app.use('/api/integrations', externalIntegrationsRouter);
 
 // Rotas de aprovações
 app.use('/api/approvals', approvalsRouter);
+
+// Rotas de recrutamento
+app.use('/api/recruitment', recruitmentRouter);
 
 // Rota de saúde
 app.get('/health', (req, res) => {

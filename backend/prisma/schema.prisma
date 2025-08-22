@@ -246,6 +246,9 @@ model users {
   user_challenges           UserChallenge[]
   user_consents             UserConsent[]
   user_group_roles          user_group_roles[]
+  recruitmentJobs           RecruitmentJob[]           @relation("UserRecruitmentJobs")
+  recruitmentApplications   RecruitmentApplication[]   @relation("UserRecruitmentApplications")
+  recruitmentInterviews     RecruitmentInterview[]     @relation("UserRecruitmentInterviews")
   user_points               UserPoints[]
   user_sessions             user_sessions[]
   user_settings             UserSettings?
@@ -1488,6 +1491,91 @@ model ApprovalHistory {
   approver    users           @relation("UserApprovalHistories", fields: [approver_id], references: [id])
   
   @@map("approval_histories")
+}
+
+model RecruitmentJob {
+  id              String   @id @default(cuid()) @db.VarChar(50)
+  title           String   @db.VarChar(200)
+  description     String?
+  requirements    Json     @db.Json // Array de requisitos
+  responsibilities Json    @db.Json // Array de responsabilidades
+  salary_range    Json?    @db.Json // {min: number, max: number, currency: string}
+  contract_type   String   @db.VarChar(50) // 'full_time', 'part_time', 'temporary', 'freelance'
+  work_schedule   String?  @db.VarChar(100) // Horário de trabalho
+  location        String?  @db.VarChar(200) // Localização
+  remote_work     Boolean  @default(false)
+  benefits        Json?    @db.Json // Array de benefícios
+  status          String   @default("active") @db.VarChar(20) // 'active', 'paused', 'closed'
+  published_at    DateTime? @db.Timestamp(6)
+  expires_at      DateTime? @db.Timestamp(6)
+  created_at      DateTime @default(now()) @db.Timestamp(6)
+  updated_at      DateTime @updatedAt @db.Timestamp(6)
+  created_by      String   @db.Uuid
+  applications    RecruitmentApplication[]
+
+  user            users    @relation("UserRecruitmentJobs", fields: [created_by], references: [id])
+
+  @@index([status], map: "idx_recruitment_jobs_status")
+  @@index([created_by], map: "idx_recruitment_jobs_created_by")
+  @@map("recruitment_jobs")
+}
+
+model RecruitmentApplication {
+  id              String   @id @default(cuid()) @db.VarChar(50)
+  job_id          String   @db.VarChar(50)
+  candidate_name  String   @db.VarChar(200)
+  candidate_email String   @db.VarChar(255)
+  candidate_phone String?  @db.VarChar(20)
+  candidate_cpf   String?  @db.VarChar(14)
+  resume_url      String?  @db.VarChar(500)
+  cover_letter    String?
+  experience_years Int?
+  education_level String?  @db.VarChar(100)
+  skills          Json?    @db.Json // Array de habilidades
+  availability    String?  @db.VarChar(100)
+  expected_salary Decimal? @db.Decimal(10,2)
+  status          String   @default("pending") @db.VarChar(20) // 'pending', 'reviewed', 'shortlisted', 'interviewed', 'hired', 'rejected'
+  rating          Int? // 1-5 estrelas
+  notes           String?
+  interview_date  DateTime? @db.Timestamp(6)
+  interview_location String? @db.VarChar(200)
+  interview_type  String?  @db.VarChar(50) // 'in_person', 'video', 'phone'
+  created_at      DateTime @default(now()) @db.Timestamp(6)
+  updated_at      DateTime @updatedAt @db.Timestamp(6)
+  reviewed_by     String?  @db.Uuid
+  interviews      RecruitmentInterview[]
+
+  job             RecruitmentJob @relation(fields: [job_id], references: [id], onDelete: Cascade)
+  reviewer        users?         @relation("UserRecruitmentApplications", fields: [reviewed_by], references: [id])
+
+  @@index([job_id], map: "idx_recruitment_applications_job_id")
+  @@index([status], map: "idx_recruitment_applications_status")
+  @@index([reviewed_by], map: "idx_recruitment_applications_reviewed_by")
+  @@map("recruitment_applications")
+}
+
+model RecruitmentInterview {
+  id              String   @id @default(cuid()) @db.VarChar(50)
+  application_id  String   @db.VarChar(50)
+  interviewer_id  String   @db.Uuid
+  interview_date  DateTime @db.Timestamp(6)
+  interview_type  String   @db.VarChar(50) // 'in_person', 'video', 'phone'
+  location        String?  @db.VarChar(200)
+  duration_minutes Int?
+  status          String   @default("scheduled") @db.VarChar(20) // 'scheduled', 'completed', 'cancelled', 'rescheduled'
+  notes           String?
+  rating          Int? // 1-5 estrelas
+  feedback        String?
+  created_at      DateTime @default(now()) @db.Timestamp(6)
+  updated_at      DateTime @updatedAt @db.Timestamp(6)
+
+  application     RecruitmentApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  interviewer     users                 @relation("UserRecruitmentInterviews", fields: [interviewer_id], references: [id])
+
+  @@index([application_id], map: "idx_recruitment_interviews_application_id")
+  @@index([interviewer_id], map: "idx_recruitment_interviews_interviewer_id")
+  @@index([status], map: "idx_recruitment_interviews_status")
+  @@map("recruitment_interviews")
 }
 
 

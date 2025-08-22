@@ -270,6 +270,16 @@ Desenvolver um sistema completo de gestão doméstica que atenda às necessidade
 **Status**: ✅ **CONCLUÍDO**
 **Resultado**: Sistema de aprovações totalmente funcional com workflows personalizáveis
 
+### **SEMANA 21: ✅ SISTEMA DE RECRUTAMENTO**
+- [x] Gestão de vagas de emprego
+- [x] Sistema de candidaturas
+- [x] Agendamento de entrevistas
+- [x] Avaliação de candidatos
+- [x] Analytics de recrutamento
+
+**Status**: ✅ **CONCLUÍDO**
+**Resultado**: Sistema de recrutamento completo focado em contratação
+
 ### **SEMANA 21: SISTEMA DE RECRUTAMENTO**
 - [ ] Publicação de vagas
 - [ ] Sistema de candidaturas
