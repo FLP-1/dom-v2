@@ -15,6 +15,7 @@ import hrRouter from './routes/hr-prisma';
 import documentsRouter from './routes/documents-prisma';
 import reportsRouter from './routes/reports-prisma';
 import notificationsRouter from './routes/notifications-prisma';
+import communicationRouter from './routes/communication-prisma';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -55,6 +56,9 @@ app.use('/api/reports', reportsRouter);
 
 // Rotas de notificações
 app.use('/api/notifications', notificationsRouter);
+
+// Rotas de comunicação
+app.use('/api/communication', communicationRouter);
 
 // Rota de saúde
 app.get('/health', (req, res) => {
