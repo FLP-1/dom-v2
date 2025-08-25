@@ -1,0 +1,994 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Gestão de RH</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+        body {
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+        .container {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1400px;
+}
+        .header {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+        .header h1 {
+    display: flex;
+    color: #4a5568;
+    margin-bottom: 10px;
+    align-items: center;
+    gap: 10px;
+}
+        .header .icon {
+    color: #667eea;
+    font-size: 2em;
+}
+        .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+        .stat-card {
+    -webkit-transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+        .stat-card:hover {
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+}
+        .stat-number {
+    color: #667eea;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+        .stat-label {
+    color: #718096;
+    font-size: 0.9em;
+}
+        .main-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+}
+        .employees-section {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+        .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+        .btn {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+        .btn:hover {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+        .btn-secondary {
+    background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+}
+        .btn-success {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+}
+        .btn-warning {
+    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+}
+        .btn-danger {
+    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+}
+        .filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+        .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+        .filter-group label {
+    color: #718096;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+        .filter-group select, .filter-group input {
+    -webkit-transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease;
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+        .filter-group select:focus, .filter-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+        .employees-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+        .employee-item {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #e2e8f0;
+}
+        .employee-item:hover {
+    -webkit-transform: translateX(5px);
+    transform: translateX(5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+        .employee-item.active {
+    border-left-color: #48bb78;
+}
+        .employee-item.inactive {
+    border-left-color: #f56565;
+}
+        .employee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+        .employee-name {
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+        .employee-status {
+    padding: 4px 12px;
+    transform: uppercase;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 500;
+    text--webkit-transform: uppercase;
+}
+        .status-active {
+    color: #2f855a;
+    background: #c6f6d5;
+}
+        .status-inactive {
+    color: #c53030;
+    background: #fed7d7;
+}
+        .employee-info {
+    color: #718096;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+        .employee-meta {
+    display: flex;
+    color: #a0aec0;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+}
+        .employee-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+        .btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+        .sidebar {
+    height: fit-content;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+        .sidebar h3 {
+    display: flex;
+    color: #4a5568;
+    margin-bottom: 15px;
+    align-items: center;
+    gap: 8px;
+}
+        .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+        .modal-content {
+    width: 90%;
+    margin: 5% auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    max-width: 600px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+        .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+        .modal-header h2 {
+    color: #4a5568;
+}
+        .close {
+    -webkit-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+    color: #a0aec0;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+        .close:hover {
+    color: #4a5568;
+}
+        .form-group {
+    margin-bottom: 15px;
+}
+        .form-group label {
+    display: block;
+    color: #718096;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+        .form-group input, .form-group select {
+    -webkit-transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+        .form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+        .loading {
+    padding: 40px;
+    color: #718096;
+    text-align: center;
+}
+        .error {
+    padding: 15px;
+    color: #c53030;
+    background: #fed7d7;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+        .success {
+    padding: 15px;
+    color: #2f855a;
+    background: #c6f6d5;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+        @media (max-width: 768px) {
+    .main-content { grid-template-columns: 1fr;
+} .filters {
+    flex-direction: column;
+} .section-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+} }
+    </style>
+  <style>
+    .extracted-style-1 {
+    margin-top: 30px;
+}
+    .extracted-style-2 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+    .extracted-style-3 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+    .extracted-style-4 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+    .extracted-style-5 {
+    width: 100%;
+}
+    .extracted-style-6 {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+    .extracted-style-7 {
+    margin-bottom: 15px;
+}
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="icon">👥</span> Gestão de RH - DOM v2</h1>
+            <div class="stats-grid" id="statsGrid"></div>
+        </div>
+
+        <div class="main-content">
+            <div class="employees-section">
+                <div class="section-header">
+                    <h2>Gestão de Funcionários</h2>
+                    <button class="btn" onclick="openCreateModal()" tabindex="0">➕ Novo Funcionário</button>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Departamento</label>
+                        <select aria-label="Seleção" id="departmentFilter" tabindex="0">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Cargo</label>
+                        <select aria-label="Seleção" id="positionFilter" tabindex="0">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select aria-label="Seleção" id="statusFilter" tabindex="0">
+                            <option value="">Todos</option>
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-secondary" onclick="loadEmployees()" tabindex="0">Filtrar</button>
+                    </div>
+                </div>
+
+                <div class="employees-list" id="employeesList"></div>
+            </div>
+
+            <div class="sidebar">
+                <h3><span>📊</span> Dashboard</h3>
+                <div id="dashboardStats"></div>
+
+                <h3 class="extracted-style-1"><span>📈</span> Relatórios</h3>
+                <button class="btn btn-secondary" class="extracted-style-2" onclick="loadHRDashboard()" tabindex="0">Dashboard de RH</button>
+                <button class="btn btn-secondary" class="extracted-style-3" onclick="loadTurnoverReport()" tabindex="0">Relatório Turnover</button>
+                <button class="btn btn-secondary" class="extracted-style-4" onclick="loadSalaryReport()" tabindex="0">Relatório Salarial</button>
+                <button class="btn btn-secondary" class="extracted-style-5" onclick="loadHierarchy()" tabindex="0">Estrutura Hierárquica</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Novo Funcionário</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="employeeForm">
+                <div class="form-group">
+                    <label for="employeeName">Nome Completo *</label>
+                    <input id="employeeName" aria-label="text input" type="text" id="employeeName" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeeEmail">Email *</label>
+                    <input id="employeeEmail" aria-label="email input" type="email" id="employeeEmail" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeeCPF">CPF *</label>
+                    <input id="employeeCPF" aria-label="text input" type="text" id="employeeCPF" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeePhone">Telefone</label>
+                    <input id="employeePhone" aria-label="text input" type="text" id="employeePhone" placeholder="(11) 99999-9999" tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeeDepartment">Departamento</label>
+                    <input id="employeeDepartment" aria-label="text input" type="text" id="employeeDepartment" placeholder="Ex: TI, RH, Financeiro" tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeePosition">Cargo</label>
+                    <input id="employeePosition" aria-label="text input" type="text" id="employeePosition" placeholder="Ex: Desenvolvedor, Analista" tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeeSalary">Salário</label>
+                    <input id="employeeSalary" aria-label="number input" type="number" id="employeeSalary" step="0.01" placeholder="0.00" tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeeHireDate">Data de Contratação</label>
+                    <input id="employeeHireDate" aria-label="date input" type="date" id="employeeHireDate" tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="employeeManager">Gerente</label>
+                    <select aria-label="Seleção" id="employeeManager" tabindex="0">
+                        <option value="">Selecionar gerente</option>
+                    </select>
+                </div>
+                <div class="extracted-style-6">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn" tabindex="0">Salvar Funcionário</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentEmployeeId = null;
+        let employees = [];
+        const API_BASE = 'http://localhost:3001/api';
+
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadHRStats();
+    
+            loadEmployees();
+    
+            loadDashboardStats();
+});
+
+        async function loadHRStats() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/reports/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+    
+                    const stats = data.data.summary;
+    
+                    document.getElementById('statsGrid').innerHTML = `
+                        <div class="stat-card">
+                            <div class="stat-number">${stats.total;
+}</div>
+                            <div class="stat-label">Total de Funcionários</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${
+    stats.active;
+}</div>
+                            <div class="stat-label">Ativos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${
+    stats.inactive;
+}</div>
+                            <div class="stat-label">Inativos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${
+    stats.newHires;
+}</div>
+                            <div class="stat-label">Novos Contratados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">R$ ${
+    stats.totalSalary.toLocaleString();
+}</div>
+                            <div class="stat-label">Folha Salarial</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">R$ ${
+    stats.avgSalary.toLocaleString();
+}</div>
+                            <div class="stat-label">Salário Médio</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+    console.error('Erro ao carregar estatísticas de RH:', error);
+}
+        }
+
+        async function loadEmployees() {
+    
+            try {
+                const departmentFilter = document.getElementById('departmentFilter').value;
+    
+                const positionFilter = document.getElementById('positionFilter').value;
+    
+                const statusFilter = document.getElementById('statusFilter').value;
+    
+
+                let url = `${API_BASE;
+}/hr/employees?limit=100`;
+                if (departmentFilter) url += `&department=${
+    departmentFilter;
+}`;
+                if (positionFilter) url += `&position=${
+    positionFilter;
+}`;
+                if (statusFilter) url += `&status=${
+    statusFilter;
+}`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.success) {
+    
+                    employees = data.data.employees;
+    
+                    displayEmployees(employees);
+    
+                    updateFilters(data.data);
+} else {
+    showError('Erro ao carregar funcionários: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao carregar funcionários:', error);
+}
+        }
+
+        function displayEmployees(employees) {
+    
+            const employeesList = document.getElementById('employeesList');
+    
+            
+            if (employees.length === 0) {
+                employeesList.innerHTML = '<div class="loading">Nenhum funcionário encontrado</div>';
+    
+                return;
+}
+
+            employeesList.innerHTML = employees.map(employee => `
+                <div class="employee-item ${
+    employee.active ? 'active' : 'inactive';
+}">
+                    <div class="employee-header">
+                        <div class="employee-name">${
+    employee.name;
+}</div>
+                        <div class="employee-status ${
+    employee.active ? 'status-active' : 'status-inactive';
+}">
+                            ${
+    employee.active ? 'Ativo' : 'Inativo';
+}
+                        </div>
+                    </div>
+                    <div class="employee-info">
+                        <div><strong>Email:</strong> ${
+    employee.email;
+}</div>
+                        <div><strong>CPF:</strong> ${
+    employee.cpf;
+}</div>
+                        ${
+    employee.department ? `<div><strong>Departamento:</strong> ${employee.department;
+}</div>` : ''}
+                        ${
+    employee.position ? `<div><strong>Cargo:</strong> ${employee.position;
+}</div>` : ''}
+                        ${
+    employee.phone ? `<div><strong>Telefone:</strong> ${employee.phone;
+}</div>` : ''}
+                    </div>
+                    <div class="employee-meta">
+                        <div>
+                            ${
+    employee.salary ? `<span>💰 R$ ${employee.salary.toLocaleString();
+}</span>` : ''}
+                            ${
+    employee.hire_date ? `<span>📅 ${formatDate(employee.hire_date);
+}</span>` : ''}
+                        </div>
+                        <div>
+                            ${
+    employee.department ? `<span>🏢 ${employee.department;
+}</span>` : ''}
+                            ${
+    employee.position ? `<span>👔 ${employee.position;
+}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="btn btn-secondary btn-small" onclick="editEmployee('${
+    employee.id;
+}')" tabindex="0">Editar</button>
+                        <button class="btn btn-warning btn-small" onclick="toggleEmployeeStatus('${
+    employee.id;
+}')" tabindex="0">
+                            ${
+    employee.active ? 'Desativar' : 'Ativar';
+}
+                        </button>
+                        <button class="btn btn-danger btn-small" onclick="deleteEmployee('${
+    employee.id;
+}')" tabindex="0">Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateFilters(data) {
+    
+            const departmentFilter = document.getElementById('departmentFilter');
+    
+            const departments = Object.keys(data.byDepartment);
+    
+            departmentFilter.innerHTML = '<option value="">Todos</option>';
+    
+            departments.forEach(dept => {
+                departmentFilter.innerHTML += `<option value="${dept;
+}">${
+    dept;
+} (${
+    data.byDepartment[dept];
+})</option>`;
+            });
+
+            const positionFilter = document.getElementById('positionFilter');
+            const positions = Object.keys(data.byPosition);
+            positionFilter.innerHTML = '<option value="">Todos</option>';
+            positions.forEach(pos => {
+    
+                positionFilter.innerHTML += `<option value="${pos;
+}">${
+    pos;
+} (${
+    data.byPosition[pos];
+})</option>`;
+            });
+        }
+
+        async function loadDashboardStats() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/reports/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+    document.getElementById('dashboardStats').innerHTML = `
+                        <div class="extracted-style-7">
+                            <strong>Por Departamento:</strong><br>
+                            ${Object.entries(stats.byDepartment).map(([dept, count]) => 
+                                `🏢 ${dept;
+}: ${
+    count;
+}`
+                            ).join('<br>')}
+                        </div>
+                        <div>
+                            <strong>Por Cargo:</strong><br>
+                            ${
+    Object.entries(stats.byPosition).map(([pos, count]) => 
+                                `👔 ${pos;
+}: ${
+    count;
+}`
+                            ).join('<br>')}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+    console.error('Erro ao carregar dashboard:', error);
+}
+        }
+
+        function openCreateModal() {
+    
+            currentEmployeeId = null;
+    
+            document.getElementById('modalTitle').textContent = 'Novo Funcionário';
+    
+            document.getElementById('employeeForm').reset();
+    
+            loadManagers();
+    
+            document.getElementById('employeeModal').style.display = 'block';
+}
+
+        function closeModal() {
+    
+            document.getElementById('employeeModal').style.display = 'none';
+    
+            currentEmployeeId = null;
+}
+
+        async function loadManagers() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/users`);
+                const data = await response.json();
+                
+                if (data.success) {
+    
+                    const select = document.getElementById('employeeManager');
+    
+                    select.innerHTML = '<option value="">Selecionar gerente</option>';
+    
+                    data.data.forEach(user => {
+                        select.innerHTML += `<option value="${user.id;
+}">${
+    user.name;
+}</option>`;
+                    });
+                }
+            } catch (error) {
+    console.error('Erro ao carregar gerentes:', error);
+}
+        }
+
+        async function editEmployee(employeeId) {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/employees/${
+    employeeId;
+}`);
+                const data = await response.json();
+                
+                if (data.success) {
+    document.getElementById('employeeHireDate').value = employee.hire_date ? employee.hire_date.split('T')[0] : '';
+} else {
+    showError('Erro ao carregar funcionário: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao editar funcionário:', error);
+}
+        }
+
+        async function toggleEmployeeStatus(employeeId) {
+    
+            try {
+                const employee = employees.find(e => e.id === employeeId);
+    
+                if (!employee) return;
+    
+
+                const response = await fetch(`${API_BASE;
+}/hr/employees/${
+    employeeId;
+}`, {
+    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json';
+},
+                    body: JSON.stringify({
+    active: !employee.active;
+})
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+    showSuccess(`Funcionário ${employee.active ? 'desativado' : 'ativado';
+} com sucesso`);
+                    loadEmployees();
+                    loadHRStats();
+                    loadDashboardStats();
+                } else {
+    showError('Erro ao alterar status: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao alterar status:', error);
+}
+        }
+
+        async function deleteEmployee(employeeId) {
+    
+            if (!confirm('Tem certeza que deseja excluir este funcionário?')) return;
+    
+
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/employees/${
+    employeeId;
+}`, {
+    method: 'DELETE';
+});
+                const data = await response.json();
+                
+                if (data.success) {
+    
+                    showSuccess('Funcionário excluído com sucesso');
+    
+                    loadEmployees();
+    
+                    loadHRStats();
+    
+                    loadDashboardStats();
+} else {
+    showError('Erro ao excluir funcionário: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao excluir funcionário:', error);
+}
+        }
+
+        document.getElementById('employeeForm').addEventListener('submit', async function(e) {
+    const formData = {
+                name: document.getElementById('employeeName').value,
+                email: document.getElementById('employeeEmail').value,
+                cpf: document.getElementById('employeeCPF').value,
+                phone: document.getElementById('employeePhone').value,
+                department: document.getElementById('employeeDepartment').value,
+                position: document.getElementById('employeePosition').value,
+                salary: document.getElementById('employeeSalary').value,
+                hire_date: document.getElementById('employeeHireDate').value,
+                manager_id: document.getElementById('employeeManager').value,
+                profile: 'employee';
+};
+
+            try {
+    
+                const url = currentEmployeeId ? 
+                    `${API_BASE;
+}/hr/employees/${
+    currentEmployeeId;
+}` : 
+                    `${
+    API_BASE;
+}/hr/employees`;
+                
+                const method = currentEmployeeId ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+    method: method,
+                    headers: { 'Content-Type': 'application/json';
+},
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+    showSuccess(currentEmployeeId ? 'Funcionário atualizado com sucesso' : 'Funcionário criado com sucesso');
+} else {
+    showError('Erro ao salvar funcionário: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao salvar funcionário:', error);
+}
+        });
+
+        async function loadHRDashboard() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/reports/dashboard`);
+                const data = await response.json();
+                if (data.success) {
+    console.log('HR Dashboard:', data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar dashboard de RH:', error);
+}
+        }
+
+        async function loadTurnoverReport() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/reports/turnover`);
+                const data = await response.json();
+                if (data.success) {
+    console.log('Turnover Report:', data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar relatório de turnover:', error);
+}
+        }
+
+        async function loadSalaryReport() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/reports/salary`);
+                const data = await response.json();
+                if (data.success) {
+    console.log('Salary Report:', data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar relatório salarial:', error);
+}
+        }
+
+        async function loadHierarchy() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/hr/hierarchy`);
+                const data = await response.json();
+                if (data.success) {
+    console.log('Hierarchy:', data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar hierarquia:', error);
+}
+        }
+
+        function formatDate(dateString) {
+    
+            if (!dateString) return '';
+    
+            const date = new Date(dateString);
+    
+            return date.toLocaleDateString('pt-BR');
+}
+
+        function showSuccess(message) {
+    
+            const successDiv = document.createElement('div');
+    
+            successDiv.className = 'success';
+    
+            successDiv.textContent = message;
+    
+            document.querySelector('.container').insertBefore(successDiv, document.querySelector('.header'));
+    
+            setTimeout(() => successDiv.remove(), 5000);
+}
+
+        function showError(message) {
+    
+            const errorDiv = document.createElement('div');
+    
+            errorDiv.className = 'error';
+    
+            errorDiv.textContent = message;
+    
+            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.header'));
+    
+            setTimeout(() => errorDiv.remove(), 5000);
+}
+
+        window.onclick = function(event) {
+    
+            const modal = document.getElementById('employeeModal');
+    
+            if (event.target === modal) closeModal();
+}
+    </script>
+</body>
+</html>
+

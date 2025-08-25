@@ -1,531 +1,224 @@
-import express from 'express';
+﻿/**
+ * Rotas de NotificaÃ§Ãµes - DOM v2
+ * Gerencia operaÃ§Ãµes CRUD para notificaÃ§Ãµes usando Prisma ORM
+ */
+
+import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
 
-const router = express.Router();
+const router = Router();
 const prisma = new PrismaClient();
 
-// =================== NOTIFICAÇÕES EM TEMPO REAL ===================
-
-// GET /api/notifications - Listar notificações do usuário
+/**
+ * GET /notifications
+ * Lista todas as notificaÃ§Ãµes
+ */
 router.get('/', async (req, res) => {
   try {
-    const { user_id, status, limit = 50, page = 1 } = req.query;
-    
-    if (!user_id) {
-      return res.status(400).json({
-        success: false,
-        error: 'ID do usuário é obrigatório'
-      });
-    }
-
-    const whereClause: any = {
-      recipient_id: user_id as string
-    };
-
-    if (status) {
-      whereClause.read = status === 'read';
-    }
-
-    const skip = (parseInt(page as string) - 1) * parseInt(limit as string);
-
-    const [notifications, total] = await Promise.all([
-      prisma.notifications.findMany({
-        where: whereClause,
-        orderBy: {
-          created_at: 'desc'
-        },
-        skip,
-        take: parseInt(limit as string)
-      }),
-      prisma.notifications.count({
-        where: whereClause
-      })
-    ]);
+    const notifications = await prisma.notification.findMany({
+      include: {
+        recipient: true,
+        sender: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
 
     res.json({
       success: true,
-      data: {
-        notifications,
-        pagination: {
-          total,
-          page: parseInt(page as string),
-          limit: parseInt(limit as string),
-          pages: Math.ceil(total / parseInt(limit as string))
-        }
-      }
+      data: notifications,
+      count: notifications.length
     });
   } catch (error) {
-    console.error('Erro ao listar notificações:', error);
+    console.error('Erro ao buscar notificaÃ§Ãµes:', error);
     res.status(500).json({
       success: false,
-      error: 'Erro ao listar notificações: ' + error.message
+      message: 'Erro interno do servidor'
     });
   }
 });
 
-// GET /api/notifications/unread - Contar notificações não lidas
-router.get('/unread', async (req, res) => {
+/**
+ * GET /notifications/:id
+ * Busca notificaÃ§Ã£o por ID
+ */
+router.get('/:id', async (req, res) => {
   try {
-    const { user_id } = req.query;
-    
-    if (!user_id) {
-      return res.status(400).json({
+    const { id } = req.params;
+    const notification = await prisma.notification.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        recipient: true,
+        sender: true
+      }
+    });
+
+    if (!notification) {
+      return res.status(404).json({
         success: false,
-        error: 'ID do usuário é obrigatório'
+        message: 'NotificaÃ§Ã£o nÃ£o encontrada'
       });
     }
 
-    const count = await prisma.notifications.count({
-      where: {
-        recipient_id: user_id as string,
-        read: false
-      }
-    });
-
     res.json({
       success: true,
-      data: {
-        unread_count: count
-      }
+      data: notification
     });
   } catch (error) {
-    console.error('Erro ao contar notificações não lidas:', error);
+    console.error('Erro ao buscar notificaÃ§Ã£o:', error);
     res.status(500).json({
       success: false,
-      error: 'Erro ao contar notificações não lidas: ' + error.message
+      message: 'Erro interno do servidor'
     });
   }
 });
 
-// POST /api/notifications - Criar nova notificação
+/**
+ * POST /notifications
+ * Cria nova notificaÃ§Ã£o
+ */
 router.post('/', async (req, res) => {
   try {
     const {
-      user_id,
       title,
       message,
-      type = 'info',
-      priority = 'normal',
-      action_url,
-      metadata
+      recipientId,
+      type,
+      priority
     } = req.body;
 
-    if (!user_id || !title || !message) {
+    // ValidaÃ§Ãµes bÃ¡sicas
+    if (!title || !message || !recipientId) {
       return res.status(400).json({
         success: false,
-        error: 'ID do usuário, título e mensagem são obrigatórios'
+        message: 'TÃ­tulo, mensagem e destinatÃ¡rio sÃ£o obrigatÃ³rios'
       });
     }
 
-    const notification = await prisma.notifications.create({
+    const notification = await prisma.notification.create({
       data: {
-        id: `notif_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        recipient_id: user_id,
         title,
         message,
-        type,
-        priority,
-        extra_data: metadata ? JSON.parse(JSON.stringify(metadata)) : null,
-        read: false,
-        created_at: new Date(),
-        updated_at: new Date()
-      }
-    });
-
-    res.json({
-      success: true,
-      data: notification
-    });
-  } catch (error) {
-    console.error('Erro ao criar notificação:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro ao criar notificação: ' + error.message
-    });
-  }
-});
-
-// PUT /api/notifications/:id/read - Marcar notificação como lida
-router.put('/:id/read', async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const notification = await prisma.notifications.update({
-      where: { id },
-      data: {
-        read: true,
-        read_at: new Date(),
-        updated_at: new Date()
-      }
-    });
-
-    res.json({
-      success: true,
-      data: notification
-    });
-  } catch (error) {
-    console.error('Erro ao marcar notificação como lida:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro ao marcar notificação como lida: ' + error.message
-    });
-  }
-});
-
-// PUT /api/notifications/read-all - Marcar todas como lidas
-router.put('/read-all', async (req, res) => {
-  try {
-    const { user_id } = req.body;
-
-    if (!user_id) {
-      return res.status(400).json({
-        success: false,
-        error: 'ID do usuário é obrigatório'
-      });
-    }
-
-    const result = await prisma.notifications.updateMany({
-      where: {
-        recipient_id: user_id,
+        recipientId: parseInt(recipientId),
+        type: type || 'INFO',
+        priority: priority || 'NORMAL',
+        senderId: 1, // TODO: Pegar do usuÃ¡rio logado
         read: false
       },
-      data: {
-        read: true,
-        read_at: new Date(),
-        updated_at: new Date()
+      include: {
+        recipient: true,
+        sender: true
+      }
+    });
+
+    res.status(201).json({
+      success: true,
+      data: notification,
+      message: 'NotificaÃ§Ã£o criada com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao criar notificaÃ§Ã£o:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+/**
+ * PUT /notifications/:id
+ * Atualiza notificaÃ§Ã£o
+ */
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    // Remove campos que nÃ£o devem ser atualizados
+    delete updateData.id;
+    delete updateData.createdAt;
+
+    // Converte campos numÃ©ricos
+    if (updateData.recipientId) {
+      updateData.recipientId = parseInt(updateData.recipientId);
+    }
+
+    const notification = await prisma.notification.update({
+      where: { id: parseInt(id) },
+      data: updateData,
+      include: {
+        recipient: true,
+        sender: true
       }
     });
 
     res.json({
       success: true,
-      data: {
-        updated_count: result.count
-      }
+      data: notification,
+      message: 'NotificaÃ§Ã£o atualizada com sucesso'
     });
   } catch (error) {
-    console.error('Erro ao marcar todas como lidas:', error);
+    console.error('Erro ao atualizar notificaÃ§Ã£o:', error);
     res.status(500).json({
       success: false,
-      error: 'Erro ao marcar todas como lidas: ' + error.message
+      message: 'Erro interno do servidor'
     });
   }
 });
 
-// DELETE /api/notifications/:id - Excluir notificação
+/**
+ * DELETE /notifications/:id
+ * Remove notificaÃ§Ã£o
+ */
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    await prisma.notifications.delete({
-      where: { id }
+    await prisma.notification.delete({
+      where: { id: parseInt(id) }
     });
 
     res.json({
       success: true,
-      message: 'Notificação excluída com sucesso'
+      message: 'NotificaÃ§Ã£o removida com sucesso'
     });
   } catch (error) {
-    console.error('Erro ao excluir notificação:', error);
+    console.error('Erro ao remover notificaÃ§Ã£o:', error);
     res.status(500).json({
       success: false,
-      error: 'Erro ao excluir notificação: ' + error.message
+      message: 'Erro interno do servidor'
     });
   }
 });
 
-// =================== NOTIFICAÇÕES POR EMAIL ===================
-
-// POST /api/notifications/email - Enviar notificação por email
-router.post('/email', async (req, res) => {
+/**
+ * PUT /notifications/:id/read
+ * Marca notificaÃ§Ã£o como lida
+ */
+router.put('/:id/read', async (req, res) => {
   try {
-    const {
-      user_id,
-      subject,
-      message,
-      template = 'default',
-      priority = 'normal'
-    } = req.body;
+    const { id } = req.params;
 
-    if (!user_id || !subject || !message) {
-      return res.status(400).json({
-        success: false,
-        error: 'ID do usuário, assunto e mensagem são obrigatórios'
-      });
-    }
-
-    // Buscar dados do usuário
-    const user = await prisma.users.findUnique({
-      where: { id: user_id }
-    });
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'Usuário não encontrado'
-      });
-    }
-
-    // Criar notificação de email
-    const emailNotification = await prisma.notifications.create({
-      data: {
-        id: `email_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        recipient_id: user_id,
-        title: subject,
-        message,
-        type: 'email',
-        priority,
-        extra_data: {
-          template,
-          email: user.email,
-          sent_at: new Date().toISOString()
-        },
-        read: false,
-        created_at: new Date(),
-        updated_at: new Date()
-      }
-    });
-
-    // Simular envio de email (em produção, usar serviço real)
-    console.log(`📧 Email enviado para ${user.email}: ${subject}`);
-
-    res.json({
-      success: true,
-      data: {
-        notification: emailNotification,
-        email_sent: true,
-        recipient: user.email
-      }
-    });
-  } catch (error) {
-    console.error('Erro ao enviar notificação por email:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro ao enviar notificação por email: ' + error.message
-    });
-  }
-});
-
-// =================== PUSH NOTIFICATIONS ===================
-
-// POST /api/notifications/push - Enviar push notification
-router.post('/push', async (req, res) => {
-  try {
-    const {
-      user_id,
-      title,
-      body,
-      data,
-      priority = 'normal'
-    } = req.body;
-
-    if (!user_id || !title || !body) {
-      return res.status(400).json({
-        success: false,
-        error: 'ID do usuário, título e corpo são obrigatórios'
-      });
-    }
-
-    // Buscar dados do usuário
-    const user = await prisma.users.findUnique({
-      where: { id: user_id }
-    });
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'Usuário não encontrado'
-      });
-    }
-
-    // Criar notificação push
-    const pushNotification = await prisma.notifications.create({
-      data: {
-        id: `push_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        recipient_id: user_id,
-        title,
-        message: body,
-        type: 'push',
-        priority,
-        extra_data: {
-          push_data: data || {},
-          sent_at: new Date().toISOString()
-        },
-        read: false,
-        created_at: new Date(),
-        updated_at: new Date()
-      }
-    });
-
-    // Simular envio de push (em produção, usar FCM ou similar)
-    console.log(`📱 Push notification enviado para ${user.name}: ${title}`);
-
-    res.json({
-      success: true,
-      data: {
-        notification: pushNotification,
-        push_sent: true,
-        recipient: user.name
-      }
-    });
-  } catch (error) {
-    console.error('Erro ao enviar push notification:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro ao enviar push notification: ' + error.message
-    });
-  }
-});
-
-// =================== CONFIGURAÇÕES DE NOTIFICAÇÃO ===================
-
-// GET /api/notifications/settings/:user_id - Buscar configurações
-router.get('/settings/:user_id', async (req, res) => {
-  try {
-    const { user_id } = req.params;
-
-    // Simular configurações (em produção, criar tabela específica)
-    const defaultSettings = {
-      user_id,
-      email_enabled: true,
-      push_enabled: true,
-      in_app_enabled: true,
-      email_types: ['system', 'task', 'financial'],
-      push_types: ['system', 'task'],
-      quiet_hours_start: '22:00',
-      quiet_hours_end: '08:00',
-      created_at: new Date(),
-      updated_at: new Date()
-    };
-
-    res.json({
-      success: true,
-      data: defaultSettings
-    });
-  } catch (error) {
-    console.error('Erro ao buscar configurações:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro ao buscar configurações: ' + error.message
-    });
-  }
-});
-
-// PUT /api/notifications/settings/:user_id - Atualizar configurações
-router.put('/settings/:user_id', async (req, res) => {
-  try {
-    const { user_id } = req.params;
-    const {
-      email_enabled,
-      push_enabled,
-      in_app_enabled,
-      email_types,
-      push_types,
-      quiet_hours_start,
-      quiet_hours_end
-    } = req.body;
-
-    // Simular salvamento (em produção, salvar em tabela específica)
-    const settings = {
-      user_id,
-      email_enabled: email_enabled ?? true,
-      push_enabled: push_enabled ?? true,
-      in_app_enabled: in_app_enabled ?? true,
-      email_types: email_types || ['system', 'task', 'financial'],
-      push_types: push_types || ['system', 'task'],
-      quiet_hours_start: quiet_hours_start || '22:00',
-      quiet_hours_end: quiet_hours_end || '08:00',
-      created_at: new Date(),
-      updated_at: new Date()
-    };
-
-    res.json({
-      success: true,
-      data: settings
-    });
-  } catch (error) {
-    console.error('Erro ao atualizar configurações:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro ao atualizar configurações: ' + error.message
-    });
-  }
-});
-
-// =================== HISTÓRICO DE NOTIFICAÇÕES ===================
-
-// GET /api/notifications/history - Histórico de notificações
-router.get('/history', async (req, res) => {
-  try {
-    const { user_id, type, start_date, end_date, limit = 100, page = 1 } = req.query;
-
-    if (!user_id) {
-      return res.status(400).json({
-        success: false,
-        error: 'ID do usuário é obrigatório'
-      });
-    }
-
-    const whereClause: any = {
-      recipient_id: user_id as string
-    };
-
-    if (type) {
-      whereClause.type = type;
-    }
-
-    if (start_date || end_date) {
-      whereClause.created_at = {};
-      if (start_date) whereClause.created_at.gte = new Date(start_date as string);
-      if (end_date) whereClause.created_at.lte = new Date(end_date as string);
-    }
-
-    const skip = (parseInt(page as string) - 1) * parseInt(limit as string);
-
-    const [notifications, total] = await Promise.all([
-      prisma.notifications.findMany({
-        where: whereClause,
-        orderBy: {
-          created_at: 'desc'
-        },
-        skip,
-        take: parseInt(limit as string)
-      }),
-      prisma.notifications.count({
-        where: whereClause
-      })
-    ]);
-
-    // Estatísticas
-    const stats = await prisma.notifications.groupBy({
-      by: ['type', 'read'],
-      where: whereClause,
-      _count: {
-        id: true
+    const notification = await prisma.notification.update({
+      where: { id: parseInt(id) },
+      data: { read: true },
+      include: {
+        recipient: true,
+        sender: true
       }
     });
 
     res.json({
       success: true,
-      data: {
-        notifications,
-        pagination: {
-          total,
-          page: parseInt(page as string),
-          limit: parseInt(limit as string),
-          pages: Math.ceil(total / parseInt(limit as string))
-        },
-        stats: stats.reduce((acc, stat) => {
-          const key = `${stat.type}_${stat.read ? 'read' : 'unread'}`;
-          acc[key] = stat._count.id;
-          return acc;
-        }, {})
-      }
+      data: notification,
+      message: 'NotificaÃ§Ã£o marcada como lida'
     });
   } catch (error) {
-    console.error('Erro ao buscar histórico:', error);
+    console.error('Erro ao marcar notificaÃ§Ã£o como lida:', error);
     res.status(500).json({
       success: false,
-      error: 'Erro ao buscar histórico: ' + error.message
+      message: 'Erro interno do servidor'
     });
   }
 });

@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrações Externas - DOM v2</title>
+    <style>
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            padding: 20px;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+            min-height: 100vh;
+}
+
+        .container {
+    
+            margin: 0 auto;
+    
+            background: white;
+    
+            max-width: 1400px;
+    
+            border-radius: 15px;
+    
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    
+            overflow: hidden;
+}
+
+        .header {
+    
+            padding: 30px;
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            text-align: center;
+}
+
+        .header h1 {
+    
+            font-size: 2.5em;
+    
+            margin-bottom: 10px;
+    
+            font-weight: 300;
+}
+
+        .header p {
+    
+            font-size: 1.1em;
+    
+            opacity: 0.9;
+}
+
+        .nav-tabs {
+    
+            display: flex;
+    
+            background: #f8f9fa;
+    
+            border-bottom: 1px solid #dee2e6;
+}
+
+        .nav-tab {
+    
+            padding: 15px 20px;
+    
+            border: none;
+    
+            color: #6c757d;
+    
+            background: none;
+    
+    transition: all 0.3s ease;
+    
+            flex: 1;
+    
+            text-align: center;
+    
+            cursor: pointer;
+    
+            font-size: 1em;
+    
+            font-weight: 500;
+    
+            -webkit-transition: all 0.3s ease;
+}
+
+        .nav-tab.active {
+    
+            color: #667eea;
+    
+            background: white;
+    
+            border-bottom: 3px solid #667eea;
+}
+
+        .nav-tab:hover {
+    
+            background: #e9ecef;
+}
+
+        .tab-content {
+    
+            display: none;
+    
+            padding: 30px;
+}
+
+        .tab-content.active {
+    
+            display: block;
+}
+
+        .section {
+    
+            margin-bottom: 30px;
+}
+
+        .section h3 {
+    
+            color: #333;
+    
+            margin-bottom: 20px;
+    
+            font-size: 1.5em;
+    
+            border-bottom: 2px solid #667eea;
+    
+            padding-bottom: 10px;
+}
+
+        .form-group {
+    
+            margin-bottom: 20px;
+}
+
+        .form-group label {
+    
+            display: block;
+    
+            color: #555;
+    
+            margin-bottom: 8px;
+    
+            font-weight: 600;
+}
+
+        .form-control {
+    
+            width: 100%;
+    
+            padding: 12px 15px;
+    
+            border: 2px solid #e9ecef;
+    
+    transition: border-color 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 1em;
+    
+            -webkit-transition: border-color 0.3s ease;
+}
+
+        .form-control:focus {
+    
+            outline: none;
+    
+            border-color: #667eea;
+    
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+        .form-row {
+    
+            display: grid;
+    
+            grid-template-columns: 1fr 1fr;
+    
+            gap: 20px;
+}
+
+        .btn {
+    
+            display: inline-block;
+    
+            padding: 12px 25px;
+    
+            border: none;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 1em;
+    
+            font-weight: 600;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            text-decoration: none;
+    
+            text-align: center;
+}
+
+        .btn-primary {
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+        .btn-primary:hover {
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+    
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+        .btn-success {
+    
+            color: white;
+    
+            background: #28a745;
+}
+
+        .btn-warning {
+    
+            color: #212529;
+    
+            background: #ffc107;
+}
+
+        .btn-danger {
+    
+            color: white;
+    
+            background: #dc3545;
+}
+
+        .btn-info {
+    
+            color: white;
+    
+            background: #17a2b8;
+}
+
+        .alert {
+    
+            padding: 15px;
+    
+            border-radius: 8px;
+    
+            margin-bottom: 20px;
+    
+            border-left: 4px solid;
+}
+
+        .alert-success {
+    
+            color: #155724;
+    
+            background: #d4edda;
+    
+            border-color: #28a745;
+}
+
+        .alert-error {
+    
+            color: #721c24;
+    
+            background: #f8d7da;
+    
+            border-color: #dc3545;
+}
+
+        .alert-info {
+    
+            color: #0c5460;
+    
+            background: #d1ecf1;
+    
+            border-color: #17a2b8;
+}
+
+        .integration-card {
+    
+            padding: 20px;
+    
+            border: 2px solid #e9ecef;
+    
+            background: white;
+    
+            border-radius: 10px;
+    
+            margin-bottom: 20px;
+    
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+        .integration-header {
+    
+            display: flex;
+    
+            justify-content: space-between;
+    
+            align-items: center;
+    
+            margin-bottom: 15px;
+}
+
+        .integration-title {
+    
+            color: #333;
+    
+            font-size: 1.2em;
+    
+            font-weight: 600;
+}
+
+        .integration-status {
+    
+            padding: 5px 10px;
+    
+            border-radius: 20px;
+    
+            font-size: 0.85em;
+    
+            font-weight: 600;
+}
+
+        .status-operational {
+    
+            color: #155724;
+    
+            background: #d4edda;
+}
+
+        .status-degraded {
+    
+            color: #856404;
+    
+            background: #fff3cd;
+}
+
+        .status-down {
+    
+            color: #721c24;
+    
+            background: #f8d7da;
+}
+
+        .result-card {
+    
+            margin: 15px 0;
+    
+            padding: 15px;
+    
+            border: 1px solid #dee2e6;
+    
+            background: #f8f9fa;
+    
+            border-radius: 8px;
+}
+
+        .result-title {
+    
+            color: #333;
+    
+            font-weight: 600;
+    
+            margin-bottom: 10px;
+}
+
+        .result-data {
+    
+            padding: 10px;
+    
+            border: 1px solid #e9ecef;
+    
+            background: white;
+    
+            border-radius: 5px;
+    
+            font-family: monospace;
+    
+            font-size: 0.9em;
+    
+            overflow-x: auto;
+}
+
+        .stats-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    
+            gap: 20px;
+    
+            margin-bottom: 30px;
+}
+
+        .stat-card {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+    
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    
+            text-align: center;
+}
+
+        .stat-number {
+    
+            color: #667eea;
+    
+            font-size: 2em;
+    
+            font-weight: bold;
+    
+            margin-bottom: 5px;
+}
+
+        .stat-label {
+    
+            color: #6c757d;
+    
+            font-size: 0.9em;
+}
+
+        .loading {
+    
+            padding: 40px;
+    
+            color: #6c757d;
+    
+            text-align: center;
+}
+
+        .table {
+    
+            width: 100%;
+    
+            background: white;
+    
+            border-collapse: collapse;
+    
+            margin-top: 20px;
+    
+            border-radius: 8px;
+    
+            overflow: hidden;
+    
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+        .table th,
+        .table td {
+    
+            padding: 15px;
+    
+            text-align: left;
+    
+            border-bottom: 1px solid #dee2e6;
+}
+
+        .table th {
+    
+            color: #495057;
+    
+            background: #f8f9fa;
+    
+            font-weight: 600;
+}
+
+        .table tr:hover {
+    
+            background: #f8f9fa;
+}
+
+        @media (max-width: 768px) {
+    
+            .form-row {
+                grid-template-columns: 1fr;
+}
+            
+            .nav-tabs {
+    
+                flex-direction: column;
+}
+            
+            .integration-header {
+    
+                flex-direction: column;
+    
+                align-items: flex-start;
+    
+                gap: 10px;
+}
+        }
+    </style>
+  <style>
+    .extracted-style-1 {
+     margin-top: 10px;
+}
+    .extracted-style-2 {
+     margin-top: 10px;
+}
+    .extracted-style-3 {
+     margin-top: 10px;
+}
+    .extracted-style-4 {
+     margin-top: 10px;
+}
+    .extracted-style-5 {
+     margin-top: 10px;
+}
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Integrações Externas</h1>
+            <p>Sistema completo de integração com APIs externas e serviços governamentais</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('status')" tabindex="0">Status</button>
+            <button class="nav-tab" onclick="showTab('viacep')" tabindex="0">ViaCEP</button>
+            <button class="nav-tab" onclick="showTab('geolocation')" tabindex="0">Geolocalização</button>
+            <button class="nav-tab" onclick="showTab('sptrans')" tabindex="0">SPTrans</button>
+            <button class="nav-tab" onclick="showTab('esocial')" tabindex="0">eSocial</button>
+            <button class="nav-tab" onclick="showTab('nfse')" tabindex="0">NFSe</button>
+            <button class="nav-tab" onclick="showTab('test')" tabindex="0">Testes</button>
+        </div>
+
+        <!-- Tab Status -->
+        <div id="status" class="tab-content active">
+            <div class="section">
+                <h3>📊 Status das Integrações</h3>
+                <button onclick="checkStatus()" class="btn btn-primary" tabindex="0">Atualizar Status</button>
+                <div id="statusResults" class="loading">Carregando status...</div>
+            </div>
+        </div>
+
+        <!-- Tab ViaCEP -->
+        <div id="viacep" class="tab-content">
+            <div class="section">
+                <h3>📍 Consulta de CEP</h3>
+                <form id="cepForm">
+                    <div class="form-group">
+                        <label for="cepInput">CEP</label>
+                        <input id="cepInput" aria-label="text input" type="text" id="cepInput" class="form-control" placeholder="00000-000" maxlength="9" tabindex="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary" tabindex="0">Consultar CEP</button>
+                </form>
+                <div id="cepResults"></div>
+            </div>
+        </div>
+
+        <!-- Tab Geolocalização -->
+        <div id="geolocation" class="tab-content">
+            <div class="section">
+                <h3>🌍 Geolocalização</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addressInput">Endereço</label>
+                        <input id="addressInput" aria-label="text input" type="text" id="addressInput" class="form-control" placeholder="São Paulo, SP" tabindex="0">
+                        <button onclick="getGeolocation()" class="btn btn-primary" class="extracted-style-1" tabindex="0">Obter Coordenadas</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="latInput">Latitude</label>
+                        <input id="latInput" aria-label="number input" type="number" id="latInput" class="form-control" placeholder="-23.5505" step="any" tabindex="0">
+                        <label for="lngInput" class="extracted-style-2">Longitude</label>
+                        <input id="lngInput" aria-label="number input" type="number" id="lngInput" class="form-control" placeholder="-46.6333" step="any" tabindex="0">
+                        <button onclick="getAddress()" class="btn btn-info" class="extracted-style-3" tabindex="0">Obter Endereço</button>
+                    </div>
+                </div>
+                <div id="geolocationResults"></div>
+            </div>
+        </div>
+
+        <!-- Tab SPTrans -->
+        <div id="sptrans" class="tab-content">
+            <div class="section">
+                <h3>🚌 SPTrans</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lineSearch">Buscar Linhas</label>
+                        <input id="lineSearch" aria-label="text input" type="text" id="lineSearch" class="form-control" placeholder="Digite para buscar linhas" tabindex="0">
+                        <button onclick="searchLines()" class="btn btn-primary" class="extracted-style-4" tabindex="0">Buscar</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumber">Número do Bilhete Único</label>
+                        <input id="cardNumber" aria-label="text input" type="text" id="cardNumber" class="form-control" placeholder="Número do cartão" tabindex="0">
+                        <button onclick="checkBilheteUnico()" class="btn btn-success" class="extracted-style-5" tabindex="0">Consultar</button>
+                    </div>
+                </div>
+                <div id="sptransResults"></div>
+            </div>
+        </div>
+
+        <!-- Tab eSocial -->
+        <div id="esocial" class="tab-content">
+            <div class="section">
+                <h3>📋 eSocial</h3>
+                <form id="esocialForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventType">Tipo do Evento</label>
+                            <select id="eventType" class="form-control" required tabindex="0" aria-labelledby="eventType-label">
+                                <option value="">Selecione o tipo</option>
+                                <option value="S1000">S1000 - Informações do Empregador</option>
+                                <option value="S1005">S1005 - Tabela de Estabelecimentos</option>
+                                <option value="S1010">S1010 - Tabela de Rubricas</option>
+                                <option value="S1020">S1020 - Tabela de Lotações Tributárias</option>
+                                <option value="S1030">S1030 - Tabela de Cargos/Empregos Públicos</option>
+                                <option value="S1035">S1035 - Tabela de Carreiras Públicas</option>
+                                <option value="S1040">S1040 - Tabela de Funções/Cargos em Comissão</option>
+                                <option value="S1050">S1050 - Tabela de Horários/Turnos de Trabalho</option>
+                                <option value="S1060">S1060 - Tabela de Ambientes de Trabalho</option>
+                                <option value="S1070">S1070 - Tabela de Processos Administrativos/Judiciais</option>
+                                <option value="S1080">S1080 - Tabela de Operadoras de Planos de Saúde</option>
+                                <option value="S1200">S1200 - Remuneração de Trabalhador vinculado ao Regime Geral de Previdência Social</option>
+                                <option value="S1202">S1202 - Remuneração de Servidor vinculado a Regime Próprio de Previdência Social</option>
+                                <option value="S1207">S1207 - Benefícios Previdenciários - RPPS</option>
+                                <option value="S1210">S1210 - Pagamentos de Rendimentos do Trabalho</option>
+                                <option value="S1250">S1250 - Aquisição de Produção Rural</option>
+                                <option value="S1260">S1260 - Comercialização da Produção Rural Pessoa Física</option>
+                                <option value="S1270">S1270 - Contratação de Trabalhadores Avulsos Não Portuários</option>
+                                <option value="S1280">S1280 - Informações Complementares aos Eventos Periódicos</option>
+                                <option value="S1295">S1295 - Solicitação de Totalização para Pagamento em Contingência</option>
+                                <option value="S1298">S1298 - Reabertura dos Eventos Periódicos</option>
+                                <option value="S1299">S1299 - Fechamento dos Eventos Periódicos</option>
+                                <option value="S1300">S1300 - Contribuição Sindical Patronal</option>
+                                <option value="S2190">S2190 - Admissão de Trabalhador - Registro Preliminar</option>
+                                <option value="S2200">S2200 - Cadastramento Inicial do Vínculo e Admissão/Ingresso do Trabalhador</option>
+                                <option value="S2205">S2205 - Alteração de Dados Cadastrais do Trabalhador</option>
+                                <option value="S2206">S2206 - Alteração de Contrato de Trabalho</option>
+                                <option value="S2210">S2210 - Comunicação de Acidente de Trabalho</option>
+                                <option value="S2220">S2220 - Monitoramento da Saúde do Trabalhador</option>
+                                <option value="S2221">S2221 - Exame Toxicológico do Motorista Profissional</option>
+                                <option value="S2230">S2230 - Afastamento Temporário</option>
+                                <option value="S2231">S2231 - Cessão/Exercício em Outro Órgão</option>
+                                <option value="S2240">S2240 - Condições Ambientais do Trabalho - Fatores de Risco</option>
+                                <option value="S2241">S2241 - Insalubridade, Periculosidade e Aposentadoria Especial</option>
+                                <option value="S2245">S2245 - Treinamentos, Capacitações, Exercícios Simulados e Outras Anotações</option>
+                                <option value="S2250">S2250 - Aviso Prévio</option>
+                                <option value="S2260">S2260 - Convocação para Trabalho Intermitente</option>
+                                <option value="S2298">S2298 - Reintegração</option>
+                                <option value="S2299">S2299 - Desligamento</option>
+                                <option value="S2300">S2300 - Trabalhador Sem Vínculo de Emprego/Estatutário - Início</option>
+                                <option value="S2306">S2306 - Trabalhador Sem Vínculo de Emprego/Estatutário - Alteração Contratual</option>
+                                <option value="S2399">S2399 - Trabalhador Sem Vínculo de Emprego/Estatutário - Término</option>
+                                <option value="S2400">S2400 - Cadastro de Benefícios Previdenciários - RPPS</option>
+                                <option value="S2405">S2405 - Benefício Previdenciário - RPPS</option>
+                                <option value="S2410">S2410 - Benefício Previdenciário - RPPS</option>
+                                <option value="S2416">S2416 - Benefício Previdenciário - RPPS</option>
+                                <option value="S2418">S2418 - Reativação de Benefício Previdenciário - RPPS</option>
+                                <option value="S2420">S2420 - Benefício Previdenciário - RPPS</option>
+                                <option value="S3000">S3000 - Exclusão de Eventos</option>
+                                <option value="S5001">S5001 - Informações das Contribuições Sociais por Trabalhador</option>
+                                <option value="S5002">S5002 - Imposto de Renda Retido na Fonte por Trabalhador</option>
+                                <option value="S5003">S5003 - Informações de Contribuições Sociais por Contribuinte Individual</option>
+                                <option value="S5011">S5011 - Informações das Contribuições Sociais Consolidadas por Contribuinte</option>
+                                <option value="S5012">S5012 - Informações de Contribuições Sociais por Contribuinte</option>
+                                <option value="S5013">S5013 - Informações de Contribuições Sociais por Contribuinte</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="employerId">ID do Empregador</label>
+                            <input id="employerId" aria-label="text input" type="text" id="employerId" class="form-control" placeholder="ID do empregador" required tabindex="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventData">Dados do Evento (JSON)</label>
+                        <textarea id="eventData" class="form-control" rows="5" placeholder='{
+    "exemplo": "dados do evento";
+}' required tabindex="0"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" tabindex="0">Enviar Evento</button>
+                </form>
+                <div id="esocialResults"></div>
+            </div>
+        </div>
+
+        <!-- Tab NFSe -->
+        <div id="nfse" class="tab-content">
+            <div class="section">
+                <h3>🧾 NFSe</h3>
+                <form id="nfseForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceDescription">Descrição do Serviço</label>
+                            <input id="serviceDescription" aria-label="text input" type="text" id="serviceDescription" class="form-control" placeholder="Descrição do serviço prestado" required tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Valor (R$)</label>
+                            <input id="amount" aria-label="number input" type="number" id="amount" class="form-control" placeholder="0.00" step="0.01" required tabindex="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="providerData">Dados do Prestador (JSON)</label>
+                            <textarea id="providerData" class="form-control" rows="3" placeholder='{
+    "nome": "Empresa Prestadora", "cnpj": "00.000.000/0000-00";
+}' required tabindex="0"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientData">Dados do Cliente (JSON)</label>
+                            <textarea id="clientData" class="form-control" rows="3" placeholder='{
+    "nome": "Cliente", "cpf": "000.000.000-00";
+}' required tabindex="0"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nfseEmployerId">ID do Empregador</label>
+                        <input id="nfseEmployerId" aria-label="text input" type="text" id="nfseEmployerId" class="form-control" placeholder="ID do empregador" required tabindex="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary" tabindex="0">Gerar NFSe</button>
+                </form>
+                <div id="nfseResults"></div>
+            </div>
+        </div>
+
+        <!-- Tab Testes -->
+        <div id="test" class="tab-content">
+            <div class="section">
+                <h3>🧪 Testes de Integração</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="testIntegration">Integração para Testar</label>
+                        <select id="testIntegration" class="form-control" tabindex="0" aria-labelledby="testIntegration-label">
+                            <option value="viacep">ViaCEP</option>
+                            <option value="geolocation">Geolocalização</option>
+                            <option value="sptrans">SPTrans</option>
+                            <option value="esocial">eSocial</option>
+                            <option value="nfse">NFSe</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="testData">Dados de Teste (JSON)</label>
+                        <textarea id="testData" class="form-control" rows="3" placeholder='{
+    "cep": "01001000";
+}' tabindex="0"></textarea>
+                    </div>
+                </div>
+                <button onclick="testIntegration()" class="btn btn-warning" tabindex="0">Executar Teste</button>
+                <div id="testResults"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001/api';
+
+        // Funções de navegação
+        function showTab(tabName) {
+    
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+});
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+    
+                tab.classList.remove('active');
+});
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Carregar dados específicos da tab
+            if (tabName === 'status') {
+    
+                checkStatus();
+}
+        }
+
+        // Funções de API
+        async function apiCall(endpoint, options = {}) {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}${
+    endpoint;
+}`, {
+    
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    ;
+},
+                    ...options
+                });
+
+                if (!response.ok) {
+    
+                    throw new Error(`HTTP error! status: ${response.status;
+}`);
+                }
+
+                return await response.json();
+            } catch (error) {
+    
+                console.error('API Error:', error);
+    
+                showAlert('Erro na comunicação com o servidor', 'error');
+    
+                throw error;
+}
+        }
+
+        // Funções de status
+        async function checkStatus() {
+    
+            try {
+                const response = await apiCall('/integrations/status');
+    
+                displayStatusResults(response.data);
+} catch (error) {
+    
+                document.getElementById('statusResults').innerHTML = '<div class="alert alert-error">Erro ao carregar status</div>';
+}
+        }
+
+        function displayStatusResults(data) {
+    
+            const container = document.getElementById('statusResults');
+    
+            
+            const statusClass = data.overallStatus === 'operational' ? 'status-operational' : 
+                               data.overallStatus === 'degraded' ? 'status-degraded' : 'status-down';
+    
+            
+            let html = `
+                <div class="integration-card">
+                    <div class="integration-header">
+                        <span class="integration-title">Status Geral</span>
+                        <span class="integration-status ${statusClass;
+}">${
+    data.overallStatus;
+}</span>
+                    </div>
+                    <p>Última verificação: ${
+    new Date(data.timestamp).toLocaleString('pt-BR');
+}</p>
+                </div>
+            `;
+            
+            data.integrations.forEach(integration => {
+    
+                const statusClass = integration.status === 'operational' ? 'status-operational' : 
+                                   integration.status === 'degraded' ? 'status-degraded' : 'status-down';
+    
+                
+                html += `
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <span class="integration-title">${integration.name;
+}</span>
+                            <span class="integration-status ${
+    statusClass;
+}">${
+    integration.status;
+}</span>
+                        </div>
+                        <p><strong>Última verificação:</strong> ${
+    new Date(integration.lastCheck).toLocaleString('pt-BR');
+}</p>
+                        <p><strong>Tempo de resposta:</strong> ${
+    integration.responseTime;
+}ms</p>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Funções ViaCEP
+        document.getElementById('cepForm').addEventListener('submit', async (e) => {
+    
+            e.preventDefault();
+    
+            const cep = document.getElementById('cepInput').value;
+    
+            if (!cep) {
+                showAlert('Digite um CEP', 'error');
+    
+                return;
+}
+
+            try {
+    
+                const response = await apiCall(`/integrations/cep/${cep;
+}`);
+                displayCepResults(response.data);
+            } catch (error) {
+    
+                showAlert('Erro ao consultar CEP', 'error');
+}
+        });
+
+        function displayCepResults(data) {
+    
+            const container = document.getElementById('cepResults');
+    
+            
+            const html = `
+                <div class="result-card">
+                    <div class="result-title">📍 Endereço Encontrado</div>
+                    <div class="result-data">
+                        <p><strong>CEP:</strong> ${data.cep;
+}</p>
+                        <p><strong>Logradouro:</strong> ${
+    data.logradouro;
+}</p>
+                        <p><strong>Bairro:</strong> ${
+    data.bairro;
+}</p>
+                        <p><strong>Cidade:</strong> ${
+    data.localidade;
+} - ${
+    data.uf;
+}</p>
+                        <p><strong>DDD:</strong> ${
+    data.ddd;
+}</p>
+                        <p><strong>IBGE:</strong> ${
+    data.ibge;
+}</p>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Funções de Geolocalização
+        async function getGeolocation() {
+    
+            const address = document.getElementById('addressInput').value;
+    
+            if (!address) {
+                showAlert('Digite um endereço', 'error');
+    
+                return;
+}
+
+            try {
+    
+                const response = await apiCall('/integrations/geolocation', {
+                    method: 'POST',
+                    body: JSON.stringify({ address ;
+})
+                });
+                displayGeolocationResults(response.data);
+            } catch (error) {
+    
+                showAlert('Erro ao obter geolocalização', 'error');
+}
+        }
+
+        async function getAddress() {
+    
+            const lat = document.getElementById('latInput').value;
+    
+            const lng = document.getElementById('lngInput').value;
+    
+            
+            if (!lat || !lng) {
+                showAlert('Digite latitude e longitude', 'error');
+    
+                return;
+}
+
+            try {
+    
+                const response = await apiCall('/integrations/geolocation', {
+                    method: 'POST',
+                    body: JSON.stringify({ lat: parseFloat(lat), lng: parseFloat(lng) ;
+})
+                });
+                displayGeolocationResults(response.data);
+            } catch (error) {
+    
+                showAlert('Erro ao obter endereço', 'error');
+}
+        }
+
+        function displayGeolocationResults(data) {
+    
+            const container = document.getElementById('geolocationResults');
+    
+            
+            const html = `
+                <div class="result-card">
+                    <div class="result-title">🌍 ${data.type === 'geocoding' ? 'Geocoding' : 'Reverse Geocoding';
+}</div>
+                    <div class="result-data">
+                        <p><strong>Tipo:</strong> ${
+    data.type;
+}</p>
+                        <p><strong>Endereço:</strong> ${
+    data.address || data.formatted_address;
+}</p>
+                        <p><strong>Coordenadas:</strong> ${
+    data.coordinates.lat;
+}, ${
+    data.coordinates.lng;
+}</p>
+                        <p><strong>Place ID:</strong> ${
+    data.place_id;
+}</p>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Funções SPTrans
+        async function searchLines() {
+    
+            const search = document.getElementById('lineSearch').value;
+    
+            
+            try {
+                const endpoint = search ? `/integrations/sptrans/lines?search=${encodeURIComponent(search);
+}` : '/integrations/sptrans/lines';
+                const response = await apiCall(endpoint);
+                displaySPTransResults(response.data, 'lines');
+            } catch (error) {
+    
+                showAlert('Erro ao buscar linhas', 'error');
+}
+        }
+
+        async function checkBilheteUnico() {
+    
+            const cardNumber = document.getElementById('cardNumber').value;
+    
+            if (!cardNumber) {
+                showAlert('Digite o número do cartão', 'error');
+    
+                return;
+}
+
+            try {
+    
+                const response = await apiCall(`/integrations/sptrans/bilhete-unico?cardNumber=${encodeURIComponent(cardNumber);
+}`);
+                displaySPTransResults(response.data, 'bilhete');
+            } catch (error) {
+    
+                showAlert('Erro ao consultar bilhete único', 'error');
+}
+        }
+
+        function displaySPTransResults(data, type) {
+    
+            const container = document.getElementById('sptransResults');
+    
+            
+            if (type === 'lines') {
+                let html = '<div class="result-card"><div class="result-title">🚌 Linhas Encontradas</div>';
+    
+                
+                if (data.length === 0) {
+                    html += '<p>Nenhuma linha encontrada</p>';
+} else {
+    
+                    html += '<table class="table"><thead><tr><th>ID</th><th>Nome</th><th>Tipo</th><th>Status</th></tr></thead><tbody>';
+    
+                    data.forEach(line => {
+                        html += `<tr><td>${line.id;
+}</td><td>${
+    line.name;
+}</td><td>${
+    line.type;
+}</td><td>${
+    line.status;
+}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                }
+                html += '</div>';
+                container.innerHTML = html;
+            } else if (type === 'bilhete') {
+    
+                const html = `
+                    <div class="result-card">
+                        <div class="result-title">🎫 Dados do Bilhete Único</div>
+                        <div class="result-data">
+                            <p><strong>Número:</strong> ${data.cardNumber;
+}</p>
+                            <p><strong>Saldo:</strong> R$ ${
+    data.balance.toFixed(2);
+}</p>
+                            <p><strong>Última recarga:</strong> ${
+    new Date(data.lastRecharge).toLocaleString('pt-BR');
+}</p>
+                            <p><strong>Último uso:</strong> ${
+    new Date(data.lastUse).toLocaleString('pt-BR');
+}</p>
+                            <p><strong>Status:</strong> ${
+    data.status;
+}</p>
+                            <p><strong>Tipo:</strong> ${
+    data.type;
+}</p>
+                            <p><strong>Validade:</strong> ${
+    data.validity;
+}</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML = html;
+            }
+        }
+
+        // Funções eSocial
+        document.getElementById('esocialForm').addEventListener('submit', async (e) => {
+    
+            e.preventDefault();
+    
+            
+            const formData = {
+                eventType: document.getElementById('eventType').value,
+                eventData: JSON.parse(document.getElementById('eventData').value),
+                employerId: document.getElementById('employerId').value
+            ;
+};
+
+            try {
+    
+                const response = await apiCall('/integrations/esocial/event', {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                ;
+});
+                displayESocialResults(response.data);
+            } catch (error) {
+    
+                showAlert('Erro ao enviar evento eSocial', 'error');
+}
+        });
+
+        function displayESocialResults(data) {
+    
+            const container = document.getElementById('esocialResults');
+    
+            
+            const html = `
+                <div class="result-card">
+                    <div class="result-title">📋 Evento eSocial Enviado</div>
+                    <div class="result-data">
+                        <p><strong>ID do Evento:</strong> ${data.eventId;
+}</p>
+                        <p><strong>Tipo:</strong> ${
+    data.eventType;
+}</p>
+                        <p><strong>Status:</strong> ${
+    data.status;
+}</p>
+                        <p><strong>Protocolo:</strong> ${
+    data.protocol;
+}</p>
+                        <p><strong>Timestamp:</strong> ${
+    new Date(data.timestamp).toLocaleString('pt-BR');
+}</p>
+                        <p><strong>Mensagem:</strong> ${
+    data.message;
+}</p>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Funções NFSe
+        document.getElementById('nfseForm').addEventListener('submit', async (e) => {
+    
+            e.preventDefault();
+    
+            
+            const formData = {
+                serviceDescription: document.getElementById('serviceDescription').value,
+                amount: document.getElementById('amount').value,
+                providerData: JSON.parse(document.getElementById('providerData').value),
+                clientData: JSON.parse(document.getElementById('clientData').value),
+                employerId: document.getElementById('nfseEmployerId').value
+            ;
+};
+
+            try {
+    
+                const response = await apiCall('/integrations/nfse/generate', {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                ;
+});
+                displayNFSeResults(response.data);
+            } catch (error) {
+    
+                showAlert('Erro ao gerar NFSe', 'error');
+}
+        });
+
+        function displayNFSeResults(data) {
+    
+            const container = document.getElementById('nfseResults');
+    
+            
+            const html = `
+                <div class="result-card">
+                    <div class="result-title">🧾 NFSe Gerada</div>
+                    <div class="result-data">
+                        <p><strong>Número:</strong> ${data.nfseNumber;
+}</p>
+                        <p><strong>Descrição:</strong> ${
+    data.serviceDescription;
+}</p>
+                        <p><strong>Valor:</strong> R$ ${
+    data.amount.toFixed(2);
+}</p>
+                        <p><strong>Data de Emissão:</strong> ${
+    new Date(data.issueDate).toLocaleString('pt-BR');
+}</p>
+                        <p><strong>Status:</strong> ${
+    data.status;
+}</p>
+                        <p><strong>Chave de Acesso:</strong> ${
+    data.accessKey;
+}</p>
+                        <p><strong>Código de Verificação:</strong> ${
+    data.verificationCode;
+}</p>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Funções de teste
+        async function testIntegration() {
+    
+            const integration = document.getElementById('testIntegration').value;
+    
+            const testData = document.getElementById('testData').value;
+    
+            
+            let body = { integration ;
+};
+            if (testData) {
+    
+                try {
+                    body.testData = JSON.parse(testData);
+} catch (error) {
+    
+                    showAlert('Dados de teste devem ser um JSON válido', 'error');
+    
+                    return;
+}
+            }
+
+            try {
+    
+                const response = await apiCall('/integrations/test', {
+                    method: 'POST',
+                    body: JSON.stringify(body)
+                ;
+});
+                displayTestResults(response.data);
+            } catch (error) {
+    
+                showAlert('Erro ao executar teste', 'error');
+}
+        }
+
+        function displayTestResults(data) {
+    
+            const container = document.getElementById('testResults');
+    
+            
+            const statusClass = data.success ? 'alert-success' : 'alert-error';
+    
+            const statusIcon = data.success ? '✅' : '❌';
+    
+            
+            const html = `
+                <div class="result-card">
+                    <div class="result-title">🧪 Resultado do Teste</div>
+                    <div class="result-data">
+                        <p><strong>Status:</strong> <span class="${statusClass;
+}">${
+    statusIcon;
+} ${
+    data.success ? 'Sucesso' : 'Falha';
+}</span></p>
+                        <p><strong>Tempo de Resposta:</strong> ${
+    data.responseTime;
+}ms</p>
+                        ${
+    data.error ? `<p><strong>Erro:</strong> ${data.error;
+}</p>` : ''}
+                        ${
+    data.data ? `<p><strong>Dados:</strong> ${JSON.stringify(data.data, null, 2);
+}</p>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Funções auxiliares
+        function showAlert(message, type = 'info') {
+    
+            const alertDiv = document.createElement('div');
+    
+            alertDiv.className = `alert alert-${type;
+}`;
+            alertDiv.textContent = message;
+            
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+            
+            setTimeout(() => {
+    
+                alertDiv.remove();
+}, 5000);
+        }
+
+        // Máscaras de input
+        document.getElementById('cepInput').addEventListener('input', function(e) {
+    
+            let value = e.target.value.replace(/\D/g, '');
+    
+            value = value.replace(/(\d{5;
+})(\d)/, '$1-$2');
+            e.target.value = value;
+        });
+
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+    
+            let value = e.target.value.replace(/\D/g, '');
+    
+            e.target.value = value;
+});
+
+        // Carregar dados iniciais
+        document.addEventListener('DOMContentLoaded', () => {
+    
+            checkStatus();
+});
+    </script>
+</body>
+</html>

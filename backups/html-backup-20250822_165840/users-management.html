@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Usuários - DOM v2</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+        body {
+    color: #1f2937;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+        /* Header */
+        .header {
+    -webkit-backdrop-filter: blur(10px);
+
+    backdrop-filter: blur(10px);
+    display: flex;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    align-items: center;
+}
+
+        .header h1 {
+    color: #1e293b;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+        .header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+        .btn {
+    -webkit-transition: all 0.3s ease;
+
+    transition: all 0.3s ease;
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+        .btn-primary {
+    color: white;
+    background: #007AFF;
+}
+
+        .btn-primary:hover {
+    background: #0056CC;
+}
+
+        .btn-secondary {
+    color: white;
+    background: #6B7280;
+}
+
+        .btn-secondary:hover {
+    background: #4B5563;
+}
+
+        /* Main Content */
+        .main-content {
+    margin: 0 auto;
+    padding: 2rem;
+    max-width: 1200px;
+}
+
+        /* Filters and Search */
+        .filters {
+    -webkit-backdrop-filter: blur(10px);
+
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+        .filters-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+        .search-box {
+    flex: 1;
+    min-width: 300px;
+}
+
+        .search-input {
+    -webkit-transition: border-color 0.3s ease;
+
+    transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+        .search-input:focus {
+    outline: none;
+    border-color: #007AFF;
+}
+
+        .filter-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #E5E7EB;
+    background: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    min-width: 150px;
+}
+
+        /* Users Table */
+        .users-table {
+    -webkit-backdrop-filter: blur(10px);
+
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+        .table-header {
+    display: flex;
+    padding: 1rem 1.5rem;
+    background: #F8FAFC;
+    border-bottom: 1px solid #E5E7EB;
+    justify-content: space-between;
+    align-items: center;
+}
+
+        .table-header h2 {
+    color: #1e293b;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+        .table-content {
+    overflow-x: auto;
+}
+
+        table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+        th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+        th {
+    color: #374151;
+    background: #F8FAFC;
+    transform: uppercase;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text--webkit-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+        td {
+    color: #1f2937;
+}
+
+        .user-avatar {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    color: white;
+    background: #007AFF;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+        .status-badge {
+    padding: 0.25rem 0.75rem;
+    transform: uppercase;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text--webkit-transform: uppercase;
+}
+
+        .status-active {
+    color: #065F46;
+    background: #D1FAE5;
+}
+
+        .status-inactive {
+    color: #991B1B;
+    background: #FEE2E2;
+}
+
+        .profile-badge {
+    padding: 0.25rem 0.75rem;
+    color: #3730A3;
+    background: #E0E7FF;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+        .actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+        .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+        .btn-edit {
+    color: white;
+    background: #F59E0B;
+}
+
+        .btn-edit:hover {
+    background: #D97706;
+}
+
+        .btn-delete {
+    color: white;
+    background: #EF4444;
+}
+
+        .btn-delete:hover {
+    background: #DC2626;
+}
+
+        /* Modal */
+        .modal {
+    -webkit-backdrop-filter: blur(5px);
+
+    backdrop-filter: blur(5px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+        .modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+        .modal-content {
+    width: 90%;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+        .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+        .modal-title {
+    color: #1e293b;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+        .close-btn {
+    padding: 0.5rem;
+    border: none;
+    color: #6B7280;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+        .form-group {
+    margin-bottom: 1.5rem;
+}
+
+        .form-label {
+    display: block;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+        .form-input {
+    -webkit-transition: border-color 0.3s ease;
+
+    transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+        .form-input:focus {
+    outline: none;
+    border-color: #007AFF;
+}
+
+        .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #E5E7EB;
+    background: white;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+        .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+        /* Loading */
+        .loading {
+    padding: 2rem;
+    color: #6B7280;
+    text-align: center;
+}
+
+        .spinner {
+    -webkit-animation: spin 1s linear infinite;
+
+    animation: spin 1s linear infinite;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 1rem;
+    border: 3px solid #E5E7EB;
+    border-top: 3px solid #007AFF;
+    border-radius: 50%;
+}
+
+        @keyframes spin {
+    transform: rotate(0deg);
+    0% { -webkit-transform: rotate(0deg);
+}
+            100% {
+    -webkit-transform: rotate(360deg);
+
+    transform: rotate(360deg);
+}
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+    .header {
+                padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+            .main-content {
+    padding: 1rem;
+}
+
+            .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+            .search-box {
+    min-width: auto;
+}
+
+            .table-content {
+    font-size: 0.875rem;
+}
+
+            th, td {
+    padding: 0.75rem 1rem;
+}
+
+            .actions {
+    flex-direction: column;
+}
+        }
+    </style>
+  <style>
+    .extracted-style-1 {
+    display: none;
+}
+    .extracted-style-2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+    .extracted-style-3 {
+    font-weight: 500;
+}
+    .extracted-style-4 {
+    color: #6B7280;
+    font-size: 0.875rem;
+}
+  </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>👥 Gestão de Usuários</h1>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="window.history.back()" tabindex="0">← Voltar</button>
+            <button class="btn btn-primary" onclick="openCreateModal()" tabindex="0">+ Novo Usuário</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" role="main">
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filters-row">
+                <div class="search-box">
+                    <input id="searchInput" aria-label="text input" type="text" class="search-input" placeholder="Buscar usuários..." id="searchInput" tabindex="0">
+                </div>
+                <select aria-label="Seleção" class="filter-select" id="statusFilter" tabindex="0">
+                    <option value="">Todos os status</option>
+                    <option value="true">Ativo</option>
+                    <option value="false">Inativo</option>
+                </select>
+                <select aria-label="Seleção" class="filter-select" id="profileFilter" tabindex="0">
+                    <option value="">Todos os perfis</option>
+                    <option value="employer">Empregador</option>
+                    <option value="employee">Funcionário</option>
+                    <option value="family">Familiar</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="users-table">
+            <div class="table-header">
+                <h2>Usuários Cadastrados</h2>
+                <span id="userCount">0 usuários</span>
+            </div>
+            <div class="table-content">
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando usuários...</p>
+                </div>
+                <table id="usersTable" class="extracted-style-1">
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Email</th>
+                            <th>CPF</th>
+                            <th>Perfil</th>
+                            <th>Status</th>
+                            <th>Último Login</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create/Edit User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Novo Usuário</h3>
+                <button class="close-btn" onclick="closeModal()" tabindex="0">&times;</button>
+            </div>
+            <form id="userForm">
+                <div class="form-group">
+                    <label class="form-label" for="userName">Nome Completo *</label>
+                    <input id="userName" aria-label="text input" type="text" class="form-input" id="userName" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="userEmail">Email *</label>
+                    <input id="userEmail" aria-label="email input" type="email" class="form-input" id="userEmail" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="userCPF">CPF *</label>
+                    <input id="userCPF" aria-label="text input" type="text" class="form-input" id="userCPF" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="userPhone">Telefone</label>
+                    <input id="userPhone" aria-label="tel input" type="tel" class="form-input" id="userPhone" tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="userProfile">Perfil *</label>
+                    <select aria-label="Seleção" class="form-select" id="userProfile" required tabindex="0">
+                        <option value="employer">Empregador</option>
+                        <option value="employee">Funcionário</option>
+                        <option value="family">Familiar</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                <div class="form-group" id="passwordGroup">
+                    <label class="form-label" for="userPassword">Senha *</label>
+                    <input id="userPassword" aria-label="password input" type="password" class="form-input" id="userPassword" required tabindex="0">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" tabindex="0">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE = 'http://localhost:3001/api';
+        let users = [];
+        let editingUserId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadUsers();
+    
+            setupEventListeners();
+});
+
+        // Event Listeners
+        function setupEventListeners() {
+    
+            document.getElementById('searchInput').addEventListener('input', filterUsers);
+    
+            document.getElementById('statusFilter').addEventListener('change', filterUsers);
+    
+            document.getElementById('profileFilter').addEventListener('change', filterUsers);
+    
+            document.getElementById('userForm').addEventListener('submit', handleFormSubmit);
+}
+
+        // Load Users
+        async function loadUsers() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/users`);
+                const result = await response.json();
+                
+                if (result.success) {
+    
+                    users = result.data;
+    
+                    displayUsers(users);
+} else {
+    
+                    throw new Error(result.error || 'Erro ao carregar usuários');
+}
+            } catch (error) {
+    console.error('Erro:', error);
+    showError('Erro ao carregar usuários: ' + error.message);
+}
+        }
+
+        // Display Users
+        function displayUsers(usersToShow) {
+    
+            const tableBody = document.getElementById('usersTableBody');
+    
+            const userCount = document.getElementById('userCount');
+    
+            const loading = document.getElementById('loading');
+    
+            const table = document.getElementById('usersTable');
+    
+
+            loading.style.display = 'none';
+    
+            table.style.display = 'table';
+    
+            userCount.textContent = `${usersToShow.length;
+} usuário${
+    usersToShow.length !== 1 ? 's' : '';
+}`;
+
+            tableBody.innerHTML = '';
+
+            usersToShow.forEach(user => {
+    
+                const row = document.createElement('tr');
+    
+                row.innerHTML = `
+                    <td>
+                        <div class="extracted-style-2">
+                            <div class="user-avatar">${getInitials(user.name);
+}</div>
+                            <div>
+                                <div class="extracted-style-3">${
+    user.name;
+}</div>
+                                ${
+    user.nickname ? `<div class="extracted-style-4">@${user.nickname;
+}</div>` : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td>${
+    user.email;
+}</td>
+                    <td>${
+    formatCPF(user.cpf);
+}</td>
+                    <td><span class="profile-badge">${
+    getProfileLabel(user.profile);
+}</span></td>
+                    <td>
+                        <span class="status-badge ${
+    user.active ? 'status-active' : 'status-inactive';
+}">
+                            ${
+    user.active ? 'Ativo' : 'Inativo';
+}
+                        </span>
+                    </td>
+                    <td>${
+    user.last_login ? formatDate(user.last_login) : 'Nunca';
+}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-sm btn-edit" onclick="editUser('${
+    user.id;
+}')" tabindex="0">Editar</button>
+                            <button class="btn btn-sm btn-delete" onclick="deleteUser('${
+    user.id;
+}')" tabindex="0">Excluir</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Filter Users
+        function filterUsers() {
+    
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+            const statusFilter = document.getElementById('statusFilter').value;
+    
+            const profileFilter = document.getElementById('profileFilter').value;
+    
+
+            const filteredUsers = users.filter(user => {
+                const matchesSearch = user.name.toLowerCase().includes(searchTerm) ||
+                                    user.email.toLowerCase().includes(searchTerm) ||
+                                    user.cpf.includes(searchTerm);
+    
+                
+                const matchesStatus = statusFilter === '' || user.active.toString() === statusFilter;
+    
+                const matchesProfile = profileFilter === '' || user.profile === profileFilter;
+    
+
+                return matchesSearch && matchesStatus && matchesProfile;
+});
+
+            displayUsers(filteredUsers);
+        }
+
+        // Modal Functions
+        function openCreateModal() {
+    
+            editingUserId = null;
+    
+            document.getElementById('modalTitle').textContent = 'Novo Usuário';
+    
+            document.getElementById('userForm').reset();
+    
+            document.getElementById('passwordGroup').style.display = 'block';
+    
+            document.getElementById('userPassword').required = true;
+    
+            document.getElementById('userModal').classList.add('show');
+}
+
+        function editUser(userId) {
+    
+            const user = users.find(u => u.id === userId);
+    
+            if (!user) return;
+    
+
+            editingUserId = userId;
+    
+            document.getElementById('modalTitle').textContent = 'Editar Usuário';
+    
+            document.getElementById('userName').value = user.name;
+    
+            document.getElementById('userEmail').value = user.email;
+    
+            document.getElementById('userCPF').value = user.cpf;
+    
+            document.getElementById('userPhone').value = user.phone || '';
+    
+            document.getElementById('userProfile').value = user.profile;
+    
+            document.getElementById('passwordGroup').style.display = 'none';
+    
+            document.getElementById('userPassword').required = false;
+    
+            document.getElementById('userModal').classList.add('show');
+}
+
+        function closeModal() {
+    
+            document.getElementById('userModal').classList.remove('show');
+    
+            editingUserId = null;
+}
+
+        // Form Submit
+        async function handleFormSubmit(e) {
+    const formData = {
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                cpf: document.getElementById('userCPF').value,
+                phone: document.getElementById('userPhone').value,
+                profile: document.getElementById('userProfile').value;
+};
+
+            if (!editingUserId) {
+    
+                formData.password = document.getElementById('userPassword').value;
+}
+
+            try {
+    
+                const url = editingUserId ? 
+                    `${API_BASE;
+}/users/${
+    editingUserId;
+}` : 
+                    `${
+    API_BASE;
+}/users`;
+                
+                const method = editingUserId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+    method: method,
+                    headers: {
+                        'Content-Type': 'application/json';
+},
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+    showSuccess(editingUserId ? 'Usuário atualizado com sucesso!' : 'Usuário criado com sucesso!');
+} else {
+    
+                    throw new Error(result.error || 'Erro ao salvar usuário');
+}
+            } catch (error) {
+    console.error('Erro:', error);
+    showError('Erro ao salvar usuário: ' + error.message);
+}
+        }
+
+        // Delete User
+        async function deleteUser(userId) {
+    
+            if (!confirm('Tem certeza que deseja desativar este usuário?')) {
+                return;
+}
+
+            try {
+    
+                const response = await fetch(`${API_BASE;
+}/users/${
+    userId;
+}`, {
+    method: 'DELETE';
+});
+
+                const result = await response.json();
+
+                if (result.success) {
+    
+                    showSuccess('Usuário desativado com sucesso!');
+    
+                    loadUsers();
+} else {
+    
+                    throw new Error(result.error || 'Erro ao desativar usuário');
+}
+            } catch (error) {
+    console.error('Erro:', error);
+    showError('Erro ao desativar usuário: ' + error.message);
+}
+        }
+
+        // Utility Functions
+        function getInitials(name) {
+    
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+}
+
+        function formatCPF(cpf) {
+    
+            return cpf.replace(/(\d{3;
+})(\d{
+    3;
+})(\d{
+    3;
+})(\d{
+    2;
+})/, '$1.$2.$3-$4');
+        }
+
+        function formatDate(dateString) {
+    
+            return new Date(dateString).toLocaleDateString('pt-BR');
+}
+
+        function getProfileLabel(profile) {
+    const labels = {
+                'employer': 'Empregador',
+                'employee': 'Funcionário',
+                'family': 'Familiar',
+                'admin': 'Administrador';
+};
+            return labels[profile] || profile;
+        }
+
+        function showSuccess(message) {
+    // TODO: Implement proper notification system;
+}
+
+        function showError(message) {
+    alert('Erro: ' + message);
+    // TODO: Implement proper notification system;
+}
+
+        // Close modal when clicking outside
+        document.getElementById('userModal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closeModal();
+}
+        });
+    </script>
+</body>
+</html>

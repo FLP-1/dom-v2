@@ -1,0 +1,119 @@
+{
+  "timestamp": "2025-08-22T16:06:22.821Z",
+  "summary": {
+    "totalProcessed": 10,
+    "totalModified": 10,
+    "totalErrors": 0,
+    "successRate": "100.00%"
+  },
+  "modifications": [
+    {
+      "file": "frontend/public/approvals-management.html",
+      "modifications": 7,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select"
+      ]
+    },
+    {
+      "file": "frontend/public/documents-management.html",
+      "modifications": 6,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select"
+      ]
+    },
+    {
+      "file": "frontend/public/hr-management.html",
+      "modifications": 4,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select"
+      ]
+    },
+    {
+      "file": "frontend/public/notifications-management.html",
+      "modifications": 5,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "CSS reordenado: animation após -webkit-animation"
+      ]
+    },
+    {
+      "file": "frontend/public/recruitment-management.html",
+      "modifications": 5,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select"
+      ]
+    },
+    {
+      "file": "frontend/public/reports-management.html",
+      "modifications": 1,
+      "details": [
+        "aria-label genérico adicionado para select"
+      ]
+    },
+    {
+      "file": "frontend/public/task-management.html",
+      "modifications": 6,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ]
+    },
+    {
+      "file": "frontend/public/users-management.html",
+      "modifications": 8,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation"
+      ]
+    },
+    {
+      "file": "frontend/public/communication-management.html",
+      "modifications": 4,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ]
+    },
+    {
+      "file": "frontend/public/esocial-validation.html",
+      "modifications": 1,
+      "details": [
+        "aria-label genérico adicionado para select"
+      ]
+    }
+  ],
+  "errors": []
+}

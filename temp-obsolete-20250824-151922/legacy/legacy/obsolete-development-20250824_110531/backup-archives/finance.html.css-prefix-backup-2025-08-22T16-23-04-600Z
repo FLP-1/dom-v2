@@ -1,0 +1,1171 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GestÃ£o Financeira - DOM v2</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        /* Reset e configuraÃ§Ãµes base */
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            color: #333;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+            min-height: 100vh;
+    
+            line-height: 1.6;
+}
+
+        /* Container principal */
+        .container {
+    
+            margin: 0 auto;
+    
+            padding: 20px;
+    
+            max-width: 1400px;
+}
+
+        /* Cards de resumo financeiro */
+        .financial-summary {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    
+            gap: 20px;
+    
+            margin-bottom: 30px;
+}
+
+        .summary-card {
+    -webkit--webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.95);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+        .summary-card:hover {
+    
+    transform: translateY(-5px);
+    
+            -webkit-transform: translateY(-5px);
+    
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+        .summary-card h3 {
+    
+            display: flex;
+    
+            color: #4a5568;
+    
+            font-size: 1.2rem;
+    
+            margin-bottom: 15px;
+    
+            align-items: center;
+    
+            gap: 10px;
+}
+
+        .summary-card .value {
+    
+            color: #2d3748;
+    
+            font-size: 2rem;
+    
+            font-weight: 700;
+    
+            margin-bottom: 5px;
+}
+
+        .summary-card .label {
+    
+            color: #718096;
+    
+            font-size: 0.9rem;
+}
+
+        .summary-card .trend {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 5px;
+    
+            font-size: 0.9rem;
+    
+            margin-top: 10px;
+}
+
+        .trend.positive {
+    
+            color: #38a169;
+}
+
+        .trend.negative {
+    
+            color: #e53e3e;
+}
+
+        /* SeÃ§Ãµes principais */
+        .main-sections {
+    
+            display: grid;
+    
+            grid-template-columns: 2fr 1fr;
+    
+            gap: 30px;
+    
+            margin-bottom: 30px;
+}
+
+        .section {
+    -webkit--webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+        .section h2 {
+    
+            display: flex;
+    
+            color: #4a5568;
+    
+            font-size: 1.5rem;
+    
+            margin-bottom: 20px;
+    
+            align-items: center;
+    
+            gap: 10px;
+}
+
+        /* Tabelas */
+        .table-container {
+    
+            overflow-x: auto;
+}
+
+        .table {
+    
+            width: 100%;
+    
+            border-collapse: collapse;
+    
+            margin-top: 15px;
+}
+
+        .table th,
+        .table td {
+    
+            padding: 12px;
+    
+            text-align: left;
+    
+            border-bottom: 1px solid #e2e8f0;
+}
+
+        .table th {
+    
+            color: #4a5568;
+    
+            background: #f7fafc;
+    
+            font-weight: 600;
+    
+            font-size: 0.9rem;
+}
+
+        .table tr:hover {
+    
+            background: #f7fafc;
+}
+
+        /* Status badges */
+        .status-badge {
+    
+            padding: 4px 8px;
+    
+    transform: uppercase;
+    
+            border-radius: 6px;
+    
+            font-size: 0.8rem;
+    
+            font-weight: 600;
+    
+            text--webkit-transform: uppercase;
+}
+
+        .status-paid {
+    
+            color: #22543d;
+    
+            background: #c6f6d5;
+}
+
+        .status-pending {
+    
+            color: #744210;
+    
+            background: #fef5e7;
+}
+
+        .status-overdue {
+    
+            color: #742a2a;
+    
+            background: #fed7d7;
+}
+
+        /* BotÃµes */
+        .btn {
+    
+            display: inline-flex;
+    
+            padding: 10px 20px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #4299e1;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 0.9rem;
+    
+            font-weight: 600;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            align-items: center;
+    
+            gap: 8px;
+}
+
+        .btn:hover {
+    
+            background: #3182ce;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .btn-success {
+    
+            background: #38a169;
+}
+
+        .btn-success:hover {
+    
+            background: #2f855a;
+}
+
+        .btn-warning {
+    
+            background: #ed8936;
+}
+
+        .btn-warning:hover {
+    
+            background: #dd6b20;
+}
+
+        .btn-danger {
+    
+            background: #e53e3e;
+}
+
+        .btn-danger:hover {
+    
+            background: #c53030;
+}
+
+        /* FormulÃ¡rios */
+        .form-group {
+    
+            margin-bottom: 20px;
+}
+
+        .form-label {
+    
+            display: block;
+    
+            color: #4a5568;
+    
+            font-size: 0.9rem;
+    
+            font-weight: 600;
+    
+            margin-bottom: 8px;
+}
+
+        .form-input,
+        .form-select {
+    
+            width: 100%;
+    
+            padding: 12px;
+    
+            border: 1px solid #e2e8f0;
+    
+    transition: border-color 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 0.9rem;
+    
+            -webkit-transition: border-color 0.2s ease;
+}
+
+        .form-input:focus,
+        .form-select:focus {
+    
+            outline: none;
+    
+            border-color: #4299e1;
+    
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+        /* Modal */
+        .modal {
+    
+            display: none;
+    
+            position: fixed;
+    
+            top: 0;
+    
+            left: 0;
+    
+            width: 100%;
+    
+            height: 100%;
+    
+            background: rgba(0, 0, 0, 0.5);
+    
+            z-index: 1000;
+    
+            align-items: center;
+    
+            justify-content: center;
+}
+
+        .modal.show {
+    
+            display: flex;
+}
+
+        .modal-content {
+    
+            width: 90%;
+    
+            padding: 30px;
+    
+            background: white;
+    
+            border-radius: 16px;
+    
+            max-width: 500px;
+    
+            max-height: 90vh;
+    
+            overflow: auto;
+}
+
+        .modal-title {
+    
+            color: #4a5568;
+    
+            font-size: 1.5rem;
+    
+            font-weight: 600;
+    
+            margin-bottom: 20px;
+}
+
+        .modal-buttons {
+    
+            display: flex;
+    
+            gap: 12px;
+    
+            justify-content: flex-end;
+    
+            margin-top: 20px;
+}
+
+        /* GrÃ¡ficos */
+        .chart-container {
+    
+            display: flex;
+    
+            height: 300px;
+    
+            color: #718096;
+    
+            background: #f7fafc;
+    
+            margin-top: 20px;
+    
+            border-radius: 8px;
+    
+            align-items: center;
+    
+            justify-content: center;
+}
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+    
+            .container {
+                padding: 15px;
+}
+
+            .main-sections {
+    
+                grid-template-columns: 1fr;
+}
+
+            .financial-summary {
+    
+                grid-template-columns: 1fr;
+}
+
+            .modal-buttons {
+    
+                flex-direction: column;
+}
+        }
+
+        /* AnimaÃ§Ãµes */
+        .fade-in {
+    -webkit-animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+        @keyframes fadeIn {
+    
+    transform: translateY(20px);
+    
+            from {
+                opacity: 0;
+    
+                -webkit-transform: translateY(20px);
+}
+            to {
+    
+    transform: translateY(0);
+    
+                opacity: 1;
+    
+                -webkit-transform: translateY(0);
+}
+        }
+    </style>
+  <style>
+    .extracted-style-1 {
+     margin-top: 20px;
+}
+    .extracted-style-2 {
+     margin-top: 20px;
+}
+    .extracted-style-3 {
+     text-align: center;
+}
+    .extracted-style-4 {
+     padding: 40px;
+     color: #718096;
+     text-align: center;
+}
+    .extracted-style-5 {
+     color: ${amountColor;
+}; font-weight: 600; }
+    .extracted-style-6 {
+     padding: 6px 12px;
+     font-size: 0.8rem;
+}
+    .extracted-style-7 {
+     padding: 6px 12px;
+     font-size: 0.8rem;
+}
+    .extracted-style-8 {
+     padding: 40px;
+     color: #718096;
+     text-align: center;
+}
+  </style>
+</head>
+<body>
+    <!-- Container para o header reutilizÃ¡vel -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizÃ¡vel -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+
+        <!-- Resumo Financeiro -->
+        <div class="financial-summary fade-in">
+            <div class="summary-card">
+                <h3>ðŸ’° Saldo Atual</h3>
+                <div class="value" id="currentBalance">R$ 15.750,00</div>
+                <div class="label">DisponÃ­vel para uso</div>
+                <div class="trend positive">
+                    ðŸ“ˆ +12,5% este mÃªs
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <h3>ðŸ“ˆ Receitas</h3>
+                <div class="value" id="totalIncome">R$ 8.500,00</div>
+                <div class="label">Este mÃªs</div>
+                <div class="trend positive">
+                    ðŸ“ˆ +8,2% vs mÃªs anterior
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <h3>ðŸ“‰ Despesas</h3>
+                <div class="value" id="totalExpenses">R$ 6.250,00</div>
+                <div class="label">Este mÃªs</div>
+                <div class="trend negative">
+                    ðŸ“‰ +3,1% vs mÃªs anterior
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <h3>ðŸŽ¯ Economia</h3>
+                <div class="value" id="savings">R$ 2.250,00</div>
+                <div class="label">Este mÃªs</div>
+                <div class="trend positive">
+                    ðŸ“ˆ +15,3% vs mÃªs anterior
+                </div>
+            </div>
+        </div>
+
+        <!-- SeÃ§Ãµes Principais -->
+        <div class="main-sections fade-in">
+            <!-- TransaÃ§Ãµes Recentes -->
+            <div class="section">
+                <h2>ðŸ’³ TransaÃ§Ãµes Recentes</h2>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>DescriÃ§Ã£o</th>
+                                <th>Categoria</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>AÃ§Ãµes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTable">
+                            <!-- Dados serÃ£o carregados dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn" onclick="openAddTransactionModal()" class="extracted-style-1" tabindex="0">
+                    âž• Adicionar TransaÃ§Ã£o
+                </button>
+            </div>
+
+            <!-- Contas a Pagar -->
+            <div class="section">
+                <h2>ðŸ“‹ Contas a Pagar</h2>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Vencimento</th>
+                                <th>DescriÃ§Ã£o</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billsTable">
+                            <!-- Dados serÃ£o carregados dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-warning" onclick="openAddBillModal()" class="extracted-style-2" tabindex="0">
+                    âž• Adicionar Conta
+                </button>
+            </div>
+        </div>
+
+        <!-- GrÃ¡ficos e AnÃ¡lises -->
+        <div class="section fade-in">
+            <h2>ðŸ“Š AnÃ¡lise Financeira</h2>
+            <div class="chart-container">
+                <div class="extracted-style-3">
+                    <h3>GrÃ¡fico de Receitas vs Despesas</h3>
+                    <p>VisualizaÃ§Ã£o interativa serÃ¡ implementada em breve</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Adicionar TransaÃ§Ã£o -->
+        <div class="modal" id="transactionModal">
+            <div class="modal-content">
+                <h3 class="modal-title">Adicionar TransaÃ§Ã£o</h3>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label class="form-label" for="transactionDescription">DescriÃ§Ã£o</label>
+                        <input id="transactionDescription" aria-label="text input" type="text" class="form-input" id="transactionDescription" required tabindex="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="transactionAmount">Valor</label>
+                        <input id="transactionAmount" aria-label="number input" type="number" class="form-input" id="transactionAmount" step="0.01" required tabindex="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="transactionType">Tipo</label>
+                        <select class="form-select" id="transactionType" required tabindex="0" aria-labelledby="transactionType-label">
+                            <option value="income">Receita</option>
+                            <option value="expense">Despesa</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="transactionCategory">Categoria</label>
+                        <select class="form-select" id="transactionCategory" required tabindex="0" aria-labelledby="transactionCategory-label">
+                            <option value="">Selecione uma categoria</option>
+                            <option value="salary">SalÃ¡rio</option>
+                            <option value="food">AlimentaÃ§Ã£o</option>
+                            <option value="transport">Transporte</option>
+                            <option value="utilities">Contas</option>
+                            <option value="entertainment">Entretenimento</option>
+                            <option value="health">SaÃºde</option>
+                            <option value="education">EducaÃ§Ã£o</option>
+                            <option value="other">Outros</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="transactionDate">Data</label>
+                        <input id="transactionDate" aria-label="date input" type="date" class="form-input" id="transactionDate" required tabindex="0">
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" class="btn btn-danger" onclick="closeTransactionModal()" tabindex="0">Cancelar</button>
+                        <button type="submit" class="btn btn-success" tabindex="0">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Adicionar Conta -->
+        <div class="modal" id="billModal">
+            <div class="modal-content">
+                <h3 class="modal-title">Adicionar Conta</h3>
+                <form id="billForm">
+                    <div class="form-group">
+                        <label class="form-label" for="billDescription">DescriÃ§Ã£o</label>
+                        <input id="billDescription" aria-label="text input" type="text" class="form-input" id="billDescription" required tabindex="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="billAmount">Valor</label>
+                        <input id="billAmount" aria-label="number input" type="number" class="form-input" id="billAmount" step="0.01" required tabindex="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="billDueDate">Data de Vencimento</label>
+                        <input id="billDueDate" aria-label="date input" type="date" class="form-input" id="billDueDate" required tabindex="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="billCategory">Categoria</label>
+                        <select class="form-select" id="billCategory" required tabindex="0" aria-labelledby="billCategory-label">
+                            <option value="">Selecione uma categoria</option>
+                            <option value="utilities">Contas (Luz, Ãgua, etc.)</option>
+                            <option value="rent">Aluguel</option>
+                            <option value="insurance">Seguros</option>
+                            <option value="credit">CartÃ£o de CrÃ©dito</option>
+                            <option value="loan">EmprÃ©stimos</option>
+                            <option value="other">Outros</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" class="btn btn-danger" onclick="closeBillModal()" tabindex="0">Cancelar</button>
+                        <button type="submit" class="btn btn-success" tabindex="0">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/messages-system.js"></script>`n    <script src="js/components.js"></script>
+    <script>
+        // Dados das transaÃ§Ãµes
+        let transactions = JSON.parse(localStorage.getItem('dom_v2_transactions')) || [
+            {
+    
+                id: 1,
+                description: 'SalÃ¡rio',
+                amount: 5000.00,
+                type: 'income',
+                category: 'salary',
+                date: '2024-01-15',
+                status: 'completed'
+            ;
+},
+            {
+    
+                id: 2,
+                description: 'Supermercado',
+                amount: -350.00,
+                type: 'expense',
+                category: 'food',
+                date: '2024-01-14',
+                status: 'completed'
+            ;
+},
+            {
+    
+                id: 3,
+                description: 'Conta de Luz',
+                amount: -120.00,
+                type: 'expense',
+                category: 'utilities',
+                date: '2024-01-13',
+                status: 'completed'
+            ;
+},
+            {
+    
+                id: 4,
+                description: 'Freelance',
+                amount: 800.00,
+                type: 'income',
+                category: 'other',
+                date: '2024-01-12',
+                status: 'completed'
+            ;
+}
+        ];
+
+        // Dados das contas
+        let bills = JSON.parse(localStorage.getItem('dom_v2_bills')) || [
+            {
+    
+                id: 1,
+                description: 'Conta de Ãgua',
+                amount: 85.00,
+                dueDate: '2024-01-20',
+                category: 'utilities',
+                status: 'pending'
+            ;
+},
+            {
+    
+                id: 2,
+                description: 'Internet',
+                amount: 120.00,
+                dueDate: '2024-01-25',
+                category: 'utilities',
+                status: 'pending'
+            ;
+},
+            {
+    
+                id: 3,
+                description: 'CartÃ£o de CrÃ©dito',
+                amount: 450.00,
+                dueDate: '2024-01-30',
+                category: 'credit',
+                status: 'pending'
+            ;
+}
+        ];
+
+        // InicializaÃ§Ã£o da pÃ¡gina
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+    
+            componentManager.initPage('OrÃ§amento');
+    
+            
+            // Carregar dados
+            loadTransactions();
+    
+            loadBills();
+    
+            updateFinancialSummary();
+    
+            
+            // Configurar formulÃ¡rios
+            setupForms();
+});
+
+        // FunÃ§Ã£o para carregar transaÃ§Ãµes
+        function loadTransactions() {
+    
+            const tableBody = document.getElementById('transactionsTable');
+    
+            
+            if (transactions.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="extracted-style-4">
+                            Nenhuma transaÃ§Ã£o encontrada
+                        </td>
+                    </tr>
+                `;
+    
+                return;
+}
+            
+            tableBody.innerHTML = transactions.slice(0, 10).map(transaction => createTransactionRow(transaction)).join('');
+        }
+
+        // FunÃ§Ã£o para criar linha de transaÃ§Ã£o
+        function createTransactionRow(transaction) {
+    
+            const categoryLabels = {
+                salary: 'SalÃ¡rio',
+                food: 'AlimentaÃ§Ã£o',
+                transport: 'Transporte',
+                utilities: 'Contas',
+                entertainment: 'Entretenimento',
+                health: 'SaÃºde',
+                education: 'EducaÃ§Ã£o',
+                other: 'Outros'
+            ;
+};
+            
+            const statusLabels = {
+    
+                completed: 'ConcluÃ­da',
+                pending: 'Pendente',
+                cancelled: 'Cancelada'
+            ;
+};
+            
+            const isIncome = transaction.type === 'income';
+            const amountColor = isIncome ? '#38a169' : '#e53e3e';
+            const amountPrefix = isIncome ? '+' : '';
+            
+            return `
+                <tr>
+                    <td>${
+    new Date(transaction.date).toLocaleDateString('pt-BR');
+}</td>
+                    <td>${
+    transaction.description;
+}</td>
+                    <td>${
+    categoryLabels[transaction.category];
+}</td>
+                    <td class="extracted-style-5">
+                        ${
+    amountPrefix;
+}R$ ${
+    Math.abs(transaction.amount).toFixed(2);
+}
+                    </td>
+                    <td>
+                        <span class="status-badge status-${
+    transaction.status;
+}">
+                            ${
+    statusLabels[transaction.status];
+}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning" onclick="editTransaction(${
+    transaction.id;
+})" class="extracted-style-6" tabindex="0">
+                            âœï¸
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteTransaction(${
+    transaction.id;
+})" class="extracted-style-7" tabindex="0">
+                            ðŸ—‘ï¸
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // FunÃ§Ã£o para carregar contas
+        function loadBills() {
+    
+            const tableBody = document.getElementById('billsTable');
+    
+            
+            if (bills.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="extracted-style-8">
+                            Nenhuma conta encontrada
+                        </td>
+                    </tr>
+                `;
+    
+                return;
+}
+            
+            tableBody.innerHTML = bills.map(bill => createBillRow(bill)).join('');
+        }
+
+        // FunÃ§Ã£o para criar linha de conta
+        function createBillRow(bill) {
+    
+            const categoryLabels = {
+                utilities: 'Contas',
+                rent: 'Aluguel',
+                insurance: 'Seguros',
+                credit: 'CartÃ£o',
+                loan: 'EmprÃ©stimo',
+                other: 'Outros'
+            ;
+};
+            
+            const dueDate = new Date(bill.dueDate);
+            const today = new Date();
+            const isOverdue = dueDate < today && bill.status === 'pending';
+            
+            return `
+                <tr>
+                    <td>${
+    dueDate.toLocaleDateString('pt-BR');
+}</td>
+                    <td>${
+    bill.description;
+}</td>
+                    <td>R$ ${
+    bill.amount.toFixed(2);
+}</td>
+                    <td>
+                        <span class="status-badge ${
+    isOverdue ? 'status-overdue' : 'status-pending';
+}">
+                            ${
+    isOverdue ? 'Atrasada' : 'Pendente';
+}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // FunÃ§Ã£o para atualizar resumo financeiro
+        function updateFinancialSummary() {
+    
+            const totalIncome = transactions
+                .filter(t => t.type === 'income' && t.status === 'completed')
+                .reduce((sum, t) => sum + t.amount, 0);
+    
+            
+            const totalExpenses = transactions
+                .filter(t => t.type === 'expense' && t.status === 'completed')
+                .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    
+            
+            const savings = totalIncome - totalExpenses;
+    
+            const currentBalance = 15750;
+     // Simulado
+            
+            document.getElementById('totalIncome').textContent = `R$ ${totalIncome.toFixed(2);
+}`;
+            document.getElementById('totalExpenses').textContent = `R$ ${
+    totalExpenses.toFixed(2);
+}`;
+            document.getElementById('savings').textContent = `R$ ${
+    savings.toFixed(2);
+}`;
+            document.getElementById('currentBalance').textContent = `R$ ${
+    currentBalance.toFixed(2);
+}`;
+        }
+
+        // FunÃ§Ã£o para configurar formulÃ¡rios
+        function setupForms() {
+    
+            document.getElementById('transactionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+    
+                saveTransaction();
+});
+            
+            document.getElementById('billForm').addEventListener('submit', function(e) {
+    
+                e.preventDefault();
+    
+                saveBill();
+});
+        }
+
+        // FunÃ§Ãµes para abrir modais
+        function openAddTransactionModal() {
+    
+            document.getElementById('transactionModal').classList.add('show');
+    
+            document.getElementById('transactionForm').reset();
+}
+
+        function closeTransactionModal() {
+    
+            document.getElementById('transactionModal').classList.remove('show');
+}
+
+        function openAddBillModal() {
+    
+            document.getElementById('billModal').classList.add('show');
+    
+            document.getElementById('billForm').reset();
+}
+
+        function closeBillModal() {
+    
+            document.getElementById('billModal').classList.remove('show');
+}
+
+        // FunÃ§Ã£o para salvar transaÃ§Ã£o
+        function saveTransaction() {
+    
+            const transactionData = {
+                description: document.getElementById('transactionDescription').value,
+                amount: parseFloat(document.getElementById('transactionAmount').value),
+                type: document.getElementById('transactionType').value,
+                category: document.getElementById('transactionCategory').value,
+                date: document.getElementById('transactionDate').value,
+                status: 'completed'
+            ;
+};
+            
+            // Ajustar valor para despesas
+            if (transactionData.type === 'expense') {
+    
+                transactionData.amount = -Math.abs(transactionData.amount);
+}
+            
+            const newTransaction = {
+    
+                ...transactionData,
+                id: Date.now()
+            ;
+};
+            
+            transactions.unshift(newTransaction);
+            localStorage.setItem('dom_v2_transactions', JSON.stringify(transactions));
+            
+            loadTransactions();
+            updateFinancialSummary();
+            closeTransactionModal();
+        }
+
+        // FunÃ§Ã£o para salvar conta
+        function saveBill() {
+    
+            const billData = {
+                description: document.getElementById('billDescription').value,
+                amount: parseFloat(document.getElementById('billAmount').value),
+                dueDate: document.getElementById('billDueDate').value,
+                category: document.getElementById('billCategory').value,
+                status: 'pending'
+            ;
+};
+            
+            const newBill = {
+    
+                ...billData,
+                id: Date.now()
+            ;
+};
+            
+            bills.push(newBill);
+            localStorage.setItem('dom_v2_bills', JSON.stringify(bills));
+            
+            loadBills();
+            closeBillModal();
+        }
+
+        // FunÃ§Ãµes de ediÃ§Ã£o e exclusÃ£o (simuladas)
+        function editTransaction(id) {
+    
+            showMessage('system.error');
+}
+
+        function deleteTransaction(id) {
+    
+            if (await messageSystem.confirm('confirm.delete')) {
+                transactions = transactions.filter(t => t.id !== id);
+    
+                localStorage.setItem('dom_v2_transactions', JSON.stringify(transactions));
+    
+                loadTransactions();
+    
+                updateFinancialSummary();
+}
+        }
+
+        // Fechar modais ao clicar fora
+        document.getElementById('transactionModal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closeTransactionModal();
+}
+        });
+
+        document.getElementById('billModal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closeBillModal();
+}
+        });
+    </script>
+</body>
+</html>
+

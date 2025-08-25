@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Entrada Principal</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="theme-color" content="#007AFF" data-firefox-compat="true">
+    <!-- Prevenir cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        body {
+    
+            display: flex;
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    
+            min-height: 100vh;
+    
+            align-items: center;
+    
+            justify-content: center;
+}
+        .main-container {
+    
+            width: 90%;
+    
+            padding: 40px;
+    
+            background: white;
+    
+            border-radius: 20px;
+    
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    
+            text-align: center;
+    
+            max-width: 500px;
+}
+        .logo {
+    
+            color: #007AFF;
+    
+            font-size: 48px;
+    
+            margin-bottom: 20px;
+}
+        .title {
+    
+            color: #333;
+    
+            font-size: 28px;
+    
+            font-weight: bold;
+    
+            margin-bottom: 15px;
+}
+        .subtitle {
+    
+            color: #666;
+    
+            font-size: 16px;
+    
+            margin-bottom: 30px;
+    
+            line-height: 1.5;
+}
+        .spinner {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    width: 40px;
+    height: 40px;
+    margin: 20px auto;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007AFF;
+    border-radius: 50%;
+}
+        .status {
+    
+            padding: 10px;
+    
+            border: 1px solid #c3e6cb;
+    
+            color: #155724;
+    
+            background: #d4edda;
+    
+            margin-top: 20px;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+}
+        @keyframes spin {
+    
+    transform: rotate(0deg);
+    
+            0% { -webkit-transform: rotate(0deg);
+}
+            100% {
+    
+    transform: rotate(360deg);
+     -webkit-transform: rotate(360deg);
+}
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="logo">🏠</div>
+        <h1 class="title">DOM v2</h1>
+        <p class="subtitle">Sistema de Gestao Domestica</p>
+        
+        <div class="spinner"></div>
+        
+        <div class="status">
+            Iniciando aplicacao...
+        </div>
+    </div>
+    
+    <script>
+        console.log('🚀 DOM v2 - Iniciando aplicacao...');
+        
+        // Redirecionar para splash screen
+        setTimeout(function() {
+    
+            window.location.href = 'splash-screen.html';
+}, 1000);
+    </script>
+</body>
+</html> 

@@ -75,10 +75,7 @@ function validateType(value, expectedType) {
   }
 }
 
-// Aplicar validação de tipos
-if (!validateType(data, 'object')) {
-  throw new TypeError('Dados devem ser um objeto válido');
-}
+
 
 
 /**
@@ -94,7 +91,7 @@ function logStructured(level, message, data = {}) {
     message,
     data,
     file: __filename,
-    function: arguments.callee.name || 'anonymous'
+    function: 'logStructured'
   };
   
   // Console output
@@ -119,10 +116,6 @@ function logStructured(level, message, data = {}) {
   }
 }
 
-// Aplicar logging
-logStructured('info', 'Iniciando execução', { context: 'main' });
-
-
 /**
  * Asserções de validação crítica
  * @param {any} condition - Condição a ser validada
@@ -136,12 +129,6 @@ function assertCritical(condition, message = 'Assertion failed') {
     throw error;
   }
 }
-
-// Aplicar asserções críticas
-assertCritical(data !== null, 'Dados não podem ser null');
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
-
 
 /**
  * Tratamento robusto de erros
@@ -178,13 +165,6 @@ function handleError(error, context = 'unknown') {
   throw error;
 }
 
-// Aplicar tratamento de erro
-try {
-  // código principal aqui
-} catch (error) {
-  handleError(error, 'main-execution');
-}
-
 
 /**
  * Validação de entrada de dados
@@ -199,10 +179,7 @@ function validateInput(data) {
   return true;
 }
 
-// Aplicar validação
-if (!validateInput(inputData)) {
-  throw new Error('Dados de entrada inválidos');
-}
+
 
 
 /**
@@ -243,6 +220,7 @@ import notificationsRouter from './notifications-prisma';
 import profilesRouter from './profiles-prisma';
 import settingsRouter from './settings-prisma';
 import dashboardRouter from './dashboard-prisma';
+import authRouter from './auth';
 
 const router = Router();
 
@@ -262,6 +240,7 @@ router.get('/health', (req, res) => {
 /**
  * Montar rotas da aplicação
  */
+router.use('/auth', authRouter);
 router.use('/tasks', tasksRouter);
 router.use('/employees', employeesRouter);
 router.use('/payments', paymentsRouter);

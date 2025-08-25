@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Carregando...</title>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta name="theme-color" content="#007AFF">
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <script src="js/i18n.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .splash-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .logo-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 64px;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+        .logo-spinner {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .version {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .progress-text {
+            font-size: 140px;
+            color: rgba(255,255,255,0.8);
+            margin-top: 20px;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .phone-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-background"></div>
+    <div class="splash-container">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="Logo.png" alt="DOM" style="width: 80px; height: 80px; border-radius: 16px;">
+            </div>
+            <div class="logo-spinner"></div>
+        </div>
+        
+        <h1 class="title">DOM v2</h1>
+        <p class="subtitle" id="splashSubtitle">Conectando... Transformando a gestão doméstica</p>
+        <div class="version" id="splashVersion">V2.0.0</div>
+        
+
+        
+        <div class="progress-text">Preparando sua experiência...</div>
+    </div>
+    
+    <script>
+        console.log('🚀 DOM - Tela de Splash iniciada');
+        
+        // Carregar textos do sistema de internacionalização
+        document.getElementById('splashSubtitle').textContent = i18n.get('splash.subtitle');
+        document.getElementById('splashVersion').textContent = i18n.get('splash.version');
+        
+        // Simular carregamento
+        let progress = 0;
+        const progressText = document.querySelector('.progress-text');
+        const progressMessages = i18n.get('splash.loadingMessages');
+        
+        const interval = setInterval(() => {
+            progress += 20;
+            const messageIndex = Math.floor(progress / 20) - 1;
+            
+            if (messageIndex < progressMessages.length) {
+                progressText.textContent = progressMessages[messageIndex];
+            }
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressText.textContent = 'Pronto!';
+                
+                // Redirecionar para login após 1 segundo
+                setTimeout(() => {
+                    window.location.href = 'login-screen.html';
+                }, 1000);
+            }
+        }, 800);
+        
+        // Adicionar efeitos de interação
+        document.addEventListener('click', function() {
+            // Pular carregamento com clique
+            clearInterval(interval);
+            progressText.textContent = 'Pulado!';
+            setTimeout(() => {
+                window.location.href = 'login-screen.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html> 

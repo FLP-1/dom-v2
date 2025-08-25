@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase Funcional - DOM v2</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 20px;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1976D2;
+            margin-bottom: 5px;
+        }
+
+        .feature-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .feature-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: "✅";
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .demo-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-title {
+            font-size: 2rem;
+            color: #1976D2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .demo-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+
+        .demo-item:hover {
+            border-color: #1976D2;
+        }
+
+        .demo-item h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .demo-item p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #1976D2, #1565C0);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            color: #1976D2;
+            margin-bottom: 15px;
+        }
+
+        .cta-description {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Container para o header reutilizável -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizável -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 DOM v2 - Showcase Funcional</h1>
+            <p>Sistema de Gestão Doméstica com Funcionalidades Reais Implementadas</p>
+            <div class="status-badge">✅ 81.2% IMPLEMENTADO - SISTEMA FUNCIONAL</div>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="stats-section">
+            <h2 class="demo-title">📊 Status de Implementação</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">81.2%</div>
+                    <div class="stat-label">Implementado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">13/16</div>
+                    <div class="stat-label">Funcionalidades</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6/8</div>
+                    <div class="stat-label">Telas Principais</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Backend</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funcionalidades Implementadas -->
+        <div class="features-grid">
+            <!-- Autenticação -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #1976D2, #1565C0);">
+                        🔐
+                    </div>
+                    <div>
+                        <div class="feature-title">Sistema de Autenticação</div>
+                        <div class="feature-subtitle">Login Ultra Premium</div>
+                    </div>
+                </div>
+                <div class="feature-description">
+                    Sistema robusto de autenticação com validação completa de CPF/CNPJ e múltiplos perfis de usuário.
+                </div>
+                <ul class="feature-list">
+                    <li>Validação de dígitos verificadores</li>
+                    <li>7 perfis de usuário diferentes</li>
+                    <li>Login Ultra Premium implementado</li>
+                    <li>Compliance PLD integrado</li>
+                    <li>Feedback visual em tempo real</li>
+                </ul>
+            </div>
+
+            <!-- Gestão Financeira -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #4CAF50, #45a049);">
+                        💰
+                    </div>
+                    <div>
+                        <div class="feature-title">Gestão Financeira</div>
+                        <div class="feature-subtitle">Compras e Pagamentos</div>
+                    </div>
+                </div>
+                <div class="feature-description">
+                    Sistema completo de gestão financeira com controle de compras, pagamentos e compliance.
+                </div>
+                <ul class="feature-list">
+                    <li>Controle de compras implementado</li>
+                    <li>Gestão de pagamentos funcional</li>
+                    <li>Cadastro de fornecedores</li>
+                    <li>Controle de orçamento</li>
+                    <li>Compliance financeiro</li>
+                </ul>
+            </div>
+
+            <!-- Recursos Humanos -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2);">
+                        👥
+                    </div>
+                    <div>
+                        <div class="feature-title">Recursos Humanos</div>
+                        <div class="feature-subtitle">Gestão de Funcionários</div>
+                    </div>
+                </div>
+                <div class="feature-description">
+                    Sistema completo de gestão de funcionários com controle de documentos e performance.
+                </div>
+                <ul class="feature-list">
+                    <li>Cadastro de funcionários</li>
+                    <li>Controle de documentos</li>
+                    <li>Avaliação de performance</li>
+                    <li>Compliance PLD</li>
+                    <li>Gestão de permissões</li>
+                </ul>
+            </div>
+
+            <!-- Sistema de Temas -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+                        🎨
+                    </div>
+                    <div>
+                        <div class="feature-title">Sistema de Temas</div>
+                        <div class="feature-subtitle">Adaptação Regional</div>
+                    </div>
+                </div>
+                <div class="feature-description">
+                    Sistema de temas com adaptação regional e personalização por perfil de usuário.
+                </div>
+                <ul class="feature-list">
+                    <li>5 regiões brasileiras</li>
+                    <li>4 perfis de usuário</li>
+                    <li>Detecção automática de dispositivo</li>
+                    <li>Temas personalizados por região</li>
+                    <li>Modo escuro disponível</li>
+                </ul>
+            </div>
+
+            <!-- Notificações -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #F44336, #D32F2F);">
+                        🔔
+                    </div>
+                    <div>
+                        <div class="feature-title">Sistema de Notificações</div>
+                        <div class="feature-subtitle">Inteligente e Prioritário</div>
+                    </div>
+                </div>
+                <div class="feature-description">
+                    Sistema de notificações com priorização automática e categorização inteligente.
+                </div>
+                <ul class="feature-list">
+                    <li>7 tipos de notificação</li>
+                    <li>4 níveis de prioridade</li>
+                    <li>Persistência local</li>
+                    <li>Auto-dismiss configurável</li>
+                    <li>Estatísticas detalhadas</li>
+                </ul>
+            </div>
+
+            <!-- Backend Robusto -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #607D8B, #455A64);">
+                        ⚙️
+                    </div>
+                    <div>
+                        <div class="feature-title">Backend Robusto</div>
+                        <div class="feature-subtitle">100% Implementado</div>
+                    </div>
+                </div>
+                <div class="feature-description">
+                    Backend completo com Node.js, TypeScript, PostgreSQL e Prisma ORM.
+                </div>
+                <ul class="feature-list">
+                    <li>14 rotas da API implementadas</li>
+                    <li>12 controllers funcionais</li>
+                    <li>Schema Prisma completo</li>
+                    <li>Validações robustas</li>
+                    <li>Arquitetura escalável</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Demonstrações -->
+        <div class="demo-section">
+            <h2 class="demo-title">🎯 Demonstrações Funcionais</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h4>🔐 Login Funcional</h4>
+                    <p>Sistema de autenticação completo com validação de CPF/CNPJ em tempo real. Teste com documentos válidos.</p>
+                </div>
+                <div class="demo-item">
+                    <h4>💰 Gestão Financeira</h4>
+                    <p>Controle de compras e pagamentos com interface intuitiva. Cadastre fornecedores e gerencie orçamentos.</p>
+                </div>
+                <div class="demo-item">
+                    <h4>👥 RH Completo</h4>
+                    <p>Gestão de funcionários com controle de documentos e avaliação de performance. Sistema de compliance integrado.</p>
+                </div>
+                <div class="demo-item">
+                    <h4>🎨 Temas Adaptativos</h4>
+                    <p>Interface que se adapta automaticamente à região e perfil do usuário. Personalização completa disponível.</p>
+                </div>
+                <div class="demo-item">
+                    <h4>🔔 Notificações Inteligentes</h4>
+                    <p>Sistema de notificações com priorização automática. Configure categorias e prioridades conforme sua necessidade.</p>
+                </div>
+                <div class="demo-item">
+                    <h4>📊 Dashboard Real</h4>
+                    <p>Dashboard com dados reais do sistema. Métricas e estatísticas em tempo real das funcionalidades implementadas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2 class="cta-title">🚀 Pronto para Usar!</h2>
+            <p class="cta-description">
+                O DOM v2 está 81.2% implementado com funcionalidades reais e funcionais. 
+                Teste o sistema agora e veja o valor que ele pode agregar à sua gestão doméstica.
+            </p>
+            <a href="/" class="cta-button">Acessar Sistema DOM v2</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>DOM v2 - Sistema de Gestão Doméstica | Funcionalidades Reais Implementadas</p>
+            <p>Status: 81.2% Implementado | Backend: 100% Funcional | Frontend: 6/8 Telas Principais</p>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+            componentManager.initPage('Showcase Funcional');
+        });
+    </script>
+</body>
+</html> 

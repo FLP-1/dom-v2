@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Aprovações - DOM v2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .approval-card {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border-left: 4px solid #007bff;
+}
+        .approval-card:hover {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+        .approval-card.approved {
+    border-left-color: #28a745;
+}
+        .approval-card.rejected {
+    border-left-color: #dc3545;
+}
+        .approval-card.pending {
+    border-left-color: #ffc107;
+}
+        .step-indicator {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+        .step-completed {
+    color: white;
+    background-color: #28a745;
+}
+        .step-current {
+    color: white;
+    background-color: #007bff;
+}
+        .step-pending {
+    color: white;
+    background-color: #6c757d;
+}
+        .priority-badge {
+    font-size: 0.8em;
+}
+        .priority-urgent {
+    background-color: #dc3545;
+}
+        .priority-high {
+    background-color: #fd7e14;
+}
+        .priority-medium {
+    color: #212529;
+    background-color: #ffc107;
+}
+        .priority-low {
+    background-color: #28a745;
+}
+        .workflow-step {
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+        .analytics-card {
+    padding: 20px;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+        .history-item {
+    border-left: 3px solid #007bff;
+    padding-left: 15px;
+    margin-bottom: 10px;
+}
+        .history-approve {
+    border-left-color: #28a745;
+}
+        .history-reject {
+    border-left-color: #dc3545;
+}
+    </style>
+  <style>
+    .extracted-style-1 {
+    display: none;
+}
+    .extracted-style-2 {
+    display: none;
+}
+    .extracted-style-3 {
+    display: none;
+}
+    .extracted-style-4 {
+    display: none;
+}
+    .extracted-style-5 {
+    width: ${analytics.approvalRate;
+}% }
+  </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar" role="navigation">
+                <div class="position-sticky pt-3">
+                    <h5 class="px-3 mb-3">Sistema de Aprovações</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showTab('workflows')" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Workflows
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('requests')" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Solicitações
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('pending')" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Pendentes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('analytics')" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Analytics
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" role="main">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Sistema de Aprovações</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="refreshData()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Atualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workflows Tab -->
+                <div id="workflows-tab" class="tab-content">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h3>Workflows de Aprovação</h3>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" onclick="showCreateWorkflowModal()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Novo Workflow
+                            </button>
+                        </div>
+                    </div>
+                    <div id="workflows-list" class="row">
+                        <!-- Workflows serão carregados aqui -->
+                    </div>
+                </div>
+
+                <!-- Requests Tab -->
+                <div id="requests-tab" class="tab-content" class="extracted-style-1">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h3>Solicitações de Aprovação</h3>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" onclick="showCreateRequestModal()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Nova Solicitação
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select aria-label="Seleção" class="form-select" id="filter-status" tabindex="0">
+                                <option value="">Todos os Status</option>
+                                <option value="pending">Pendente</option>
+                                <option value="approved">Aprovado</option>
+                                <option value="rejected">Rejeitado</option>
+                                <option value="cancelled">Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select aria-label="Seleção" class="form-select" id="filter-workflow" tabindex="0">
+                                <option value="">Todos os Workflows</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary" onclick="filterRequests()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="requests-list">
+                        <!-- Solicitações serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Pending Tab -->
+                <div id="pending-tab" class="tab-content" class="extracted-style-2">
+                    <h3>Minhas Aprovações Pendentes</h3>
+                    <div id="pending-list">
+                        <!-- Solicitações pendentes serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics-tab" class="tab-content" class="extracted-style-3">
+                    <h3>Analytics de Aprovações</h3>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select aria-label="Seleção" class="form-select" id="analytics-period" tabindex="0">
+                                <option value="7">Últimos 7 dias</option>
+                                <option value="30" selected>Últimos 30 dias</option>
+                                <option value="90">Últimos 90 dias</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary" onclick="loadAnalytics()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Carregar Analytics
+                            </button>
+                        </div>
+                    </div>
+                    <div id="analytics-content">
+                        <!-- Analytics serão carregados aqui -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Create Workflow Modal -->
+    <div class="modal fade" id="createWorkflowModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Criar Novo Workflow</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Fechar modal" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createWorkflowForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Nome do Workflow</label>
+                                    <input id="workflow-name" aria-label="text input" type="text" class="form-control" id="workflow-name" required tabindex="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo</label>
+                                    <select aria-label="Seleção" class="form-select" id="workflow-type" required tabindex="0">
+                                        <option value="expense">Aprovação de Despesas</option>
+                                        <option value="contract">Aprovação de Contratos</option>
+                                        <option value="purchase">Aprovação de Compras</option>
+                                        <option value="general">Geral</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="workflow-description" rows="3" tabindex="0"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Passos de Aprovação</label>
+                            <div id="workflow-steps">
+                                <!-- Passos serão adicionados aqui -->
+                            </div>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addWorkflowStep()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Adicionar Passo
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="createWorkflow()" tabindex="0">Criar Workflow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Request Modal -->
+    <div class="modal fade" id="createRequestModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nova Solicitação de Aprovação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Fechar modal" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createRequestForm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label class="form-label">Título</label>
+                                    <input id="request-title" aria-label="text input" type="text" class="form-control" id="request-title" required tabindex="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Prioridade</label>
+                                    <select aria-label="Seleção" class="form-select" id="request-priority" tabindex="0">
+                                        <option value="low">Baixa</option>
+                                        <option value="medium" selected>Média</option>
+                                        <option value="high">Alta</option>
+                                        <option value="urgent">Urgente</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Workflow</label>
+                            <select aria-label="Seleção" class="form-select" id="request-workflow" required tabindex="0">
+                                <option value="">Selecione um workflow</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="request-description" rows="3" tabindex="0"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dados Adicionais (JSON)</label>
+                            <textarea class="form-control" id="request-data" rows="4" placeholder='{
+    "campo": "valor";
+}' tabindex="0"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data de Expiração (opcional)</label>
+                            <input id="request-expires" aria-label="datetime-local input" type="datetime-local" class="form-control" id="request-expires" tabindex="0">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="createRequest()" tabindex="0">Criar Solicitação</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Details Modal -->
+    <div class="modal fade" id="requestDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes da Solicitação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Fechar modal" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="request-details-content">
+                        <!-- Detalhes serão carregados aqui -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Fechar</button>
+                    <div id="approval-actions" class="extracted-style-4">
+                        <button type="button" class="btn btn-success" onclick="approveRequest()" tabindex="0">
+                            <i class="fas"aria-hidden="true"></i> Aprovar
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="rejectRequest()" tabindex="0">
+                            <i class="fas"aria-hidden="true"></i> Rejeitar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let currentUser = null;
+        let currentRequestId = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadCurrentUser();
+    
+            loadWorkflows();
+    
+            loadRequests();
+    
+            loadPendingRequests();
+    
+            loadAnalytics();
+});
+
+        // Funções de navegação
+        function showTab(tabName) {
+    
+            // Esconder todas as tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+});
+            document.querySelectorAll('.nav-link').forEach(link => {
+    
+                link.classList.remove('active');
+});
+
+            // Mostrar tab selecionada
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Carregar usuário atual
+        async function loadCurrentUser() {
+    
+            try {
+                const token = localStorage.getItem('token');
+    
+                if (!token) {
+                    window.location.href = 'login.html';
+    
+                    return;
+}
+
+                const response = await fetch('/api/users/me', {
+    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    currentUser = data.data;
+}
+            } catch (error) {
+    console.error('Erro ao carregar usuário:', error);
+}
+        }
+
+        // Carregar workflows
+        async function loadWorkflows() {
+    const response = await fetch('/api/approvals/workflows', {
+                    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    displayWorkflows(data.data);
+    
+                    populateWorkflowSelects(data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar workflows:', error);
+}
+        }
+
+        // Exibir workflows
+        function displayWorkflows(workflows) {
+    
+            const container = document.getElementById('workflows-list');
+    
+            container.innerHTML = '';
+    
+
+            workflows.forEach(workflow => {
+                const card = document.createElement('div');
+    
+                card.className = 'col-md-6 col-lg-4 mb-3';
+    
+                card.innerHTML = `
+                    <div class="card approval-card">
+                        <div class="card-body">
+                            <h5 class="card-title">${workflow.name;
+}</h5>
+                            <p class="card-text text-muted">${
+    workflow.description || 'Sem descrição';
+}</p>
+                            <div class="mb-2">
+                                <span class="badge bg-primary">${
+    workflow.type;
+}</span>
+                                <span class="badge bg-secondary">${
+    workflow._count.requests;
+} solicitações</span>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">Passos: ${
+    workflow.steps.length;
+}</small>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">Criado: ${
+    new Date(workflow.created_at).toLocaleDateString();
+}</small>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewWorkflowDetails('${
+    workflow.id;
+}')" tabindex="0">
+                                    <i class="fas"aria-hidden="true"></i> Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Popular selects de workflow
+        function populateWorkflowSelects(workflows) {
+    if (select) {
+                    select.innerHTML = selectId === 'filter-workflow' ? '<option value="">Todos os Workflows</option>' : '<option value="">Selecione um workflow</option>';
+});
+                }
+            });
+        }
+
+        // Carregar solicitações
+        async function loadRequests() {
+    const response = await fetch('/api/approvals/requests', {
+                    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    displayRequests(data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar solicitações:', error);
+}
+        }
+
+        // Exibir solicitações
+        function displayRequests(requests) {
+    
+            const container = document.getElementById('requests-list');
+    
+            container.innerHTML = '';
+    
+
+            requests.forEach(request => {
+                const card = document.createElement('div');
+    
+                card.className = 'col-md-6 col-lg-4 mb-3';
+    
+                card.innerHTML = `
+                    <div class="card approval-card ${request.status;
+}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 class="card-title mb-0">${
+    request.title;
+}</h6>
+                                <span class="badge priority-badge priority-${
+    request.priority;
+}">${
+    request.priority;
+}</span>
+                            </div>
+                            <p class="card-text text-muted">${
+    request.description || 'Sem descrição';
+}</p>
+                            <div class="mb-2">
+                                <small class="text-muted">Workflow: ${
+    request.workflow.name;
+}</small>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">Solicitante: ${
+    request.requester.name;
+}</small>
+                            </div>
+                            <div class="mb-2">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-${
+    getStatusColor(request.status);
+}">${
+    request.status;
+}</span>
+                                    <div class="ms-2">
+                                        ${
+    generateStepIndicators(request.current_step, request.total_steps);
+}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">Criado: ${
+    new Date(request.created_at).toLocaleDateString();
+}</small>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewRequestDetails('${
+    request.id;
+}')" tabindex="0">
+                                    <i class="fas"aria-hidden="true"></i> Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Carregar solicitações pendentes
+        async function loadPendingRequests() {
+    const response = await fetch('/api/approvals/pending', {
+                    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    displayPendingRequests(data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar solicitações pendentes:', error);
+}
+        }
+
+        // Exibir solicitações pendentes
+        function displayPendingRequests(requests) {
+    
+            const container = document.getElementById('pending-list');
+    
+            container.innerHTML = '';
+    
+
+            if (requests.length === 0) {
+                container.innerHTML = '<div class="alert alert-info">Nenhuma solicitação pendente para aprovação.</div>';
+    
+                return;
+}
+
+            requests.forEach(request => {
+    
+                const card = document.createElement('div');
+    
+                card.className = 'card approval-card pending mb-3';
+    
+                card.innerHTML = `
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">${request.title;
+}</h5>
+                            <span class="badge priority-badge priority-${
+    request.priority;
+}">${
+    request.priority;
+}</span>
+                        </div>
+                        <p class="card-text">${
+    request.description || 'Sem descrição';
+}</p>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <small class="text-muted">Workflow: ${
+    request.workflow.name;
+}</small>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">Solicitante: ${
+    request.requester.name;
+}</small>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-warning">Pendente</span>
+                                <div class="ms-2">
+                                    ${
+    generateStepIndicators(request.current_step, request.total_steps);
+}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">Criado: ${
+    new Date(request.created_at).toLocaleDateString();
+}</small>
+                            <div>
+                                <button class="btn btn-success btn-sm" onclick="approveRequestFromList('${
+    request.id;
+}')" tabindex="0">
+                                    <i class="fas"aria-hidden="true"></i> Aprovar
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="rejectRequestFromList('${
+    request.id;
+}')" tabindex="0">
+                                    <i class="fas"aria-hidden="true"></i> Rejeitar
+                                </button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="viewRequestDetails('${
+    request.id;
+}')" tabindex="0">
+                                    <i class="fas"aria-hidden="true"></i> Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Carregar analytics
+        async function loadAnalytics() {
+    
+            try {
+                const period = document.getElementById('analytics-period').value;
+    
+                const token = localStorage.getItem('token');
+    
+                const response = await fetch(`/api/approvals/analytics?period=${period;
+}`, {
+    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    displayAnalytics(data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar analytics:', error);
+}
+        }
+
+        // Exibir analytics
+        function displayAnalytics(analytics) {
+    
+            const container = document.getElementById('analytics-content');
+    
+            container.innerHTML = `
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${analytics.totalRequests;
+}</h4>
+                            <p>Total de Solicitações</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${
+    analytics.pendingRequests;
+}</h4>
+                            <p>Pendentes</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${
+    analytics.approvedRequests;
+}</h4>
+                            <p>Aprovadas</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${
+    analytics.rejectedRequests;
+}</h4>
+                            <p>Rejeitadas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Taxa de Aprovação</h5>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar bg-success" class="extracted-style-5">
+                                        ${
+    analytics.approvalRate;
+}%
+                                    </div>
+                                </div>
+                                <p class="card-text">Tempo médio de aprovação: ${
+    analytics.avgApprovalTimeHours;
+} horas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Solicitações por Prioridade</h5>
+                                <canvas id="priorityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Criar gráfico de prioridades
+            const ctx = document.getElementById('priorityChart').getContext('2d');
+            const priorityData = analytics.requestsByPriority;
+            const labels = priorityData.map(item => item.priority);
+            const values = priorityData.map(item => item._count.id);
+
+            new Chart(ctx, {
+    type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: ['#28a745', '#ffc107', '#fd7e14', '#dc3545'];
+}]
+                },
+                options: {
+    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom';
+}
+                    }
+                }
+            });
+        }
+
+        // Funções auxiliares
+        function getStatusColor(status) {
+    switch (status) {
+                case 'pending': return 'warning';
+    case 'approved': return 'success';
+    case 'rejected': return 'danger';
+    case 'cancelled': return 'secondary';
+    default: return 'secondary';
+}
+        }
+
+        function generateStepIndicators(current, total) {
+    
+            let indicators = '';
+    
+            for (let i = 1;
+     i <= total;
+     i++) {
+                let className = 'step-pending';
+    
+                if (i < current) {
+                    className = 'step-completed';
+} else if (i === current) {
+    
+                    className = 'step-current';
+}
+                indicators += `<span class="step-indicator ${
+    className;
+}">${
+    i;
+}</span>`;
+            }
+            return indicators;
+        }
+
+        // Funções de modal
+        function showCreateWorkflowModal() {
+    
+            document.getElementById('workflow-steps').innerHTML = '';
+    
+            addWorkflowStep();
+    
+            new bootstrap.Modal(document.getElementById('createWorkflowModal')).show();
+}
+
+        function showCreateRequestModal() {
+    
+            new bootstrap.Modal(document.getElementById('createRequestModal')).show();
+}
+
+        function addWorkflowStep() {
+    stepDiv.innerHTML = `
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Nome do Passo</label>
+                        <input id="input-1755878043619-7rdxgbv4u" aria-label="text input" type="text" class="form-control" name="step-name" placeholder="Ex: Aprovação Gerencial" required tabindex="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Tipo de Aprovador</label>
+                        <select aria-label="Seleção" class="form-select" name="step-approver-type" requiredaria-label="Seleção" tabindex="0">
+                            <option value="user">Usuário</option>
+                            <option value="role">Cargo</option>
+                            <option value="department">Departamento</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">ID do Aprovador</label>
+                        <input id="input-1755878043619-jriifdqx4" aria-label="text input" type="text" class="form-control" name="step-approver-id" placeholder="ID do usuário/cargo" required tabindex="0">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;
+}
+
+        function removeWorkflowStep(button) {
+    
+            button.closest('.workflow-step').remove();
+}
+
+        // Criar workflow
+        async function createWorkflow() {
+    stepElements.forEach((element, index) => {
+                    const step = {
+                        name: element.querySelector('[name="step-name"]').value,
+                        description: element.querySelector('[name="step-description"]').value,
+                        approver_type: element.querySelector('[name="step-approver-type"]').value,
+                        approver_id: element.querySelector('[name="step-approver-id"]').value,
+                        is_required: element.querySelector('[name="step-required"]').checked,
+                        timeout_days: parseInt(element.querySelector('[name="step-timeout"]').value) || null;
+};
+                    steps.push(step);
+                });
+
+                const workflowData = {
+    name: document.getElementById('workflow-name').value,
+                    description: document.getElementById('workflow-description').value,
+                    type: document.getElementById('workflow-type').value,
+                    steps: steps;
+};
+
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/approvals/workflows', {
+    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify(workflowData)
+                });
+
+                if (response.ok) {
+    
+                    bootstrap.Modal.getInstance(document.getElementById('createWorkflowModal')).hide();
+    
+                    loadWorkflows();
+    
+                    alert('Workflow criado com sucesso!');
+} else {
+    alert('Erro ao criar workflow: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao criar workflow:', error);
+}
+        }
+
+        // Criar solicitação
+        async function createRequest() {
+    try {
+                const requestData = {
+                    workflow_id: document.getElementById('request-workflow').value,
+                    title: document.getElementById('request-title').value,
+                    description: document.getElementById('request-description').value,
+                    priority: document.getElementById('request-priority').value,
+                    data: document.getElementById('request-data').value ? JSON.parse(document.getElementById('request-data').value) : {;
+},
+                    expires_at: document.getElementById('request-expires').value || null
+                };
+
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/approvals/requests', {
+    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (response.ok) {
+    
+                    bootstrap.Modal.getInstance(document.getElementById('createRequestModal')).hide();
+    
+                    loadRequests();
+    
+                    alert('Solicitação criada com sucesso!');
+} else {
+    alert('Erro ao criar solicitação: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao criar solicitação:', error);
+}
+        }
+
+        // Ver detalhes da solicitação
+        async function viewRequestDetails(requestId) {
+    
+            try {
+                const token = localStorage.getItem('token');
+    
+                const response = await fetch(`/api/approvals/requests/${requestId;
+}`, {
+    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    displayRequestDetails(data.data);
+    
+                    currentRequestId = requestId;
+    
+                    new bootstrap.Modal(document.getElementById('requestDetailsModal')).show();
+}
+            } catch (error) {
+    console.error('Erro ao carregar detalhes:', error);
+}
+        }
+
+        // Exibir detalhes da solicitação
+        function displayRequestDetails(request) {
+    
+            const container = document.getElementById('request-details-content');
+    
+            const approvalActions = document.getElementById('approval-actions');
+    
+            
+            container.innerHTML = `
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4>${request.title;
+}</h4>
+                        <p class="text-muted">${
+    request.description || 'Sem descrição';
+}</p>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <strong>Status:</strong>
+                                <span class="badge bg-${
+    getStatusColor(request.status);
+}">${
+    request.status;
+}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Prioridade:</strong>
+                                <span class="badge priority-badge priority-${
+    request.priority;
+}">${
+    request.priority;
+}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Workflow:</strong> ${
+    request.workflow.name;
+}
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Passo Atual:</strong> ${
+    request.current_step;
+}/${
+    request.total_steps;
+}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <strong>Progresso:</strong>
+                            <div class="d-flex align-items-center mt-2">
+                                ${
+    generateStepIndicators(request.current_step, request.total_steps);
+}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <strong>Dados da Solicitação:</strong>
+                            <pre class="bg-light p-2 rounded">${
+    JSON.stringify(request.data, null, 2);
+}</pre>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">Informações</h6>
+                                <p><strong>Solicitante:</strong> ${
+    request.requester.name;
+}</p>
+                                <p><strong>Criado:</strong> ${
+    new Date(request.created_at).toLocaleString();
+}</p>
+                                ${
+    request.expires_at ? `<p><strong>Expira:</strong> ${new Date(request.expires_at).toLocaleString();
+}</p>` : ''}
+                                ${
+    request.approved_at ? `<p><strong>Aprovado:</strong> ${new Date(request.approved_at).toLocaleString();
+}</p>` : ''}
+                                ${
+    request.rejected_at ? `<p><strong>Rejeitado:</strong> ${new Date(request.rejected_at).toLocaleString();
+}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Histórico de Aprovações</h5>
+                    <div id="request-history">
+                        ${
+    request.histories.map(history => `
+                            <div class="history-item history-${history.action;
+}">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>${
+    history.step.name;
+}</strong> - ${
+    history.action;
+}
+                                        ${
+    history.comment ? `<br><small>${history.comment;
+}</small>` : ''}
+                                    </div>
+                                    <div class="text-muted">
+                                        <small>${
+    history.approver.name;
+} - ${
+    new Date(history.created_at).toLocaleString();
+}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Mostrar ações de aprovação se o usuário for o aprovador atual
+            const currentStep = request.workflow.steps.find(step => step.step_order === request.current_step);
+            if (currentStep && currentStep.approver_id === currentUser.id && request.status === 'pending') {
+    
+                approvalActions.style.display = 'block';
+} else {
+    
+                approvalActions.style.display = 'none';
+}
+        }
+
+        // Aprovar solicitação
+        async function approveRequest() {
+    const comment = prompt('Comentário (opcional):');
+}/approve`, {
+    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify({
+     comment ;
+})
+                });
+
+                if (response.ok) {
+    
+                    bootstrap.Modal.getInstance(document.getElementById('requestDetailsModal')).hide();
+    
+                    loadRequests();
+    
+                    loadPendingRequests();
+    
+                    alert('Solicitação aprovada com sucesso!');
+} else {
+    alert('Erro ao aprovar solicitação: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao aprovar solicitação:', error);
+}
+        }
+
+        // Rejeitar solicitação
+        async function rejectRequest() {
+    const comment = prompt('Motivo da rejeição:');
+}/reject`, {
+    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify({
+     comment ;
+})
+                });
+
+                if (response.ok) {
+    
+                    bootstrap.Modal.getInstance(document.getElementById('requestDetailsModal')).hide();
+    
+                    loadRequests();
+    
+                    loadPendingRequests();
+    
+                    alert('Solicitação rejeitada com sucesso!');
+} else {
+    alert('Erro ao rejeitar solicitação: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao rejeitar solicitação:', error);
+}
+        }
+
+        // Aprovar/rejeitar da lista
+        async function approveRequestFromList(requestId) {
+    const comment = prompt('Comentário (opcional):');
+}/approve`, {
+    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify({
+     comment ;
+})
+                });
+
+                if (response.ok) {
+    
+                    loadPendingRequests();
+    
+                    alert('Solicitação aprovada com sucesso!');
+} else {
+    alert('Erro ao aprovar solicitação: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao aprovar solicitação:', error);
+}
+        }
+
+        async function rejectRequestFromList(requestId) {
+    const comment = prompt('Motivo da rejeição:');
+}/reject`, {
+    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify({
+     comment ;
+})
+                });
+
+                if (response.ok) {
+    
+                    loadPendingRequests();
+    
+                    alert('Solicitação rejeitada com sucesso!');
+} else {
+    alert('Erro ao rejeitar solicitação: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao rejeitar solicitação:', error);
+}
+        }
+
+        // Filtrar solicitações
+        function filterRequests() {
+    
+            const status = document.getElementById('filter-status').value;
+    
+            const workflow = document.getElementById('filter-workflow').value;
+    
+            
+            // Implementar filtros aqui
+            loadRequests();
+}
+
+        // Atualizar dados
+        function refreshData() {
+    
+            loadWorkflows();
+    
+            loadRequests();
+    
+            loadPendingRequests();
+    
+            loadAnalytics();
+}
+    </script>
+</body>
+</html>

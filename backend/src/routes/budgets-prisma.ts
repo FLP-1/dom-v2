@@ -1,187 +1,246 @@
-
-/**
- * 
- * @alternatives
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
+﻿/**
+ * Rotas de Orçamentos - DOM v2
+ * Gerencia operações CRUD para orçamentos usando Prisma ORM
  */
 
+import { Router } from 'express';
+import { PrismaClient } from '@prisma/client';
+
+const router = Router();
+const prisma = new PrismaClient();
 
 /**
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
+ * GET /budgets
+ * Lista todos os orçamentos
  */
-
-
-/**
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- */
-function validateType(value, expectedType) {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null && !Array.isArray(value);
-    case 'array':
-      return Array.isArray(value);
-    case 'function':
-      return typeof value === 'function';
-    default:
-      return false;
-  }
-}
-
-}
-
-
-/**
- * Sistema de logging estruturado
- * @param {string} message - Mensagem do log
- * @param {object} data - Dados adicionais
- */
-function logStructured(level, message, data = {}) {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-    data,
-    file: __filename,
-    function: arguments.callee.name || 'anonymous'
-  };
-  
-  // Console output
-  const consoleMethod = level === 'error' ? 'error' : 
-                       level === 'warn' ? 'warn' : 
-                       level === 'debug' ? 'debug' : 'log';
-  
-  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
-  
-  // File logging
+router.get('/', async (req, res) => {
   try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
-    }
-    fs.appendFileSync(
-      path.join(logsDir, 'application.log'),
-      JSON.stringify(logEntry) + '\n'
-    );
-  } catch (logError) {
-    console.error('Erro ao salvar log:', logError.message);
+    const budgets = await prisma.budget.findMany({
+      include: {
+        department: true,
+        category: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    res.json({
+      success: true,
+      data: budgets,
+      count: budgets.length
+    });
+  } catch (error) {
+    console.error('Erro ao buscar orçamentos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
   }
-}
-
-// Aplicar logging
-
+});
 
 /**
- * @param {string} message - Mensagem de erro
+ * GET /budgets/:id
+ * Busca orçamento por ID
  */
-function assertCritical(condition, message = 'Assertion failed') {
-  if (!condition) {
-    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
-    error.name = 'CriticalAssertionError';
-    throw error;
-  }
-}
-
-
-
-/**
- * Tratamento robusto de erros
- * @param {Error} error - Erro capturado
- * @param {string} context - Contexto onde o erro ocorreu
- */
-function handleError(error, context = 'unknown') {
-  console.error(`[ERROR] ${context}:`, error.message);
-  
-  // Log estruturado para debugging
-  const errorLog = {
-    timestamp: new Date().toISOString(),
-    context,
-    message: error.message,
-    stack: error.stack,
-    type: error.constructor.name
-  };
-  
-  // Salvar log de erro
+router.get('/:id', async (req, res) => {
   try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
+    const { id } = req.params;
+    const budget = await prisma.budget.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        department: true,
+        category: true,
+        budgetItems: true
+      }
+    });
+
+    if (!budget) {
+      return res.status(404).json({
+        success: false,
+        message: 'Orçamento não encontrado'
+      });
     }
-    fs.appendFileSync(
-      path.join(logsDir, 'error-log.json'),
-      JSON.stringify(errorLog) + '\n'
-    );
-  } catch (logError) {
-    console.error('Erro ao salvar log:', logError.message);
+
+    res.json({
+      success: true,
+      data: budget
+    });
+  } catch (error) {
+    console.error('Erro ao buscar orçamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
   }
-  
-  // Re-throw para tratamento superior
-  throw error;
-}
-
-// Aplicar tratamento de erro
-try {
-} catch (error) {
-}
-
+});
 
 /**
- * @param {any} data - Dados a serem validados
+ * POST /budgets
+ * Cria novo orçamento
  */
-function validateInput(data) {
-  if (!data) return false;
-  if (typeof data === 'string' && data.trim().length === 0) return false;
-  if (Array.isArray(data) && data.length === 0) return false;
-  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
-  return true;
-}
+router.post('/', async (req, res) => {
+  try {
+    const {
+      name,
+      description,
+      amount,
+      departmentId,
+      categoryId,
+      startDate,
+      endDate,
+      status
+    } = req.body;
 
-}
+    // Validações básicas
+    if (!name || !amount || !departmentId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Nome, valor e departamento são obrigatórios'
+      });
+    }
 
+    const budget = await prisma.budget.create({
+      data: {
+        name,
+        description,
+        amount: parseFloat(amount),
+        departmentId: parseInt(departmentId),
+        categoryId: categoryId ? parseInt(categoryId) : null,
+        startDate: startDate ? new Date(startDate) : new Date(),
+        endDate: endDate ? new Date(endDate) : null,
+        status: status || 'DRAFT'
+      },
+      include: {
+        department: true,
+        category: true
+      }
+    });
+
+    res.status(201).json({
+      success: true,
+      data: budget,
+      message: 'Orçamento criado com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao criar orçamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
 
 /**
- * @author Sistema DOM v2
- * @version 2.0.0
- * @since 2025-01-01
- * 
- * @description
- * 
- * @dependencies
- * - Prisma ORM
- * 
- * @usage
- * 
- * @see
- * - docs/directives/diretivas-pensamento-critico.md
- * - docs/development/processo-garantia-diretivas.md
+ * PUT /budgets/:id
+ * Atualiza orçamento
  */
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    // Remove campos que não devem ser atualizados
+    delete updateData.id;
+    delete updateData.createdAt;
+
+    // Converte campos numéricos
+    if (updateData.departmentId) {
+      updateData.departmentId = parseInt(updateData.departmentId);
+    }
+    if (updateData.categoryId) {
+      updateData.categoryId = parseInt(updateData.categoryId);
+    }
+    if (updateData.amount) {
+      updateData.amount = parseFloat(updateData.amount);
+    }
+    if (updateData.startDate) {
+      updateData.startDate = new Date(updateData.startDate);
+    }
+    if (updateData.endDate) {
+      updateData.endDate = new Date(updateData.endDate);
+    }
+
+    const budget = await prisma.budget.update({
+      where: { id: parseInt(id) },
+      data: updateData,
+      include: {
+        department: true,
+        category: true
+      }
+    });
+
+    res.json({
+      success: true,
+      data: budget,
+      message: 'Orçamento atualizado com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar orçamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+/**
+ * DELETE /budgets/:id
+ * Remove orçamento
+ */
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.budget.delete({
+      where: { id: parseInt(id) }
+    });
+
+    res.json({
+      success: true,
+      message: 'Orçamento removido com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao remover orçamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+/**
+ * GET /budgets/department/:departmentId
+ * Busca orçamentos por departamento
+ */
+router.get('/department/:departmentId', async (req, res) => {
+  try {
+    const { departmentId } = req.params;
+    const budgets = await prisma.budget.findMany({
+      where: { departmentId: parseInt(departmentId) },
+      include: {
+        department: true,
+        category: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    res.json({
+      success: true,
+      data: budgets,
+      count: budgets.length
+    });
+  } catch (error) {
+    console.error('Erro ao buscar orçamentos do departamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+export default router;
+
+

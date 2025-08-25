@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Financeira - DOM v2</title>
+    <style>
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            color: #1f2937;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    
+            line-height: 1.6;
+    
+            min-height: 100vh;
+}
+
+        /* Header */
+        .header {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    display: flex;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    align-items: center;
+}
+
+        .header h1 {
+    
+            color: #1e293b;
+    
+            font-size: 1.5rem;
+    
+            font-weight: 600;
+}
+
+        .header-actions {
+    
+            display: flex;
+    
+            gap: 1rem;
+}
+
+        .btn {
+    
+            display: inline-flex;
+    
+            padding: 0.5rem 1rem;
+    
+            border: none;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 8px;
+    
+            cursor: pointer;
+    
+            font-weight: 500;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            text-decoration: none;
+    
+            align-items: center;
+    
+            gap: 0.5rem;
+}
+
+        .btn-primary {
+    
+            color: white;
+    
+            background: #007AFF;
+}
+
+        .btn-primary:hover {
+    
+            background: #0056CC;
+}
+
+        .btn-secondary {
+    
+            color: white;
+    
+            background: #6B7280;
+}
+
+        .btn-secondary:hover {
+    
+            background: #4B5563;
+}
+
+        .btn-success {
+    
+            color: white;
+    
+            background: #10B981;
+}
+
+        .btn-success:hover {
+    
+            background: #059669;
+}
+
+        /* Main Content */
+        .main-content {
+    
+            margin: 0 auto;
+    
+            padding: 2rem;
+    
+            max-width: 1400px;
+}
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    
+            gap: 2rem;
+    
+            margin-bottom: 2rem;
+}
+
+        .card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+        .card-header {
+    
+            display: flex;
+    
+            justify-content: space-between;
+    
+            align-items: center;
+    
+            margin-bottom: 1rem;
+}
+
+        .card-title {
+    
+            color: #1e293b;
+    
+            font-size: 1.125rem;
+    
+            font-weight: 600;
+}
+
+        .card-icon {
+    
+            font-size: 1.5rem;
+}
+
+        .metric-value {
+    
+            color: #1e293b;
+    
+            font-size: 2rem;
+    
+            font-weight: bold;
+    
+            margin-bottom: 0.5rem;
+}
+
+        .metric-label {
+    
+            color: #6B7280;
+    
+            font-size: 0.875rem;
+}
+
+        .metric-change {
+    
+            margin-top: 0.5rem;
+    
+            font-size: 0.875rem;
+}
+
+        .positive {
+    
+            color: #10B981;
+}
+
+        .negative {
+    
+            color: #EF4444;
+}
+
+        /* Tabs */
+        .tabs {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    display: flex;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+        .tab {
+    
+            margin: 0.5rem;
+    
+            padding: 1rem 1.5rem;
+    
+    transition: all 0.3s ease;
+    
+            flex: 1;
+    
+            text-align: center;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            border-radius: 12px;
+}
+
+        .tab:hover {
+    
+            background: rgba(0, 122, 255, 0.1);
+}
+
+        .tab.active {
+    
+            color: white;
+    
+            background: #007AFF;
+}
+
+        /* Tab Content */
+        .tab-content {
+    
+            display: none;
+}
+
+        .tab-content.active {
+    
+            display: block;
+}
+
+        /* Table */
+        .table-container {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+        .table-header {
+    
+            display: flex;
+    
+            padding: 1rem 1.5rem;
+    
+            background: #F8FAFC;
+    
+            border-bottom: 1px solid #E5E7EB;
+    
+            justify-content: space-between;
+    
+            align-items: center;
+}
+
+        .table-header h3 {
+    
+            color: #1e293b;
+    
+            font-size: 1.125rem;
+    
+            font-weight: 600;
+}
+
+        table {
+    
+            width: 100%;
+    
+            border-collapse: collapse;
+}
+
+        th, td {
+    
+            padding: 1rem 1.5rem;
+    
+            text-align: left;
+    
+            border-bottom: 1px solid #E5E7EB;
+}
+
+        th {
+    
+            color: #374151;
+    
+            background: #F8FAFC;
+    
+    transform: uppercase;
+    
+            font-weight: 600;
+    
+            font-size: 0.875rem;
+    
+            text--webkit-transform: uppercase;
+    
+            letter-spacing: 0.05em;
+}
+
+        td {
+    
+            color: #1f2937;
+}
+
+        .status-badge {
+    
+            padding: 0.25rem 0.75rem;
+    
+    transform: uppercase;
+    
+            border-radius: 20px;
+    
+            font-size: 0.75rem;
+    
+            font-weight: 500;
+    
+            text--webkit-transform: uppercase;
+}
+
+        .status-active {
+    
+            color: #065F46;
+    
+            background: #D1FAE5;
+}
+
+        .status-pending {
+    
+            color: #92400E;
+    
+            background: #FEF3C7;
+}
+
+        .status-paid {
+    
+            color: #065F46;
+    
+            background: #D1FAE5;
+}
+
+        .actions {
+    
+            display: flex;
+    
+            gap: 0.5rem;
+}
+
+        .btn-sm {
+    
+            padding: 0.25rem 0.5rem;
+    
+            font-size: 0.75rem;
+}
+
+        .btn-edit {
+    
+            color: white;
+    
+            background: #F59E0B;
+}
+
+        .btn-edit:hover {
+    
+            background: #D97706;
+}
+
+        .btn-delete {
+    
+            color: white;
+    
+            background: #EF4444;
+}
+
+        .btn-delete:hover {
+    
+            background: #DC2626;
+}
+
+        /* Modal */
+        .modal {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+        .modal.show {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            justify-content: center;
+}
+
+        .modal-content {
+    
+            width: 90%;
+    
+            padding: 2rem;
+    
+            background: white;
+    
+            border-radius: 12px;
+    
+            max-width: 500px;
+    
+            max-height: 90vh;
+    
+            overflow-y: auto;
+    
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+        .modal-header {
+    
+            display: flex;
+    
+            justify-content: space-between;
+    
+            align-items: center;
+    
+            margin-bottom: 1.5rem;
+}
+
+        .modal-title {
+    
+            color: #1e293b;
+    
+            font-size: 1.5rem;
+    
+            font-weight: 600;
+}
+
+        .close-btn {
+    
+            padding: 0.5rem;
+    
+            border: none;
+    
+            color: #6B7280;
+    
+            background: none;
+    
+            font-size: 1.5rem;
+    
+            cursor: pointer;
+}
+
+        .form-group {
+    
+            margin-bottom: 1.5rem;
+}
+
+        .form-label {
+    
+            display: block;
+    
+            color: #374151;
+    
+            margin-bottom: 0.5rem;
+    
+            font-weight: 500;
+}
+
+        .form-input, .form-select {
+    
+            width: 100%;
+    
+            padding: 0.75rem 1rem;
+    
+            border: 2px solid #E5E7EB;
+    
+    transition: border-color 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 1rem;
+    
+            -webkit-transition: border-color 0.3s ease;
+}
+
+        .form-input:focus, .form-select:focus {
+    
+            outline: none;
+    
+            border-color: #007AFF;
+}
+
+        .form-actions {
+    
+            display: flex;
+    
+            gap: 1rem;
+    
+            justify-content: flex-end;
+    
+            margin-top: 2rem;
+}
+
+        /* Loading */
+        .loading {
+    
+            padding: 2rem;
+    
+            color: #6B7280;
+    
+            text-align: center;
+}
+
+        .spinner {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 1rem;
+    border: 3px solid #E5E7EB;
+    border-top: 3px solid #007AFF;
+    border-radius: 50%;
+}
+
+        @keyframes spin {
+    
+    transform: rotate(0deg);
+    
+            0% { -webkit-transform: rotate(0deg);
+}
+            100% {
+    
+    transform: rotate(360deg);
+     -webkit-transform: rotate(360deg);
+}
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+    
+            .header {
+                padding: 1rem;
+    
+                flex-direction: column;
+    
+                gap: 1rem;
+}
+
+            .main-content {
+    
+                padding: 1rem;
+}
+
+            .dashboard-grid {
+    
+                grid-template-columns: 1fr;
+}
+
+            .tabs {
+    
+                flex-direction: column;
+}
+
+            th, td {
+    
+                padding: 0.75rem 1rem;
+    
+                font-size: 0.875rem;
+}
+
+            .actions {
+    
+                flex-direction: column;
+}
+        }
+    </style>
+  <style>
+    .extracted-style-1 {
+     display: none;
+}
+    .extracted-style-2 {
+     display: none;
+}
+  </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>💰 Gestão Financeira</h1>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="window.history.back()" tabindex="0">← Voltar</button>
+            <button class="btn btn-success" onclick="openCreateBudgetModal()" tabindex="0">+ Novo Orçamento</button>
+            <button class="btn btn-primary" onclick="openCreatePaymentModal()" tabindex="0">+ Novo Pagamento</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" role="main">
+        <!-- Dashboard Cards -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Orçamentos</div>
+                    <div class="card-icon">📊</div>
+                </div>
+                <div class="metric-value" id="totalBudgets">0</div>
+                <div class="metric-label">Total de orçamentos</div>
+                <div class="metric-change">
+                    <span id="budgetAmount">R$ 0,00</span> total
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Gastos</div>
+                    <div class="card-icon">💸</div>
+                </div>
+                <div class="metric-value" id="totalSpent">R$ 0,00</div>
+                <div class="metric-label">Total gasto</div>
+                <div class="metric-change">
+                    <span id="spentPercentage">0%</span> do orçamento
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pagamentos</div>
+                    <div class="card-icon">💳</div>
+                </div>
+                <div class="metric-value" id="totalPayments">0</div>
+                <div class="metric-label">Pagamentos pendentes</div>
+                <div class="metric-change">
+                    <span id="paymentAmount">R$ 0,00</span> valor total
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Saldo</div>
+                    <div class="card-icon">💰</div>
+                </div>
+                <div class="metric-value" id="netBalance">R$ 0,00</div>
+                <div class="metric-label">Saldo líquido</div>
+                <div class="metric-change" id="balanceChange">
+                    Receitas - Despesas
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('budgets')">
+                📊 Orçamentos
+            </div>
+            <div class="tab" onclick="switchTab('payments')">
+                💳 Pagamentos
+            </div>
+        </div>
+
+        <!-- Budgets Tab -->
+        <div id="budgets-tab" class="tab-content active">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Orçamentos</h3>
+                    <span id="budgetsCount">0 orçamentos</span>
+                </div>
+                <div id="budgetsLoading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando orçamentos...</p>
+                </div>
+                <table id="budgetsTable" class="extracted-style-1">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                            <th>Gasto</th>
+                            <th>Restante</th>
+                            <th>Status</th>
+                            <th>Período</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="budgetsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Payments Tab -->
+        <div id="payments-tab" class="tab-content">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Pagamentos</h3>
+                    <span id="paymentsCount">0 pagamentos</span>
+                </div>
+                <div id="paymentsLoading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando pagamentos...</p>
+                </div>
+                <table id="paymentsTable" class="extracted-style-2">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Vencimento</th>
+                            <th>Status</th>
+                            <th>Usuário</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Budget Modal -->
+    <div id="budgetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="budgetModalTitle">Novo Orçamento</h3>
+                <button class="close-btn" onclick="closeBudgetModal()" tabindex="0">&times;</button>
+            </div>
+            <form id="budgetForm">
+                <div class="form-group">
+                    <label class="form-label" for="budgetName">Nome *</label>
+                    <input id="budgetName" aria-label="text input" type="text" class="form-input" id="budgetName" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="budgetAmount">Valor *</label>
+                    <input id="budgetAmount" aria-label="number input" type="number" step="0.01" class="form-input" id="budgetAmount" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="budgetCategory">Categoria *</label>
+                    <select class="form-select" id="budgetCategory" required tabindex="0" aria-labelledby="budgetCategory-label">
+                        <option value="FOOD">Alimentação</option>
+                        <option value="TRANSPORT">Transporte</option>
+                        <option value="EDUCATION">Educação</option>
+                        <option value="HEALTH">Saúde</option>
+                        <option value="ENTERTAINMENT">Entretenimento</option>
+                        <option value="HOUSING">Moradia</option>
+                        <option value="OTHER">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="budgetStartDate">Data Inicial *</label>
+                    <input id="budgetStartDate" aria-label="date input" type="date" class="form-input" id="budgetStartDate" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="budgetEndDate">Data Final *</label>
+                    <input id="budgetEndDate" aria-label="date input" type="date" class="form-input" id="budgetEndDate" required tabindex="0">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeBudgetModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" tabindex="0">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="paymentModalTitle">Novo Pagamento</h3>
+                <button class="close-btn" onclick="closePaymentModal()" tabindex="0">&times;</button>
+            </div>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label class="form-label" for="paymentDescription">Descrição *</label>
+                    <input id="paymentDescription" aria-label="text input" type="text" class="form-input" id="paymentDescription" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="paymentAmount">Valor *</label>
+                    <input id="paymentAmount" aria-label="number input" type="number" step="0.01" class="form-input" id="paymentAmount" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="paymentDueDate">Data de Vencimento *</label>
+                    <input id="paymentDueDate" aria-label="date input" type="date" class="form-input" id="paymentDueDate" required tabindex="0">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closePaymentModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" tabindex="0">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE = 'http://localhost:3001/api';
+        let dashboardData = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadDashboard();
+    
+            loadBudgets();
+    
+            loadPayments();
+    
+            setupEventListeners();
+});
+
+        // Event Listeners
+        function setupEventListeners() {
+    
+            document.getElementById('budgetForm').addEventListener('submit', handleBudgetSubmit);
+    
+            document.getElementById('paymentForm').addEventListener('submit', handlePaymentSubmit);
+}
+
+        // Load Dashboard Data
+        async function loadDashboard() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/financial/reports/dashboard`);
+                const result = await response.json();
+                
+                if (result.success) {
+    
+                    dashboardData = result.data;
+    
+                    updateDashboardCards();
+} else {
+    
+                    throw new Error(result.error || 'Erro ao carregar dashboard');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao carregar dashboard: ' + error.message);
+}
+        }
+
+        // Update Dashboard Cards
+        function updateDashboardCards() {
+    
+            document.getElementById('totalBudgets').textContent = dashboardData.budgets.total;
+    
+            document.getElementById('budgetAmount').textContent = `R$ ${dashboardData.budgets.totalAmount.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})}`;
+            document.getElementById('totalSpent').textContent = `R$ ${
+    dashboardData.budgets.totalSpent.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})}`;
+            document.getElementById('spentPercentage').textContent = `${
+    dashboardData.budgets.percentageSpent;
+}%`;
+            document.getElementById('totalPayments').textContent = dashboardData.payments.pending.count;
+            document.getElementById('paymentAmount').textContent = `R$ ${
+    dashboardData.payments.pending.amount.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})}`;
+            document.getElementById('netBalance').textContent = `R$ ${
+    dashboardData.summary.netBalance.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})}`;
+            
+            const balanceElement = document.getElementById('balanceChange');
+            if (dashboardData.summary.netBalance >= 0) {
+    
+                balanceElement.className = 'metric-change positive';
+} else {
+    
+                balanceElement.className = 'metric-change negative';
+}
+        }
+
+        // Load Budgets
+        async function loadBudgets() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/financial/budgets`);
+                const result = await response.json();
+                
+                if (result.success) {
+    
+                    displayBudgets(result.data.budgets);
+    
+                    document.getElementById('budgetsCount').textContent = `${result.data.budgets.length;
+} orçamento${
+    result.data.budgets.length !== 1 ? 's' : '';
+}`;
+                } else {
+    
+                    throw new Error(result.error || 'Erro ao carregar orçamentos');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao carregar orçamentos: ' + error.message);
+}
+        }
+
+        // Display Budgets
+        function displayBudgets(budgets) {
+    
+            const tableBody = document.getElementById('budgetsTableBody');
+    
+            const loading = document.getElementById('budgetsLoading');
+    
+            const table = document.getElementById('budgetsTable');
+    
+
+            loading.style.display = 'none';
+    
+            table.style.display = 'table';
+    
+
+            tableBody.innerHTML = '';
+    
+
+            budgets.forEach(budget => {
+                const remaining = budget.amount - budget.spent;
+    
+                const percentageSpent = budget.amount > 0 ? Math.round((budget.spent / budget.amount) * 100) : 0;
+    
+                
+                const row = document.createElement('tr');
+    
+                row.innerHTML = `
+                    <td>${budget.name;
+}</td>
+                    <td>${
+    getCategoryLabel(budget.category);
+}</td>
+                    <td>R$ ${
+    budget.amount.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})}</td>
+                    <td>R$ ${
+    budget.spent.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})} (${
+    percentageSpent;
+}%)</td>
+                    <td>R$ ${
+    remaining.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})}</td>
+                    <td><span class="status-badge status-${
+    budget.status;
+}">${
+    getStatusLabel(budget.status);
+}</span></td>
+                    <td>${
+    formatDateRange(budget.start_date, budget.end_date);
+}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-sm btn-edit" onclick="editBudget('${
+    budget.id;
+}')" tabindex="0">Editar</button>
+                            <button class="btn btn-sm btn-delete" onclick="deleteBudget('${
+    budget.id;
+}')" tabindex="0">Excluir</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Load Payments
+        async function loadPayments() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/financial/payments`);
+                const result = await response.json();
+                
+                if (result.success) {
+    
+                    displayPayments(result.data.payments);
+    
+                    document.getElementById('paymentsCount').textContent = `${result.data.payments.length;
+} pagamento${
+    result.data.payments.length !== 1 ? 's' : '';
+}`;
+                } else {
+    
+                    throw new Error(result.error || 'Erro ao carregar pagamentos');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao carregar pagamentos: ' + error.message);
+}
+        }
+
+        // Display Payments
+        function displayPayments(payments) {
+    
+            const tableBody = document.getElementById('paymentsTableBody');
+    
+            const loading = document.getElementById('paymentsLoading');
+    
+            const table = document.getElementById('paymentsTable');
+    
+
+            loading.style.display = 'none';
+    
+            table.style.display = 'table';
+    
+
+            tableBody.innerHTML = '';
+    
+
+            payments.forEach(payment => {
+                const isOverdue = payment.status === 'pending' && new Date(payment.due_date) < new Date();
+    
+                
+                const row = document.createElement('tr');
+    
+                row.innerHTML = `
+                    <td>${payment.description;
+}</td>
+                    <td>R$ ${
+    payment.amount.toLocaleString('pt-BR', {minimumFractionDigits: 2;
+})}</td>
+                    <td>${
+    formatDate(payment.due_date);
+} ${
+    isOverdue ? '⚠️' : '';
+}</td>
+                    <td><span class="status-badge status-${
+    payment.status;
+}">${
+    getPaymentStatusLabel(payment.status);
+}</span></td>
+                    <td>${
+    payment.users ? payment.users.name : 'Sistema';
+}</td>
+                    <td>
+                        <div class="actions">
+                            ${
+    payment.status === 'pending' ? `<button class="btn btn-sm btn-success" onclick="markAsPaid('${payment.id;
+}')" tabindex="0">Pagar</button>` : ''}
+                            <button class="btn btn-sm btn-edit" onclick="editPayment('${
+    payment.id;
+}')" tabindex="0">Editar</button>
+                            <button class="btn btn-sm btn-delete" onclick="deletePayment('${
+    payment.id;
+}')" tabindex="0">Excluir</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Tab Functions
+        function switchTab(tab) {
+    
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    
+            event.target.classList.add('active');
+    
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+            document.getElementById(tab + '-tab').classList.add('active');
+    
+
+            // Load data if needed
+            if (tab === 'budgets') {
+                loadBudgets();
+} else if (tab === 'payments') {
+    
+                loadPayments();
+}
+        }
+
+        // Modal Functions
+        function openCreateBudgetModal() {
+    
+            document.getElementById('budgetModalTitle').textContent = 'Novo Orçamento';
+    
+            document.getElementById('budgetForm').reset();
+    
+            document.getElementById('budgetModal').classList.add('show');
+}
+
+        function closeBudgetModal() {
+    
+            document.getElementById('budgetModal').classList.remove('show');
+}
+
+        function openCreatePaymentModal() {
+    
+            document.getElementById('paymentModalTitle').textContent = 'Novo Pagamento';
+    
+            document.getElementById('paymentForm').reset();
+    
+            document.getElementById('paymentModal').classList.add('show');
+}
+
+        function closePaymentModal() {
+    
+            document.getElementById('paymentModal').classList.remove('show');
+}
+
+        // Form Handlers
+        async function handleBudgetSubmit(e) {
+    
+            e.preventDefault();
+    
+            
+            const formData = {
+                name: document.getElementById('budgetName').value,
+                amount: document.getElementById('budgetAmount').value,
+                category: document.getElementById('budgetCategory').value,
+                start_date: document.getElementById('budgetStartDate').value,
+                end_date: document.getElementById('budgetEndDate').value
+            ;
+};
+
+            try {
+    
+                const response = await fetch(`${API_BASE;
+}/financial/budgets`, {
+    
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    ;
+},
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+    
+                    showSuccess('Orçamento criado com sucesso!');
+    
+                    closeBudgetModal();
+    
+                    loadDashboard();
+    
+                    loadBudgets();
+} else {
+    
+                    throw new Error(result.error || 'Erro ao criar orçamento');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao criar orçamento: ' + error.message);
+}
+        }
+
+        async function handlePaymentSubmit(e) {
+    
+            e.preventDefault();
+    
+            
+            const formData = {
+                description: document.getElementById('paymentDescription').value,
+                amount: document.getElementById('paymentAmount').value,
+                due_date: document.getElementById('paymentDueDate').value
+            ;
+};
+
+            try {
+    
+                const response = await fetch(`${API_BASE;
+}/financial/payments`, {
+    
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    ;
+},
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+    
+                    showSuccess('Pagamento criado com sucesso!');
+    
+                    closePaymentModal();
+    
+                    loadDashboard();
+    
+                    loadPayments();
+} else {
+    
+                    throw new Error(result.error || 'Erro ao criar pagamento');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao criar pagamento: ' + error.message);
+}
+        }
+
+        // Action Functions
+        async function markAsPaid(paymentId) {
+    
+            if (!confirm('Marcar este pagamento como pago?')) {
+                return;
+}
+
+            try {
+    
+                const response = await fetch(`${API_BASE;
+}/financial/payments/${
+    paymentId;
+}/pay`, {
+    
+                    method: 'PUT'
+                ;
+});
+
+                const result = await response.json();
+
+                if (result.success) {
+    
+                    showSuccess('Pagamento marcado como pago!');
+    
+                    loadDashboard();
+    
+                    loadPayments();
+} else {
+    
+                    throw new Error(result.error || 'Erro ao marcar pagamento como pago');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao marcar pagamento como pago: ' + error.message);
+}
+        }
+
+        async function deleteBudget(budgetId) {
+    
+            if (!confirm('Tem certeza que deseja excluir este orçamento?')) {
+                return;
+}
+
+            try {
+    
+                const response = await fetch(`${API_BASE;
+}/financial/budgets/${
+    budgetId;
+}`, {
+    
+                    method: 'DELETE'
+                ;
+});
+
+                const result = await response.json();
+
+                if (result.success) {
+    
+                    showSuccess('Orçamento excluído com sucesso!');
+    
+                    loadDashboard();
+    
+                    loadBudgets();
+} else {
+    
+                    throw new Error(result.error || 'Erro ao excluir orçamento');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao excluir orçamento: ' + error.message);
+}
+        }
+
+        async function deletePayment(paymentId) {
+    
+            if (!confirm('Tem certeza que deseja excluir este pagamento?')) {
+                return;
+}
+
+            try {
+    
+                const response = await fetch(`${API_BASE;
+}/financial/payments/${
+    paymentId;
+}`, {
+    
+                    method: 'DELETE'
+                ;
+});
+
+                const result = await response.json();
+
+                if (result.success) {
+    
+                    showSuccess('Pagamento excluído com sucesso!');
+    
+                    loadDashboard();
+    
+                    loadPayments();
+} else {
+    
+                    throw new Error(result.error || 'Erro ao excluir pagamento');
+}
+            } catch (error) {
+    
+                console.error('Erro:', error);
+    
+                showError('Erro ao excluir pagamento: ' + error.message);
+}
+        }
+
+        // Utility Functions
+        function getCategoryLabel(category) {
+    
+            const labels = {
+                'FOOD': 'Alimentação',
+                'TRANSPORT': 'Transporte',
+                'EDUCATION': 'Educação',
+                'HEALTH': 'Saúde',
+                'ENTERTAINMENT': 'Entretenimento',
+                'HOUSING': 'Moradia',
+                'OTHER': 'Outros'
+            ;
+};
+            return labels[category] || category;
+        }
+
+        function getStatusLabel(status) {
+    
+            const labels = {
+                'active': 'Ativo',
+                'inactive': 'Inativo',
+                'completed': 'Concluído'
+            ;
+};
+            return labels[status] || status;
+        }
+
+        function getPaymentStatusLabel(status) {
+    
+            const labels = {
+                'pending': 'Pendente',
+                'paid': 'Pago',
+                'cancelled': 'Cancelado'
+            ;
+};
+            return labels[status] || status;
+        }
+
+        function formatDate(dateString) {
+    
+            return new Date(dateString).toLocaleDateString('pt-BR');
+}
+
+        function formatDateRange(startDate, endDate) {
+    
+            return `${formatDate(startDate);
+} - ${
+    formatDate(endDate);
+}`;
+        }
+
+        function showSuccess(message) {
+    
+            alert(message);
+     // TODO: Implement proper notification system
+        ;
+}
+
+        function showError(message) {
+    
+            alert('Erro: ' + message);
+     // TODO: Implement proper notification system
+        ;
+}
+
+        // Close modals when clicking outside
+        document.getElementById('budgetModal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closeBudgetModal();
+}
+        });
+
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closePaymentModal();
+}
+        });
+    </script>
+</body>
+</html>

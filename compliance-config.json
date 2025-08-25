@@ -1,0 +1,20 @@
+﻿{
+    "Rules":  {
+                  "Architecture":  {
+                                       "Backend":  "React + TypeScript",
+                                       "Frontend":  "HTML + JavaScript vanilla",
+                                       "ProhibitedFrameworks":  [
+                                                                    "vue",
+                                                                    "angular",
+                                                                    "jquery",
+                                                                    "bootstrap"
+                                                                ]
+                                   },
+                  "Development":  {
+                                      "ErrorHandling":  true,
+                                      "PowerShellOnly":  true
+                                  }
+              },
+    "AutoFix":  false,
+    "Enabled":  true
+}

@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Notificações - DOM v2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #17a2b8;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+            font-weight: 600;
+        }
+
+        .notification-item {
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .notification-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-item.unread {
+            border-left-color: var(--warning-color);
+            background: #fff3cd;
+        }
+
+        .notification-item.high-priority {
+            border-left-color: var(--danger-color);
+            background: #f8d7da;
+        }
+
+        .notification-item.info {
+            border-left-color: var(--info-color);
+            background: #d1ecf1;
+        }
+
+        .notification-item.success {
+            border-left-color: var(--success-color);
+            background: #d4edda;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .notification-message {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .notification-meta {
+            font-size: 0.8rem;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-type {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-system { background: var(--info-color); color: white; }
+        .type-task { background: var(--warning-color); color: white; }
+        .type-financial { background: var(--success-color); color: white; }
+        .type-email { background: var(--secondary-color); color: white; }
+        .type-push { background: var(--primary-color); color: white; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .badge {
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+        }
+
+        .settings-section {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .notification-bell {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .real-time-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--success-color);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-bell"></i> Sistema de Notificações</h1>
+            <p>Notificações em tempo real e configurações personalizadas</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Status em Tempo Real -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-broadcast-tower"></i> Status em Tempo Real</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <div class="notification-bell">
+                                    <i class="fas fa-bell fa-2x text-primary"></i>
+                                    <span class="notification-count" id="unreadCount">0</span>
+                                </div>
+                                <p class="mt-2">Não Lidas</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <i class="fas fa-envelope fa-2x text-info"></i>
+                                <p class="mt-2">Email Ativo</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <i class="fas fa-mobile-alt fa-2x text-success"></i>
+                                <p class="mt-2">Push Ativo</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <span class="real-time-indicator"></span>
+                                <i class="fas fa-wifi fa-2x text-warning"></i>
+                                <p class="mt-2">Tempo Real</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notificações Recentes -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5><i class="fas fa-list"></i> Notificações Recentes</h5>
+                    <div>
+                        <button class="btn btn-sm btn-outline-light me-2" onclick="markAllAsRead()">
+                            <i class="fas fa-check-double"></i> Marcar Todas como Lidas
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" onclick="refreshNotifications()">
+                            <i class="fas fa-sync-alt"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="notificationsList">
+                        <div class="text-center text-muted">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Carregando notificações...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enviar Notificação -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-paper-plane"></i> Enviar Notificação</h5>
+                </div>
+                <div class="card-body">
+                    <form id="sendNotificationForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Usuário</label>
+                                <select class="form-select" id="userId" required>
+                                    <option value="">Selecione um usuário...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo</label>
+                                <select class="form-select" id="notificationType" required>
+                                    <option value="system">Sistema</option>
+                                    <option value="task">Tarefa</option>
+                                    <option value="financial">Financeiro</option>
+                                    <option value="email">Email</option>
+                                    <option value="push">Push</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Título</label>
+                                <input type="text" class="form-control" id="notificationTitle" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Prioridade</label>
+                                <select class="form-select" id="notificationPriority">
+                                    <option value="low">Baixa</option>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="high">Alta</option>
+                                    <option value="urgent">Urgente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label class="form-label">Mensagem</label>
+                                <textarea class="form-control" id="notificationMessage" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Enviar Notificação
+                                </button>
+                                <button type="button" class="btn btn-success ms-2" onclick="sendEmailNotification()">
+                                    <i class="fas fa-envelope"></i> Enviar Email
+                                </button>
+                                <button type="button" class="btn btn-warning ms-2" onclick="sendPushNotification()">
+                                    <i class="fas fa-mobile-alt"></i> Enviar Push
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Configurações -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-cog"></i> Configurações de Notificação</h5>
+                </div>
+                <div class="card-body">
+                    <form id="settingsForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="settings-section">
+                                    <h6>Tipos de Notificação</h6>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="emailEnabled" checked>
+                                        <label class="form-check-label" for="emailEnabled">
+                                            Notificações por Email
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="pushEnabled" checked>
+                                        <label class="form-check-label" for="pushEnabled">
+                                            Push Notifications
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="inAppEnabled" checked>
+                                        <label class="form-check-label" for="inAppEnabled">
+                                            Notificações no App
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="settings-section">
+                                    <h6>Horário Silencioso</h6>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label">Início</label>
+                                            <input type="time" class="form-control" id="quietHoursStart" value="22:00">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">Fim</label>
+                                            <input type="time" class="form-control" id="quietHoursEnd" value="08:00">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Salvar Configurações
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Histórico -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-history"></i> Histórico de Notificações</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Filtrar por Tipo</label>
+                            <select class="form-select" id="historyTypeFilter">
+                                <option value="">Todos os tipos</option>
+                                <option value="system">Sistema</option>
+                                <option value="task">Tarefa</option>
+                                <option value="financial">Financeiro</option>
+                                <option value="email">Email</option>
+                                <option value="push">Push</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Data Início</label>
+                            <input type="date" class="form-control" id="historyStartDate">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Data Fim</label>
+                            <input type="date" class="form-control" id="historyEndDate">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-primary d-block w-100" onclick="loadHistory()">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="historyList">
+                        <div class="text-center text-muted">
+                            <i class="fas fa-history fa-2x"></i>
+                            <p>Histórico de notificações aparecerá aqui</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Configuração da API
+        const API_BASE = 'http://localhost:3001/api';
+        let currentUserId = '00000000-0000-0000-0000-000000000000'; // Usuário padrão para teste
+
+        // Estado global
+        let notifications = [];
+        let settings = {};
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            loadNotifications();
+            loadSettings();
+            setupEventListeners();
+            setupRealTimeUpdates();
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            document.getElementById('sendNotificationForm').addEventListener('submit', sendNotification);
+            document.getElementById('settingsForm').addEventListener('submit', saveSettings);
+        });
+
+        // Carregar usuários para o select
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/users`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const userSelect = document.getElementById('userId');
+                    userSelect.innerHTML = '<option value="">Selecione um usuário...</option>';
+                    
+                    result.data.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user.id;
+                        option.textContent = user.name;
+                        userSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuários:', error);
+            }
+        }
+
+        // Carregar notificações
+        async function loadNotifications() {
+            try {
+                const response = await fetch(`${API_BASE}/notifications?user_id=${currentUserId}&limit=20`);
+                const result = await response.json();
+
+                if (result.success) {
+                    notifications = result.data.notifications;
+                    displayNotifications(notifications);
+                    updateUnreadCount();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar notificações:', error);
+                showError('Erro ao carregar notificações');
+            }
+        }
+
+        // Exibir notificações
+        function displayNotifications(notifications) {
+            const container = document.getElementById('notificationsList');
+            
+            if (notifications.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="fas fa-bell-slash fa-2x"></i>
+                        <p>Nenhuma notificação encontrada</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = notifications.map(notification => `
+                <div class="notification-item ${notification.status === 'unread' ? 'unread' : ''} ${notification.priority === 'high' ? 'high-priority' : ''} ${notification.type}">
+                    <div class="notification-title">${notification.title}</div>
+                    <div class="notification-message">${notification.message}</div>
+                    <div class="notification-meta">
+                        <div>
+                            <span class="notification-type type-${notification.type}">${notification.type}</span>
+                            <span class="badge bg-${notification.priority === 'high' ? 'danger' : notification.priority === 'normal' ? 'primary' : 'secondary'}">${notification.priority}</span>
+                        </div>
+                        <div>
+                            ${notification.status === 'unread' ? 
+                                `<button class="btn btn-sm btn-outline-primary" onclick="markAsRead('${notification.id}')">
+                                    <i class="fas fa-check"></i> Marcar como Lida
+                                </button>` : ''
+                            }
+                            <small>${new Date(notification.created_at).toLocaleString('pt-BR')}</small>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar contador de não lidas
+        async function updateUnreadCount() {
+            try {
+                const response = await fetch(`${API_BASE}/notifications/unread?user_id=${currentUserId}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('unreadCount').textContent = result.data.unread_count;
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar contador:', error);
+            }
+        }
+
+        // Enviar notificação
+        async function sendNotification(e) {
+            e.preventDefault();
+            
+            const userId = document.getElementById('userId').value;
+            const title = document.getElementById('notificationTitle').value;
+            const message = document.getElementById('notificationMessage').value;
+            const type = document.getElementById('notificationType').value;
+            const priority = document.getElementById('notificationPriority').value;
+
+            if (!userId) {
+                showError('Selecione um usuário');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/notifications`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        title,
+                        message,
+                        type,
+                        priority
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess('Notificação enviada com sucesso!');
+                    document.getElementById('sendNotificationForm').reset();
+                    loadNotifications();
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao enviar notificação:', error);
+                showError('Erro ao enviar notificação');
+            }
+        }
+
+        // Enviar notificação por email
+        async function sendEmailNotification() {
+            const userId = document.getElementById('userId').value;
+            const title = document.getElementById('notificationTitle').value;
+            const message = document.getElementById('notificationMessage').value;
+
+            if (!userId || !title || !message) {
+                showError('Preencha todos os campos obrigatórios');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/notifications/email`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        subject: title,
+                        message
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess('Email enviado com sucesso!');
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao enviar email:', error);
+                showError('Erro ao enviar email');
+            }
+        }
+
+        // Enviar push notification
+        async function sendPushNotification() {
+            const userId = document.getElementById('userId').value;
+            const title = document.getElementById('notificationTitle').value;
+            const message = document.getElementById('notificationMessage').value;
+
+            if (!userId || !title || !message) {
+                showError('Preencha todos os campos obrigatórios');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/notifications/push`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        title,
+                        body: message
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess('Push notification enviado com sucesso!');
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao enviar push:', error);
+                showError('Erro ao enviar push notification');
+            }
+        }
+
+        // Marcar como lida
+        async function markAsRead(notificationId) {
+            try {
+                const response = await fetch(`${API_BASE}/notifications/${notificationId}/read`, {
+                    method: 'PUT'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    loadNotifications();
+                }
+            } catch (error) {
+                console.error('Erro ao marcar como lida:', error);
+            }
+        }
+
+        // Marcar todas como lidas
+        async function markAllAsRead() {
+            try {
+                const response = await fetch(`${API_BASE}/notifications/read-all`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: currentUserId
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess(`${result.data.updated_count} notificações marcadas como lidas`);
+                    loadNotifications();
+                }
+            } catch (error) {
+                console.error('Erro ao marcar todas como lidas:', error);
+                showError('Erro ao marcar todas como lidas');
+            }
+        }
+
+        // Carregar configurações
+        async function loadSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/notifications/settings/${currentUserId}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    settings = result.data;
+                    displaySettings(settings);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar configurações:', error);
+            }
+        }
+
+        // Exibir configurações
+        function displaySettings(settings) {
+            document.getElementById('emailEnabled').checked = settings.email_enabled;
+            document.getElementById('pushEnabled').checked = settings.push_enabled;
+            document.getElementById('inAppEnabled').checked = settings.in_app_enabled;
+            document.getElementById('quietHoursStart').value = settings.quiet_hours_start;
+            document.getElementById('quietHoursEnd').value = settings.quiet_hours_end;
+        }
+
+        // Salvar configurações
+        async function saveSettings(e) {
+            e.preventDefault();
+
+            const settingsData = {
+                email_enabled: document.getElementById('emailEnabled').checked,
+                push_enabled: document.getElementById('pushEnabled').checked,
+                in_app_enabled: document.getElementById('inAppEnabled').checked,
+                quiet_hours_start: document.getElementById('quietHoursStart').value,
+                quiet_hours_end: document.getElementById('quietHoursEnd').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/notifications/settings/${currentUserId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(settingsData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess('Configurações salvas com sucesso!');
+                    settings = result.data;
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao salvar configurações:', error);
+                showError('Erro ao salvar configurações');
+            }
+        }
+
+        // Carregar histórico
+        async function loadHistory() {
+            const type = document.getElementById('historyTypeFilter').value;
+            const startDate = document.getElementById('historyStartDate').value;
+            const endDate = document.getElementById('historyEndDate').value;
+
+            try {
+                const params = new URLSearchParams({
+                    user_id: currentUserId,
+                    limit: '50'
+                });
+
+                if (type) params.append('type', type);
+                if (startDate) params.append('start_date', startDate);
+                if (endDate) params.append('end_date', endDate);
+
+                const response = await fetch(`${API_BASE}/notifications/history?${params}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    displayHistory(result.data);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar histórico:', error);
+                showError('Erro ao carregar histórico');
+            }
+        }
+
+        // Exibir histórico
+        function displayHistory(data) {
+            const container = document.getElementById('historyList');
+            
+            if (data.notifications.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="fas fa-history fa-2x"></i>
+                        <p>Nenhuma notificação encontrada no período</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="mb-3">
+                    <h6>Estatísticas:</h6>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="badge bg-primary">Total: ${data.pagination.total}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="badge bg-success">Lidas: ${data.stats.system_read || 0 + data.stats.task_read || 0}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="badge bg-warning">Não Lidas: ${data.stats.system_unread || 0 + data.stats.task_unread || 0}</span>
+                        </div>
+                    </div>
+                </div>
+                ${data.notifications.map(notification => `
+                    <div class="notification-item ${notification.type}">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-message">${notification.message}</div>
+                        <div class="notification-meta">
+                            <div>
+                                <span class="notification-type type-${notification.type}">${notification.type}</span>
+                                <span class="badge bg-${notification.status === 'read' ? 'success' : 'warning'}">${notification.status}</span>
+                            </div>
+                            <small>${new Date(notification.created_at).toLocaleString('pt-BR')}</small>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // Atualizar notificações
+        function refreshNotifications() {
+            loadNotifications();
+        }
+
+        // Configurar atualizações em tempo real
+        function setupRealTimeUpdates() {
+            // Simular atualizações em tempo real (em produção, usar WebSocket)
+            setInterval(() => {
+                updateUnreadCount();
+            }, 30000); // Atualizar a cada 30 segundos
+        }
+
+        // Funções de utilidade
+        function showSuccess(message) {
+            alert('✅ ' + message);
+        }
+
+        function showError(message) {
+            alert('❌ ' + message);
+        }
+
+        // Definir datas padrão para histórico
+        window.addEventListener('load', function() {
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            
+            document.getElementById('historyEndDate').value = today.toISOString().split('T')[0];
+            document.getElementById('historyStartDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>

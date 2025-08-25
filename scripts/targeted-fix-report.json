@@ -1,0 +1,229 @@
+{
+  "timestamp": "2025-08-22T16:17:59.704Z",
+  "targetFiles": 30,
+  "summary": {
+    "totalProcessed": 30,
+    "totalModified": 16,
+    "totalErrors": 0,
+    "successRate": "53.33%"
+  },
+  "modifications": [
+    {
+      "success": true,
+      "file": "frontend/public/external-integrations.html",
+      "modifications": 2,
+      "details": [
+        "aria-labelledby adicionado para select com id: eventType",
+        "aria-labelledby adicionado para select com id: testIntegration"
+      ],
+      "backupPath": "frontend/public/external-integrations.html.targeted-backup-2025-08-22T16-17-59-565Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/financial-management.html",
+      "modifications": 7,
+      "details": [
+        "aria-labelledby adicionado para select com id: budgetCategory",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "frontend/public/financial-management.html.targeted-backup-2025-08-22T16-17-59-573Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/index.html",
+      "modifications": 2,
+      "details": [
+        "CSS reordenado: animation após -webkit-animation",
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "frontend/public/index.html.targeted-backup-2025-08-22T16-17-59-587Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/integration-management.html",
+      "modifications": 5,
+      "details": [
+        "aria-labelledby adicionado para select com id: connectionType",
+        "aria-labelledby adicionado para select com id: webhookConnection",
+        "aria-labelledby adicionado para select com id: apiMethod",
+        "aria-labelledby adicionado para select com id: fileFormat",
+        "aria-labelledby adicionado para select com id: webhookMethod"
+      ],
+      "backupPath": "frontend/public/integration-management.html.targeted-backup-2025-08-22T16-17-59-592Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/login-screen.html",
+      "modifications": 2,
+      "details": [
+        "CSS reordenado: animation após -webkit-animation",
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "frontend/public/login-screen.html.targeted-backup-2025-08-22T16-17-59-602Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/main.html",
+      "modifications": 2,
+      "details": [
+        "CSS reordenado: animation após -webkit-animation",
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "frontend/public/main.html.targeted-backup-2025-08-22T16-17-59-610Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/payments-management.html",
+      "modifications": 8,
+      "details": [
+        "aria-labelledby adicionado para select com id: paymentType",
+        "aria-labelledby adicionado para select com id: recipient",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "frontend/public/payments-management.html.targeted-backup-2025-08-22T16-17-59-618Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/plans.html",
+      "modifications": 3,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "frontend/public/plans.html.targeted-backup-2025-08-22T16-17-59-626Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/profile-selector.html",
+      "modifications": 1,
+      "details": [
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "frontend/public/profile-selector.html.targeted-backup-2025-08-22T16-17-59-633Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/purchases-management.html",
+      "modifications": 5,
+      "details": [
+        "aria-labelledby adicionado para select com id: itemGroup",
+        "aria-labelledby adicionado para select com id: itemPriority",
+        "aria-labelledby adicionado para select com id: filterGroup",
+        "aria-labelledby adicionado para select com id: filterStatus",
+        "aria-labelledby adicionado para select com id: editStatus"
+      ],
+      "backupPath": "frontend/public/purchases-management.html.targeted-backup-2025-08-22T16-17-59-637Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/reports-advanced-management.html",
+      "modifications": 8,
+      "details": [
+        "aria-labelledby adicionado para select com id: reportType",
+        "aria-labelledby adicionado para select com id: reportPublic",
+        "aria-labelledby adicionado para select com id: widgetType",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "frontend/public/reports-advanced-management.html.targeted-backup-2025-08-22T16-17-59-650Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/showcase-funcional.html",
+      "modifications": 5,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "frontend/public/showcase-funcional.html.targeted-backup-2025-08-22T16-17-59-656Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/showcase-telas.html",
+      "modifications": 5,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "frontend/public/showcase-telas.html.targeted-backup-2025-08-22T16-17-59-663Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/splash.html",
+      "modifications": 8,
+      "details": [
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "frontend/public/splash.html.targeted-backup-2025-08-22T16-17-59-673Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/start.html",
+      "modifications": 2,
+      "details": [
+        "CSS reordenado: animation após -webkit-animation",
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "frontend/public/start.html.targeted-backup-2025-08-22T16-17-59-678Z"
+    },
+    {
+      "success": true,
+      "file": "frontend/public/timeclock.html",
+      "modifications": 5,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "frontend/public/timeclock.html.targeted-backup-2025-08-22T16-17-59-693Z"
+    }
+  ],
+  "errors": [],
+  "backups": [
+    "frontend/public/external-integrations.html.targeted-backup-2025-08-22T16-17-59-565Z",
+    "frontend/public/financial-management.html.targeted-backup-2025-08-22T16-17-59-573Z",
+    "frontend/public/index.html.targeted-backup-2025-08-22T16-17-59-587Z",
+    "frontend/public/integration-management.html.targeted-backup-2025-08-22T16-17-59-592Z",
+    "frontend/public/login-screen.html.targeted-backup-2025-08-22T16-17-59-602Z",
+    "frontend/public/main.html.targeted-backup-2025-08-22T16-17-59-610Z",
+    "frontend/public/payments-management.html.targeted-backup-2025-08-22T16-17-59-618Z",
+    "frontend/public/plans.html.targeted-backup-2025-08-22T16-17-59-626Z",
+    "frontend/public/profile-selector.html.targeted-backup-2025-08-22T16-17-59-633Z",
+    "frontend/public/purchases-management.html.targeted-backup-2025-08-22T16-17-59-637Z",
+    "frontend/public/reports-advanced-management.html.targeted-backup-2025-08-22T16-17-59-650Z",
+    "frontend/public/showcase-funcional.html.targeted-backup-2025-08-22T16-17-59-656Z",
+    "frontend/public/showcase-telas.html.targeted-backup-2025-08-22T16-17-59-663Z",
+    "frontend/public/splash.html.targeted-backup-2025-08-22T16-17-59-673Z",
+    "frontend/public/start.html.targeted-backup-2025-08-22T16-17-59-678Z",
+    "frontend/public/timeclock.html.targeted-backup-2025-08-22T16-17-59-693Z"
+  ]
+}

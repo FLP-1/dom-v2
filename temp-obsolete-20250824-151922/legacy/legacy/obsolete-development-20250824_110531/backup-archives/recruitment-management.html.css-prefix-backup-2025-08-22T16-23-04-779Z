@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Recrutamento - DOM v2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .recruitment-card {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border-left: 4px solid #007bff;
+}
+        .recruitment-card:hover {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+        .recruitment-card.active {
+    border-left-color: #28a745;
+}
+        .recruitment-card.paused {
+    border-left-color: #ffc107;
+}
+        .recruitment-card.closed {
+    border-left-color: #dc3545;
+}
+        .application-card {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border-left: 4px solid #6c757d;
+}
+        .application-card.pending {
+    border-left-color: #ffc107;
+}
+        .application-card.reviewed {
+    border-left-color: #17a2b8;
+}
+        .application-card.shortlisted {
+    border-left-color: #28a745;
+}
+        .application-card.interviewed {
+    border-left-color: #007bff;
+}
+        .application-card.hired {
+    border-left-color: #28a745;
+}
+        .application-card.rejected {
+    border-left-color: #dc3545;
+}
+        .status-badge {
+    font-size: 0.8em;
+}
+        .salary-range {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+        .requirements-list {
+    padding: 0;
+    list-style: none;
+}
+        .requirements-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+        .requirements-list li:before {
+    color: #28a745;
+    content: "✓";
+    font-weight: bold;
+    margin-right: 10px;
+}
+        .interview-scheduled {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #c3e6cb;
+    background-color: #d4edda;
+    border-radius: 8px;
+}
+        .analytics-card {
+    padding: 20px;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+        .rating-stars {
+    color: #ffc107;
+    font-size: 1.2em;
+}
+    </style>
+  <style>
+    .extracted-style-1 {
+    display: none;
+}
+    .extracted-style-2 {
+    display: none;
+}
+    .extracted-style-3 {
+    display: none;
+}
+    .extracted-style-4 {
+    width: ${analytics.conversionRate;
+}% }
+  </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar" role="navigation">
+                <div class="position-sticky pt-3">
+                    <h5 class="px-3 mb-3">Sistema de Recrutamento</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showTab('jobs')" aria-label="Gerenciar vagas de emprego" tabindex="0">
+                                <i class="fas fa-briefcase" aria-hidden="true"></i> Vagas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('applications')" aria-label="Gerenciar candidaturas" tabindex="0">
+                                <i class="fas fa-users" aria-hidden="true"></i> Candidaturas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('interviews')" aria-label="Gerenciar entrevistas" tabindex="0">
+                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> Entrevistas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('analytics')" aria-label="Ver analytics de recrutamento" tabindex="0">
+                                <i class="fas fa-chart-bar" aria-hidden="true"></i> Analytics
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" role="main">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Sistema de Recrutamento</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="refreshData()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Atualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jobs Tab -->
+                <div id="jobs-tab" class="tab-content">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h3>Vagas de Emprego</h3>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" onclick="showCreateJobModal()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Nova Vaga
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select aria-label="Seleção" class="form-select" id="filter-job-status" tabindex="0">
+                                <option value="">Todos os Status</option>
+                                <option value="active">Ativa</option>
+                                <option value="paused">Pausada</option>
+                                <option value="closed">Fechada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary" onclick="filterJobs()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="jobs-list" class="row">
+                        <!-- Vagas serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Applications Tab -->
+                <div id="applications-tab" class="tab-content" class="extracted-style-1">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h3>Candidaturas</h3>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select aria-label="Seleção" class="form-select" id="filter-application-status" tabindex="0">
+                                <option value="">Todos os Status</option>
+                                <option value="pending">Pendente</option>
+                                <option value="reviewed">Revisada</option>
+                                <option value="shortlisted">Selecionada</option>
+                                <option value="interviewed">Entrevistada</option>
+                                <option value="hired">Contratada</option>
+                                <option value="rejected">Rejeitada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select aria-label="Seleção" class="form-select" id="filter-application-job" tabindex="0">
+                                <option value="">Todas as Vagas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary" onclick="filterApplications()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="applications-list">
+                        <!-- Candidaturas serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Interviews Tab -->
+                <div id="interviews-tab" class="tab-content" class="extracted-style-2">
+                    <h3>Entrevistas</h3>
+                    <div id="interviews-list">
+                        <!-- Entrevistas serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics-tab" class="tab-content" class="extracted-style-3">
+                    <h3>Analytics de Recrutamento</h3>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select aria-label="Seleção" class="form-select" id="analytics-period" tabindex="0">
+                                <option value="7">Últimos 7 dias</option>
+                                <option value="30" selected>Últimos 30 dias</option>
+                                <option value="90">Últimos 90 dias</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary" onclick="loadAnalytics()" tabindex="0">
+                                <i class="fas"aria-hidden="true"></i> Carregar Analytics
+                            </button>
+                        </div>
+                    </div>
+                    <div id="analytics-content">
+                        <!-- Analytics serão carregados aqui -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Create Job Modal -->
+    <div class="modal fade" id="createJobModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Criar Nova Vaga</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createJobForm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label class="form-label">Título da Vaga</label>
+                                    <input id="job-title" aria-label="text input" type="text" class="form-control" id="job-title" name="job-title" aria-label="Título da vaga" required tabindex="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Contrato</label>
+                                    <select aria-label="Seleção" class="form-select" id="job-contract-type" name="job-contract-type" aria-label="Tipo de contrato" required tabindex="0">
+                                        <option value="full_time">Tempo Integral</option>
+                                        <option value="part_time">Meio Período</option>
+                                        <option value="temporary">Temporário</option>
+                                        <option value="freelance">Freelance</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="job-description" rows="4" tabindex="0"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Requisitos (um por linha)</label>
+                                    <textarea class="form-control" id="job-requirements" rows="6" placeholder="Experiência em...&#10;Conhecimento de...&#10;Formação em..." tabindex="0"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Responsabilidades (um por linha)</label>
+                                    <textarea class="form-control" id="job-responsibilities" rows="6" placeholder="Responsável por...&#10;Desenvolver...&#10;Gerenciar..." tabindex="0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Salário Mínimo</label>
+                                    <input id="job-salary-min" aria-label="number input" type="number" class="form-control" id="job-salary-min" step="0.01" tabindex="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Salário Máximo</label>
+                                    <input id="job-salary-max" aria-label="number input" type="number" class="form-control" id="job-salary-max" step="0.01" tabindex="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Localização</label>
+                                    <input id="job-location" aria-label="text input" type="text" class="form-control" id="job-location" tabindex="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Horário de Trabalho</label>
+                                    <input id="job-schedule" aria-label="text input" type="text" class="form-control" id="job-schedule" placeholder="Ex: Segunda a Sexta, 8h às 18h" tabindex="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Data de Expiração</label>
+                                    <input id="job-expires" aria-label="date input" type="date" class="form-control" id="job-expires" tabindex="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input id="job-remote" aria-label="checkbox input" class="form-check-input" type="checkbox" id="job-remote" tabindex="0">
+                                <label class="form-check-label" for="job-remote">
+                                    Trabalho Remoto
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Benefícios (um por linha)</label>
+                            <textarea class="form-control" id="job-benefits" rows="3" placeholder="Vale refeição&#10;Plano de saúde&#10;Vale transporte" tabindex="0"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="createJob()" tabindex="0">Criar Vaga</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Details Modal -->
+    <div class="modal fade" id="applicationDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes da Candidatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Fechar modal" tabindex="0"></button>
+                </div>
+                <div class="modal-body" id="application-details-content">
+                    <!-- Detalhes serão carregados aqui -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Fechar</button>
+                    <div id="application-actions">
+                        <button type="button" class="btn btn-success" onclick="scheduleInterview()" tabindex="0">
+                            <i class="fas"aria-hidden="true"></i> Agendar Entrevista
+                        </button>
+                        <button type="button" class="btn btn-warning" onclick="updateApplicationStatus('shortlisted')" tabindex="0">
+                            <i class="fas"aria-hidden="true"></i> Selecionar
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="updateApplicationStatus('rejected')" tabindex="0">
+                            <i class="fas"aria-hidden="true"></i> Rejeitar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentUser = null;
+        let currentApplicationId = null;
+        let jobs = [];
+        let applications = [];
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadCurrentUser();
+    
+            loadJobs();
+    
+            loadApplications();
+    
+            loadAnalytics();
+});
+
+        // Funções de navegação
+        function showTab(tabName) {
+    
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+});
+            document.querySelectorAll('.nav-link').forEach(link => {
+    
+                link.classList.remove('active');
+});
+
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Carregar usuário atual
+        async function loadCurrentUser() {
+    
+            try {
+                const token = localStorage.getItem('token');
+    
+                if (!token) {
+                    window.location.href = 'login.html';
+    
+                    return;
+}
+
+                const response = await fetch('/api/users/me', {
+    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    currentUser = data.data;
+}
+            } catch (error) {
+    console.error('Erro ao carregar usuário:', error);
+}
+        }
+
+        // Carregar vagas
+        async function loadJobs() {
+    const response = await fetch('/api/recruitment/jobs', {
+                    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    jobs = data.data;
+    
+                    displayJobs();
+    
+                    populateJobSelects();
+}
+            } catch (error) {
+    console.error('Erro ao carregar vagas:', error);
+}
+        }
+
+        // Exibir vagas
+        function displayJobs() {
+    
+            const container = document.getElementById('jobs-list');
+    
+            container.innerHTML = '';
+    
+
+            jobs.forEach(job => {
+                const card = document.createElement('div');
+    
+                card.className = 'col-md-6 col-lg-4 mb-3';
+    
+                card.innerHTML = `
+                    <div class="card recruitment-card ${job.status;
+}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0">${
+    job.title;
+}</h5>
+                                <span class="badge status-badge bg-${
+    getStatusColor(job.status);
+}">${
+    job.status;
+}</span>
+                            </div>
+                            <p class="card-text text-muted">${
+    job.description || 'Sem descrição';
+}</p>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas"aria-hidden="true"></i> ${
+    job._count.applications;
+} candidaturas
+                                </small>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas"aria-hidden="true"></i> ${
+    job.location || 'Localização não informada';
+}
+                                </small>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas"aria-hidden="true"></i> ${
+    job.contract_type;
+}
+                                </small>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">Criada: ${
+    new Date(job.created_at).toLocaleDateString();
+}</small>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewJobDetails('${
+    job.id;
+}')" tabindex="0">
+                                    <i class="fas"aria-hidden="true"></i> Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Carregar candidaturas
+        async function loadApplications() {
+    const response = await fetch('/api/recruitment/applications', {
+                    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    applications = data.data;
+    
+                    displayApplications();
+}
+            } catch (error) {
+    console.error('Erro ao carregar candidaturas:', error);
+}
+        }
+
+        // Exibir candidaturas
+        function displayApplications() {
+    
+            const container = document.getElementById('applications-list');
+    
+            container.innerHTML = '';
+    
+
+            applications.forEach(application => {
+                const card = document.createElement('div');
+    
+                card.className = 'col-md-6 col-lg-4 mb-3';
+    
+                card.innerHTML = `
+                    <div class="card application-card ${application.status;
+}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 class="card-title mb-0">${
+    application.candidate_name;
+}</h6>
+                                <span class="badge status-badge bg-${
+    getStatusColor(application.status);
+}">${
+    application.status;
+}</span>
+                            </div>
+                            <p class="card-text text-muted">${
+    application.job.title;
+}</p>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas"aria-hidden="true"></i> ${
+    application.candidate_email;
+}
+                                </small>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas"aria-hidden="true"></i> ${
+    application.rating || 'Não avaliado';
+}
+                                </small>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">Candidatura: ${
+    new Date(application.created_at).toLocaleDateString();
+}</small>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewApplicationDetails('${
+    application.id;
+}')" tabindex="0">
+                                    <i class="fas"aria-hidden="true"></i> Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Carregar analytics
+        async function loadAnalytics() {
+    
+            try {
+                const period = document.getElementById('analytics-period').value;
+    
+                const token = localStorage.getItem('token');
+    
+                const response = await fetch(`/api/recruitment/analytics?period=${period;
+}`, {
+    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    displayAnalytics(data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar analytics:', error);
+}
+        }
+
+        // Exibir analytics
+        function displayAnalytics(analytics) {
+    
+            const container = document.getElementById('analytics-content');
+    
+            container.innerHTML = `
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${analytics.totalJobs;
+}</h4>
+                            <p>Total de Vagas</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${
+    analytics.activeJobs;
+}</h4>
+                            <p>Vagas Ativas</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${
+    analytics.totalApplications;
+}</h4>
+                            <p>Candidaturas</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="analytics-card">
+                            <h4>${
+    analytics.interviewsScheduled;
+}</h4>
+                            <p>Entrevistas Agendadas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Taxa de Conversão</h5>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar bg-success" class="extracted-style-4">
+                                        ${
+    analytics.conversionRate;
+}%
+                                    </div>
+                                </div>
+                                <p class="card-text">Candidaturas que resultaram em entrevistas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Avaliação Média</h5>
+                                <div class="rating-stars">
+                                    ${
+    generateStars(analytics.averageRating);
+}
+                                </div>
+                                <p class="card-text">${
+    analytics.averageRating.toFixed(1);
+} / 5.0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Funções auxiliares
+        function getStatusColor(status) {
+    switch (status) {
+                case 'active': return 'success';
+    case 'paused': return 'warning';
+    case 'closed': return 'danger';
+    case 'pending': return 'warning';
+    case 'reviewed': return 'info';
+    case 'shortlisted': return 'success';
+    case 'interviewed': return 'primary';
+    case 'hired': return 'success';
+    case 'rejected': return 'danger';
+    default: return 'secondary';
+}
+        }
+
+        function generateStars(rating) {
+    
+            let stars = '';
+    
+            for (let i = 1;
+     i <= 5;
+     i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas"aria-hidden="true"></i>';
+} else if (i - 0.5 <= rating) {
+    
+                    stars += '<i class="fas"aria-hidden="true"></i>';
+} else {
+    
+                    stars += '<i class="far fa-star"></i>';
+}
+            }
+            return stars;
+        }
+
+        function populateJobSelects() {
+    
+            const select = document.getElementById('filter-application-job');
+    
+            if (select) {
+                select.innerHTML = '<option value="">Todas as Vagas</option>';
+    
+                jobs.forEach(job => {
+                    const option = document.createElement('option');
+    
+                    option.value = job.id;
+    
+                    option.textContent = job.title;
+    
+                    select.appendChild(option);
+});
+            }
+        }
+
+        // Funções de modal
+        function showCreateJobModal() {
+    
+            new bootstrap.Modal(document.getElementById('createJobModal')).show();
+}
+
+        // Criar vaga
+        async function createJob() {
+    const salaryRange = salaryMin || salaryMax ? {
+                    min: salaryMin ? parseFloat(salaryMin) : null,
+                    max: salaryMax ? parseFloat(salaryMax) : null,
+                    currency: 'BRL';
+} : null;
+
+                const jobData = {
+    title: document.getElementById('job-title').value,
+                    description: document.getElementById('job-description').value,
+                    requirements: requirements,
+                    responsibilities: responsibilities,
+                    salary_range: salaryRange,
+                    contract_type: document.getElementById('job-contract-type').value,
+                    work_schedule: document.getElementById('job-schedule').value,
+                    location: document.getElementById('job-location').value,
+                    remote_work: document.getElementById('job-remote').checked,
+                    benefits: benefits,
+                    expires_at: document.getElementById('job-expires').value || null;
+};
+
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/recruitment/jobs', {
+    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+                if (response.ok) {
+    
+                    bootstrap.Modal.getInstance(document.getElementById('createJobModal')).hide();
+    
+                    loadJobs();
+    
+                    alert('Vaga criada com sucesso!');
+} else {
+    alert('Erro ao criar vaga: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao criar vaga:', error);
+}
+        }
+
+        // Ver detalhes da candidatura
+        async function viewApplicationDetails(applicationId) {
+    
+            try {
+                const token = localStorage.getItem('token');
+    
+                const response = await fetch(`/api/recruitment/applications/${applicationId;
+}`, {
+    headers: {
+                        'Authorization': `Bearer ${token;
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    displayApplicationDetails(data.data);
+    
+                    currentApplicationId = applicationId;
+    
+                    new bootstrap.Modal(document.getElementById('applicationDetailsModal')).show();
+}
+            } catch (error) {
+    console.error('Erro ao carregar detalhes:', error);
+}
+        }
+
+        // Exibir detalhes da candidatura
+        function displayApplicationDetails(application) {
+    
+            const container = document.getElementById('application-details-content');
+    
+            
+            container.innerHTML = `
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4>${application.candidate_name;
+}</h4>
+                        <p class="text-muted">${
+    application.job.title;
+}</p>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <strong>Email:</strong> ${
+    application.candidate_email;
+}
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Telefone:</strong> ${
+    application.candidate_phone || 'Não informado';
+}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <strong>Experiência:</strong> ${
+    application.experience_years || 0;
+} anos
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Formação:</strong> ${
+    application.education_level || 'Não informada';
+}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Habilidades:</strong>
+                            <div class="mt-2">
+                                ${
+    application.skills ? application.skills.map(skill => 
+                                    `<span class="badge bg-primary me-1">${skill;
+}</span>`
+                                ).join('') : 'Não informadas'}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Disponibilidade:</strong> ${
+    application.availability || 'Não informada';
+}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Pretensão Salarial:</strong> R$ ${
+    application.expected_salary || 'Não informada';
+}
+                        </div>
+                        
+                        ${
+    application.cover_letter ? `
+                            <div class="mb-3">
+                                <strong>Carta de Apresentação:</strong>
+                                <div class="mt-2 p-3 bg-light rounded">
+                                    ${application.cover_letter;
+}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">Informações</h6>
+                                <p><strong>Status:</strong> 
+                                    <span class="badge bg-${
+    getStatusColor(application.status);
+}">${
+    application.status;
+}</span>
+                                </p>
+                                <p><strong>Avaliação:</strong> 
+                                    <span class="rating-stars">${
+    generateStars(application.rating || 0);
+}</span>
+                                </p>
+                                <p><strong>Candidatura:</strong> ${
+    new Date(application.created_at).toLocaleDateString();
+}</p>
+                                ${
+    application.reviewer ? `<p><strong>Avaliado por:</strong> ${application.reviewer.name;
+}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Atualizar status da candidatura
+        async function updateApplicationStatus(status) {
+    const notes = prompt('Observações (opcional):');
+    const rating = prompt('Avaliação (1-5):');
+}/status`, {
+    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify({
+    status,
+                        notes,
+                        rating: rating ? parseInt(rating) : null;
+})
+                });
+
+                if (response.ok) {
+    
+                    bootstrap.Modal.getInstance(document.getElementById('applicationDetailsModal')).hide();
+    
+                    loadApplications();
+    
+                    alert('Status atualizado com sucesso!');
+} else {
+    alert('Erro ao atualizar status: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao atualizar status:', error);
+}
+        }
+
+        // Agendar entrevista
+        async function scheduleInterview() {
+    const interviewDate = prompt('Data da entrevista (YYYY-MM-DD HH:MM):');
+    const interviewType = prompt('Tipo de entrevista (in_person, video, phone):');
+    const location = prompt('Localização:');
+    const duration = prompt('Duração (minutos):');
+}
+            
+            try {
+    const response = await fetch('/api/recruitment/interviews', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token;
+}`
+                    },
+                    body: JSON.stringify({
+    application_id: currentApplicationId,
+                        interviewer_id: currentUser.id,
+                        interview_date: interviewDate,
+                        interview_type: interviewType,
+                        location,
+                        duration_minutes: duration ? parseInt(duration) : null;
+})
+                });
+
+                if (response.ok) {
+    
+                    alert('Entrevista agendada com sucesso!');
+    
+                    bootstrap.Modal.getInstance(document.getElementById('applicationDetailsModal')).hide();
+} else {
+    alert('Erro ao agendar entrevista: ' + error.message);
+}
+            } catch (error) {
+    console.error('Erro ao agendar entrevista:', error);
+}
+        }
+
+        // Filtrar vagas
+        function filterJobs() {
+    
+            const status = document.getElementById('filter-job-status').value;
+    
+            // Implementar filtros aqui
+            loadJobs();
+}
+
+        // Filtrar candidaturas
+        function filterApplications() {
+    
+            const status = document.getElementById('filter-application-status').value;
+    
+            const jobId = document.getElementById('filter-application-job').value;
+    
+            // Implementar filtros aqui
+            loadApplications();
+}
+
+        // Atualizar dados
+        function refreshData() {
+    
+            loadJobs();
+    
+            loadApplications();
+    
+            loadAnalytics();
+}
+    </script>
+</body>
+</html>

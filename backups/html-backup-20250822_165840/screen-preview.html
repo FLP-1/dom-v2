@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Preview de Layouts das Telas</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            color: #333;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+            min-height: 100vh;
+}
+
+        .container {
+    
+            margin: 0 auto;
+    
+            padding: 20px;
+    
+            max-width: 1400px;
+}
+
+        .header {
+    
+            color: white;
+    
+            text-align: center;
+    
+            margin-bottom: 30px;
+}
+
+        .header h1 {
+    
+            font-size: 2.5rem;
+    
+            margin-bottom: 10px;
+    
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+        .header p {
+    
+            font-size: 1.1rem;
+    
+            opacity: 0.9;
+}
+
+        .controls {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 15px;
+    
+            margin-bottom: 20px;
+    
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+        .control-group {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 15px;
+    
+            flex-wrap: wrap;
+}
+
+        .control-group label {
+    
+            color: #555;
+    
+            font-weight: 600;
+}
+
+        select, input {
+    
+            padding: 10px 15px;
+    
+            border: 2px solid #e1e5e9;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+    
+            -webkit-transition: all 0.3s ease;
+}
+
+        select:focus, input:focus {
+    
+            outline: none;
+    
+            border-color: #667eea;
+    
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+        .btn {
+    
+            display: inline-block;
+    
+            padding: 10px 20px;
+    
+            border: none;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-weight: 600;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            text-decoration: none;
+}
+
+        .btn-primary {
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+        .btn-primary:hover {
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+    
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+        .preview-container {
+    
+            display: grid;
+    
+            height: calc(100vh - 200px);
+    
+            grid-template-columns: 350px 1fr;
+    
+            gap: 20px;
+}
+
+        .screen-list {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 15px;
+    
+            overflow-y: auto;
+    
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+        .screen-item {
+    
+            padding: 15px;
+    
+            border: 2px solid transparent;
+    
+    transition: all 0.3s ease;
+    
+            margin-bottom: 10px;
+    
+            border-radius: 10px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+}
+
+        .screen-item:hover {
+    
+            background: #f8f9fa;
+    
+    transform: translateX(5px);
+    
+            -webkit-transform: translateX(5px);
+}
+
+        .screen-item.selected {
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            border-color: #667eea;
+}
+
+        .screen-item.top {
+    
+            border-left: 4px solid #28a745;
+}
+
+        .screen-item.premium {
+    
+            border-left: 4px solid #ffc107;
+}
+
+        .screen-item.basic {
+    
+            border-left: 4px solid #17a2b8;
+}
+
+        .screen-name {
+    
+            font-weight: 600;
+    
+            margin-bottom: 5px;
+}
+
+        .screen-info {
+    
+            font-size: 12px;
+    
+            opacity: 0.8;
+}
+
+        .preview-area {
+    
+            display: flex;
+    
+            background: white;
+    
+            border-radius: 15px;
+    
+            overflow: hidden;
+    
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    
+            flex-direction: column;
+}
+
+        .preview-header {
+    
+            padding: 20px;
+    
+            background: #f8f9fa;
+    
+            border-bottom: 1px solid #e1e5e9;
+}
+
+        .preview-title {
+    
+            color: #333;
+    
+            font-size: 1.5rem;
+    
+            font-weight: 600;
+    
+            margin-bottom: 10px;
+}
+
+        .preview-stats {
+    
+            display: flex;
+    
+            color: #666;
+    
+            gap: 20px;
+    
+            font-size: 14px;
+}
+
+        .preview-frame {
+    
+            padding: 20px;
+    
+            background: #f8f9fa;
+    
+            flex: 1;
+    
+            overflow-y: auto;
+}
+
+        .no-preview {
+    
+            display: flex;
+    
+            height: 100%;
+    
+            color: #666;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            font-size: 1.1rem;
+    
+            text-align: center;
+}
+
+        /* Layouts específicos */
+        .layout-splash {
+    
+            display: flex;
+    
+            padding: 40px;
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            border-radius: 15px;
+    
+            text-align: center;
+    
+            min-height: 400px;
+    
+            flex-direction: column;
+    
+            justify-content: center;
+    
+            align-items: center;
+}
+
+        .layout-login {
+    
+            margin: 0 auto;
+    
+            padding: 40px;
+    
+            background: white;
+    
+            border-radius: 15px;
+    
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    
+            max-width: 400px;
+}
+
+        .layout-dashboard {
+    
+            display: grid;
+    
+            height: 100%;
+    
+            grid-template-columns: 250px 1fr 300px;
+    
+            gap: 20px;
+}
+
+        .layout-tasks {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-budget {
+    
+            display: grid;
+    
+            grid-template-columns: 1fr 1fr;
+    
+            gap: 20px;
+}
+
+        .layout-employees {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-payments {
+    
+            display: grid;
+    
+            grid-template-columns: 1fr 1fr;
+    
+            gap: 20px;
+}
+
+        .layout-notifications {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-messages {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-navigation {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-budget-detail {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-budget-create {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-header {
+    
+            display: flex;
+    
+            padding: 15px 20px;
+    
+            background: white;
+    
+            border-bottom: 1px solid #e1e5e9;
+    
+            align-items: center;
+    
+            justify-content: space-between;
+}
+
+        .layout-sidebar {
+    
+            padding: 20px;
+    
+            color: white;
+    
+            background: #2c3e50;
+    
+            border-radius: 10px;
+}
+
+        .layout-content {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+}
+
+        .layout-widgets {
+    
+            padding: 20px;
+    
+            background: #f8f9fa;
+    
+            border-radius: 10px;
+}
+
+        .form-group {
+    
+            margin-bottom: 20px;
+}
+
+        .form-group label {
+    
+            display: block;
+    
+            color: #555;
+    
+            margin-bottom: 5px;
+    
+            font-weight: 600;
+}
+
+        .form-group input, .form-group select {
+    
+            width: 100%;
+    
+            padding: 12px;
+    
+            border: 2px solid #e1e5e9;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+}
+
+        .btn-submit {
+    
+            width: 100%;
+    
+            padding: 15px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            border-radius: 8px;
+    
+            font-size: 16px;
+    
+            font-weight: 600;
+    
+            cursor: pointer;
+}
+
+        .task-item {
+    
+            display: flex;
+    
+            padding: 15px;
+    
+            align-items: center;
+    
+            border-bottom: 1px solid #e1e5e9;
+}
+
+        .task-checkbox {
+    
+            width: 20px;
+    
+            height: 20px;
+    
+            margin-right: 15px;
+}
+
+        .task-content {
+    
+            flex: 1;
+}
+
+        .task-title {
+    
+            font-weight: 600;
+    
+            margin-bottom: 5px;
+}
+
+        .task-description {
+    
+            color: #666;
+    
+            font-size: 14px;
+}
+
+        .table {
+    
+            width: 100%;
+    
+            border-collapse: collapse;
+}
+
+        .table th, .table td {
+    
+            padding: 12px;
+    
+            text-align: left;
+    
+            border-bottom: 1px solid #e1e5e9;
+}
+
+        .table th {
+    
+            background: #f8f9fa;
+    
+            font-weight: 600;
+}
+
+        .notification-item {
+    
+            padding: 15px;
+    
+            background: #f8f9fa;
+    
+            margin-bottom: 10px;
+    
+            border-radius: 8px;
+    
+            border-left: 4px solid #667eea;
+}
+
+        .notification-title {
+    
+            font-weight: 600;
+    
+            margin-bottom: 5px;
+}
+
+        .notification-message {
+    
+            color: #666;
+    
+            font-size: 14px;
+}
+
+        .chart-placeholder {
+    
+            padding: 40px;
+    
+            border: 2px dashed #ddd;
+    
+            color: #666;
+    
+            background: #f8f9fa;
+    
+            border-radius: 10px;
+    
+            text-align: center;
+}
+
+        .metric-card {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+    
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    
+            text-align: center;
+}
+
+        .metric-value {
+    
+            color: #667eea;
+    
+            font-size: 2rem;
+    
+            font-weight: 600;
+    
+            margin-bottom: 5px;
+}
+
+        .metric-label {
+    
+            color: #666;
+    
+            font-size: 14px;
+}
+
+        .menu-item {
+    
+            padding: 10px 0;
+    
+            border-bottom: 1px solid #34495e;
+    
+            cursor: pointer;
+}
+
+        .menu-item:hover {
+    
+            background: #34495e;
+}
+
+        @media (max-width: 768px) {
+    
+            .preview-container {
+                grid-template-columns: 1fr;
+}
+            
+            .screen-list {
+    
+                max-height: 200px;
+}
+        }
+    </style>
+  <style>
+    .extracted-style-1 {
+     font-size: 3rem;
+     margin-bottom: 20px;
+}
+    .extracted-style-2 {
+     font-size: 1.2rem;
+     margin-bottom: 30px;
+}
+    .extracted-style-3 {
+    animation: spin 1s linear infinite;
+    -webkit-animation: spin 1s linear infinite;
+    width: 50px;
+    height: 50px;
+    border: 3px solid white;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+}
+    .extracted-style-4 {
+     margin-top: 20px;
+     opacity: 0.8;
+}
+    .extracted-style-5 {
+     color: #333;
+     text-align: center;
+     margin-bottom: 30px;
+}
+    .extracted-style-6 {
+     margin-bottom: 20px;
+}
+    .extracted-style-7 {
+     margin-bottom: 20px;
+}
+    .extracted-style-8 {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+     gap: 20px;
+}
+    .extracted-style-9 {
+     margin-bottom: 15px;
+}
+    .extracted-style-10 {
+     padding: 15px;
+     background: white;
+     border-radius: 8px;
+     margin-bottom: 15px;
+}
+    .extracted-style-11 {
+     color: #666;
+     font-size: 14px;
+}
+    .extracted-style-12 {
+     padding: 15px;
+     background: white;
+     border-radius: 8px;
+}
+    .extracted-style-13 {
+     color: #666;
+     font-size: 14px;
+}
+    .extracted-style-14 {
+     margin-bottom: 20px;
+}
+    .extracted-style-15 {
+     margin-bottom: 15px;
+}
+    .extracted-style-16 {
+     margin-bottom: 15px;
+}
+    .extracted-style-17 {
+     margin-bottom: 20px;
+}
+    .extracted-style-18 {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 20px;
+}
+    .extracted-style-19 {
+     margin-bottom: 20px;
+}
+    .extracted-style-20 {
+     margin-bottom: 20px;
+}
+    .extracted-style-21 {
+     color: green;
+}
+    .extracted-style-22 {
+     color: green;
+}
+    .extracted-style-23 {
+     color: orange;
+}
+    .extracted-style-24 {
+     margin-bottom: 15px;
+}
+    .extracted-style-25 {
+     margin-bottom: 15px;
+}
+    .extracted-style-26 {
+     padding: 15px;
+     background: #f8f9fa;
+     border-radius: 8px;
+}
+    .extracted-style-27 {
+     margin-bottom: 10px;
+}
+    .extracted-style-28 {
+     margin-bottom: 10px;
+}
+    .extracted-style-29 {
+     margin-bottom: 20px;
+}
+    .extracted-style-30 {
+     margin-bottom: 20px;
+}
+    .extracted-style-31 {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 20px;
+}
+    .extracted-style-32 {
+     padding: 15px;
+     background: #f8f9fa;
+     border-radius: 8px;
+}
+    .extracted-style-33 {
+     margin-bottom: 10px;
+}
+    .extracted-style-34 {
+     margin-bottom: 10px;
+}
+    .extracted-style-35 {
+     margin-bottom: 10px;
+}
+    .extracted-style-36 {
+     margin-bottom: 10px;
+}
+    .extracted-style-37 {
+     margin-bottom: 10px;
+}
+    .extracted-style-38 {
+     padding: 15px;
+     background: #f8f9fa;
+     border-radius: 8px;
+}
+    .extracted-style-39 {
+     margin-bottom: 10px;
+}
+    .extracted-style-40 {
+     margin-bottom: 10px;
+}
+    .extracted-style-41 {
+     margin-bottom: 10px;
+}
+    .extracted-style-42 {
+     color: #333;
+     text-align: center;
+     margin-bottom: 30px;
+}
+    .extracted-style-43 {
+     padding: 40px;
+     color: #666;
+     text-align: center;
+}
+  </style>
+</head>
+<body>
+    <!-- Container para o header reutilizável -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizável -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+        <div class="header">
+            <h1>📱 Preview de Layouts - DOM v2</h1>
+            <p>Visualize como as telas se parecem antes de implementar</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="categoryFilter">Filtrar por:</label>
+                <select id="categoryFilter" title="Filtrar por categoria" tabindex="0">
+                    <option value="">Todas as Categorias</option>
+                    <option value="Splash">Splash</option>
+                    <option value="Login">Login</option>
+                    <option value="Dashboard">Dashboard</option>
+                    <option value="Tasks">Tasks</option>
+                    <option value="Budget">Budget</option>
+                    <option value="Employees">Employees</option>
+                    <option value="Payments">Payments</option>
+                    <option value="Notifications">Notifications</option>
+                    <option value="Messages">Messages</option>
+                    <option value="Navigation">Navigation</option>
+                    <option value="Auth">Auth</option>
+                </select>
+                <select id="scoreFilter" title="Filtrar por pontuação" tabindex="0">
+                    <option value="">Todas as Pontuações</option>
+                    <option value="high">Alta (120+)</option>
+                    <option value="medium">Média (80-119)</option>
+                    <option value="low">Baixa (<80)</option>
+                </select>
+                <input id="searchFilter" aria-label="text input" type="text" id="searchFilter" placeholder="Buscar por nome..." tabindex="0">
+                <button class="btn btn-primary" onclick="resetPreview()" tabindex="0">Limpar Filtros</button>
+            </div>
+        </div>
+
+        <div class="preview-container">
+            <div class="screen-list" id="screenList">
+                <!-- Lista de telas será carregada dinamicamente -->
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-header">
+                    <div class="preview-title" id="previewTitle">Selecione uma tela para visualizar</div>
+                    <div class="preview-stats" id="previewStats"></div>
+                </div>
+                <div class="preview-frame" id="previewFrame">
+                    <div class="no-preview">
+                        Clique em uma tela da lista para ver o preview do layout
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados das telas com informações de layout
+        const screensData = [
+            // SPLASH SCREEN
+            {
+    
+                name: "SplashScreen.tsx",
+                category: "Splash",
+                score: 85,
+                size: 8600,
+                lines: 320,
+                path: "frontend/src/components/SplashScreen.tsx",
+                layout: "splash",
+                description: "Tela de carregamento inicial do sistema"
+            ;
+},
+
+            // LOGIN SCREENS
+            {
+    
+                name: "UltraPremiumLoginScreen.tsx",
+                category: "Login",
+                score: 155,
+                size: 32117,
+                lines: 1059,
+                path: "frontend/src/screens/UltraPremiumLoginScreen.tsx",
+                isTop: true,
+                layout: "login",
+                description: "Tela de login premium com validação avançada"
+            ;
+},
+            {
+    
+                name: "PremiumLoginScreen.tsx",
+                category: "Login",
+                score: 155,
+                size: 28294,
+                lines: 936,
+                path: "frontend/src/screens/PremiumLoginScreen.tsx",
+                layout: "login",
+                description: "Tela de login premium com design moderno"
+            ;
+},
+            {
+    
+                name: "login-screen.tsx",
+                category: "Login",
+                score: 75,
+                size: 7680,
+                lines: 306,
+                path: "frontend/src/screens/login-screen.tsx",
+                layout: "login",
+                description: "Tela de login básica"
+            ;
+},
+            {
+    
+                name: "EnhancedLogin.tsx",
+                category: "Auth",
+                score: 95,
+                size: 9728,
+                lines: 394,
+                path: "frontend/src/components/auth/EnhancedLogin.tsx",
+                layout: "login",
+                description: "Componente de login aprimorado"
+            ;
+},
+
+            // DASHBOARD SCREENS
+            {
+    
+                name: "EmployerDashboard.tsx",
+                category: "Dashboard",
+                score: 90,
+                size: 14976,
+                lines: 488,
+                path: "frontend/src/screens/EmployerDashboard.tsx",
+                layout: "dashboard",
+                description: "Dashboard para empregadores"
+            ;
+},
+            {
+    
+                name: "EmployeeDashboard.tsx",
+                category: "Dashboard",
+                score: 95,
+                size: 20480,
+                lines: 661,
+                path: "frontend/src/screens/EmployeeDashboard.tsx",
+                layout: "dashboard",
+                description: "Dashboard para funcionários"
+            ;
+},
+            {
+    
+                name: "FamilyDashboard.tsx",
+                category: "Dashboard",
+                score: 105,
+                size: 28525,
+                lines: 930,
+                path: "frontend/src/screens/FamilyDashboard.tsx",
+                layout: "dashboard",
+                description: "Dashboard familiar com widgets personalizados"
+            ;
+},
+            {
+    
+                name: "AdminDashboard.tsx",
+                category: "Dashboard",
+                score: 110,
+                size: 19920,
+                lines: 644,
+                path: "frontend/src/screens/AdminDashboard.tsx",
+                layout: "dashboard",
+                description: "Dashboard administrativo com controles avançados"
+            ;
+},
+            {
+    
+                name: "dashboard-screen.tsx",
+                category: "Dashboard",
+                score: 80,
+                size: 10240,
+                lines: 381,
+                path: "frontend/src/screens/dashboard-screen.tsx",
+                layout: "dashboard",
+                description: "Tela de dashboard genérica"
+            ;
+},
+            {
+    
+                name: "simple-dashboard.tsx",
+                category: "Dashboard",
+                score: 70,
+                size: 6246,
+                lines: 249,
+                path: "frontend/src/screens/simple-dashboard.tsx",
+                layout: "dashboard",
+                description: "Dashboard simplificado"
+            ;
+},
+
+            // TASKS SCREEN
+            {
+    
+                name: "tasks-screen.tsx",
+                category: "Tasks",
+                score: 100,
+                size: 16906,
+                lines: 627,
+                path: "frontend/src/screens/tasks-screen.tsx",
+                layout: "tasks",
+                description: "Gerenciamento completo de tarefas"
+            ;
+},
+
+            // BUDGET SCREENS
+            {
+    
+                name: "BudgetScreen.tsx",
+                category: "Budget",
+                score: 101,
+                size: 3280,
+                lines: 128,
+                path: "frontend/src/screens/budget/BudgetScreen.tsx",
+                layout: "budget",
+                description: "Controle de orçamento com gráficos"
+            ;
+},
+            {
+    
+                name: "BudgetDetailScreen.tsx",
+                category: "Budget",
+                score: 85,
+                size: 3174,
+                lines: 129,
+                path: "frontend/src/screens/budget/BudgetDetailScreen.tsx",
+                layout: "budget-detail",
+                description: "Detalhes do orçamento"
+            ;
+},
+            {
+    
+                name: "BudgetCreateScreen.tsx",
+                category: "Budget",
+                score: 75,
+                size: 1331,
+                lines: 57,
+                path: "frontend/src/screens/budget/BudgetCreateScreen.tsx",
+                layout: "budget-create",
+                description: "Criação de novo orçamento"
+            ;
+},
+
+            // EMPLOYEES SCREEN
+            {
+    
+                name: "employees-screen.tsx",
+                category: "Employees",
+                score: 82,
+                size: 3540,
+                lines: 166,
+                path: "frontend/src/screens/employees-screen.tsx",
+                layout: "employees",
+                description: "Gestão de funcionários"
+            ;
+},
+
+            // PAYMENTS SCREEN
+            {
+    
+                name: "payments-screen.tsx",
+                category: "Payments",
+                score: 82,
+                size: 3540,
+                lines: 166,
+                path: "frontend/src/screens/payments-screen.tsx",
+                layout: "payments",
+                description: "Controle de pagamentos"
+            ;
+},
+
+            // PURCHASES SCREEN
+            {
+    
+                name: "purchases-screen.tsx",
+                category: "Payments",
+                score: 80,
+                size: 3789,
+                lines: 175,
+                path: "frontend/src/screens/purchases-screen.tsx",
+                layout: "payments",
+                description: "Controle de compras"
+            ;
+},
+
+            // NOTIFICATIONS SCREEN
+            {
+    
+                name: "notifications-screen.tsx",
+                category: "Notifications",
+                score: 75,
+                size: 2800,
+                lines: 120,
+                path: "frontend/src/screens/notifications-screen.tsx",
+                layout: "notifications",
+                description: "Sistema de notificações"
+            ;
+},
+
+            // NAVIGATION SCREEN
+            {
+    
+                name: "navigation-screen.tsx",
+                category: "Navigation",
+                score: 95,
+                size: 13312,
+                lines: 475,
+                path: "frontend/src/screens/navigation-screen.tsx",
+                layout: "navigation",
+                description: "Sistema de navegação"
+            ;
+},
+
+            // COMPONENTS
+            {
+    
+                name: "Header.tsx",
+                category: "Navigation",
+                score: 70,
+                size: 2867,
+                lines: 131,
+                path: "frontend/src/components/Header.tsx",
+                layout: "navigation",
+                description: "Cabeçalho da aplicação"
+            ;
+},
+            {
+    
+                name: "SideMenu.tsx",
+                category: "Navigation",
+                score: 85,
+                size: 7885,
+                lines: 344,
+                path: "frontend/src/components/SideMenu.tsx",
+                layout: "navigation",
+                description: "Menu lateral"
+            ;
+},
+            {
+    
+                name: "notification-list.tsx",
+                category: "Notifications",
+                score: 80,
+                size: 7066,
+                lines: 276,
+                path: "frontend/src/components/notification-list.tsx",
+                layout: "notifications",
+                description: "Lista de notificações"
+            ;
+},
+            {
+    
+                name: "profile-selector.tsx",
+                category: "Auth",
+                score: 75,
+                size: 3379,
+                lines: 130,
+                path: "frontend/src/components/profile-selector.tsx",
+                layout: "auth",
+                description: "Seletor de perfil"
+            ;
+},
+            {
+    
+                name: "regional-selector.tsx",
+                category: "Auth",
+                score: 80,
+                size: 4301,
+                lines: 155,
+                path: "frontend/src/components/regional-selector.tsx",
+                layout: "auth",
+                description: "Seletor regional"
+            ;
+}
+        ];
+
+        let selectedScreen = null;
+        let filteredScreens = screensData;
+
+        function renderScreenList(screens = screensData) {
+    
+            const screenList = document.getElementById('screenList');
+    
+            screenList.innerHTML = '';
+    
+
+            screens.forEach(screen => {
+                const screenItem = document.createElement('div');
+    
+                screenItem.className = `screen-item ${screen.isTop ? 'top' : screen.score >= 120 ? 'premium' : 'basic';
+}`;
+                screenItem.onclick = () => selectScreen(screen);
+
+                screenItem.innerHTML = `
+                    <div class="screen-name">${
+    screen.name;
+}</div>
+                    <div class="screen-info">
+                        ${
+    screen.category;
+} • ${
+    screen.score;
+} pts • ${
+    (screen.size / 1024).toFixed(1);
+} KB
+                    </div>
+                `;
+
+                screenList.appendChild(screenItem);
+            });
+        }
+
+        function selectScreen(screen) {
+    
+            selectedScreen = screen;
+    
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.screen-item').forEach(item => {
+                item.classList.remove('selected');
+});
+            
+            // Adicionar seleção atual
+            event.target.closest('.screen-item').classList.add('selected');
+            
+            updatePreview(screen);
+        }
+
+        function updatePreview(screen) {
+    
+            const previewTitle = document.getElementById('previewTitle');
+    
+            const previewStats = document.getElementById('previewStats');
+    
+            const previewFrame = document.getElementById('previewFrame');
+    
+
+            previewTitle.textContent = screen.name;
+    
+            previewStats.innerHTML = `
+                <span>📁 ${screen.category;
+}</span>
+                <span>⭐ ${
+    screen.score;
+} pontos</span>
+                <span>📄 ${
+    (screen.size / 1024).toFixed(1);
+} KB</span>
+                <span>📝 ${
+    screen.lines;
+} linhas</span>
+            `;
+
+            previewFrame.innerHTML = generateLayoutHTML(screen);
+        }
+
+        function generateLayoutHTML(screen) {
+    
+    transform: rotate(0deg);
+    
+            switch (screen.layout) {
+                case 'splash':
+                    return `
+                        <div class="layout-splash">
+                            <h1 class="extracted-style-1">🏠 DOM v2</h1>
+                            <p class="extracted-style-2">Sistema de Gestão Doméstica</p>
+                            <div class="extracted-style-3"></div>
+                            <p class="extracted-style-4">Carregando...</p>
+                        </div>
+                        <style>
+                            @keyframes spin {
+                                0% { -webkit-transform: rotate(0deg);
+}
+                                100% {
+    
+    transform: rotate(360deg);
+     -webkit-transform: rotate(360deg);
+}
+                            }
+                        </style>
+                    `;
+
+                case 'login':
+                    return `
+                        <div class="layout-login">
+                            <h2 class="extracted-style-5">Entrar no DOM v2</h2>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input id="input-1755878044064-4wvrfvdeh" aria-label="email input" type="email" placeholder="seu@email.com" value="usuario@exemplo.com" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Senha</label>
+                                <input id="input-1755878044064-7mzbhcbgr" aria-label="password input" type="password" placeholder="Sua senha" value="••••••••" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Perfil</label>
+                                <select tabindex="0" aria-label="Seleção">
+                                    <option>Empregador</option>
+                                    <option>Funcionário</option>
+                                    <option>Família</option>
+                                    <option>Administrador</option>
+                                </select>
+                            </div>
+                            <button class="btn-submit" tabindex="0">Entrar</button>
+                        </div>
+                    `;
+
+                case 'dashboard':
+                    return `
+                        <div class="layout-dashboard">
+                            <div class="layout-sidebar">
+                                <h3 class="extracted-style-6">Menu</h3>
+                                <div class="menu-item">🏠 Dashboard</div>
+                                <div class="menu-item">📋 Tarefas</div>
+                                <div class="menu-item">👥 Funcionários</div>
+                                <div class="menu-item">💰 Orçamento</div>
+                                <div class="menu-item">💳 Pagamentos</div>
+                                <div class="menu-item">🔔 Notificações</div>
+                            </div>
+                            <div class="layout-content">
+                                <h2 class="extracted-style-7">Dashboard</h2>
+                                <div class="extracted-style-8">
+                                    <div class="metric-card">
+                                        <div class="metric-value">12</div>
+                                        <div class="metric-label">Tarefas Ativas</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">5</div>
+                                        <div class="metric-label">Funcionários</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">R$ 2.500</div>
+                                        <div class="metric-label">Orçamento Mensal</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">8</div>
+                                        <div class="metric-label">Notificações</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layout-widgets">
+                                <h3 class="extracted-style-9">Widgets</h3>
+                                <div class="extracted-style-10">
+                                    <h4>Atividades Recentes</h4>
+                                    <p class="extracted-style-11">Nenhuma atividade recente</p>
+                                </div>
+                                <div class="extracted-style-12">
+                                    <h4>Próximas Tarefas</h4>
+                                    <p class="extracted-style-13">Nenhuma tarefa pendente</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                case 'tasks':
+                    return `
+                        <div class="layout-tasks">
+                            <h2 class="extracted-style-14">Gerenciamento de Tarefas</h2>
+                            <div class="task-item">
+                                <input id="input-1755878044064-79rx9x0cn" aria-label="checkbox input" type="checkbox" class="task-checkbox" checked tabindex="0">
+                                <div class="task-content">
+                                    <div class="task-title">Limpeza da Casa</div>
+                                    <div class="task-description">Limpeza geral da residência</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <input id="input-1755878044064-zzmi1p8b7" aria-label="checkbox input" type="checkbox" class="task-checkbox" tabindex="0">
+                                <div class="task-content">
+                                    <div class="task-title">Lavar Roupa</div>
+                                    <div class="task-description">Lavar e passar roupas</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <input id="input-1755878044064-h8ag8lijx" aria-label="checkbox input" type="checkbox" class="task-checkbox" tabindex="0">
+                                <div class="task-content">
+                                    <div class="task-title">Preparar Almoço</div>
+                                    <div class="task-description">Cozinhar refeição principal</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <input id="input-1755878044064-ue1m2hvxo" aria-label="checkbox input" type="checkbox" class="task-checkbox" tabindex="0">
+                                <div class="task-content">
+                                    <div class="task-title">Organizar Quartos</div>
+                                    <div class="task-description">Arrumar e organizar quartos</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                case 'budget':
+                    return `
+                        <div class="layout-budget">
+                            <div>
+                                <h3 class="extracted-style-15">Gráfico de Orçamento</h3>
+                                <div class="chart-placeholder">
+                                    📊 Gráfico de Orçamento Mensal
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="extracted-style-16">Novo Orçamento</h3>
+                                <div class="form-group">
+                                    <label>Categoria</label>
+                                    <select tabindex="0" aria-label="Seleção">
+                                        <option>Limpeza</option>
+                                        <option>Alimentação</option>
+                                        <option>Manutenção</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Valor</label>
+                                    <input id="input-1755878044064-vt6u7gjzx" aria-label="number input" type="number" placeholder="R$ 0,00" value="500" tabindex="0">
+                                </div>
+                                <button class="btn-submit" tabindex="0">Adicionar</button>
+                            </div>
+                        </div>
+                    `;
+
+                case 'budget-detail':
+                    return `
+                        <div class="layout-budget-detail">
+                            <h2 class="extracted-style-17">Detalhes do Orçamento</h2>
+                            <div class="extracted-style-18">
+                                <div>
+                                    <h3>Resumo</h3>
+                                    <div class="metric-card">
+                                        <div class="metric-value">R$ 2.500</div>
+                                        <div class="metric-label">Orçamento Total</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3>Gastos</h3>
+                                    <div class="metric-card">
+                                        <div class="metric-value">R$ 1.800</div>
+                                        <div class="metric-label">Gasto Real</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                case 'budget-create':
+                    return `
+                        <div class="layout-budget-create">
+                            <h2 class="extracted-style-19">Criar Novo Orçamento</h2>
+                            <div class="form-group">
+                                <label>Nome do Orçamento</label>
+                                <input id="input-1755878044064-s62xatqdi" aria-label="text input" type="text" placeholder="Ex: Orçamento Mensal" value="Orçamento Janeiro 2025" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Valor Total</label>
+                                <input id="input-1755878044064-hoxlhpicv" aria-label="number input" type="number" placeholder="R$ 0,00" value="3000" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Período</label>
+                                <select tabindex="0" aria-label="Seleção">
+                                    <option>Mensal</option>
+                                    <option>Semanal</option>
+                                    <option>Anual</option>
+                                </select>
+                            </div>
+                            <button class="btn-submit" tabindex="0">Criar Orçamento</button>
+                        </div>
+                    `;
+
+                case 'employees':
+                    return `
+                        <div class="layout-employees">
+                            <h2 class="extracted-style-20">Gestão de Funcionários</h2>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Cargo</th>
+                                        <th>Status</th>
+                                        <th>Salário</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Maria Silva</td>
+                                        <td>Doméstica</td>
+                                        <td><span class="extracted-style-21">Ativo</span></td>
+                                        <td>R$ 1.200</td>
+                                    </tr>
+                                    <tr>
+                                        <td>João Santos</td>
+                                        <td>Jardineiro</td>
+                                        <td><span class="extracted-style-22">Ativo</span></td>
+                                        <td>R$ 800</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ana Costa</td>
+                                        <td>Cozinheira</td>
+                                        <td><span class="extracted-style-23">Férias</span></td>
+                                        <td>R$ 1.500</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+
+                case 'payments':
+                    return `
+                        <div class="layout-payments">
+                            <div>
+                                <h3 class="extracted-style-24">Novo Pagamento</h3>
+                                <div class="form-group">
+                                    <label>Funcionário</label>
+                                    <select tabindex="0" aria-label="Seleção">
+                                        <option>Maria Silva</option>
+                                        <option>João Santos</option>
+                                        <option>Ana Costa</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Valor</label>
+                                    <input id="input-1755878044064-18z2oryse" aria-label="number input" type="number" placeholder="R$ 0,00" value="1200" tabindex="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Data</label>
+                                    <input id="input-1755878044064-0n9swmxwd" aria-label="date input" type="date" value="2025-01-26" tabindex="0">
+                                </div>
+                                <button class="btn-submit" tabindex="0">Registrar Pagamento</button>
+                            </div>
+                            <div>
+                                <h3 class="extracted-style-25">Histórico</h3>
+                                <div class="extracted-style-26">
+                                    <div class="extracted-style-27">
+                                        <strong>Maria Silva</strong> - R$ 1.200 (26/01/2025)
+                                    </div>
+                                    <div class="extracted-style-28">
+                                        <strong>João Santos</strong> - R$ 800 (25/01/2025)
+                                    </div>
+                                    <div>
+                                        <strong>Ana Costa</strong> - R$ 1.500 (24/01/2025)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                case 'notifications':
+                    return `
+                        <div class="layout-notifications">
+                            <h2 class="extracted-style-29">Notificações</h2>
+                            <div class="notification-item">
+                                <div class="notification-title">Nova Tarefa Criada</div>
+                                <div class="notification-message">Limpeza da casa foi adicionada às tarefas</div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-title">Pagamento Realizado</div>
+                                <div class="notification-message">Pagamento de R$ 1.200 foi registrado</div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-title">Orçamento Atualizado</div>
+                                <div class="notification-message">Orçamento mensal foi atualizado</div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-title">Funcionário Adicionado</div>
+                                <div class="notification-message">Maria Silva foi adicionada ao sistema</div>
+                            </div>
+                        </div>
+                    `;
+
+                case 'navigation':
+                    return `
+                        <div class="layout-navigation">
+                            <h2 class="extracted-style-30">Sistema de Navegação</h2>
+                            <div class="extracted-style-31">
+                                <div>
+                                    <h3>Menu Principal</h3>
+                                    <div class="extracted-style-32">
+                                        <div class="extracted-style-33">🏠 Dashboard</div>
+                                        <div class="extracted-style-34">📋 Tarefas</div>
+                                        <div class="extracted-style-35">👥 Funcionários</div>
+                                        <div class="extracted-style-36">💰 Orçamento</div>
+                                        <div class="extracted-style-37">💳 Pagamentos</div>
+                                        <div>🔔 Notificações</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3>Perfis de Usuário</h3>
+                                    <div class="extracted-style-38">
+                                        <div class="extracted-style-39">👔 Empregador</div>
+                                        <div class="extracted-style-40">👷 Funcionário</div>
+                                        <div class="extracted-style-41">👨‍👩‍👧‍👦 Família</div>
+                                        <div>⚙️ Administrador</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                case 'auth':
+                    return `
+                        <div class="layout-login">
+                            <h2 class="extracted-style-42">Configurações</h2>
+                            <div class="form-group">
+                                <label>Perfil Atual</label>
+                                <select tabindex="0" aria-label="Seleção">
+                                    <option>Empregador</option>
+                                    <option>Funcionário</option>
+                                    <option>Família</option>
+                                    <option>Administrador</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Região</label>
+                                <select tabindex="0" aria-label="Seleção">
+                                    <option>São Paulo</option>
+                                    <option>Rio de Janeiro</option>
+                                    <option>Minas Gerais</option>
+                                    <option>Bahia</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Idioma</label>
+                                <select tabindex="0" aria-label="Seleção">
+                                    <option>Português (BR)</option>
+                                    <option>English</option>
+                                    <option>Español</option>
+                                </select>
+                            </div>
+                            <button class="btn-submit" tabindex="0">Salvar Configurações</button>
+                        </div>
+                    `;
+
+                default:
+                    return `
+                        <div class="extracted-style-43">
+                            <h3>Layout não disponível</h3>
+                            <p>Esta tela ainda não possui preview de layout implementado.</p>
+                        </div>
+                    `;
+            }
+        }
+
+        function filterScreens() {
+    
+            const categoryFilter = document.getElementById('categoryFilter').value;
+    
+            const scoreFilter = document.getElementById('scoreFilter').value;
+    
+            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+    
+
+            filteredScreens = screensData.filter(screen => {
+                const matchesCategory = !categoryFilter || screen.category === categoryFilter;
+    
+                const matchesSearch = !searchFilter || screen.name.toLowerCase().includes(searchFilter) || screen.description.toLowerCase().includes(searchFilter);
+    
+                
+                let matchesScore = true;
+    
+                if (scoreFilter === 'high') {
+                    matchesScore = screen.score >= 120;
+} else if (scoreFilter === 'medium') {
+    
+                    matchesScore = screen.score >= 80 && screen.score < 120;
+} else if (scoreFilter === 'low') {
+    
+                    matchesScore = screen.score < 80;
+}
+
+                return matchesCategory && matchesSearch && matchesScore;
+            });
+
+            renderScreenList(filteredScreens);
+        }
+
+        function resetPreview() {
+    
+            document.getElementById('categoryFilter').value = '';
+    
+            document.getElementById('scoreFilter').value = '';
+    
+            document.getElementById('searchFilter').value = '';
+    
+            filteredScreens = screensData;
+    
+            renderScreenList();
+    
+            
+            // Reset preview
+            document.getElementById('previewTitle').textContent = 'Selecione uma tela para visualizar';
+    
+            document.getElementById('previewStats').innerHTML = '';
+    
+            document.getElementById('previewFrame').innerHTML = '<div class="no-preview">Clique em uma tela da lista para ver o preview do layout</div>';
+    
+            
+            // Remove selection
+            document.querySelectorAll('.screen-item').forEach(item => {
+                item.classList.remove('selected');
+});
+        }
+
+        // Event listeners
+        document.getElementById('categoryFilter').addEventListener('change', filterScreens);
+        document.getElementById('scoreFilter').addEventListener('change', filterScreens);
+        document.getElementById('searchFilter').addEventListener('input', filterScreens);
+
+        // Initialize
+        renderScreenList();
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+    
+            componentManager.initPage('Preview de Layouts');
+});
+    </script>
+</body>
+</html> 

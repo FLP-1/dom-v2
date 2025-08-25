@@ -1,0 +1,2567 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RelatÃ³rios - DOM v2</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        /* Reset e configuraÃ§Ãµes base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        /* Cards de resumo */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .summary-card h3 {
+            color: #4a5568;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .summary-card .label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        /* Layout principal */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Sidebar de navegaÃ§Ã£o */
+        .reports-nav {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .reports-nav h3 {
+            color: #4a5568;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            color: #4a5568;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* ConteÃºdo dos relatÃ³rios */
+        .reports-content {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-section {
+            display: none;
+        }
+
+        .report-section.active {
+            display: block;
+        }
+
+        .section-header {
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            color: #4a5568;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        /* Filtros */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* BotÃµes */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        /* Tabelas */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-table th {
+            background: #f7fafc;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a5568;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .report-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #2d3748;
+        }
+
+        .report-table tr:hover {
+            background: #f7fafc;
+        }
+
+        /* GrÃ¡ficos */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container h3 {
+            color: #4a5568;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-size: 1.1rem;
+            border: 2px dashed #cbd5e0;
+        }
+
+        /* Cards de relatÃ³rio */
+        .report-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .report-card h4 {
+            color: #4a5568;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .report-card p {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .report-card .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .metric .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .metric .label {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .reports-nav {
+                order: -1;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .report-table {
+                font-size: 0.9rem;
+            }
+            
+            .report-table th,
+            .report-table td {
+                padding: 10px;
+            }
+        }
+
+        /* AnimaÃ§Ãµes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* UtilitÃ¡rios */
+        .text-success { color: #38a169; }
+        .text-warning { color: #d69e2e; }
+        .text-danger { color: #e53e3e; }
+        .text-muted { color: #718096; }
+        
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+    
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .sidebar-user {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #007AFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #1e293b;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 122, 255, 0.1);
+            border-left-color: #007AFF;
+        }
+
+        .nav-item.active {
+            background: rgba(0, 122, 255, 0.15);
+            border-left-color: #007AFF;
+            color: #007AFF;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-left: 280px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -100%;
+                width: 100%;
+            }
+
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+
+            .header-actions {
+                position: static;
+                justify-content: center;
+                margin-top: 15px;
+            }
+        }
+
+        /* Profile Selector Styles */
+        .profile-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-selector-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .profile-selector-button .profile-icon {
+            font-size: 16px;
+        }
+
+        .profile-selector-button .profile-name {
+            font-weight: 500;
+        }
+
+        .profile-selector-button .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-selector-button.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .profile-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-header h4 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-dropdown-header p {
+            margin: 4px 0 0 0;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .profile-options {
+            padding: 8px 0;
+        }
+
+        .profile-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: #1e293b;
+            text-decoration: none;
+        }
+
+        .profile-option:hover {
+            background: #f8fafc;
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+        }
+
+        .profile-option .option-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .profile-option .option-info {
+            flex: 1;
+        }
+
+        .profile-option .option-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .profile-option .option-description {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .profile-option .option-check {
+            font-size: 16px;
+            color: #007AFF;
+            opacity: 0;
+        }
+
+        .profile-option.active .option-check {
+            opacity: 1;
+        }
+
+        .profile-dropdown-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-footer button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .profile-dropdown-footer button:hover {
+            background: #0056CC;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .profile-selector-button .profile-name {
+                display: none;
+            }
+            
+            .profile-dropdown {
+                right: -50px;
+                min-width: 180px;
+            }
+        }
+
+        
+    
+    
+        
+    
+    
+        
+    
+    
+    
+        
+    
+    /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+        /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+    </style>
+</head>
+<body>
+    <!-- Container para o header reutilizÃ¡vel -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizÃ¡vel -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+    <header class="header"><div class="header-left"><button class="back-button" onclick="goBack()">â† Voltar</button><h1 class="header-title" id="pageTitle">Dashboard</h1></div><div class="header-right"><div class="profile-selector" id="profileSelector"><button class="profile-selector-button" onclick="toggleProfileDropdown()"><span id="currentProfile">Perfil</span><span>â–¼</span></button><div class="profile-dropdown" id="profileDropdown"><!-- OpÃ§Ãµes de perfil serÃ£o carregadas dinamicamente --></div></div><button class="logout-button" onclick="logout()">Sair</button></div></header>
+    <!-- BotÃ£o do menu hamburguer -->
+    <button class="menu-button" onclick="toggleSidebar()">â˜°</button>
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+    <!-- BotÃ£o do menu hamburguer -->
+    
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+        <!-- BotÃ£o do menu hamburguer -->
+        
+
+        <!-- Header -->
+        
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="Logo.png" alt="DOM" style="width: 32px; height: 32px; border-radius: 6px;">
+            </div>
+            <div class="sidebar-title">DOM v2</div>
+        </div>
+        
+        <div class="sidebar-user" id="sidebarUser">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h4 id="userName">UsuÃ¡rio</h4>
+                    <p id="userProfile">Perfil</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Principal</div>
+                <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="tasks-management.html" class="nav-item" id="nav-tasks">
+                    <span class="nav-icon">ðŸ“</span>
+                    <span class="nav-text">Tarefas</span>
+                </a>
+                <a href="employees-management.html" class="nav-item" id="nav-employees">
+                    <span class="nav-icon">ðŸ‘¥</span>
+                    <span class="nav-text">FuncionÃ¡rios</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Financeiro</div>
+                <a href="finance.html" class="nav-item" id="nav-finance">
+                    <span class="nav-icon">ðŸ’°</span>
+                    <span class="nav-text">FinanÃ§as</span>
+                </a>
+                <a href="payments-management.html" class="nav-item" id="nav-payments">
+                    <span class="nav-icon">ðŸ’³</span>
+                    <span class="nav-text">Pagamentos</span>
+                </a>
+                <a href="budget-management.html" class="nav-item" id="nav-budget">
+                    <span class="nav-icon">ðŸ“‹</span>
+                    <span class="nav-text">OrÃ§amentos</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Recursos Humanos</div>
+                <a href="hr-management.html" class="nav-item" id="nav-hr">
+                    <span class="nav-icon">ðŸ‘¨â€ðŸ’¼</span>
+                    <span class="nav-text">RH</span>
+                </a>
+                <a href="timeclock.html" class="nav-item" id="nav-timeclock">
+                    <span class="nav-icon">â°</span>
+                    <span class="nav-text">Ponto</span>
+                </a>
+                <a href="advanced-timecard.html" class="nav-item" id="nav-advanced-timecard">
+                    <span class="nav-icon">â±ï¸</span>
+                    <span class="nav-text">Ponto AvanÃ§ado</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Sistema</div>
+                <a href="notifications.html" class="nav-item" id="nav-notifications">
+                    <span class="nav-icon">ðŸ””</span>
+                    <span class="nav-text">NotificaÃ§Ãµes</span>
+                </a>
+                <a href="reports.html" class="nav-item active" id="nav-reports">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">RelatÃ³rios</span>
+                </a>
+                <a href="settings.html" class="nav-item" id="nav-settings">
+                    <span class="nav-icon">âš™ï¸</span>
+                    <span class="nav-text">ConfiguraÃ§Ãµes</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">AvanÃ§ado</div>
+                <a href="payment-integrations.html" class="nav-item" id="nav-payment-integrations">
+                    <span class="nav-icon">ðŸ”—</span>
+                    <span class="nav-text">IntegraÃ§Ãµes</span>
+                </a>
+                <a href="communication.html" class="nav-item" id="nav-communication">
+                    <span class="nav-icon">ðŸ’¬</span>
+                    <span class="nav-text">ComunicaÃ§Ã£o</span>
+                </a>
+                <a href="gamification.html" class="nav-item" id="nav-gamification">
+                    <span class="nav-icon">ðŸ†</span>
+                    <span class="nav-text">GamificaÃ§Ã£o</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in" style="position: relative;">
+            <div class="header-actions">
+                <div class="profile-selector">
+                <button class="profile-selector-button" onclick="toggleProfileDropdown()">
+                    <span class="profile-icon" id="currentProfileIcon">ðŸ‘¤</span>
+                    <span class="profile-name" id="currentProfileName">Perfil</span>
+                    <span class="dropdown-arrow">â–¼</span>
+                </button>
+                
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-dropdown-header">
+                        <h4>Trocar Perfil</h4>
+                        <p>Selecione um perfil diferente</p>
+                    </div>
+                    
+                    <div class="profile-options" id="profileOptions">
+                        <!-- OpÃ§Ãµes serÃ£o carregadas dinamicamente -->
+                    </div>
+                    
+                    <div class="profile-dropdown-footer">
+                        <button onclick="confirmProfileChange()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+                
+                <button class="logout-button" onclick="logout()">ðŸšª Sair</button>
+            </div>
+            <h1>ðŸ“Š RelatÃ³rios</h1>
+            <p>AnÃ¡lises detalhadas e insights sobre seus dados</p>
+        </div>
+
+        <!-- Cards de Resumo -->
+        <div class="summary-grid fade-in">
+            <div class="summary-card">
+                <h3>ðŸ“ˆ RelatÃ³rios Gerados</h3>
+                <div class="value" id="totalReports">24</div>
+                <div class="label">Total de relatÃ³rios este mÃªs</div>
+            </div>
+            
+            <div class="summary-card">
+                <h3>â±ï¸ Tempo MÃ©dio</h3>
+                <div class="value" id="avgTime">2.3s</div>
+                <div class="label">Tempo mÃ©dio de geraÃ§Ã£o</div>
+            </div>
+            
+            <div class="summary-card">
+                <h3>ðŸ’¾ Downloads</h3>
+                <div class="value" id="totalDownloads">156</div>
+                <div class="label">RelatÃ³rios baixados</div>
+            </div>
+            
+            <div class="summary-card">
+                <h3>ðŸŽ¯ PrecisÃ£o</h3>
+                <div class="value" id="accuracy">99.8%</div>
+                <div class="label">Taxa de precisÃ£o dos dados</div>
+            </div>
+        </div>
+
+        <!-- ConteÃºdo Principal -->
+        <div class="main-content fade-in">
+            <!-- Sidebar de NavegaÃ§Ã£o -->
+            <div class="reports-nav">
+                <h3>ðŸ“‹ Categorias</h3>
+                <button class="nav-item active" onclick="showReport('financial')">
+                    ðŸ’° Financeiro
+                </button>
+                <button class="nav-item" onclick="showReport('operational')">
+                    âš™ï¸ Operacional
+                </button>
+                <button class="nav-item" onclick="showReport('hr')">
+                    ðŸ‘¥ RH
+                </button>
+                <button class="nav-item" onclick="showReport('performance')">
+                    ðŸ“ˆ Performance
+                </button>
+                <button class="nav-item" onclick="showReport('custom')">
+                    ðŸŽ¨ Personalizado
+                </button>
+                <button class="nav-item" onclick="showReport('scheduled')">
+                    â° Agendados
+                </button>
+            </div>
+
+            <!-- ConteÃºdo dos RelatÃ³rios -->
+            <div class="reports-content">
+                <!-- RelatÃ³rio Financeiro -->
+                <div id="financial" class="report-section active">
+                    <div class="section-header">
+                        <h2>ðŸ’° RelatÃ³rios Financeiros</h2>
+                        <p>AnÃ¡lises detalhadas sobre receitas, despesas e fluxo de caixa</p>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="financialPeriod">PerÃ­odo</label>
+                            <select id="financialPeriod" title="Selecione o perÃ­odo do relatÃ³rio">
+                                <option value="month">Ãšltimo MÃªs</option>
+                                <option value="quarter">Ãšltimo Trimestre</option>
+                                <option value="year">Ãšltimo Ano</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="financialType">Tipo de RelatÃ³rio</label>
+                            <select id="financialType" title="Selecione o tipo de relatÃ³rio financeiro">
+                                <option value="cashflow">Fluxo de Caixa</option>
+                                <option value="profit">AnÃ¡lise de Lucros</option>
+                                <option value="expenses">AnÃ¡lise de Despesas</option>
+                                <option value="budget">OrÃ§amento vs Realizado</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="financialFormat">Formato</label>
+                            <select id="financialFormat" title="Selecione o formato de exportaÃ§Ã£o">
+                                <option value="pdf">PDF</option>
+                                <option value="excel">Excel</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <button class="btn-primary" onclick="generateFinancialReport()">
+                                ðŸ“Š Gerar RelatÃ³rio
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- GrÃ¡ficos -->
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3>ðŸ“ˆ Fluxo de Caixa Mensal</h3>
+                            <div class="chart-placeholder">
+                                ðŸ“Š GrÃ¡fico de linha - fluxo de caixa
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3>ðŸ• DistribuiÃ§Ã£o de Despesas</h3>
+                            <div class="chart-placeholder">
+                                ðŸ“Š GrÃ¡fico de pizza - despesas por categoria
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cards de MÃ©tricas -->
+                    <div class="report-cards">
+                        <div class="report-card">
+                            <h4>ðŸ’° Receitas</h4>
+                            <p>AnÃ¡lise detalhada das receitas do perÃ­odo</p>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="value text-success">R$ 0,00</div>
+                                    <div class="label">Total</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="value text-success">+12.5%</div>
+                                    <div class="label">Crescimento</div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary">ðŸ“¥ Download</button>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4>ðŸ’¸ Despesas</h4>
+                            <p>AnÃ¡lise detalhada das despesas do perÃ­odo</p>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="value text-danger">R$ 0,00</div>
+                                    <div class="label">Total</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="value text-warning">+8.2%</div>
+                                    <div class="label">VariaÃ§Ã£o</div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary">ðŸ“¥ Download</button>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4>ðŸ’¡ Lucro LÃ­quido</h4>
+                            <p>AnÃ¡lise do lucro lÃ­quido do perÃ­odo</p>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="value text-success">R$ 0,00</div>
+                                    <div class="label">Total</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="value text-success">+18.7%</div>
+                                    <div class="label">Crescimento</div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary">ðŸ“¥ Download</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RelatÃ³rio Operacional -->
+                <div id="operational" class="report-section">
+                    <div class="section-header">
+                        <h2>âš™ï¸ RelatÃ³rios Operacionais</h2>
+                        <p>AnÃ¡lises sobre produtividade, tarefas e processos</p>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="operationalPeriod">PerÃ­odo</label>
+                            <select id="operationalPeriod" title="Selecione o perÃ­odo do relatÃ³rio operacional">
+                                <option value="week">Ãšltima Semana</option>
+                                <option value="month">Ãšltimo MÃªs</option>
+                                <option value="quarter">Ãšltimo Trimestre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="operationalType">Tipo de RelatÃ³rio</label>
+                            <select id="operationalType" title="Selecione o tipo de relatÃ³rio operacional">
+                                <option value="productivity">Produtividade</option>
+                                <option value="tasks">AnÃ¡lise de Tarefas</option>
+                                <option value="processes">Processos</option>
+                                <option value="efficiency">EficiÃªncia</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <button class="btn-primary" onclick="generateOperationalReport()">
+                                ðŸ“Š Gerar RelatÃ³rio
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de MÃ©tricas -->
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>MÃ©trica</th>
+                                <th>Valor Atual</th>
+                                <th>Meta</th>
+                                <th>Progresso</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Taxa de ConclusÃ£o de Tarefas</td>
+                                <td>87%</td>
+                                <td>90%</td>
+                                <td>96.7%</td>
+                                <td><span class="text-success">âœ… No Prazo</span></td>
+                            </tr>
+                            <tr>
+                                <td>Tempo MÃ©dio de ExecuÃ§Ã£o</td>
+                                <td>2.3 dias</td>
+                                <td>2.0 dias</td>
+                                <td>115%</td>
+                                <td><span class="text-warning">âš ï¸ Acima da Meta</span></td>
+                            </tr>
+                            <tr>
+                                <td>Produtividade Geral</td>
+                                <td>92%</td>
+                                <td>85%</td>
+                                <td>108.2%</td>
+                                <td><span class="text-success">âœ… Excelente</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- RelatÃ³rio de RH -->
+                <div id="hr" class="report-section">
+                    <div class="section-header">
+                        <h2>ðŸ‘¥ RelatÃ³rios de RH</h2>
+                        <p>AnÃ¡lises sobre funcionÃ¡rios, horas trabalhadas e folha de pagamento</p>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="hrPeriod">PerÃ­odo</label>
+                            <select id="hrPeriod" title="Selecione o perÃ­odo do relatÃ³rio de RH">
+                                <option value="month">Ãšltimo MÃªs</option>
+                                <option value="quarter">Ãšltimo Trimestre</option>
+                                <option value="year">Ãšltimo Ano</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="hrType">Tipo de RelatÃ³rio</label>
+                            <select id="hrType" title="Selecione o tipo de relatÃ³rio de RH">
+                                <option value="payroll">Folha de Pagamento</option>
+                                <option value="attendance">Ponto EletrÃ´nico</option>
+                                <option value="performance">Performance</option>
+                                <option value="turnover">Rotatividade</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <button class="btn-primary" onclick="generateHRReport()">
+                                ðŸ“Š Gerar RelatÃ³rio
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- GrÃ¡ficos -->
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3>â° Horas Trabalhadas</h3>
+                            <div class="chart-placeholder">
+                                ðŸ“Š GrÃ¡fico de barras - horas por funcionÃ¡rio
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3>ðŸ’° Folha de Pagamento</h3>
+                            <div class="chart-placeholder">
+                                ðŸ“Š GrÃ¡fico de pizza - distribuiÃ§Ã£o salarial
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RelatÃ³rio de Performance -->
+                <div id="performance" class="report-section">
+                    <div class="section-header">
+                        <h2>ðŸ“ˆ RelatÃ³rios de Performance</h2>
+                        <p>AnÃ¡lises sobre KPIs e indicadores de desempenho</p>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="performancePeriod">PerÃ­odo</label>
+                            <select id="performancePeriod" title="Selecione o perÃ­odo do relatÃ³rio de performance">
+                                <option value="week">Ãšltima Semana</option>
+                                <option value="month">Ãšltimo MÃªs</option>
+                                <option value="quarter">Ãšltimo Trimestre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="performanceKPI">KPI Principal</label>
+                            <select id="performanceKPI" title="Selecione o KPI principal">
+                                <option value="revenue">Receita</option>
+                                <option value="efficiency">EficiÃªncia</option>
+                                <option value="quality">Qualidade</option>
+                                <option value="satisfaction">SatisfaÃ§Ã£o</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <button class="btn-primary" onclick="generatePerformanceReport()">
+                                ðŸ“Š Gerar RelatÃ³rio
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard de KPIs -->
+                    <div class="report-cards">
+                        <div class="report-card">
+                            <h4>ðŸŽ¯ KPI Geral</h4>
+                            <p>Indicador de performance geral</p>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="value text-success">94.2%</div>
+                                    <div class="label">Atual</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="value text-success">+5.8%</div>
+                                    <div class="label">Melhoria</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <h4>ðŸ“Š TendÃªncia</h4>
+                            <p>AnÃ¡lise de tendÃªncia dos Ãºltimos 6 meses</p>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="value text-success">â†—ï¸</div>
+                                    <div class="label">Crescimento</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="value text-success">+2.1%</div>
+                                    <div class="label">MÃ©dia Mensal</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RelatÃ³rio Personalizado -->
+                <div id="custom" class="report-section">
+                    <div class="section-header">
+                        <h2>ðŸŽ¨ RelatÃ³rios Personalizados</h2>
+                        <p>Crie relatÃ³rios personalizados com suas prÃ³prias mÃ©tricas</p>
+                    </div>
+
+                    <!-- FormulÃ¡rio de CriaÃ§Ã£o -->
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="customName">Nome do RelatÃ³rio</label>
+                            <input type="text" id="customName" placeholder="Ex: AnÃ¡lise de Vendas Q1" title="Digite o nome do relatÃ³rio personalizado">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="customMetrics">MÃ©tricas</label>
+                            <select id="customMetrics" multiple title="Selecione as mÃ©tricas para o relatÃ³rio">
+                                <option value="revenue">Receita</option>
+                                <option value="expenses">Despesas</option>
+                                <option value="profit">Lucro</option>
+                                <option value="tasks">Tarefas</option>
+                                <option value="hours">Horas Trabalhadas</option>
+                                <option value="employees">FuncionÃ¡rios</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="customPeriod">PerÃ­odo</label>
+                            <select id="customPeriod" title="Selecione o perÃ­odo do relatÃ³rio personalizado">
+                                <option value="week">Ãšltima Semana</option>
+                                <option value="month">Ãšltimo MÃªs</option>
+                                <option value="quarter">Ãšltimo Trimestre</option>
+                                <option value="year">Ãšltimo Ano</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <button class="btn-primary" onclick="createCustomReport()">
+                                ðŸŽ¨ Criar RelatÃ³rio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RelatÃ³rios Agendados -->
+                <div id="scheduled" class="report-section">
+                    <div class="section-header">
+                        <h2>â° RelatÃ³rios Agendados</h2>
+                        <p>Gerencie relatÃ³rios que sÃ£o gerados automaticamente</p>
+                    </div>
+
+                    <!-- Lista de RelatÃ³rios Agendados -->
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Nome do RelatÃ³rio</th>
+                                <th>FrequÃªncia</th>
+                                <th>PrÃ³xima ExecuÃ§Ã£o</th>
+                                <th>Status</th>
+                                <th>AÃ§Ãµes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RelatÃ³rio Financeiro Mensal</td>
+                                <td>Mensal</td>
+                                <td>01/02/2025</td>
+                                <td><span class="text-success">âœ… Ativo</span></td>
+                                <td>
+                                    <button class="btn-secondary">âœï¸ Editar</button>
+                                    <button class="btn-secondary">â¸ï¸ Pausar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RelatÃ³rio de RH Semanal</td>
+                                <td>Semanal</td>
+                                <td>15/01/2025</td>
+                                <td><span class="text-success">âœ… Ativo</span></td>
+                                <td>
+                                    <button class="btn-secondary">âœï¸ Editar</button>
+                                    <button class="btn-secondary">â¸ï¸ Pausar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RelatÃ³rio de Performance</td>
+                                <td>Quinzenal</td>
+                                <td>22/01/2025</td>
+                                <td><span class="text-warning">â¸ï¸ Pausado</span></td>
+                                <td>
+                                    <button class="btn-secondary">âœï¸ Editar</button>
+                                    <button class="btn-primary">â–¶ï¸ Ativar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ConfiguraÃ§Ã£o da API
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // Estado da aplicaÃ§Ã£o
+        let currentReport = 'financial';
+        let reportData = {};
+
+        // FunÃ§Ãµes de API
+        async function generateReport(reportType, params) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/reports/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: reportType,
+                        params: params
+                    })
+                });
+                
+                if (!response.ok) throw new Error('Erro ao gerar relatÃ³rio');
+                return await response.json();
+            } catch (error) {
+                console.error('Erro ao gerar relatÃ³rio:', error);
+                throw error;
+            }
+        }
+
+        async function fetchReportData(reportType) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/reports/${reportType}`);
+                if (!response.ok) throw new Error('Erro ao carregar dados do relatÃ³rio');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Erro ao buscar dados do relatÃ³rio:', error);
+                return {};
+            }
+            }
+
+        // FunÃ§Ãµes de navegaÃ§Ã£o
+        function showReport(reportId) {
+            // Esconder todas as seÃ§Ãµes
+            document.querySelectorAll('.report-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remover classe active de todos os botÃµes
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Mostrar seÃ§Ã£o selecionada
+            document.getElementById(reportId).classList.add('active');
+            
+            // Adicionar classe active ao botÃ£o clicado
+            event.target.classList.add('active');
+            
+            currentReport = reportId;
+            loadReportData(reportId);
+        }
+
+        // FunÃ§Ãµes de geraÃ§Ã£o de relatÃ³rios
+        async function generateFinancialReport() {
+            const period = document.getElementById('financialPeriod').value;
+            const type = document.getElementById('financialType').value;
+            const format = document.getElementById('financialFormat').value;
+            
+            try {
+                const result = await generateReport('financial', {
+                    period: period,
+                    type: type,
+                    format: format
+                });
+                
+                showMessage('reports.financial.success');
+                console.log('RelatÃ³rio gerado:', result);
+            } catch (error) {
+                showMessage('reports.generate.error');
+            }
+        }
+
+        async function generateOperationalReport() {
+            const period = document.getElementById('operationalPeriod').value;
+            const type = document.getElementById('operationalType').value;
+            
+            try {
+                const result = await generateReport('operational', {
+                    period: period,
+                    type: type
+                });
+                
+                showMessage('reports.operational.success');
+                console.log('RelatÃ³rio gerado:', result);
+            } catch (error) {
+                showMessage('reports.generate.error');
+            }
+        }
+
+        async function generateHRReport() {
+            const period = document.getElementById('hrPeriod').value;
+            const type = document.getElementById('hrType').value;
+            
+            try {
+                const result = await generateReport('hr', {
+                    period: period,
+                    type: type
+                });
+                
+                showMessage('reports.hr.success');
+                console.log('RelatÃ³rio gerado:', result);
+            } catch (error) {
+                showMessage('reports.generate.error');
+            }
+        }
+
+        async function generatePerformanceReport() {
+            const period = document.getElementById('performancePeriod').value;
+            const kpi = document.getElementById('performanceKPI').value;
+            
+            try {
+                const result = await generateReport('performance', {
+                    period: period,
+                    kpi: kpi
+                });
+                
+                showMessage('reports.performance.success');
+                console.log('RelatÃ³rio gerado:', result);
+            } catch (error) {
+                showMessage('reports.generate.error');
+            }
+        }
+
+        async function createCustomReport() {
+            const name = document.getElementById('customName').value;
+            const metrics = Array.from(document.getElementById('customMetrics').selectedOptions).map(option => option.value);
+            const period = document.getElementById('customPeriod').value;
+            
+            if (!name || metrics.length === 0) {
+                showMessage('reports.fields.required');
+                return;
+            }
+            
+            try {
+                const result = await generateReport('custom', {
+                    name: name,
+                    metrics: metrics,
+                    period: period
+                });
+                
+                showMessage('reports.custom.success');
+                console.log('RelatÃ³rio criado:', result);
+            } catch (error) {
+                showMessage('system.error');
+            }
+        }
+
+        // FunÃ§Ã£o para carregar dados do relatÃ³rio
+        async function loadReportData(reportType) {
+            try {
+                const data = await fetchReportData(reportType);
+                reportData[reportType] = data;
+                
+                // Atualizar interface com os dados carregados
+                updateReportInterface(reportType, data);
+            } catch (error) {
+                console.error('Erro ao carregar dados do relatÃ³rio:', error);
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar interface
+        function updateReportInterface(reportType, data) {
+            // Implementar atualizaÃ§Ã£o da interface baseada no tipo de relatÃ³rio
+            console.log(`Atualizando interface para ${reportType}:`, data);
+        }
+
+        // Carregamento inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReportData('financial');
+        });
+    </script
+    <!-- Sidebar JavaScript -->
+    <script>
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio logado
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar sidebar com dados do usuÃ¡rio
+        function updateSidebar(user) {
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const userProfile = document.getElementById('userProfile');
+            
+            if (userAvatar) {
+                userAvatar.textContent = user.name.charAt(0).toUpperCase();
+            }
+            
+            if (userName) {
+                userName.textContent = user.name;
+            }
+            
+            if (userProfile) {
+                const profileNames = {
+                    'EMPLOYER': 'Empregador',
+                    'EMPLOYEE': 'FuncionÃ¡rio',
+                    'FAMILY': 'Familiar',
+                    'ADMIN': 'Administrador',
+                    'user': 'UsuÃ¡rio'
+                };
+                userProfile.textContent = profileNames[user.profile] || 'UsuÃ¡rio';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            mainContent.classList.toggle('sidebar-open');
+        }
+
+        // FunÃ§Ã£o para fechar sidebar
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // InicializaÃ§Ã£o do sidebar
+        function initSidebar() {
+            const user = loadUserData();
+            if (user) {
+                updateSidebar(user);
+            }
+            
+            // Fechar sidebar ao clicar no overlay
+            const overlay = document.getElementById('sidebarOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+            
+            // Fechar sidebar ao pressionar ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                }
+            });
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            initSidebar();
+            // Chamar funÃ§Ã£o de inicializaÃ§Ã£o especÃ­fica da pÃ¡gina se existir
+            if (typeof initPage === 'function') {
+                initPage();
+            }
+        });
+    
+    // FunÃ§Ã£o para alternar dropdown de perfil
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        const button = document.querySelector('.profile-selector-button');
+        
+        dropdown.classList.toggle('open');
+        button.classList.toggle('open');
+        
+        if (dropdown.classList.contains('open')) {
+            loadProfileOptions();
+        }
+    }
+
+    // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+    function loadProfileOptions() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        // Simular mÃºltiplos perfis disponÃ­veis (em produÃ§Ã£o, viria da API)
+        const availableProfiles = [
+            { id: 'EMPLOYER', name: 'Empregador', icon: 'ðŸ‘¨â€ðŸ’¼', description: 'Controle total' },
+            { id: 'EMPLOYEE', name: 'FuncionÃ¡rio', icon: 'ðŸ‘·', description: 'Acesso limitado' },
+            { id: 'FAMILY', name: 'Familiar', icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', description: 'VisualizaÃ§Ã£o' },
+            { id: 'ADMIN', name: 'Administrador', icon: 'ðŸ”§', description: 'ConfiguraÃ§Ãµes' }
+        ];
+        
+        const optionsContainer = document.getElementById('profileOptions');
+        optionsContainer.innerHTML = '';
+        
+        availableProfiles.forEach(profile => {
+            const option = document.createElement('div');
+            option.className = 'profile-option';
+            if (profile.id === currentProfile) {
+                option.classList.add('active');
+            }
+            
+            option.innerHTML = `
+                <span class="option-icon">${profile.icon}</span>
+                <div class="option-info">
+                    <div class="option-name">${profile.name}</div>
+                    <div class="option-description">${profile.description}</div>
+                </div>
+                <span class="option-check">âœ“</span>
+            `;
+            
+            option.onclick = () => selectProfileOption(profile.id);
+            optionsContainer.appendChild(option);
+        });
+    }
+
+    // FunÃ§Ã£o para selecionar opÃ§Ã£o de perfil
+    function selectProfileOption(profileId) {
+        // Remover seleÃ§Ã£o anterior
+        document.querySelectorAll('.profile-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // Selecionar nova opÃ§Ã£o
+        event.target.closest('.profile-option').classList.add('active');
+        
+        // Armazenar seleÃ§Ã£o temporÃ¡ria
+        window.tempSelectedProfile = profileId;
+    }
+
+    // FunÃ§Ã£o para confirmar mudanÃ§a de perfil
+    function confirmProfileChange() {
+        if (window.tempSelectedProfile) {
+            const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+            userData.selectedProfile = window.tempSelectedProfile;
+            localStorage.setItem('dom_v2_user', JSON.stringify(userData));
+            
+            // Atualizar interface
+            updateProfileSelector();
+            
+            // Fechar dropdown
+            toggleProfileDropdown();
+            
+            // Recarregar pÃ¡gina para aplicar mudanÃ§as
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+    }
+
+    // FunÃ§Ã£o para atualizar seletor de perfil
+    function updateProfileSelector() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        const profileInfo = getProfileInfo(currentProfile);
+        
+        const iconElement = document.getElementById('currentProfileIcon');
+        const nameElement = document.getElementById('currentProfileName');
+        
+        if (iconElement) iconElement.textContent = profileInfo.icon;
+        if (nameElement) nameElement.textContent = profileInfo.name;
+    }
+
+    // FunÃ§Ã£o para obter informaÃ§Ãµes do perfil
+    function getProfileInfo(profile) {
+        const profiles = {
+            'EMPLOYER': { icon: 'ðŸ‘¨â€ðŸ’¼', name: 'Empregador' },
+            'EMPLOYEE': { icon: 'ðŸ‘·', name: 'FuncionÃ¡rio' },
+            'FAMILY': { icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', name: 'Familiar' },
+            'ADMIN': { icon: 'ðŸ”§', name: 'Administrador' }
+        };
+        
+        return profiles[profile] || { icon: 'ðŸ‘¤', name: 'UsuÃ¡rio' };
+    }
+
+    // Fechar dropdown ao clicar fora
+    document.addEventListener('click', function(e) {
+        const selector = document.querySelector('.profile-selector');
+        const dropdown = document.getElementById('profileDropdown');
+        
+        if (selector && !selector.contains(e.target) && dropdown.classList.contains('open')) {
+            toggleProfileDropdown();
+        }
+    });
+
+    // Atualizar seletor na inicializaÃ§Ã£o
+    document.addEventListener('DOMContentLoaded', function() {
+        updateProfileSelector();
+    });
+</script>>
+        </div>
+    </div>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+                currentProfile.textContent = displayName;
+                console.log('Nickname atualizado:', displayName);
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        
+    
+    </script>
+    <script>
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name;
+                currentProfile.textContent = displayName;
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            const profileSelector = document.getElementById('profileSelector');
+            const dropdown = document.getElementById('profileDropdown');
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+            const user = loadUserData();
+            if (user) {
+                updateHeader(user);
+            }
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+                currentProfile.textContent = displayName;
+                console.log('Nickname atualizado:', displayName);
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            const profileSelector = document.getElementById('profileSelector');
+            const dropdown = document.getElementById('profileDropdown');
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+            const user = loadUserData();
+            if (user) {
+                updateHeader(user);
+            }
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/messages-system.js"></script>
+    <script src="js/components.js"></script>
+    <script>
+        // InicializaÃ§Ã£o da pÃ¡gina
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+            componentManager.initPage('RelatÃ³rios');
+        });
+    </script>
+</body>
+</html>
+

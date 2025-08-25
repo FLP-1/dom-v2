@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha seu Plano - DOM v2</title>
+    <style>
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            color: #333;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+            min-height: 100vh;
+}
+
+        .container {
+    
+            margin: 0 auto;
+    
+            padding: 40px 20px;
+    
+            max-width: 1200px;
+}
+
+        .header {
+    
+            color: white;
+    
+            text-align: center;
+    
+            margin-bottom: 50px;
+}
+
+        .header h1 {
+    
+            font-size: 3rem;
+    
+            margin-bottom: 20px;
+    
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+        .header p {
+    
+            margin: 0 auto;
+    
+            font-size: 1.2rem;
+    
+            opacity: 0.9;
+    
+            max-width: 600px;
+}
+
+        .plans-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    
+            gap: 30px;
+    
+            margin-bottom: 50px;
+}
+
+        .plan-card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    -webkit-transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    padding: 40px 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.95);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+        .plan-card:hover {
+    
+    transform: translateY(-10px);
+    
+            -webkit-transform: translateY(-10px);
+    
+            box-shadow: 0 25px 70px rgba(0,0,0,0.15);
+}
+
+        .plan-card.featured {
+    
+            border: 3px solid #667eea;
+    
+    transform: scale(1.05);
+    
+            -webkit-transform: scale(1.05);
+}
+
+        .plan-card.featured::before {
+    
+            position: absolute;
+    
+            top: 20px;
+    
+            right: -30px;
+    
+            padding: 8px 40px;
+    
+            color: white;
+    
+            background: #667eea;
+    
+    transform: rotate(45deg);
+    
+            content: "MAIS POPULAR";
+    
+            font-size: 0.8rem;
+    
+            font-weight: bold;
+    
+            -webkit-transform: rotate(45deg);
+}
+
+        .plan-name {
+    
+            color: #333;
+    
+            font-size: 1.8rem;
+    
+            font-weight: bold;
+    
+            margin-bottom: 10px;
+}
+
+        .plan-price {
+    
+            color: #667eea;
+    
+            font-size: 3rem;
+    
+            font-weight: bold;
+    
+            margin-bottom: 5px;
+}
+
+        .plan-currency {
+    
+            color: #666;
+    
+            font-size: 1.2rem;
+    
+            margin-bottom: 20px;
+}
+
+        .plan-description {
+    
+            color: #666;
+    
+            margin-bottom: 30px;
+    
+            line-height: 1.6;
+}
+
+        .plan-features {
+    
+            list-style: none;
+    
+            margin-bottom: 30px;
+    
+            text-align: left;
+}
+
+        .plan-features li {
+    
+            display: flex;
+    
+            padding: 10px 0;
+    
+            border-bottom: 1px solid #eee;
+    
+            align-items: center;
+}
+
+        .plan-features li:last-child {
+    
+            border-bottom: none;
+}
+
+        .plan-features li::before {
+    
+            content: "✅";
+    
+            margin-right: 15px;
+    
+            font-size: 1.2rem;
+}
+
+        .plan-features li.disabled::before {
+    
+            color: #999;
+    
+            content: "❌";
+}
+
+        .plan-features li.disabled {
+    
+            color: #999;
+    
+            text-decoration: line-through;
+}
+
+        .plan-benefits {
+    
+            list-style: none;
+    
+            margin-bottom: 30px;
+    
+            text-align: left;
+}
+
+        .plan-benefits li {
+    
+            display: flex;
+    
+            padding: 10px 0;
+    
+            border-bottom: 1px solid #eee;
+    
+            align-items: center;
+}
+
+        .plan-benefits li:last-child {
+    
+            border-bottom: none;
+}
+
+        .plan-benefits li::before {
+    
+            content: "✅";
+    
+            margin-right: 15px;
+    
+            font-size: 1.2rem;
+}
+
+        .plan-tagline {
+    
+            margin: 10px 0;
+    
+            color: #666;
+    
+            font-style: italic;
+    
+            font-size: 0.9rem;
+    
+            text-align: center;
+}
+
+        .plan-pricing {
+    
+            margin: 20px 0;
+    
+            text-align: center;
+}
+
+        .plan-yearly {
+    
+            padding: 10px;
+    
+            background: #f8f9fa;
+    
+            margin-top: 10px;
+    
+            border-radius: 8px;
+}
+
+        .yearly-price {
+    
+            display: block;
+    
+            color: #28a745;
+    
+            font-weight: bold;
+}
+
+        .yearly-savings {
+    
+            display: block;
+    
+            color: #666;
+    
+            font-size: 0.8rem;
+}
+
+        .plan-details {
+    
+            margin: 15px 0;
+    
+            padding: 15px;
+    
+            background: #f8f9fa;
+    
+            border-radius: 8px;
+}
+
+        .plan-details p {
+    
+            margin: 8px 0;
+    
+            font-size: 0.9rem;
+}
+
+        .yearly-option {
+    
+            margin: 15px 0;
+    
+            padding: 10px;
+    
+            border: 1px solid #28a745;
+    
+            background: #e8f5e8;
+    
+            border-radius: 8px;
+}
+
+        .yearly-option label {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            cursor: pointer;
+}
+
+        .yearly-option input {
+    
+            margin-right: 10px;
+}
+
+        .btn {
+    
+            display: inline-block;
+    
+            width: 100%;
+    
+            padding: 15px 30px;
+    
+            border: none;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 10px;
+    
+            font-size: 1.1rem;
+    
+            font-weight: 600;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            text-decoration: none;
+    
+            text-align: center;
+}
+
+        .btn-primary {
+    
+            color: white;
+    
+            background: #667eea;
+}
+
+        .btn-primary:hover {
+    
+            background: #5a6fd8;
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+    
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+        .btn-secondary {
+    
+            color: white;
+    
+            background: #6c757d;
+}
+
+        .btn-secondary:hover {
+    
+            background: #5a6268;
+}
+
+        .btn-outline {
+    
+            border: 2px solid #667eea;
+    
+            color: #667eea;
+    
+            background: transparent;
+}
+
+        .btn-outline:hover {
+    
+            color: white;
+    
+            background: #667eea;
+}
+
+        .modal {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    -webkit--webkit-backdrop-filter: blur(5px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0,0,0,0.5);
+}
+
+        .modal-content {
+    -webkit-animation: modalSlideIn 0.3s ease;
+    animation: modalSlideIn 0.3s ease;
+    width: 90%;
+    margin: 5% auto;
+    padding: 0;
+    background: white;
+    border-radius: 20px;
+    max-width: 500px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+}
+
+        @keyframes modalSlideIn {
+    
+    transform: translateY(-50px);
+    
+            from {
+                opacity: 0;
+    
+                -webkit-transform: translateY(-50px);
+}
+            to {
+    
+    transform: translateY(0);
+    
+                opacity: 1;
+    
+                -webkit-transform: translateY(0);
+}
+        }
+
+        .modal-header {
+    
+            padding: 25px 30px;
+    
+            color: white;
+    
+            background: #667eea;
+    
+            border-radius: 20px 20px 0 0;
+    
+            text-align: center;
+}
+
+        .modal-title {
+    
+            font-size: 1.5rem;
+    
+            font-weight: 600;
+}
+
+        .modal-body {
+    
+            padding: 30px;
+}
+
+        .form-group {
+    
+            margin-bottom: 20px;
+}
+
+        .form-label {
+    
+            display: block;
+    
+            color: #333;
+    
+            margin-bottom: 8px;
+    
+            font-weight: 500;
+}
+
+        .form-select {
+    
+            width: 100%;
+    
+            padding: 12px 15px;
+    
+            border: 2px solid #e9ecef;
+    
+    transition: border-color 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 1rem;
+    
+            -webkit-transition: border-color 0.3s ease;
+}
+
+        .form-select:focus {
+    
+            outline: none;
+    
+            border-color: #667eea;
+}
+
+        .form-checkbox {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            margin-bottom: 15px;
+}
+
+        .form-checkbox input {
+    
+    transform: scale(1.2);
+    
+            margin-right: 10px;
+    
+            -webkit-transform: scale(1.2);
+}
+
+        .payment-summary {
+    
+            padding: 20px;
+    
+            background: #f8f9fa;
+    
+            border-radius: 10px;
+    
+            margin-bottom: 20px;
+}
+
+        .payment-summary h4 {
+    
+            color: #333;
+    
+            margin-bottom: 15px;
+}
+
+        .payment-item {
+    
+            display: flex;
+    
+            justify-content: space-between;
+    
+            margin-bottom: 10px;
+}
+
+        .payment-total {
+    
+            border-top: 2px solid #dee2e6;
+    
+            padding-top: 15px;
+    
+            margin-top: 15px;
+    
+            font-weight: bold;
+    
+            font-size: 1.1rem;
+}
+
+        .form-actions {
+    
+            display: flex;
+    
+            gap: 15px;
+    
+            justify-content: flex-end;
+    
+            margin-top: 30px;
+}
+
+        .message {
+    
+            padding: 15px;
+    
+            border-radius: 10px;
+    
+            margin-bottom: 20px;
+    
+            text-align: center;
+}
+
+        .success {
+    
+            border: 1px solid #c3e6cb;
+    
+            color: #155724;
+    
+            background: #d4edda;
+}
+
+        .error {
+    
+            border: 1px solid #f5c6cb;
+    
+            color: #721c24;
+    
+            background: #f8d7da;
+}
+
+        .loading {
+    
+            padding: 40px;
+    
+            color: #666;
+    
+            text-align: center;
+}
+
+        .current-plan {
+    
+            padding: 30px;
+    
+            background: rgba(255, 255, 255, 0.95);
+    
+            border-radius: 15px;
+    
+            margin-bottom: 40px;
+    
+            text-align: center;
+    
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+        .current-plan h2 {
+    
+            color: #667eea;
+    
+            margin-bottom: 15px;
+}
+
+        .plan-status {
+    
+            display: inline-block;
+    
+            margin: 10px 0;
+    
+            padding: 8px 20px;
+    
+            border-radius: 20px;
+    
+            font-weight: 500;
+}
+
+        .status-active {
+    
+            color: #155724;
+    
+            background: #d4edda;
+}
+
+        .status-expired {
+    
+            color: #721c24;
+    
+            background: #f8d7da;
+}
+
+        @media (max-width: 768px) {
+    
+            .container {
+                padding: 20px 15px;
+}
+
+            .header h1 {
+    
+                font-size: 2.5rem;
+}
+
+            .plans-grid {
+    
+                grid-template-columns: 1fr;
+}
+
+            .plan-card.featured {
+    
+    transform: none;
+    
+                -webkit-transform: none;
+}
+
+            .modal-content {
+    
+                width: 95%;
+    
+                margin: 10% auto;
+}
+        }
+    </style>
+  <style>
+    .extracted-style-1 {
+     display: none;
+}
+    .extracted-style-2 {
+     padding: 40px;
+     color: #666;
+     grid-column: 1 / -1;
+     text-align: center;
+}
+    .extracted-style-3 {
+     font-size: 3rem;
+     margin-bottom: 20px;
+}
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Escolha seu Plano</h1>
+            <p>Selecione o plano ideal para suas necessidades e comece a usar o DOM v2 hoje mesmo!</p>
+        </div>
+
+        <!-- Plano Atual (se houver) -->
+        <div id="currentPlan" class="current-plan" class="extracted-style-1">
+            <h2>Seu Plano Atual</h2>
+            <div id="currentPlanDetails"></div>
+        </div>
+
+        <!-- Grid de Planos -->
+        <div class="plans-grid" id="plansGrid">
+            <!-- Planos serão carregados aqui -->
+        </div>
+    </div>
+
+    <!-- Modal de Contratação -->
+    <div id="subscriptionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Contratar Plano</div>
+            </div>
+            <form id="subscriptionForm">
+                <div class="modal-body">
+                    <div id="selectedPlanInfo"></div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Método de Pagamento</label>
+                        <select class="form-select" id="paymentMethod" name="paymentMethod" aria-label="Método de pagamento" required tabindex="0">
+                            <option value="">Selecione o método de pagamento</option>
+                            <option value="credit_card">Cartão de Crédito</option>
+                            <option value="pix">PIX</option>
+                            <option value="bank_transfer">Transferência Bancária</option>
+                        </select>
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input id="autoRenew" aria-label="checkbox input" type="checkbox" id="autoRenew" name="autoRenew" aria-label="Renovação automática" tabindex="0">
+                        <label for="autoRenew">Renovação automática</label>
+                    </div>
+
+                    <div class="payment-summary">
+                        <h4>Resumo do Pagamento</h4>
+                        <div class="payment-item">
+                            <span>Plano:</span>
+                            <span id="summaryPlanName">-</span>
+                        </div>
+                        <div class="payment-item">
+                            <span>Valor:</span>
+                            <span id="summaryAmount">-</span>
+                        </div>
+                        <div class="payment-item payment-total">
+                            <span>Total:</span>
+                            <span id="summaryTotal">-</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()" aria-label="Cancelar contratação" tabindex="0">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" aria-label="Confirmar contratação do plano" tabindex="0">Contratar Plano</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let plans = [];
+        let selectedPlan = null;
+        let currentSubscription = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadPlans();
+    
+            checkCurrentSubscription();
+});
+
+        // Carregar planos disponíveis
+        async function loadPlans() {
+    
+            try {
+                const response = await fetch('/api/plans', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token');
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    plans = data.data;
+    
+                    displayPlans();
+} else {
+    
+                    showMessage('Erro ao carregar planos', 'error');
+}
+            } catch (error) {
+    
+                console.error('Erro ao carregar planos:', error);
+    
+                showMessage('Erro ao carregar planos', 'error');
+}
+        }
+
+        // Verificar assinatura atual
+        async function checkCurrentSubscription() {
+    
+            try {
+                const response = await fetch('/api/plans/my-subscription', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token');
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    if (data.data) {
+                        currentSubscription = data.data;
+    
+                        displayCurrentPlan();
+}
+                }
+            } catch (error) {
+    
+                console.error('Erro ao verificar assinatura atual:', error);
+}
+        }
+
+        // Exibir plano atual
+        function displayCurrentPlan() {
+    
+            if (!currentSubscription) return;
+    
+
+            const container = document.getElementById('currentPlan');
+    
+            const details = document.getElementById('currentPlanDetails');
+    
+
+            const startDate = new Date(currentSubscription.current_period_start).toLocaleDateString('pt-BR');
+    
+            const endDate = new Date(currentSubscription.current_period_end).toLocaleDateString('pt-BR');
+    
+            const status = currentSubscription.status === 'active' ? 'Ativo' : 'Expirado';
+    
+            const statusClass = currentSubscription.status === 'active' ? 'status-active' : 'status-expired';
+    
+
+            details.innerHTML = `
+                <h3>${currentSubscription.plan_name || currentSubscription.plan.display_name;
+}</h3>
+                <div class="plan-status ${
+    statusClass;
+}">${
+    status;
+}</div>
+                <div class="plan-details">
+                    <p><strong>Data de Contratação:</strong> ${
+    startDate;
+}</p>
+                    <p><strong>Expira em:</strong> ${
+    endDate;
+}</p>
+                    <p><strong>Valor do Plano:</strong> R$ ${
+    currentSubscription.plan_value?.toFixed(2).replace('.', ',') || '0,00';
+}</p>
+                    <p><strong>Valor Pago:</strong> R$ ${
+    currentSubscription.amount_paid?.toFixed(2).replace('.', ',') || '0,00';
+}</p>
+                    ${
+    currentSubscription.coupon_code ? `<p><strong>Cupom de Desconto:</strong> ${currentSubscription.coupon_code;
+}</p>` : ''}
+                    ${
+    currentSubscription.discount_amount ? `<p><strong>Desconto Aplicado:</strong> R$ ${currentSubscription.discount_amount.toFixed(2).replace('.', ',');
+}</p>` : ''}
+                </div>
+                <button class="btn btn-outline" onclick="viewSubscriptionHistory()" tabindex="0">Ver Histórico</button>
+            `;
+
+            container.style.display = 'block';
+        }
+
+        // Exibir planos
+        function displayPlans() {
+    
+            const container = document.getElementById('plansGrid');
+    
+            
+            if (plans.length === 0) {
+                container.innerHTML = `
+                    <div class="extracted-style-2">
+                        <div class="extracted-style-3">📋</div>
+                        <h3>Nenhum plano disponível</h3>
+                        <p>Entre em contato conosco para mais informações</p>
+                    </div>
+                `;
+    
+                return;
+}
+
+            container.innerHTML = plans.map((plan, index) => {
+    
+                const isFeatured = plan.name === 'ultra_pro';
+    
+                const benefits = Array.isArray(plan.benefits) ? plan.benefits : [];
+    
+                const price = plan.price_monthly;
+    
+                const yearlyPrice = plan.price_yearly;
+    
+                const hasYearlyDiscount = yearlyPrice && yearlyPrice > 0;
+    
+                
+                return `
+                    <div class="plan-card ${isFeatured ? 'featured' : '';
+}">
+                        <div class="plan-name">${
+    plan.display_name;
+}</div>
+                        ${
+    plan.tagline ? `<div class="plan-tagline">${plan.tagline;
+}</div>` : ''}
+                        
+                        <div class="plan-pricing">
+                            <div class="plan-price">R$ ${
+    price.toFixed(2).replace('.', ',');
+}</div>
+                            <div class="plan-currency">por mês</div>
+                            ${
+    hasYearlyDiscount ? `
+                                <div class="plan-yearly">
+                                    <span class="yearly-price">R$ ${yearlyPrice.toFixed(2).replace('.', ',');
+}/ano</span>
+                                    <span class="yearly-savings">Economia de R$ ${
+    ((price * 12) - yearlyPrice).toFixed(2).replace('.', ',');
+}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="plan-description">${
+    plan.description || 'Plano completo para suas necessidades';
+}</div>
+                        
+                        <ul class="plan-benefits">
+                            ${
+    benefits.map(benefit => `
+                                <li>${benefit;
+}</li>
+                            `).join('')}
+                        </ul>
+                        
+                        <button class="btn btn-primary" onclick="selectPlan('${
+    plan.id;
+}')" aria-label="Contratar ${
+    plan.display_name;
+}" tabindex="0">
+                            ${
+    currentSubscription && currentSubscription.plan_id === plan.id ? 'Plano Atual' : 'Contratar Plano';
+}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Selecionar plano
+        function selectPlan(planId) {
+    
+            selectedPlan = plans.find(plan => plan.id === planId);
+    
+            
+            if (!selectedPlan) {
+                showMessage('Plano não encontrado', 'error');
+    
+                return;
+}
+
+            // Verificar se é o plano atual
+            if (currentSubscription && currentSubscription.plan_id === planId) {
+    
+                showMessage('Este é seu plano atual', 'success');
+    
+                return;
+}
+
+            showSubscriptionModal();
+        }
+
+        // Mostrar modal de contratação
+        function showSubscriptionModal() {
+    
+            const modal = document.getElementById('subscriptionModal');
+    
+            const planInfo = document.getElementById('selectedPlanInfo');
+    
+            const summaryPlanName = document.getElementById('summaryPlanName');
+    
+            const summaryAmount = document.getElementById('summaryAmount');
+    
+            const summaryTotal = document.getElementById('summaryTotal');
+    
+
+            const price = selectedPlan.price_monthly;
+    
+            const yearlyPrice = selectedPlan.price_yearly;
+    
+
+            planInfo.innerHTML = `
+                <h3>${selectedPlan.display_name;
+}</h3>
+                ${
+    selectedPlan.tagline ? `<p class="plan-tagline">${selectedPlan.tagline;
+}</p>` : ''}
+                <p>${
+    selectedPlan.description || 'Plano completo para suas necessidades';
+}</p>
+                ${
+    yearlyPrice && yearlyPrice > 0 ? `
+                    <div class="yearly-option">
+                        <label>
+                            <input id="yearlyBilling" aria-label="checkbox input" type="checkbox" id="yearlyBilling" onchange="updatePricing()" tabindex="0">
+                            Contratar anualmente e economizar R$ ${((price * 12) - yearlyPrice).toFixed(2).replace('.', ',');
+}
+                        </label>
+                    </div>
+                ` : ''}
+            `;
+
+            summaryPlanName.textContent = selectedPlan.display_name;
+            summaryAmount.textContent = `R$ ${
+    price.toFixed(2).replace('.', ',');
+}`;
+            summaryTotal.textContent = `R$ ${
+    price.toFixed(2).replace('.', ',');
+}`;
+
+            modal.style.display = 'block';
+        }
+
+        // Atualizar preços no modal
+        function updatePricing() {
+    
+            const yearlyBilling = document.getElementById('yearlyBilling');
+    
+            const summaryAmount = document.getElementById('summaryAmount');
+    
+            const summaryTotal = document.getElementById('summaryTotal');
+    
+            
+            if (yearlyBilling && yearlyBilling.checked && selectedPlan.price_yearly) {
+                const yearlyPrice = selectedPlan.price_yearly;
+    
+                summaryAmount.textContent = `R$ ${yearlyPrice.toFixed(2).replace('.', ',');
+}`;
+                summaryTotal.textContent = `R$ ${
+    yearlyPrice.toFixed(2).replace('.', ',');
+}`;
+            } else {
+    
+                const monthlyPrice = selectedPlan.price_monthly;
+    
+                summaryAmount.textContent = `R$ ${monthlyPrice.toFixed(2).replace('.', ',');
+}`;
+                summaryTotal.textContent = `R$ ${
+    monthlyPrice.toFixed(2).replace('.', ',');
+}`;
+            }
+        }
+
+        // Fechar modal
+        function closeModal() {
+    
+            document.getElementById('subscriptionModal').style.display = 'none';
+}
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+    
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+}
+        }
+
+        // Formulário de contratação
+        document.getElementById('subscriptionForm').addEventListener('submit', async function(e) {
+    
+            e.preventDefault();
+    
+            
+            const paymentMethod = document.getElementById('paymentMethod').value;
+    
+            const autoRenew = document.getElementById('autoRenew').checked;
+    
+
+            if (!paymentMethod) {
+                showMessage('Selecione um método de pagamento', 'error');
+    
+                return;
+}
+
+            try {
+    
+                const response = await fetch('/api/plans/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token');
+}`
+                    },
+                    body: JSON.stringify({
+    
+                        plan_id: selectedPlan.id,
+                        payment_method: paymentMethod,
+                        auto_renew: autoRenew,
+                        plan_name: selectedPlan.display_name,
+                        plan_value: document.getElementById('yearlyBilling')?.checked ? selectedPlan.price_yearly : selectedPlan.price_monthly
+                    ;
+})
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    closeModal();
+    
+                    showMessage('Assinatura criada com sucesso! Aguardando confirmação do pagamento.', 'success');
+    
+                    
+                    // Simular confirmação de pagamento (em produção, isso viria do gateway de pagamento)
+                    setTimeout(() => {
+                        confirmPayment(data.data.id);
+}, 2000);
+                } else {
+    
+                    const error = await response.json();
+    
+                    showMessage(error.error || 'Erro ao contratar plano', 'error');
+}
+            } catch (error) {
+    
+                console.error('Erro ao contratar plano:', error);
+    
+                showMessage('Erro ao contratar plano', 'error');
+}
+        });
+
+        // Confirmar pagamento (simulado)
+        async function confirmPayment(subscriptionId) {
+    
+            try {
+                const response = await fetch('/api/plans/confirm-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token');
+}`
+                    },
+                    body: JSON.stringify({
+    
+                        subscription_id: subscriptionId,
+                        payment_id: `payment_${Date.now();
+}`,
+                        payment_status: 'paid'
+                    })
+                });
+
+                if (response.ok) {
+    
+                    showMessage('Pagamento confirmado! Seu plano está ativo.', 'success');
+    
+                    loadPlans();
+    
+                    checkCurrentSubscription();
+} else {
+    
+                    const error = await response.json();
+    
+                    showMessage(error.error || 'Erro ao confirmar pagamento', 'error');
+}
+            } catch (error) {
+    
+                console.error('Erro ao confirmar pagamento:', error);
+    
+                showMessage('Erro ao confirmar pagamento', 'error');
+}
+        }
+
+        // Ver histórico de assinaturas
+        async function viewSubscriptionHistory() {
+    
+            try {
+                const response = await fetch('/api/plans/subscription-history', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token');
+}`
+                    }
+                });
+
+                if (response.ok) {
+    
+                    const data = await response.json();
+    
+                    showSubscriptionHistory(data.data);
+} else {
+    
+                    showMessage('Erro ao carregar histórico', 'error');
+}
+            } catch (error) {
+    
+                console.error('Erro ao carregar histórico:', error);
+    
+                showMessage('Erro ao carregar histórico', 'error');
+}
+        }
+
+        // Mostrar histórico de assinaturas
+        function showSubscriptionHistory(subscriptions) {
+    
+            const history = subscriptions.map(sub => {
+                const startDate = new Date(sub.current_period_start).toLocaleDateString('pt-BR');
+    
+                const endDate = new Date(sub.current_period_end).toLocaleDateString('pt-BR');
+    
+                return `${sub.plan.display_name;
+} (${
+    startDate;
+} - ${
+    endDate;
+}) - ${
+    sub.status;
+}`;
+            }).join('\n');
+
+            alert('Histórico de Assinaturas:\n\n' + history);
+        }
+
+        // Função para mostrar mensagens
+        function showMessage(message, type) {
+    
+            const messageDiv = document.createElement('div');
+    
+            messageDiv.className = `message ${type;
+}`;
+            messageDiv.textContent = message;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(messageDiv, container.firstChild);
+            
+            setTimeout(() => {
+    
+                messageDiv.remove();
+}, 5000);
+        }
+    </script>
+</body>
+</html>

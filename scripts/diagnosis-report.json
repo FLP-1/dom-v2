@@ -1,0 +1,2261 @@
+{
+  "timestamp": "2025-08-22T16:21:47.095Z",
+  "summary": {
+    "filesWithIssues": 43,
+    "totalIssues": 296,
+    "issueTypes": {
+      "css-prefix-order": 296
+    }
+  },
+  "details": [
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\advanced-timecard.html",
+      "totalIssues": 11,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 45,
+          "description": "CSS prefix order: background-clip deve vir após -webkit-background-clip"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 75,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 75,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 136,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 791,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 871,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 871,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1198,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1198,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1471,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1722,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 2,
+        "inputs": 4,
+        "cssIssues": 11
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\app.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 516,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\approvals-management.html",
+      "totalIssues": 2,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 10,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 15,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        }
+      ],
+      "stats": {
+        "selects": 7,
+        "inputs": 5,
+        "cssIssues": 2
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\budget-management.html",
+      "totalIssues": 14,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 42,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 85,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 85,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 181,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 374,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 450,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 546,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 575,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 626,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 626,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 953,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 953,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1226,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1477,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 3,
+        "inputs": 5,
+        "cssIssues": 14
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\communication-management.html",
+      "totalIssues": 15,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 27,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 58,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 70,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 95,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 106,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 250,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 265,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 277,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 283,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 290,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 304,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 321,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 352,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 375,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 395,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        }
+      ],
+      "stats": {
+        "selects": 1,
+        "inputs": 2,
+        "cssIssues": 15
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\communication.html",
+      "totalIssues": 16,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 45,
+          "description": "CSS prefix order: background-clip deve vir após -webkit-background-clip"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 75,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 75,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 125,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 282,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 282,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 493,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 603,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 619,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 723,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 825,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 825,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1152,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1152,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1425,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1676,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 2,
+        "inputs": 5,
+        "cssIssues": 16
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\components\\sidebar.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 109,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-admin.html",
+      "totalIssues": 8,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 40,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 662,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 668,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 668,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 995,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 995,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1268,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1519,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 8
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-employee.html",
+      "totalIssues": 9,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 40,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 729,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 747,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 753,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 753,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1080,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1080,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1353,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1604,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 9
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-employer.html",
+      "totalIssues": 8,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 40,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 760,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 766,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 766,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1093,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1093,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1366,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1617,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 8
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-family.html",
+      "totalIssues": 10,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 40,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 133,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 816,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 836,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 842,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 842,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1169,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1169,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1442,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1693,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 1,
+        "cssIssues": 10
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard.html",
+      "totalIssues": 10,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 31,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 31,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 271,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 325,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 325,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1196,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1209,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1209,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1482,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1733,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 10
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\documents-management.html",
+      "totalIssues": 11,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 48,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 57,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 88,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 101,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 134,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 150,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 160,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 249,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 269,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 286,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 326,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        }
+      ],
+      "stats": {
+        "selects": 6,
+        "inputs": 4,
+        "cssIssues": 11
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\employees-management.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 480,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 4,
+        "inputs": 7,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\esocial-validation.html",
+      "totalIssues": 4,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 54,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 110,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 132,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 151,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        }
+      ],
+      "stats": {
+        "selects": 1,
+        "inputs": 18,
+        "cssIssues": 4
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\finance.html",
+      "totalIssues": 4,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 57,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 57,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 147,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 479,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 3,
+        "inputs": 6,
+        "cssIssues": 4
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\financial-management.html",
+      "totalIssues": 6,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 31,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 142,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 213,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 267,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 414,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 551,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 1,
+        "inputs": 7,
+        "cssIssues": 6
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\gamification.html",
+      "totalIssues": 17,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 45,
+          "description": "CSS prefix order: background-clip deve vir após -webkit-background-clip"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 64,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 195,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 268,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 268,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 422,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 422,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 566,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 746,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 762,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 821,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 921,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 921,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1248,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1248,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1521,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1772,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 17
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\hr-management.html",
+      "totalIssues": 9,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 48,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 57,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 88,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 101,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 134,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 150,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 160,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 261,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 281,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        }
+      ],
+      "stats": {
+        "selects": 4,
+        "inputs": 8,
+        "cssIssues": 9
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\index.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 37,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\login-screen.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 304,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 3,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\main.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 80,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\notifications-management.html",
+      "totalIssues": 8,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 58,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 67,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 81,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 91,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 166,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 176,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 182,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 234,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 4,
+        "inputs": 8,
+        "cssIssues": 8
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\notifications.html",
+      "totalIssues": 9,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 79,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 79,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 107,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 383,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 383,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 710,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 710,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 983,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1234,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 9
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\payment-integrations.html",
+      "totalIssues": 14,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 45,
+          "description": "CSS prefix order: background-clip deve vir após -webkit-background-clip"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 75,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 75,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 154,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 154,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 445,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 461,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 558,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 648,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 648,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 975,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 975,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1248,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1499,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 2,
+        "inputs": 3,
+        "cssIssues": 14
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\payments-management.html",
+      "totalIssues": 8,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 87,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 87,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1145,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1164,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1196,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1196,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1469,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1720,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 4,
+        "inputs": 7,
+        "cssIssues": 8
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\plans.html",
+      "totalIssues": 4,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 77,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 77,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 425,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 439,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 1,
+        "inputs": 2,
+        "cssIssues": 4
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\profile.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 39,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 8,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\recruitment-management.html",
+      "totalIssues": 3,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 10,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 15,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 29,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        }
+      ],
+      "stats": {
+        "selects": 5,
+        "inputs": 7,
+        "cssIssues": 3
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\reports-advanced-management.html",
+      "totalIssues": 6,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 80,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 80,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 123,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 177,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 510,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 524,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 3,
+        "inputs": 5,
+        "cssIssues": 6
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\reports-management.html",
+      "totalIssues": 7,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 58,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 67,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 101,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 111,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 117,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 186,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 206,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        }
+      ],
+      "stats": {
+        "selects": 1,
+        "inputs": 3,
+        "cssIssues": 7
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\reports.html",
+      "totalIssues": 12,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 46,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 89,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 89,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 157,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 232,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 647,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 698,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 698,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1025,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1025,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1298,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1549,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 11,
+        "inputs": 1,
+        "cssIssues": 12
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\screen-preview.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 715,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 9,
+        "inputs": 12,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\settings.html",
+      "totalIssues": 10,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 46,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 90,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 165,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 566,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 617,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 617,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 944,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 944,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1217,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1468,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 6,
+        "inputs": 18,
+        "cssIssues": 10
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\showcase-funcional.html",
+      "totalIssues": 6,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 41,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 101,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 101,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 211,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 280,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 331,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 6
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\showcase-telas.html",
+      "totalIssues": 6,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 41,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 131,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 212,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 212,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 389,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 634,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 8,
+        "cssIssues": 6
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\splash-screen.html",
+      "totalIssues": 2,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 51,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 58,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 2
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\splash.html",
+      "totalIssues": 7,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 32,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 39,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 48,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 56,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 64,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 75,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 97,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 7
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\start.html",
+      "totalIssues": 1,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 80,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 1
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\task-management.html",
+      "totalIssues": 11,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 27,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 58,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 68,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 105,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 119,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 161,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 181,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 192,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 330,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 352,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 387,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        }
+      ],
+      "stats": {
+        "selects": 4,
+        "inputs": 4,
+        "cssIssues": 11
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\tasks-management.html",
+      "totalIssues": 4,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 147,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 147,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 552,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 651,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 3,
+        "inputs": 2,
+        "cssIssues": 4
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\timeclock.html",
+      "totalIssues": 7,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 66,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 456,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 456,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 783,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 783,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1056,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 1307,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        }
+      ],
+      "stats": {
+        "selects": 0,
+        "inputs": 0,
+        "cssIssues": 7
+      }
+    },
+    {
+      "file": "C:\\dom-v2\\frontend\\public\\users-management.html",
+      "totalIssues": 9,
+      "issues": [
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 23,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 46,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 86,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 109,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 134,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 258,
+          "description": "CSS prefix order: backdrop-filter deve vir após -webkit-backdrop-filter"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 322,
+          "description": "CSS prefix order: transition deve vir após -webkit-transition"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 360,
+          "description": "CSS prefix order: animation deve vir após -webkit-animation"
+        },
+        {
+          "type": "css-prefix-order",
+          "element": "css",
+          "line": 375,
+          "description": "CSS prefix order: transform deve vir após -webkit-transform"
+        }
+      ],
+      "stats": {
+        "selects": 3,
+        "inputs": 6,
+        "cssIssues": 9
+      }
+    }
+  ]
+}

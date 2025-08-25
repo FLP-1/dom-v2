@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validacoes eSocial - DOM v2</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        .header p {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.9);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+        .alert-success {
+            color: #155724;
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .alert-error {
+            color: #721c24;
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        .alert-info {
+            color: #0c5460;
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+        .validation-result {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid;
+            border-radius: 10px;
+        }
+        .validation-success {
+            color: #155724;
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .validation-error {
+            color: #721c24;
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Validacoes eSocial</h1>
+            <p>Sistema completo de validacao para conformidade com eSocial e LGPD</p>
+        </div>
+        
+        <div class="card">
+            <h2>Validacao de Dados</h2>
+            <p>Teste as validacoes do sistema eSocial:</p>
+            
+            <div style="margin: 20px 0;">
+                <button class="btn btn-primary" onclick="validateUserData()">
+                    Validar Dados
+                </button>
+                <button class="btn btn-primary" onclick="checkCompliance()">
+                    Verificar Compliance
+                </button>
+                <button class="btn btn-primary" onclick="testValidation()">
+                    Teste Rapido
+                </button>
+            </div>
+            
+            <div id="validationResults">
+                <p>Clique em "Validar Dados" para iniciar a validacao.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('Pagina de validacao eSocial carregada com sucesso!');
+        
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+        
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`http://localhost:3001/api${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                showAlert('Erro na comunicacao com o servidor', 'error');
+                return null;
+            }
+        }
+        
+        async function validateUserData() {
+            const testData = {
+                cpf: '123.456.789-00',
+                email: 'teste@exemplo.com',
+                phone: '(11) 99999-9999',
+                cep: '01234-567',
+                name: 'Joao Silva'
+            };
+            
+            try {
+                showAlert('Iniciando validacao...', 'info');
+                
+                const response = await apiCall('/esocial/validate-user-data', {
+                    method: 'POST',
+                    body: JSON.stringify(testData)
+                });
+                
+                if (response) {
+                    displayValidationResults(response.data || response);
+                    showAlert('Validacao concluida com sucesso!', 'success');
+                }
+            } catch (error) {
+                showAlert('Erro na validacao', 'error');
+            }
+        }
+        
+        function displayValidationResults(data) {
+            const container = document.getElementById('validationResults');
+            
+            let html = '<h3>Resultados da Validacao:</h3>';
+            html += '<div style="display: grid; gap: 15px;">';
+            
+            if (data.validations) {
+                Object.entries(data.validations).forEach(([field, validation]) => {
+                    const statusClass = validation.isValid ? 'validation-success' : 'validation-error';
+                    html += `
+                        <div class="${statusClass}">
+                            <h4>${field.toUpperCase()}</h4>
+                            <p><strong>Valor:</strong> ${validation.value || 'Nao informado'}</p>
+                            <p><strong>Status:</strong> ${validation.isValid ? 'Valido' : 'Invalido'}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div class="alert alert-info">Dados de validacao recebidos com sucesso!</div>';
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        async function checkCompliance() {
+            try {
+                showAlert('Verificando compliance...', 'info');
+                
+                const response = await apiCall('/esocial/compliance-status/1');
+                
+                if (response) {
+                    showAlert('Compliance verificado com sucesso!', 'success');
+                    displayComplianceResults(response.data || response);
+                }
+            } catch (error) {
+                showAlert('Erro ao verificar compliance', 'error');
+            }
+        }
+        
+        function displayComplianceResults(data) {
+            const container = document.getElementById('validationResults');
+            
+            let html = '<h3>Status de Compliance:</h3>';
+            html += '<div class="alert alert-success">';
+            html += '<p><strong>Status:</strong> Em conformidade</p>';
+            html += '<p><strong>Ultima verificacao:</strong> ' + new Date().toLocaleString('pt-BR') + '</p>';
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+        
+        function testValidation() {
+            const container = document.getElementById('validationResults');
+            
+            let html = '<h3>Teste de Validacao:</h3>';
+            html += '<div style="display: grid; gap: 15px;">';
+            
+            const testResults = [
+                { field: 'CPF', value: '123.456.789-00', isValid: true },
+                { field: 'Email', value: 'teste@exemplo.com', isValid: true },
+                { field: 'Telefone', value: '(11) 99999-9999', isValid: true },
+                { field: 'CEP', value: '01234-567', isValid: false }
+            ];
+            
+            testResults.forEach(result => {
+                const statusClass = result.isValid ? 'validation-success' : 'validation-error';
+                html += `
+                    <div class="${statusClass}">
+                        <h4>${result.field}</h4>
+                        <p><strong>Valor:</strong> ${result.value}</p>
+                        <p><strong>Status:</strong> ${result.isValid ? 'Valido' : 'Invalido'}</p>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+            
+            showAlert('Teste de validacao executado!', 'success');
+        }
+    </script>
+</body>
+</html>

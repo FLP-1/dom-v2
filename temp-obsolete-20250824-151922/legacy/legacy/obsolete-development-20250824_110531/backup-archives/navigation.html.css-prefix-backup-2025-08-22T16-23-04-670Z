@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Navegação</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="theme-color" content="#007AFF" data-firefox-compat="true">
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        body {
+    
+            margin: 0;
+    
+            padding: 20px;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    
+            min-height: 100vh;
+}
+        .nav-container {
+    
+            margin: 0 auto;
+    
+            padding: 40px;
+    
+            background: white;
+    
+            max-width: 800px;
+    
+            border-radius: 20px;
+    
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+        .header {
+    
+            text-align: center;
+    
+            margin-bottom: 40px;
+}
+        .logo {
+    
+            color: #007AFF;
+    
+            font-size: 48px;
+    
+            margin-bottom: 20px;
+}
+        .title {
+    
+            color: #333;
+    
+            font-size: 32px;
+    
+            font-weight: bold;
+    
+            margin-bottom: 10px;
+}
+        .subtitle {
+    
+            color: #666;
+    
+            font-size: 18px;
+}
+        .nav-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    
+            gap: 20px;
+    
+            margin-top: 30px;
+}
+        .nav-item {
+    
+            padding: 25px;
+    
+            border: 2px solid transparent;
+    
+            background: #f8f9fa;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 15px;
+    
+            text-align: center;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            cursor: pointer;
+}
+        .nav-item:hover {
+    
+    transform: translateY(-5px);
+    
+            -webkit-transform: translateY(-5px);
+    
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    
+            border-color: #007AFF;
+}
+        .nav-icon {
+    
+            font-size: 36px;
+    
+            margin-bottom: 15px;
+}
+        .nav-title {
+    
+            color: #333;
+    
+            font-size: 18px;
+    
+            font-weight: bold;
+    
+            margin-bottom: 10px;
+}
+        .nav-description {
+    
+            color: #666;
+    
+            font-size: 14px;
+    
+            line-height: 1.4;
+}
+        .status {
+    
+            padding: 15px;
+    
+            border: 1px solid #c3e6cb;
+    
+            color: #155724;
+    
+            background: #d4edda;
+    
+            margin-top: 30px;
+    
+            border-radius: 10px;
+    
+            text-align: center;
+}
+    </style>
+</head>
+<body>
+    <!-- Container para o header reutilizável -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizável -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="nav-container">
+        <div class="header">
+            <div class="logo">🏠</div>
+            <h1 class="title">DOM v2</h1>
+            <p class="subtitle">Sistema de Gestão Doméstica - Navegação</p>
+        </div>
+        
+        <div class="nav-grid">
+            <div class="nav-item" onclick="window.location.href='splash-screen.html'">
+                <div class="nav-icon">🚀</div>
+                <div class="nav-title">Tela de Splash</div>
+                <div class="nav-description">Tela inicial com animações e carregamento</div>
+            </div>
+            
+            <div class="nav-item" onclick="window.location.href='login-screen.html'">
+                <div class="nav-icon">🔐</div>
+                <div class="nav-title">Tela de Login</div>
+                <div class="nav-description">Autenticação com validação de CPF</div>
+            </div>
+            
+            <div class="nav-item" onclick="window.location.href='index-working.html'">
+                <div class="nav-icon">📱</div>
+                <div class="nav-title">Dashboard</div>
+                <div class="nav-description">Interface principal da aplicação</div>
+            </div>
+            
+            <div class="nav-item" onclick="window.location.href='index.html'">
+                <div class="nav-icon">🔄</div>
+                <div class="nav-title">Auto-redirecionamento</div>
+                <div class="nav-description">Fluxo automático: Splash → Login → Dashboard</div>
+            </div>
+        </div>
+        
+        <div class="status">
+            ✅ Sistema funcionando corretamente! Clique em qualquer opção para navegar.
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+    
+            componentManager.initPage('Navegação');
+    
+            
+            console.log('🧭 DOM v2 - Página de Navegação carregada');
+    
+            
+            // Adicionar efeitos de interação
+            const navItems = document.querySelectorAll('.nav-item');
+    
+            
+            navItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+});
+                
+                item.addEventListener('mouseleave', function() {
+    
+                    this.style.transform = 'translateY(0) scale(1)';
+});
+            });
+        });
+    </script>
+</body>
+</html> 

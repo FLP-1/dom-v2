@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade - DOM v2</title>
+    <link rel="icon" type="image/png" href="Logo.png">
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .content h3 {
+            color: #764ba2;
+            margin: 25px 0 15px 0;
+            font-size: 1.4rem;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .content ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Container para o header reutilizável -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizável -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+        <div class="header">
+            <h1>
+                <img src="Logo.png" alt="DOM" style="width: 48px; height: 48px; border-radius: 8px; vertical-align: middle; margin-right: 10px;">
+                DOM v2
+            </h1>
+            <p>Política de Privacidade</p>
+        </div>
+
+        <div class="content">
+            <h2>Política de Privacidade - DOM v2</h2>
+            
+            <p><strong>Última atualização:</strong> 19 de Agosto de 2025</p>
+            
+            <h3>1. Introdução</h3>
+            <p>Esta Política de Privacidade descreve como o sistema DOM v2 coleta, usa, armazena e protege suas informações pessoais. Estamos comprometidos em proteger sua privacidade e cumprir a Lei Geral de Proteção de Dados (LGPD).</p>
+            
+            <h3>2. Informações que Coletamos</h3>
+            <p>Coletamos as seguintes informações quando você usa nosso sistema:</p>
+            <ul>
+                <li><strong>Informações de Identificação:</strong> Nome, CPF/CNPJ, endereço de e-mail</li>
+                <li><strong>Informações de Conta:</strong> Credenciais de login, perfil de usuário</li>
+                <li><strong>Dados de Uso:</strong> Histórico de atividades, preferências, configurações</li>
+                <li><strong>Dados Financeiros:</strong> Informações de pagamentos, transações (quando aplicável)</li>
+                <li><strong>Dados de Funcionários:</strong> Informações profissionais, documentos (quando aplicável)</li>
+            </ul>
+            
+            <h3>3. Como Usamos suas Informações</h3>
+            <p>Utilizamos suas informações para:</p>
+            <ul>
+                <li>Fornecer e manter o sistema DOM v2</li>
+                <li>Processar transações e pagamentos</li>
+                <li>Gerenciar contas de usuário e perfis</li>
+                <li>Enviar notificações e alertas importantes</li>
+                <li>Melhorar nossos serviços e funcionalidades</li>
+                <li>Cumprir obrigações legais e regulamentares</li>
+                <li>Prevenir fraudes e garantir a segurança</li>
+            </ul>
+            
+            <h3>4. Compartilhamento de Informações</h3>
+            <p>Não vendemos, alugamos ou compartilhamos suas informações pessoais com terceiros, exceto:</p>
+            <ul>
+                <li>Com seu consentimento explícito</li>
+                <li>Para cumprir obrigações legais</li>
+                <li>Com prestadores de serviços essenciais (sempre com proteções adequadas)</li>
+                <li>Para proteger nossos direitos e segurança</li>
+            </ul>
+            
+            <h3>5. Segurança dos Dados</h3>
+            <p>Implementamos medidas de segurança robustas para proteger suas informações:</p>
+            <ul>
+                <li>Criptografia de dados em trânsito e em repouso</li>
+                <li>Controle de acesso rigoroso</li>
+                <li>Monitoramento contínuo de segurança</li>
+                <li>Backups regulares e seguros</li>
+                <li>Treinamento da equipe em segurança</li>
+            </ul>
+            
+            <h3>6. Retenção de Dados</h3>
+            <p>Mantemos suas informações apenas pelo tempo necessário para:</p>
+            <ul>
+                <li>Fornecer nossos serviços</li>
+                <li>Cumprir obrigações legais</li>
+                <li>Resolver disputas</li>
+                <li>Fazer cumprir nossos acordos</li>
+            </ul>
+            
+            <h3>7. Seus Direitos (LGPD)</h3>
+            <p>Conforme a LGPD, você tem os seguintes direitos:</p>
+            <ul>
+                <li><strong>Acesso:</strong> Solicitar informações sobre seus dados</li>
+                <li><strong>Correção:</strong> Corrigir dados imprecisos ou incompletos</li>
+                <li><strong>Exclusão:</strong> Solicitar a exclusão de seus dados</li>
+                <li><strong>Portabilidade:</strong> Receber seus dados em formato estruturado</li>
+                <li><strong>Revogação:</strong> Revogar consentimento a qualquer momento</li>
+                <li><strong>Oposição:</strong> Opor-se ao processamento de dados</li>
+            </ul>
+            
+            <h3>8. Cookies e Tecnologias Similares</h3>
+            <p>Utilizamos cookies e tecnologias similares para:</p>
+            <ul>
+                <li>Manter sua sessão ativa</li>
+                <li>Lembrar suas preferências</li>
+                <li>Melhorar a experiência do usuário</li>
+                <li>Analisar o uso do sistema</li>
+            </ul>
+            
+            <h3>9. Transferências Internacionais</h3>
+            <p>Seus dados podem ser processados em servidores localizados fora do Brasil. Sempre garantimos que essas transferências sejam feitas com proteções adequadas e em conformidade com a LGPD.</p>
+            
+            <h3>10. Menores de Idade</h3>
+            <p>Nosso sistema não é destinado a menores de 18 anos. Não coletamos intencionalmente informações pessoais de menores. Se você é pai/mãe ou responsável e acredita que seu filho nos forneceu informações pessoais, entre em contato conosco.</p>
+            
+            <h3>11. Alterações na Política</h3>
+            <p>Podemos atualizar esta Política periodicamente. Notificaremos sobre mudanças significativas através do sistema ou por e-mail. O uso continuado após as alterações constitui aceitação da nova política.</p>
+            
+            <h3>12. Contato</h3>
+            <p>Para exercer seus direitos ou esclarecer dúvidas sobre esta Política, entre em contato conosco:</p>
+            <ul>
+                <li>Através do sistema DOM v2</li>
+                <li>Por e-mail: privacidade@domv2.com</li>
+                <li>Pelo telefone: (11) 99999-9999</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <a href="terms.html" class="btn btn-secondary">Termos de Uso</a>
+            <a href="login-screen.html" class="btn btn-primary">Voltar ao Login</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+            componentManager.initPage('Política de Privacidade');
+        });
+    </script>
+</body>
+</html>

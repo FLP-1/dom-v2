@@ -75,12 +75,6 @@ function validateType(value, expectedType) {
   }
 }
 
-// Aplicar validação de tipos
-if (!validateType(data, 'object')) {
-  throw new TypeError('Dados devem ser um objeto válido');
-}
-
-
 /**
  * Asserções de validação crítica
  * @param {any} condition - Condição a ser validada
@@ -95,12 +89,6 @@ function assertCritical(condition, message = 'Assertion failed') {
   }
 }
 
-// Aplicar asserções críticas
-assertCritical(data !== null, 'Dados não podem ser null');
-assertCritical(typeof data === 'object', 'Dados devem ser um objeto');
-assertCritical(Object.keys(data).length > 0, 'Dados não podem estar vazios');
-
-
 /**
  * Validação de entrada de dados
  * @param {any} data - Dados a serem validados
@@ -112,11 +100,6 @@ function validateInput(data) {
   if (Array.isArray(data) && data.length === 0) return false;
   if (typeof data === 'object' && Object.keys(data).length === 0) return false;
   return true;
-}
-
-// Aplicar validação
-if (!validateInput(inputData)) {
-  throw new Error('Dados de entrada inválidos');
 }
 
 
@@ -165,8 +148,8 @@ async function configureApp(): Promise<void> {
   // Conectar ao banco de dados
   await connectDatabase();
   
-  // Executar migrações
-  await runMigrations();
+  // Executar migrações (comentado temporariamente)
+  // await runMigrations();
   
   // Configurar middlewares
   configureMiddlewares(app);

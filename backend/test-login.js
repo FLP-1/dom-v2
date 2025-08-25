@@ -1,36 +1,29 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const bcrypt = require('bcrypt');
 
 async function testLogin() {
-  try {
-    console.log('🧪 Testando endpoint de login...');
-    
-    const response = await fetch('http://localhost:3001/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cpf: '59876913700',
-        password: '123456'
-      })
-    });
-
-    console.log('Status:', response.status);
-
-    const data = await response.json();
-    console.log('Response:', JSON.stringify(data, null, 2));
-
-    if (response.ok) {
-      console.log('✅ Login bem-sucedido!');
-      console.log('Token:', data.token ? 'Presente' : 'Ausente');
-      console.log('User:', data.user ? 'Presente' : 'Ausente');
-    } else {
-      console.log('❌ Login falhou');
+    try {
+        console.log('🔍 Testando login...');
+        
+        // Senha que deveria funcionar
+        const password = 'admin123';
+        
+        // Hash da senha (simulando o que está no banco)
+        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log('🔑 Hash gerado:', hashedPassword.substring(0, 20) + '...');
+        
+        // Testar comparação
+        const isValid = await bcrypt.compare(password, hashedPassword);
+        console.log('✅ Senha válida:', isValid);
+        
+        // Testar senha incorreta
+        const isInvalid = await bcrypt.compare('senhaerrada', hashedPassword);
+        console.log('❌ Senha inválida:', isInvalid);
+        
+        console.log('✅ Teste de login concluído');
+        
+    } catch (error) {
+        console.error('❌ Erro no teste:', error);
     }
-
-  } catch (error) {
-    console.error('❌ Erro no teste:', error.message);
-  }
 }
 
 testLogin();

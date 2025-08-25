@@ -1,187 +1,238 @@
-
-/**
- * 
- * @alternatives
- * - Alternativa 1: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * - Alternativa 2: [DESCREVER ALTERNATIVA]
- *   - Contras: [LISTAR DESVANTAGENS]
- * 
- * @decision
- * 
- * @trade-offs
- * - Performance vs Simplicidade
- * - Flexibilidade vs Complexidade
+﻿/**
+ * Rotas de Pagamentos - DOM v2
+ * Gerencia operações CRUD para pagamentos usando Prisma ORM
  */
 
+import { Router } from 'express';
+import { PrismaClient } from '@prisma/client';
+
+const router = Router();
+const prisma = new PrismaClient();
 
 /**
- * 
- * @references
- * - DOM v2 Documentation: docs/README.md
- * - Critical Thinking Guidelines: docs/directives/diretivas-pensamento-critico.md
- * - Development Process: docs/development/processo-garantia-diretivas.md
- * - API Documentation: docs/technologies/backend/apis.md
- * - React Native Web: https://github.com/necolas/react-native-web
- * - Prisma ORM: https://www.prisma.io/docs
- * - TypeScript: https://www.typescriptlang.org/docs
- * 
- * @alternatives
- * - Para banco de dados: PostgreSQL, MySQL, MongoDB
- * - Para frontend: React, Vue.js, Angular
- * - Para mobile: React Native, Flutter, Native
- * 
- * @considerations
+ * GET /payments
+ * Lista todos os pagamentos
  */
-
-
-/**
- * @param {any} value - Valor a ser validado
- * @param {string} expectedType - Tipo esperado
- */
-function validateType(value, expectedType) {
-  switch (expectedType) {
-    case 'string':
-      return typeof value === 'string';
-    case 'number':
-      return typeof value === 'number' && !isNaN(value);
-    case 'boolean':
-      return typeof value === 'boolean';
-    case 'object':
-      return typeof value === 'object' && value !== null && !Array.isArray(value);
-    case 'array':
-      return Array.isArray(value);
-    case 'function':
-      return typeof value === 'function';
-    default:
-      return false;
-  }
-}
-
-}
-
-
-/**
- * Sistema de logging estruturado
- * @param {string} message - Mensagem do log
- * @param {object} data - Dados adicionais
- */
-function logStructured(level, message, data = {}) {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-    data,
-    file: __filename,
-    function: arguments.callee.name || 'anonymous'
-  };
-  
-  // Console output
-  const consoleMethod = level === 'error' ? 'error' : 
-                       level === 'warn' ? 'warn' : 
-                       level === 'debug' ? 'debug' : 'log';
-  
-  console[consoleMethod](`[${level.toUpperCase()}] ${message}`, data);
-  
-  // File logging
+router.get('/', async (req, res) => {
   try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
-    }
-    fs.appendFileSync(
-      path.join(logsDir, 'application.log'),
-      JSON.stringify(logEntry) + '\n'
-    );
-  } catch (logError) {
-    console.error('Erro ao salvar log:', logError.message);
+    const payments = await prisma.payment.findMany({
+      include: {
+        employee: true,
+        paymentMethod: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    res.json({
+      success: true,
+      data: payments,
+      count: payments.length
+    });
+  } catch (error) {
+    console.error('Erro ao buscar pagamentos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
   }
-}
-
-// Aplicar logging
-
+});
 
 /**
- * @param {string} message - Mensagem de erro
+ * GET /payments/:id
+ * Busca pagamento por ID
  */
-function assertCritical(condition, message = 'Assertion failed') {
-  if (!condition) {
-    const error = new Error(`[CRITICAL ASSERTION] ${message}`);
-    error.name = 'CriticalAssertionError';
-    throw error;
-  }
-}
-
-
-
-/**
- * Tratamento robusto de erros
- * @param {Error} error - Erro capturado
- * @param {string} context - Contexto onde o erro ocorreu
- */
-function handleError(error, context = 'unknown') {
-  console.error(`[ERROR] ${context}:`, error.message);
-  
-  // Log estruturado para debugging
-  const errorLog = {
-    timestamp: new Date().toISOString(),
-    context,
-    message: error.message,
-    stack: error.stack,
-    type: error.constructor.name
-  };
-  
-  // Salvar log de erro
+router.get('/:id', async (req, res) => {
   try {
-    const logsDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
+    const { id } = req.params;
+    const payment = await prisma.payment.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        employee: true,
+        paymentMethod: true
+      }
+    });
+
+    if (!payment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pagamento não encontrado'
+      });
     }
-    fs.appendFileSync(
-      path.join(logsDir, 'error-log.json'),
-      JSON.stringify(errorLog) + '\n'
-    );
-  } catch (logError) {
-    console.error('Erro ao salvar log:', logError.message);
+
+    res.json({
+      success: true,
+      data: payment
+    });
+  } catch (error) {
+    console.error('Erro ao buscar pagamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
   }
-  
-  // Re-throw para tratamento superior
-  throw error;
-}
-
-// Aplicar tratamento de erro
-try {
-} catch (error) {
-}
-
+});
 
 /**
- * @param {any} data - Dados a serem validados
+ * POST /payments
+ * Cria novo pagamento
  */
-function validateInput(data) {
-  if (!data) return false;
-  if (typeof data === 'string' && data.trim().length === 0) return false;
-  if (Array.isArray(data) && data.length === 0) return false;
-  if (typeof data === 'object' && Object.keys(data).length === 0) return false;
-  return true;
-}
+router.post('/', async (req, res) => {
+  try {
+    const {
+      employeeId,
+      amount,
+      paymentMethodId,
+      paymentDate,
+      description,
+      status
+    } = req.body;
 
-}
+    // Validações básicas
+    if (!employeeId || !amount || !paymentMethodId) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID do funcionário, valor e método de pagamento são obrigatórios'
+      });
+    }
 
+    const payment = await prisma.payment.create({
+      data: {
+        employeeId: parseInt(employeeId),
+        amount: parseFloat(amount),
+        paymentMethodId: parseInt(paymentMethodId),
+        paymentDate: paymentDate ? new Date(paymentDate) : new Date(),
+        description,
+        status: status || 'PENDING'
+      },
+      include: {
+        employee: true,
+        paymentMethod: true
+      }
+    });
+
+    res.status(201).json({
+      success: true,
+      data: payment,
+      message: 'Pagamento criado com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao criar pagamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
 
 /**
- * @author Sistema DOM v2
- * @version 2.0.0
- * @since 2025-01-01
- * 
- * @description
- * 
- * @dependencies
- * - Prisma ORM
- * 
- * @usage
- * 
- * @see
- * - docs/directives/diretivas-pensamento-critico.md
- * - docs/development/processo-garantia-diretivas.md
+ * PUT /payments/:id
+ * Atualiza pagamento
  */
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    // Remove campos que não devem ser atualizados
+    delete updateData.id;
+    delete updateData.createdAt;
+
+    // Converte campos numéricos
+    if (updateData.employeeId) {
+      updateData.employeeId = parseInt(updateData.employeeId);
+    }
+    if (updateData.paymentMethodId) {
+      updateData.paymentMethodId = parseInt(updateData.paymentMethodId);
+    }
+    if (updateData.amount) {
+      updateData.amount = parseFloat(updateData.amount);
+    }
+    if (updateData.paymentDate) {
+      updateData.paymentDate = new Date(updateData.paymentDate);
+    }
+
+    const payment = await prisma.payment.update({
+      where: { id: parseInt(id) },
+      data: updateData,
+      include: {
+        employee: true,
+        paymentMethod: true
+      }
+    });
+
+    res.json({
+      success: true,
+      data: payment,
+      message: 'Pagamento atualizado com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar pagamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+/**
+ * DELETE /payments/:id
+ * Remove pagamento
+ */
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.payment.delete({
+      where: { id: parseInt(id) }
+    });
+
+    res.json({
+      success: true,
+      message: 'Pagamento removido com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao remover pagamento:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+/**
+ * GET /payments/employee/:employeeId
+ * Busca pagamentos por funcionário
+ */
+router.get('/employee/:employeeId', async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+    const payments = await prisma.payment.findMany({
+      where: { employeeId: parseInt(employeeId) },
+      include: {
+        employee: true,
+        paymentMethod: true
+      },
+      orderBy: {
+        paymentDate: 'desc'
+      }
+    });
+
+    res.json({
+      success: true,
+      data: payments,
+      count: payments.length
+    });
+  } catch (error) {
+    console.error('Erro ao buscar pagamentos do funcionário:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+export default router;
+
+

@@ -1,0 +1,24 @@
+<!-- Header Component -->
+<header class="header">
+    <div class="header-left">
+        <div class="header-content">
+            <h1 class="header-title" id="pageTitle">Dashboard</h1>
+            <p class="header-description" id="pageDescription">Bem-vindo ao seu painel de controle</p>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="profile-selector" id="profileSelector">
+            <button class="profile-selector-button" onclick="toggleProfileDropdown()" tabindex="0">
+                <span id="currentProfile">Perfil</span>
+                <span>▼</span>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+                <!-- Opções de perfil serão carregadas dinamicamente -->
+            </div>
+        </div>
+        <button class="logout-button" onclick="logout()" tabindex="0">Sair</button>
+    </div>
+</header>
+
+<!-- Botão do menu hamburguer -->
+<button class="menu-button" onclick="toggleSidebar()" tabindex="0">☰</button>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM - Política de Privacidade</title>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta name="theme-color" content="#007AFF">
+    
+    <style>
+        body {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            color: #333;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    
+            min-height: 100vh;
+}
+        
+        .container {
+    
+            margin: 0 auto;
+    
+            padding: 40px 20px;
+    
+            max-width: 800px;
+}
+        
+        .header {
+    
+            padding: 30px;
+    
+            background: white;
+    
+            border-radius: 20px;
+    
+            margin-bottom: 30px;
+    
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    
+            text-align: center;
+}
+        
+        .logo {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            gap: 20px;
+    
+            margin-bottom: 20px;
+}
+        
+        .logo img {
+    
+            width: 60px;
+    
+            height: 60px;
+    
+            border-radius: 12px;
+}
+        
+        .logo-text {
+    
+            margin: 0;
+    
+            color: #007AFF;
+    
+            font-size: 28px;
+    
+            font-weight: bold;
+}
+        
+        .title {
+    
+            margin: 0 0 10px 0;
+    
+            color: #333;
+    
+            font-size: 32px;
+    
+            font-weight: bold;
+}
+        
+        .subtitle {
+    
+            margin: 0;
+    
+            color: #666;
+    
+            font-size: 16px;
+}
+        
+        .content {
+    
+            padding: 40px;
+    
+            background: white;
+    
+            border-radius: 20px;
+    
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    
+            line-height: 1.6;
+}
+        
+        .section {
+    
+            margin-bottom: 30px;
+}
+        
+        .section h2 {
+    
+            color: #007AFF;
+    
+            font-size: 24px;
+    
+            margin-bottom: 15px;
+    
+            border-bottom: 2px solid #f0f0f0;
+    
+            padding-bottom: 10px;
+}
+        
+        .section h3 {
+    
+            margin: 25px 0 15px 0;
+    
+            color: #333;
+    
+            font-size: 20px;
+}
+        
+        .section p {
+    
+            margin-bottom: 15px;
+    
+            text-align: justify;
+}
+        
+        .section ul {
+    
+            margin-bottom: 15px;
+    
+            padding-left: 20px;
+}
+        
+        .section li {
+    
+            margin-bottom: 8px;
+}
+        
+        .back-btn {
+    
+            display: inline-block;
+    
+            padding: 12px 24px;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 10px;
+    
+            text-decoration: none;
+    
+            font-weight: 600;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            margin-top: 20px;
+}
+        
+        .back-btn:hover {
+    
+            background: #0056CC;
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+    
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+        
+        .last-updated {
+    
+            padding: 15px;
+    
+            border: 1px solid #e1e5e9;
+    
+            color: #666;
+    
+            background: #f8f9fa;
+    
+            border-radius: 10px;
+    
+            margin-top: 30px;
+    
+            text-align: center;
+    
+            font-size: 14px;
+}
+        
+        .lgpd-badge {
+    
+            display: inline-block;
+    
+            padding: 5px 10px;
+    
+            color: white;
+    
+            background: #28a745;
+    
+            border-radius: 15px;
+    
+            font-size: 12px;
+    
+            font-weight: bold;
+    
+            margin-left: 10px;
+}
+        
+        @media (max-width: 768px) {
+    
+            .container {
+                padding: 20px 15px;
+}
+            
+            .header, .content {
+    
+                padding: 20px;
+}
+            
+            .title {
+    
+                font-size: 24px;
+}
+            
+            .logo-text {
+    
+                font-size: 20px;
+}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="Logo.png" alt="DOM Logo">
+                <h1 class="logo-text">DOM</h1>
+            </div>
+            <h1 class="title">Política de Privacidade <span class="lgpd-badge">LGPD</span></h1>
+            <p class="subtitle">Sistema de Gestão de Documentos e Orçamentos</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>1. Introdução</h2>
+                <p>Esta Política de Privacidade descreve como o sistema DOM (Document and Order Management) coleta, usa, armazena e protege suas informações pessoais. Estamos comprometidos em proteger sua privacidade e cumprir a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).</p>
+            </div>
+            
+            <div class="section">
+                <h2>2. Dados que Coletamos</h2>
+                <h3>2.1 Dados Pessoais:</h3>
+                <ul>
+                    <li><strong>Identificação:</strong> Nome completo, CPF, RG</li>
+                    <li><strong>Contato:</strong> E-mail, telefone, endereço</li>
+                    <li><strong>Profissional:</strong> Cargo, empresa, área de atuação</li>
+                    <li><strong>Credenciais:</strong> Senha (criptografada)</li>
+                </ul>
+                
+                <h3>2.2 Dados de Uso:</h3>
+                <ul>
+                    <li>Logs de acesso e navegação</li>
+                    <li>Documentos enviados e gerenciados</li>
+                    <li>Orçamentos criados e modificados</li>
+                    <li>Interações com o sistema</li>
+                </ul>
+                
+                <h3>2.3 Dados Técnicos:</h3>
+                <ul>
+                    <li>Endereço IP</li>
+                    <li>Informações do navegador</li>
+                    <li>Dispositivo utilizado</li>
+                    <li>Cookies e tecnologias similares</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>3. Como Usamos seus Dados</h2>
+                <p>Utilizamos suas informações para:</p>
+                <ul>
+                    <li><strong>Prestação de serviços:</strong> Fornecer acesso ao sistema e suas funcionalidades</li>
+                    <li><strong>Autenticação:</strong> Verificar sua identidade e autorizar acesso</li>
+                    <li><strong>Comunicação:</strong> Enviar notificações importantes sobre o sistema</li>
+                    <li><strong>Melhorias:</strong> Analisar uso para melhorar funcionalidades</li>
+                    <li><strong>Segurança:</strong> Detectar e prevenir atividades fraudulentas</li>
+                    <li><strong>Suporte:</strong> Atender suas solicitações e dúvidas</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>4. Base Legal para Tratamento</h2>
+                <p>Processamos seus dados com base nas seguintes justificativas legais da LGPD:</p>
+                <ul>
+                    <li><strong>Execução de contrato:</strong> Para fornecer os serviços contratados</li>
+                    <li><strong>Interesse legítimo:</strong> Para melhorar nossos serviços e segurança</li>
+                    <li><strong>Consentimento:</strong> Para finalidades específicas que você autorizar</li>
+                    <li><strong>Cumprimento legal:</strong> Para atender obrigações legais</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>5. Compartilhamento de Dados</h2>
+                <p>Não vendemos, alugamos ou comercializamos seus dados pessoais. Podemos compartilhar informações apenas nas seguintes situações:</p>
+                <ul>
+                    <li><strong>Prestadores de serviço:</strong> Empresas que nos auxiliam na operação do sistema</li>
+                    <li><strong>Obrigação legal:</strong> Quando exigido por lei ou autoridade competente</li>
+                    <li><strong>Proteção de direitos:</strong> Para proteger nossos direitos e segurança</li>
+                    <li><strong>Com seu consentimento:</strong> Quando você autorizar explicitamente</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>6. Armazenamento e Segurança</h2>
+                <h3>6.1 Localização:</h3>
+                <p>Seus dados são armazenados em servidores seguros localizados no Brasil, em conformidade com a LGPD.</p>
+                
+                <h3>6.2 Segurança:</h3>
+                <ul>
+                    <li>Criptografia de dados em trânsito e em repouso</li>
+                    <li>Controles de acesso rigorosos</li>
+                    <li>Monitoramento contínuo de segurança</li>
+                    <li>Backups regulares e seguros</li>
+                    <li>Treinamento da equipe em proteção de dados</li>
+                </ul>
+                
+                <h3>6.3 Retenção:</h3>
+                <p>Mantemos seus dados apenas pelo tempo necessário para cumprir as finalidades descritas nesta política ou para atender obrigações legais.</p>
+            </div>
+            
+            <div class="section">
+                <h2>7. Seus Direitos (LGPD)</h2>
+                <p>Conforme a LGPD, você tem os seguintes direitos:</p>
+                <ul>
+                    <li><strong>Acesso:</strong> Solicitar informações sobre seus dados</li>
+                    <li><strong>Correção:</strong> Atualizar dados incompletos ou incorretos</li>
+                    <li><strong>Exclusão:</strong> Solicitar a remoção de seus dados</li>
+                    <li><strong>Portabilidade:</strong> Receber seus dados em formato estruturado</li>
+                    <li><strong>Revogação:</strong> Retirar consentimento a qualquer momento</li>
+                    <li><strong>Oposição:</strong> Opor-se ao tratamento de dados</li>
+                    <li><strong>Revisão:</strong> Contestar decisões automatizadas</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>8. Cookies e Tecnologias Similares</h2>
+                <p>Utilizamos cookies e tecnologias similares para:</p>
+                <ul>
+                    <li>Manter sua sessão ativa</li>
+                    <li>Lembrar suas preferências</li>
+                    <li>Analisar o uso do sistema</li>
+                    <li>Melhorar a experiência do usuário</li>
+                </ul>
+                <p>Você pode gerenciar as configurações de cookies através do seu navegador.</p>
+            </div>
+            
+            <div class="section">
+                <h2>9. Menores de Idade</h2>
+                <p>Nosso sistema não é destinado a menores de 18 anos. Não coletamos intencionalmente dados pessoais de menores sem o consentimento dos pais ou responsáveis legais.</p>
+            </div>
+            
+            <div class="section">
+                <h2>10. Alterações na Política</h2>
+                <p>Podemos atualizar esta política periodicamente. Notificaremos sobre mudanças significativas através do sistema ou por e-mail. O uso continuado após as alterações constitui aceitação da nova política.</p>
+            </div>
+            
+            <div class="section">
+                <h2>11. Contato</h2>
+                <p>Para exercer seus direitos ou esclarecer dúvidas sobre esta política:</p>
+                <ul>
+                    <li><strong>E-mail:</strong> privacidade@domv2.com</li>
+                    <li><strong>Telefone:</strong> (11) 99999-9999</li>
+                    <li><strong>Endereço:</strong> Rua Exemplo, 123 - São Paulo/SP</li>
+                </ul>
+                <p>Responderemos suas solicitações no prazo máximo de 15 dias, conforme exigido pela LGPD.</p>
+            </div>
+            
+            <div class="last-updated">
+                <strong>Última atualização:</strong> 21 de Agosto de 2025<br>
+                <strong>Versão:</strong> 1.0 - Conforme LGPD (Lei nº 13.709/2018)
+            </div>
+            
+            <a href="login-screen.html" class="back-btn" tabindex="0">← Voltar ao Login</a>
+        </div>
+    </div>
+</body>
+</html>

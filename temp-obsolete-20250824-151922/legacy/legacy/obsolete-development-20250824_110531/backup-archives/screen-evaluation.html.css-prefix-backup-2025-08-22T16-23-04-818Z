@@ -1,0 +1,1192 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - AvaliaÃ§Ã£o de Telas</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            padding: 20px;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+            min-height: 100vh;
+}
+
+        .container {
+    
+            margin: 0 auto;
+    
+            background: white;
+    
+            max-width: 1400px;
+    
+            border-radius: 15px;
+    
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    
+            overflow: hidden;
+}
+
+        .header {
+    
+            padding: 30px;
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    
+            text-align: center;
+}
+
+        .header h1 {
+    
+            font-size: 2.5em;
+    
+            margin-bottom: 10px;
+}
+
+        .header p {
+    
+            font-size: 1.2em;
+    
+            opacity: 0.9;
+}
+
+        .stats {
+    
+            display: grid;
+    
+            padding: 30px;
+    
+            background: #f8f9fa;
+    
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    
+            gap: 20px;
+}
+
+        .stat-card {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 10px;
+    
+            text-align: center;
+    
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+        .stat-number {
+    
+            color: #667eea;
+    
+            font-size: 2.5em;
+    
+            font-weight: bold;
+}
+
+        .stat-label {
+    
+            color: #666;
+    
+            margin-top: 5px;
+}
+
+        .filters {
+    
+            padding: 20px 30px;
+    
+            background: #f8f9fa;
+    
+            border-bottom: 1px solid #e9ecef;
+}
+
+        .filter-group {
+    
+            display: flex;
+    
+            gap: 15px;
+    
+            align-items: center;
+    
+            flex-wrap: wrap;
+}
+
+        .filter-group label {
+    
+            color: #333;
+    
+            font-weight: bold;
+}
+
+        .filter-group select, .filter-group input {
+    
+            padding: 8px 12px;
+    
+            border: 1px solid #ddd;
+    
+            border-radius: 5px;
+    
+            font-size: 14px;
+}
+
+        .screens-grid {
+    
+            display: grid;
+    
+            padding: 30px;
+    
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    
+            gap: 20px;
+}
+
+        .screen-card {
+    
+            background: white;
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+            border-radius: 15px;
+    
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    
+            overflow: hidden;
+    
+            -webkit-transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+        .screen-card:hover {
+    
+    transform: translateY(-5px);
+    
+            -webkit-transform: translateY(-5px);
+    
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+        .screen-header {
+    
+            padding: 20px;
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+        .screen-title {
+    
+            font-size: 1.3em;
+    
+            font-weight: bold;
+    
+            margin-bottom: 5px;
+}
+
+        .screen-category {
+    
+            font-size: 0.9em;
+    
+            opacity: 0.9;
+}
+
+        .screen-content {
+    
+            padding: 20px;
+}
+
+        .screen-stats {
+    
+            display: grid;
+    
+            grid-template-columns: 1fr 1fr;
+    
+            gap: 15px;
+    
+            margin-bottom: 20px;
+}
+
+        .stat-item {
+    
+            padding: 10px;
+    
+            background: #f8f9fa;
+    
+            text-align: center;
+    
+            border-radius: 8px;
+}
+
+        .stat-value {
+    
+            color: #667eea;
+    
+            font-size: 1.2em;
+    
+            font-weight: bold;
+}
+
+        .stat-name {
+    
+            color: #666;
+    
+            font-size: 0.8em;
+    
+            margin-top: 2px;
+}
+
+        .screen-features {
+    
+            margin-bottom: 20px;
+}
+
+        .features-title {
+    
+            color: #333;
+    
+            font-weight: bold;
+    
+            margin-bottom: 10px;
+}
+
+        .features-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(2, 1fr);
+    
+            gap: 8px;
+}
+
+        .feature-item {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 5px;
+    
+            font-size: 0.9em;
+}
+
+        .feature-icon {
+    
+            width: 16px;
+    
+            height: 16px;
+    
+            border-radius: 50%;
+}
+
+        .feature-yes {
+    
+            background: #28a745;
+}
+
+        .feature-no {
+    
+            background: #dc3545;
+}
+
+        .screen-actions {
+    
+            display: flex;
+    
+            gap: 10px;
+}
+
+        .btn {
+    
+            padding: 8px 16px;
+    
+            border: none;
+    
+    transition: background 0.3s ease;
+    
+            border-radius: 5px;
+    
+            cursor: pointer;
+    
+            font-size: 0.9em;
+    
+            -webkit-transition: background 0.3s ease;
+}
+
+        .btn-primary {
+    
+            color: white;
+    
+            background: #667eea;
+}
+
+        .btn-primary:hover {
+    
+            background: #5a6fd8;
+}
+
+        .btn-secondary {
+    
+            color: white;
+    
+            background: #6c757d;
+}
+
+        .btn-secondary:hover {
+    
+            background: #5a6268;
+}
+
+        .top-screen {
+    
+            position: relative;
+    
+            border: 3px solid #ffd700;
+}
+
+        .top-badge {
+    
+            position: absolute;
+    
+            top: 10px;
+    
+            right: 10px;
+    
+            padding: 5px 10px;
+    
+            color: #333;
+    
+            background: #ffd700;
+    
+            border-radius: 20px;
+    
+            font-size: 0.8em;
+    
+            font-weight: bold;
+}
+
+        .comparison-modal {
+    
+            display: none;
+    
+            position: fixed;
+    
+            top: 0;
+    
+            left: 0;
+    
+            width: 100%;
+    
+            height: 100%;
+    
+            background: rgba(0,0,0,0.8);
+    
+            z-index: 1000;
+}
+
+        .modal-content {
+    
+            position: absolute;
+    
+            top: 50%;
+    
+            left: 50%;
+    
+            padding: 30px;
+    
+            background: white;
+    
+    transform: translate(-50%, -50%);
+    
+            -webkit-transform: translate(-50%, -50%);
+    
+            border-radius: 15px;
+    
+            max-width: 90%;
+    
+            max-height: 90%;
+    
+            overflow-y: auto;
+}
+
+        .close-modal {
+    
+            position: absolute;
+    
+            top: 15px;
+    
+            right: 20px;
+    
+            color: #666;
+    
+            font-size: 24px;
+    
+            cursor: pointer;
+}
+
+        .comparison-table {
+    
+            width: 100%;
+    
+            border-collapse: collapse;
+    
+            margin-top: 20px;
+}
+
+        .comparison-table th,
+        .comparison-table td {
+    
+            padding: 12px;
+    
+            text-align: left;
+    
+            border-bottom: 1px solid #ddd;
+}
+
+        .comparison-table th {
+    
+            background: #f8f9fa;
+    
+            font-weight: bold;
+}
+
+        .score-high {
+    
+            color: #28a745;
+    
+            font-weight: bold;
+}
+
+        .score-medium {
+    
+            color: #ffc107;
+    
+            font-weight: bold;
+}
+
+        .score-low {
+    
+            color: #dc3545;
+    
+            font-weight: bold;
+}
+
+        @media (max-width: 768px) {
+    
+            .screens-grid {
+                grid-template-columns: 1fr;
+}
+            
+            .filter-group {
+    
+                flex-direction: column;
+    
+                align-items: stretch;
+}
+        }
+    </style>
+</head>
+<body>
+    <!-- Container para o header reutilizÃ¡vel -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizÃ¡vel -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+        <div class="header">
+            <h1>ðŸ” AvaliaÃ§Ã£o de Telas - DOM v2</h1>
+            <p>AnÃ¡lise completa das 31 telas identificadas no projeto</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">31</div>
+                <div class="stat-label">Total de Telas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">155</div>
+                <div class="stat-label">PontuaÃ§Ã£o MÃ¡xima</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Categorias</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">UltraPremium</div>
+                <div class="stat-label">Melhor Tela</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>Filtrar por:</label>
+                <select id="categoryFilter" title="Filtrar por categoria" tabindex="0">
+                    <option value="">Todas as Categorias</option>
+                    <option value="Login">Login</option>
+                    <option value="Dashboard">Dashboard</option>
+                    <option value="Tasks">Tasks</option>
+                    <option value="Budget">Budget</option>
+                    <option value="Employees">Employees</option>
+                    <option value="Payments">Payments</option>
+                    <option value="Purchases">Purchases</option>
+                    <option value="Notifications">Notifications</option>
+                </select>
+                <select id="scoreFilter" title="Filtrar por pontuaÃ§Ã£o" tabindex="0">
+                    <option value="">Todas as PontuaÃ§Ãµes</option>
+                    <option value="high">Alta (120+)</option>
+                    <option value="medium">MÃ©dia (80-119)</option>
+                    <option value="low">Baixa (<80)</option>
+                </select>
+                <input id="searchFilter" aria-label="text input" type="text" id="searchFilter" placeholder="Buscar por nome..." tabindex="0">
+                <button class="btn btn-primary" onclick="compareScreens()" tabindex="0">Comparar Selecionadas</button>
+            </div>
+        </div>
+
+        <div class="screens-grid" id="screensGrid">
+            <!-- Telas serÃ£o carregadas dinamicamente -->
+        </div>
+    </div>
+
+    <!-- Modal de ComparaÃ§Ã£o -->
+    <div class="comparison-modal" id="comparisonModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeComparison()">&times;</span>
+            <h2>ComparaÃ§Ã£o de Telas</h2>
+            <div id="comparisonContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Dados das telas (baseados na anÃ¡lise)
+        const screensData = [
+            {
+    
+                name: "UltraPremiumLoginScreen.tsx",
+                category: "Login",
+                score: 155,
+                size: 32117,
+                lines: 1059,
+                path: "frontend/src/screens/UltraPremiumLoginScreen.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: true,
+                    form: true,
+                    styling: true,
+                    errorHandling: true,
+                    loading: true,
+                    modal: true,
+                    table: false,
+                    chart: false,
+                    notification: true
+                ;
+},
+                isTop: true
+            },
+            {
+    
+                name: "PremiumLoginScreen.tsx",
+                category: "Login",
+                score: 155,
+                size: 28294,
+                lines: 936,
+                path: "frontend/src/screens/PremiumLoginScreen.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: true,
+                    form: true,
+                    styling: true,
+                    errorHandling: true,
+                    loading: true,
+                    modal: true,
+                    table: false,
+                    chart: false,
+                    notification: true
+                ;
+}
+            },
+            {
+    
+                name: "AlertDashboard.tsx",
+                category: "Dashboard",
+                score: 146,
+                size: 18297,
+                lines: 450,
+                path: "E:/appdom/src/components/alerts/AlertDashboard.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: false,
+                    form: false,
+                    styling: true,
+                    errorHandling: true,
+                    loading: true,
+                    modal: false,
+                    table: true,
+                    chart: true,
+                    notification: true
+                ;
+}
+            },
+            {
+    
+                name: "FamilyDashboard.tsx",
+                category: "Dashboard",
+                score: 105,
+                size: 28525,
+                lines: 930,
+                path: "frontend/src/screens/FamilyDashboard.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: false,
+                    form: false,
+                    styling: true,
+                    errorHandling: false,
+                    loading: false,
+                    modal: false,
+                    table: true,
+                    chart: false,
+                    notification: false
+                ;
+}
+            },
+            {
+    
+                name: "AdminDashboard.tsx",
+                category: "Dashboard",
+                score: 110,
+                size: 19920,
+                lines: 644,
+                path: "frontend/src/screens/AdminDashboard.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: false,
+                    form: false,
+                    styling: true,
+                    errorHandling: false,
+                    loading: false,
+                    modal: false,
+                    table: true,
+                    chart: false,
+                    notification: false
+                ;
+}
+            },
+            {
+    
+                name: "tasks-screen.tsx",
+                category: "Tasks",
+                score: 100,
+                size: 16906,
+                lines: 627,
+                path: "frontend/src/screens/tasks-screen.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: true,
+                    form: true,
+                    styling: true,
+                    errorHandling: true,
+                    loading: true,
+                    modal: false,
+                    table: true,
+                    chart: false,
+                    notification: false
+                ;
+}
+            },
+            {
+    
+                name: "BudgetScreen.tsx",
+                category: "Budget",
+                score: 101,
+                size: 3280,
+                lines: 128,
+                path: "frontend/src/screens/budget/BudgetScreen.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: true,
+                    form: true,
+                    styling: true,
+                    errorHandling: false,
+                    loading: false,
+                    modal: false,
+                    table: false,
+                    chart: true,
+                    notification: false
+                ;
+}
+            },
+            {
+    
+                name: "login-screen.tsx",
+                category: "Login",
+                score: 100,
+                size: 7666,
+                lines: 306,
+                path: "frontend/src/screens/login-screen.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: true,
+                    form: true,
+                    styling: true,
+                    errorHandling: true,
+                    loading: true,
+                    modal: false,
+                    table: false,
+                    chart: false,
+                    notification: false
+                ;
+}
+            },
+            {
+    
+                name: "dashboard-screen.tsx",
+                category: "Dashboard",
+                score: 70,
+                size: 10484,
+                lines: 381,
+                path: "frontend/src/screens/dashboard-screen.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: false,
+                    validation: false,
+                    form: false,
+                    styling: true,
+                    errorHandling: false,
+                    loading: false,
+                    modal: false,
+                    table: false,
+                    chart: false,
+                    notification: false
+                ;
+}
+            },
+            {
+    
+                name: "payments-screen.tsx",
+                category: "Payments",
+                score: 82,
+                size: 3540,
+                lines: 166,
+                path: "frontend/src/screens/payments-screen.tsx",
+                features: {
+                    components: true,
+                    hooks: true,
+                    state: true,
+                    effects: true,
+                    api: true,
+                    validation: false,
+                    form: false,
+                    styling: true,
+                    errorHandling: false,
+                    loading: false,
+                    modal: false,
+                    table: true,
+                    chart: false,
+                    notification: false
+                ;
+}
+            }
+        ];
+
+        let selectedScreens = [];
+
+        function renderScreens(screens = screensData) {
+    
+            const grid = document.getElementById('screensGrid');
+    
+            grid.innerHTML = '';
+    
+
+            screens.forEach(screen => {
+                const card = createScreenCard(screen);
+    
+                grid.appendChild(card);
+});
+        }
+
+        function createScreenCard(screen) {
+    
+            const card = document.createElement('div');
+    
+            card.className = `screen-card ${screen.isTop ? 'top-screen' : '';
+}`;
+            
+            const scoreClass = screen.score >= 120 ? 'score-high' : 
+                             screen.score >= 80 ? 'score-medium' : 'score-low';
+
+            card.innerHTML = `
+                ${
+    screen.isTop ? '<div class="top-badge">ðŸ¥‡ TOP</div>' : '';
+}
+                <div class="screen-header">
+                    <div class="screen-title">${
+    screen.name;
+}</div>
+                    <div class="screen-category">${
+    screen.category;
+}</div>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-stats">
+                        <div class="stat-item">
+                            <div class="stat-value ${
+    scoreClass;
+}">${
+    screen.score;
+}</div>
+                            <div class="stat-name">PontuaÃ§Ã£o</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${
+    (screen.size / 1024).toFixed(1);
+}KB</div>
+                            <div class="stat-name">Tamanho</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${
+    screen.lines;
+}</div>
+                            <div class="stat-name">Linhas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${
+    Object.values(screen.features).filter(f => f).length;
+}/14</div>
+                            <div class="stat-name">Features</div>
+                        </div>
+                    </div>
+                    
+                    <div class="screen-features">
+                        <div class="features-title">Funcionalidades:</div>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.components ? 'feature-yes' : 'feature-no';
+}"></div>
+                                Componentes
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.hooks ? 'feature-yes' : 'feature-no';
+}"></div>
+                                Hooks
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.api ? 'feature-yes' : 'feature-no';
+}"></div>
+                                API
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.validation ? 'feature-yes' : 'feature-no';
+}"></div>
+                                ValidaÃ§Ã£o
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.form ? 'feature-yes' : 'feature-no';
+}"></div>
+                                FormulÃ¡rio
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.table ? 'feature-yes' : 'feature-no';
+}"></div>
+                                Tabela
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.chart ? 'feature-yes' : 'feature-no';
+}"></div>
+                                GrÃ¡fico
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon ${
+    screen.features.notification ? 'feature-yes' : 'feature-no';
+}"></div>
+                                NotificaÃ§Ã£o
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="screen-actions">
+                        <button class="btn btn-primary" onclick="selectForComparison('${
+    screen.name;
+}')" tabindex="0">
+                            ${
+    selectedScreens.includes(screen.name) ? 'âŒ Remover' : 'âœ… Selecionar';
+}
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewDetails('${
+    screen.name;
+}')" tabindex="0">
+                            ðŸ“‹ Detalhes
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function selectForComparison(screenName) {
+    
+            const index = selectedScreens.indexOf(screenName);
+    
+            if (index > -1) {
+                selectedScreens.splice(index, 1);
+} else {
+    
+                if (selectedScreens.length < 3) {
+                    selectedScreens.push(screenName);
+} else {
+    
+                    showMessage('system.error');
+}
+            }
+            renderScreens();
+        }
+
+        function compareScreens() {
+    
+            if (selectedScreens.length < 2) {
+                showMessage('system.error');
+    
+                return;
+}
+
+            const selectedData = screensData.filter(screen => selectedScreens.includes(screen.name));
+            
+            let comparisonHTML = `
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>CaracterÃ­stica</th>
+                            ${
+    selectedData.map(screen => `<th>${screen.name;
+}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Categoria</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.category;
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>PontuaÃ§Ã£o</strong></td>
+                            ${
+    selectedData.map(screen => `<td class="score-high">${screen.score;
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>Tamanho</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${(screen.size / 1024).toFixed(1);
+}KB</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>Linhas</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.lines;
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>Componentes</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.components ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>Hooks</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.hooks ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>API</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.api ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>ValidaÃ§Ã£o</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.validation ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>FormulÃ¡rio</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.form ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>Tabela</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.table ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>GrÃ¡fico</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.chart ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td><strong>NotificaÃ§Ã£o</strong></td>
+                            ${
+    selectedData.map(screen => `<td>${screen.features.notification ? 'âœ…' : 'âŒ';
+}</td>`).join('')}
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('comparisonContent').innerHTML = comparisonHTML;
+            document.getElementById('comparisonModal').style.display = 'block';
+        }
+
+        function closeComparison() {
+    
+            document.getElementById('comparisonModal').style.display = 'none';
+}
+
+        function viewDetails(screenName) {
+    
+            const screen = screensData.find(s => s.name === screenName);
+    
+            showMessage('system.error').toFixed(1);
+}KB\n` +
+                  `Linhas: ${
+    screen.lines;
+}\n` +
+                  `Local: ${
+    screen.path;
+}\n\n` +
+                  `Funcionalidades implementadas: ${
+    Object.values(screen.features).filter(f => f).length;
+}/14`);
+        }
+
+        // Filtros
+        document.getElementById('categoryFilter').addEventListener('change', filterScreens);
+        document.getElementById('scoreFilter').addEventListener('change', filterScreens);
+        document.getElementById('searchFilter').addEventListener('input', filterScreens);
+
+        function filterScreens() {
+    
+            const categoryFilter = document.getElementById('categoryFilter').value;
+    
+            const scoreFilter = document.getElementById('scoreFilter').value;
+    
+            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+    
+
+            let filtered = screensData.filter(screen => {
+                const categoryMatch = !categoryFilter || screen.category === categoryFilter;
+    
+                const searchMatch = !searchFilter || screen.name.toLowerCase().includes(searchFilter);
+    
+                
+                let scoreMatch = true;
+    
+                if (scoreFilter === 'high') scoreMatch = screen.score >= 120;
+    
+                else if (scoreFilter === 'medium') scoreMatch = screen.score >= 80 && screen.score < 120;
+    
+                else if (scoreFilter === 'low') scoreMatch = screen.score < 80;
+    
+
+                return categoryMatch && searchMatch && scoreMatch;
+});
+
+            renderScreens(filtered);
+        }
+
+        // Inicializar
+        renderScreens();
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+    
+            const modal = document.getElementById('comparisonModal');
+    
+            if (event.target === modal) {
+                closeComparison();
+}
+        }
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/messages-system.js"></script>`n    <script src="js/components.js"></script>
+    <script>
+        // InicializaÃ§Ã£o da pÃ¡gina
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+    
+            componentManager.initPage('AvaliaÃ§Ã£o de Telas');
+});
+    </script>
+</body>
+</html> 

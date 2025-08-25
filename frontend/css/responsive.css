@@ -1,0 +1,86 @@
+﻿/* DOM v2 - CSS Responsivo */
+/* Versao: 2.0.0 */
+/* Data: 25/01/2025 */
+
+/* Mobile First - Base styles ja sao mobile */
+
+/* Tablet (768px e acima) */
+@media (min-width: 768px) {
+    .hero h2 {
+        font-size: 3.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.3rem;
+    }
+    
+    .main-nav {
+        padding: 0 1rem;
+    }
+}
+
+/* Desktop (1024px e acima) */
+@media (min-width: 1024px) {
+    .hero h2 {
+        font-size: 4rem;
+    }
+    
+    .hero p {
+        font-size: 1.4rem;
+    }
+    
+    .cta-buttons {
+        gap: 1.5rem;
+    }
+    
+    .btn {
+        padding: 1.2rem 2.5rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Large Desktop (1440px e acima) */
+@media (min-width: 1440px) {
+    .hero h2 {
+        font-size: 4.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile especifico (menos de 768px) */
+@media (max-width: 767px) {
+    .main-header {
+        padding: 1rem;
+    }
+    
+    .main-nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .hero h2 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+}

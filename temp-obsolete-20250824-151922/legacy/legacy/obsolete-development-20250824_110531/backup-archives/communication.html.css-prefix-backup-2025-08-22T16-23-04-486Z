@@ -1,0 +1,3718 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComunicaÃ§Ã£o - DOM v2</title>
+    <link rel="stylesheet" href="themes/user-themes.css">
+    <style>
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            color: var(--text-primary);
+    
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+    
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+            min-height: 100vh;
+}
+
+        .container {
+    
+            margin: 0 auto;
+    
+            padding: 20px;
+    
+            max-width: 1200px;
+}
+
+        .header {
+    
+            margin-bottom: 30px;
+    
+            text-align: center;
+}
+
+        .header h1 {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+        .header p {
+    
+            color: var(--text-secondary);
+    
+            font-size: 1.1rem;
+    
+            opacity: 0.8;
+}
+
+        .stats-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    
+            gap: 20px;
+    
+            margin-bottom: 30px;
+}
+
+        .stat-card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    -webkit-transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+        .stat-card:hover {
+    
+    transform: translateY(-5px);
+    
+            -webkit-transform: translateY(-5px);
+    
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+        .stat-icon {
+    
+            font-size: 2.5rem;
+    
+            margin-bottom: 15px;
+}
+
+        .stat-value {
+    
+            color: var(--accent-primary);
+    
+            font-size: 2rem;
+    
+            font-weight: bold;
+    
+            margin-bottom: 8px;
+}
+
+        .stat-label {
+    
+            color: var(--text-secondary);
+    
+            font-size: 0.9rem;
+    
+            font-weight: 500;
+}
+
+        .tabs {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    display: flex;
+    padding: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+        .tab {
+    
+            padding: 12px 16px;
+    
+            border: none;
+    
+            color: var(--text-secondary);
+    
+            background: transparent;
+    
+    transition: all 0.3s ease;
+    
+            flex: 1;
+    
+            border-radius: 12px;
+    
+            font-size: 0.9rem;
+    
+            font-weight: 500;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+}
+
+        .tab.active {
+    
+            color: white;
+    
+            background: var(--accent-primary);
+}
+
+        .tab:hover:not(.active) {
+    
+            color: var(--text-primary);
+    
+            background: var(--bg-secondary);
+}
+
+        .tab-content {
+    
+            display: none;
+}
+
+        .tab-content.active {
+    
+            display: block;
+}
+
+        .section-header {
+    
+            display: flex;
+    
+            justify-content: space-between;
+    
+            align-items: center;
+    
+            margin-bottom: 20px;
+}
+
+        .section-title {
+    
+            color: var(--text-primary);
+    
+            font-size: 1.5rem;
+    
+            font-weight: 600;
+}
+
+        .btn {
+    
+            display: inline-flex;
+    
+            padding: 12px 20px;
+    
+            border: none;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 0.9rem;
+    
+            font-weight: 500;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            text-decoration: none;
+    
+            align-items: center;
+    
+            gap: 8px;
+}
+
+        .btn-primary {
+    
+            color: white;
+    
+            background: var(--accent-primary);
+}
+
+        .btn-primary:hover {
+    
+            background: var(--accent-secondary);
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+}
+
+        .btn-secondary {
+    
+            color: var(--text-primary);
+    
+            background: var(--bg-secondary);
+}
+
+        .btn-secondary:hover {
+    
+            background: var(--border-color);
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+}
+
+        .btn-success {
+    
+            color: white;
+    
+            background: #10b981;
+}
+
+        .btn-success:hover {
+    
+            background: #059669;
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+}
+
+        .message-card, .template-card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    -webkit-transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+        .message-card:hover, .template-card:hover {
+    
+    transform: translateY(-3px);
+    
+            -webkit-transform: translateY(-3px);
+    
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+        .message-header, .template-header {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            justify-content: space-between;
+    
+            margin-bottom: 15px;
+}
+
+        .message-info, .template-info {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 15px;
+}
+
+        .message-icon, .template-icon {
+    
+            display: flex;
+    
+            width: 50px;
+    
+            height: 50px;
+    
+            color: white;
+    
+            background: var(--accent-primary);
+    
+            font-size: 2rem;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            border-radius: 12px;
+}
+
+        .message-details, .template-details h3 {
+    
+            color: var(--text-primary);
+    
+            font-size: 1.1rem;
+    
+            font-weight: 600;
+    
+            margin-bottom: 5px;
+}
+
+        .message-details p, .template-details p {
+    
+            color: var(--text-secondary);
+    
+            font-size: 0.9rem;
+}
+
+        .message-status, .template-status {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 10px;
+}
+
+        .status-badge {
+    
+            padding: 6px 12px;
+    
+    transform: uppercase;
+    
+            border-radius: 20px;
+    
+            font-size: 0.8rem;
+    
+            font-weight: 600;
+    
+            text--webkit-transform: uppercase;
+}
+
+        .status-delivered {
+    
+            color: #10b981;
+    
+            background: rgba(16, 185, 129, 0.1);
+}
+
+        .status-sent {
+    
+            color: #3b82f6;
+    
+            background: rgba(59, 130, 246, 0.1);
+}
+
+        .status-failed {
+    
+            color: #ef4444;
+    
+            background: rgba(239, 68, 68, 0.1);
+}
+
+        .status-pending {
+    
+            color: #f59e0b;
+    
+            background: rgba(245, 158, 11, 0.1);
+}
+
+        .type-badge {
+    
+            padding: 6px 12px;
+    
+            color: var(--text-primary);
+    
+            background: var(--bg-secondary);
+    
+            border-radius: 20px;
+    
+            font-size: 0.8rem;
+    
+            font-weight: 600;
+}
+
+        .usage-badge {
+    
+            padding: 6px 12px;
+    
+            color: #1d4ed8;
+    
+            background: rgba(29, 78, 216, 0.1);
+    
+            border-radius: 20px;
+    
+            font-size: 0.8rem;
+    
+            font-weight: 600;
+}
+
+        .message-content, .template-content {
+    
+            color: var(--text-primary);
+    
+            font-size: 0.9rem;
+    
+            margin-bottom: 15px;
+    
+            line-height: 1.5;
+}
+
+        .message-footer, .template-footer {
+    
+            display: flex;
+    
+            color: var(--text-secondary);
+    
+            justify-content: space-between;
+    
+            align-items: center;
+    
+            font-size: 0.8rem;
+}
+
+        .message-timestamps {
+    
+            display: flex;
+    
+            gap: 20px;
+}
+
+        .template-actions {
+    
+            display: flex;
+    
+            gap: 10px;
+}
+
+        .analytics-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    
+            gap: 25px;
+}
+
+        .analytics-card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+        .analytics-title {
+    
+            color: var(--text-primary);
+    
+            font-size: 1.1rem;
+    
+            font-weight: 600;
+    
+            margin-bottom: 20px;
+}
+
+        .analytics-item {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 15px;
+    
+            margin-bottom: 15px;
+}
+
+        .analytics-icon {
+    
+            display: flex;
+    
+            width: 40px;
+    
+            height: 40px;
+    
+            color: white;
+    
+            background: var(--accent-primary);
+    
+            font-size: 1.5rem;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            border-radius: 8px;
+}
+
+        .analytics-content {
+    
+            flex: 1;
+}
+
+        .analytics-header {
+    
+            display: flex;
+    
+            justify-content: space-between;
+    
+            margin-bottom: 8px;
+}
+
+        .analytics-label {
+    
+            color: var(--text-primary);
+    
+            font-size: 0.9rem;
+    
+            font-weight: 500;
+}
+
+        .analytics-count {
+    
+            color: var(--text-secondary);
+    
+            font-size: 0.9rem;
+}
+
+        .progress-bar {
+    
+            width: 100%;
+    
+            height: 8px;
+    
+            background: var(--bg-secondary);
+    
+            border-radius: 4px;
+    
+            overflow: hidden;
+}
+
+        .progress-fill {
+    
+            height: 100%;
+    
+            background: var(--accent-primary);
+    
+    transition: width 0.3s ease;
+    
+            border-radius: 4px;
+    
+            -webkit-transition: width 0.3s ease;
+}
+
+        .modal {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    -webkit--webkit-backdrop-filter: blur(5px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+        .modal-content {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    -webkit--webkit-backdrop-filter: blur(15px);
+    width: 90%;
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: 15px;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+        .modal-header {
+    
+            margin-bottom: 25px;
+}
+
+        .modal-title {
+    
+            color: var(--text-primary);
+    
+            font-size: 1.5rem;
+    
+            font-weight: 600;
+    
+            margin-bottom: 5px;
+}
+
+        .form-group {
+    
+            margin-bottom: 20px;
+}
+
+        .form-label {
+    
+            display: block;
+    
+            color: var(--text-primary);
+    
+            font-size: 0.9rem;
+    
+            font-weight: 500;
+    
+            margin-bottom: 8px;
+}
+
+        .form-input, .form-select, .form-textarea {
+    
+            width: 100%;
+    
+            padding: 12px 15px;
+    
+            border: 2px solid var(--border-color);
+    
+            color: var(--text-primary);
+    
+            background: var(--bg-primary);
+    
+    transition: border-color 0.3s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 0.9rem;
+    
+            -webkit-transition: border-color 0.3s ease;
+}
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+    
+            outline: none;
+    
+            border-color: var(--accent-primary);
+}
+
+        .form-textarea {
+    
+            resize: vertical;
+    
+            min-height: 120px;
+}
+
+        .modal-actions {
+    
+            display: flex;
+    
+            gap: 12px;
+    
+            justify-content: flex-end;
+    
+            margin-top: 25px;
+}
+
+        .loading {
+    
+            display: none;
+    
+            padding: 20px;
+    
+            text-align: center;
+}
+
+        .spinner {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 10px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-primary);
+    border-radius: 50%;
+}
+
+        @keyframes spin {
+    
+    transform: rotate(0deg);
+    
+            0% { -webkit-transform: rotate(0deg);
+}
+            100% {
+    
+    transform: rotate(360deg);
+     -webkit-transform: rotate(360deg);
+}
+        }
+
+        .empty-state {
+    
+            padding: 40px 20px;
+    
+            color: var(--text-secondary);
+    
+            text-align: center;
+}
+
+        .empty-state-icon {
+    
+            font-size: 3rem;
+    
+            margin-bottom: 15px;
+    
+            opacity: 0.5;
+}
+
+        @media (max-width: 768px) {
+    
+            .container {
+                padding: 15px;
+}
+
+            .header h1 {
+    
+                font-size: 2rem;
+}
+
+            .stats-grid {
+    
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    
+                gap: 15px;
+}
+
+            .tabs {
+    
+                flex-direction: column;
+}
+
+            .section-header {
+    
+                flex-direction: column;
+    
+                gap: 15px;
+    
+                align-items: flex-start;
+}
+
+            .message-header, .template-header {
+    
+                flex-direction: column;
+    
+                align-items: flex-start;
+    
+                gap: 15px;
+}
+
+            .message-status, .template-status {
+    
+                align-self: flex-end;
+}
+
+            .analytics-grid {
+    
+                grid-template-columns: 1fr;
+}
+
+            .modal-content {
+    
+                margin: 20px;
+    
+                padding: 20px;
+}
+        }
+    
+        /* Sidebar Styles */
+        .sidebar {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    -webkit-transition: left 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    transition: left 0.3s ease;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+        .sidebar.open {
+    
+            left: 0;
+}
+
+        .sidebar-header {
+    
+            padding: 20px;
+    
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    
+            text-align: center;
+}
+
+        .sidebar-logo {
+    
+            font-size: 32px;
+    
+            margin-bottom: 10px;
+}
+
+        .sidebar-title {
+    
+            color: #1e293b;
+    
+            font-size: 18px;
+    
+            font-weight: bold;
+}
+
+        .sidebar-user {
+    
+            padding: 15px 20px;
+    
+            background: rgba(0, 122, 255, 0.1);
+    
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+        .user-info {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 10px;
+}
+
+        .user-avatar {
+    
+            display: flex;
+    
+            width: 40px;
+    
+            height: 40px;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+            border-radius: 50%;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            font-weight: bold;
+}
+
+        .user-details h4 {
+    
+            color: #1e293b;
+    
+            font-size: 14px;
+    
+            margin-bottom: 2px;
+}
+
+        .user-details p {
+    
+            color: #64748b;
+    
+            font-size: 12px;
+}
+
+        .sidebar-nav {
+    
+            padding: 20px 0;
+}
+
+        .nav-section {
+    
+            margin-bottom: 20px;
+}
+
+        .nav-section-title {
+    
+            padding: 0 20px 10px;
+    
+            color: #64748b;
+    
+    transform: uppercase;
+    
+            font-size: 12px;
+    
+            font-weight: 600;
+    
+            text--webkit-transform: uppercase;
+    
+            letter-spacing: 0.5px;
+}
+
+        .nav-item {
+    
+            display: flex;
+    
+            padding: 12px 20px;
+    
+            color: #1e293b;
+    
+    transition: all 0.2s ease;
+    
+            align-items: center;
+    
+            text-decoration: none;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            border-left: 3px solid transparent;
+}
+
+        .nav-item:hover {
+    
+            background: rgba(0, 122, 255, 0.1);
+    
+            border-left-color: #007AFF;
+}
+
+        .nav-item.active {
+    
+            color: #007AFF;
+    
+            background: rgba(0, 122, 255, 0.15);
+    
+            border-left-color: #007AFF;
+}
+
+        .nav-icon {
+    
+            width: 20px;
+    
+            font-size: 18px;
+    
+            margin-right: 12px;
+    
+            text-align: center;
+}
+
+        .nav-text {
+    
+            font-size: 14px;
+    
+            font-weight: 500;
+}
+
+        .sidebar-overlay {
+    
+            position: fixed;
+    
+            top: 0;
+    
+            left: 0;
+    
+            width: 100%;
+    
+            height: 100%;
+    
+            background: rgba(0, 0, 0, 0.5);
+    
+    transition: all 0.3s ease;
+    
+            z-index: 999;
+    
+            opacity: 0;
+    
+            visibility: hidden;
+    
+            -webkit-transition: all 0.3s ease;
+}
+
+        .sidebar-overlay.open {
+    
+            opacity: 1;
+    
+            visibility: visible;
+}
+
+        .main-content {
+    
+    transition: margin-left 0.3s ease;
+    
+            margin-left: 0;
+    
+            -webkit-transition: margin-left 0.3s ease;
+}
+
+        .main-content.sidebar-open {
+    
+            margin-left: 280px;
+}
+
+        .header-actions {
+    
+            display: flex;
+    
+            gap: 10px;
+}
+
+        .menu-button {
+    
+            padding: 8px 12px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 16px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+}
+
+        .menu-button:hover {
+    
+            background: #0056CC;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .logout-button {
+    
+            padding: 8px 16px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #ef4444;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+}
+
+        .logout-button:hover {
+    
+            background: #dc2626;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+    
+                width: 100%;
+    
+            .sidebar {
+                left: -100%;
+}
+
+            .main-content.sidebar-open {
+    
+                margin-left: 0;
+}
+
+            .header-actions {
+    
+                position: static;
+    
+                justify-content: center;
+    
+                margin-top: 15px;
+}
+        }
+
+        /* Profile Selector Styles */
+        .profile-selector {
+    
+            display: inline-block;
+    
+            position: relative;
+}
+
+        .profile-selector-button {
+    -webkit-transition: all 0.2s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    display: flex;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+    border-radius: 20px;
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+        .profile-selector-button:hover {
+    
+            background: rgba(255, 255, 255, 0.3);
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .profile-selector-button .profile-icon {
+    
+            font-size: 16px;
+}
+
+        .profile-selector-button .profile-name {
+    
+            font-weight: 500;
+}
+
+        .profile-selector-button .dropdown-arrow {
+    
+    transition: transform 0.2s ease;
+    
+            font-size: 12px;
+    
+            -webkit-transition: transform 0.2s ease;
+}
+
+        .profile-selector-button.open .dropdown-arrow {
+    
+    transform: rotate(180deg);
+    
+            -webkit-transform: rotate(180deg);
+}
+
+        .profile-dropdown {
+    
+            position: absolute;
+    
+            top: 100%;
+    
+            right: 0;
+    
+            background: white;
+    
+    transform: translateY(-10px);
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 12px;
+    
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    
+            min-width: 200px;
+    
+            z-index: 1000;
+    
+            opacity: 0;
+    
+            visibility: hidden;
+    
+            -webkit-transform: translateY(-10px);
+    
+            -webkit-transition: all 0.2s ease;
+    
+            margin-top: 8px;
+}
+
+        .profile-dropdown.open {
+    
+    transform: translateY(0);
+    
+            opacity: 1;
+    
+            visibility: visible;
+    
+            -webkit-transform: translateY(0);
+}
+
+        .profile-dropdown-header {
+    
+            padding: 16px;
+    
+            border-bottom: 1px solid #e1e5e9;
+    
+            text-align: center;
+}
+
+        .profile-dropdown-header h4 {
+    
+            margin: 0;
+    
+            color: #1e293b;
+    
+            font-size: 14px;
+    
+            font-weight: 600;
+}
+
+        .profile-dropdown-header p {
+    
+            margin: 4px 0 0 0;
+    
+            color: #64748b;
+    
+            font-size: 12px;
+}
+
+        .profile-options {
+    
+            padding: 8px 0;
+}
+
+        .profile-option {
+    
+            display: flex;
+    
+            padding: 12px 16px;
+    
+            color: #1e293b;
+    
+    transition: background 0.2s ease;
+    
+            align-items: center;
+    
+            cursor: pointer;
+    
+            -webkit-transition: background 0.2s ease;
+    
+            text-decoration: none;
+}
+
+        .profile-option:hover {
+    
+            background: #f8fafc;
+}
+
+        .profile-option.active {
+    
+            color: #007AFF;
+    
+            background: rgba(0, 122, 255, 0.1);
+}
+
+        .profile-option .option-icon {
+    
+            width: 20px;
+    
+            font-size: 18px;
+    
+            margin-right: 12px;
+    
+            text-align: center;
+}
+
+        .profile-option .option-info {
+    
+            flex: 1;
+}
+
+        .profile-option .option-name {
+    
+            font-weight: 500;
+    
+            font-size: 14px;
+    
+            margin-bottom: 2px;
+}
+
+        .profile-option .option-description {
+    
+            color: #64748b;
+    
+            font-size: 12px;
+}
+
+        .profile-option .option-check {
+    
+            color: #007AFF;
+    
+            font-size: 16px;
+    
+            opacity: 0;
+}
+
+        .profile-option.active .option-check {
+    
+            opacity: 1;
+}
+
+        .profile-dropdown-footer {
+    
+            padding: 12px 16px;
+    
+            border-top: 1px solid #e1e5e9;
+    
+            text-align: center;
+}
+
+        .profile-dropdown-footer button {
+    
+            padding: 8px 16px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: background 0.2s ease;
+    
+            border-radius: 6px;
+    
+            font-size: 12px;
+    
+            font-weight: 500;
+    
+            cursor: pointer;
+    
+            -webkit-transition: background 0.2s ease;
+}
+
+        .profile-dropdown-footer button:hover {
+    
+            background: #0056CC;
+}
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+    
+            .profile-selector-button .profile-name {
+                display: none;
+}
+            
+            .profile-dropdown {
+    
+                right: -50px;
+    
+                min-width: 180px;
+}
+        }
+
+        
+    
+    
+        
+    
+    
+        
+    
+    
+    
+        
+    
+    /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    display: flex;
+    position: sticky;
+    top: 0;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+        .header-left {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 15px;
+}
+
+        .back-button {
+    
+            display: flex;
+    
+            padding: 8px 12px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 16px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            align-items: center;
+    
+            gap: 5px;
+}
+
+        .back-button:hover {
+    
+            background: #0056CC;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .header-title {
+    
+            color: #1e293b;
+    
+            font-size: 20px;
+    
+            font-weight: bold;
+}
+
+        .header-right {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 10px;
+}
+
+        .profile-selector {
+    
+            display: none;
+    
+            position: relative;
+     /* Inicialmente oculto */
+        ;
+}
+
+        .profile-selector.show {
+    
+            display: block;
+}
+
+        .profile-selector-button {
+    
+            display: flex;
+    
+            padding: 8px 12px;
+    
+            border: 1px solid #007AFF;
+    
+            color: #007AFF;
+    
+            background: rgba(0, 122, 255, 0.1);
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            align-items: center;
+    
+            gap: 5px;
+}
+
+        .profile-selector-button:hover {
+    
+            background: rgba(0, 122, 255, 0.2);
+}
+
+        .profile-dropdown {
+    
+            display: none;
+    
+            position: absolute;
+    
+            top: 100%;
+    
+            right: 0;
+    
+            border: 1px solid rgba(0, 0, 0, 0.1);
+    
+            background: white;
+    
+            border-radius: 8px;
+    
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+            min-width: 150px;
+    
+            z-index: 1000;
+}
+
+        .profile-dropdown.show {
+    
+            display: block;
+}
+
+        .profile-option {
+    
+            padding: 10px 15px;
+    
+    transition: background 0.2s ease;
+    
+            cursor: pointer;
+    
+            -webkit-transition: background 0.2s ease;
+    
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+        .profile-option:last-child {
+    
+            border-bottom: none;
+}
+
+        .profile-option:hover {
+    
+            background: rgba(0, 122, 255, 0.1);
+}
+
+        .profile-option.active {
+    
+            color: #007AFF;
+    
+            background: rgba(0, 122, 255, 0.15);
+}
+
+        .menu-button {
+    
+            position: fixed;
+    
+            top: 20px;
+    
+            left: 20px;
+    
+            padding: 8px 12px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 16px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            z-index: 1001;
+}
+
+        .menu-button:hover {
+    
+            background: #0056CC;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .logout-button {
+    
+            padding: 8px 16px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #ef4444;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+}
+
+        .logout-button:hover {
+    
+            background: #dc2626;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+    
+        /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    display: flex;
+    position: sticky;
+    top: 0;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+        .header-left {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 15px;
+}
+
+        .back-button {
+    
+            display: flex;
+    
+            padding: 8px 12px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 16px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            align-items: center;
+    
+            gap: 5px;
+}
+
+        .back-button:hover {
+    
+            background: #0056CC;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .header-title {
+    
+            color: #1e293b;
+    
+            font-size: 20px;
+    
+            font-weight: bold;
+}
+
+        .header-right {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 10px;
+}
+
+        .profile-selector {
+    
+            display: none;
+    
+            position: relative;
+     /* Inicialmente oculto */
+        ;
+}
+
+        .profile-selector.show {
+    
+            display: block;
+}
+
+        .profile-selector-button {
+    
+            display: flex;
+    
+            padding: 8px 12px;
+    
+            border: 1px solid #007AFF;
+    
+            color: #007AFF;
+    
+            background: rgba(0, 122, 255, 0.1);
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            align-items: center;
+    
+            gap: 5px;
+}
+
+        .profile-selector-button:hover {
+    
+            background: rgba(0, 122, 255, 0.2);
+}
+
+        .profile-dropdown {
+    
+            display: none;
+    
+            position: absolute;
+    
+            top: 100%;
+    
+            right: 0;
+    
+            border: 1px solid rgba(0, 0, 0, 0.1);
+    
+            background: white;
+    
+            border-radius: 8px;
+    
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+            min-width: 150px;
+    
+            z-index: 1000;
+}
+
+        .profile-dropdown.show {
+    
+            display: block;
+}
+
+        .profile-option {
+    
+            padding: 10px 15px;
+    
+    transition: background 0.2s ease;
+    
+            cursor: pointer;
+    
+            -webkit-transition: background 0.2s ease;
+    
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+        .profile-option:last-child {
+    
+            border-bottom: none;
+}
+
+        .profile-option:hover {
+    
+            background: rgba(0, 122, 255, 0.1);
+}
+
+        .profile-option.active {
+    
+            color: #007AFF;
+    
+            background: rgba(0, 122, 255, 0.15);
+}
+
+        .menu-button {
+    
+            position: fixed;
+    
+            top: 20px;
+    
+            left: 20px;
+    
+            padding: 8px 12px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 16px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            z-index: 1001;
+}
+
+        .menu-button:hover {
+    
+            background: #0056CC;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .logout-button {
+    
+            padding: 8px 16px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #ef4444;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            font-size: 14px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+}
+
+        .logout-button:hover {
+    
+            background: #dc2626;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+    
+    </style>
+  <style>
+    .extracted-style-1 {
+     width: 32px;
+     height: 32px;
+     border-radius: 6px;
+}
+    .extracted-style-2 {
+     position: relative;
+}
+    .extracted-style-3 {
+     display: none;
+}
+    .extracted-style-4 {
+     width: ${percentage;
+}% }
+    .extracted-style-5 {
+     width: 12px;
+     height: 12px;
+     background: ${getStatusColor(status);
+     border-radius: 50%;
+}; }
+    .extracted-style-6 {
+     width: ${percentage;
+}%; background: ${
+    getStatusColor(status);
+}; }
+  </style>
+</head>
+<body>
+    <!-- BotÃ£o do menu hamburguer --><button class="menu-button" onclick="toggleSidebar()" tabindex="0">â˜°</button><!-- Header --><header class="header"><div class="header-left"><button class="back-button" onclick="goBack()" tabindex="0">â† Voltar</button><h1 class="header-title" id="pageTitle">Dashboard</h1></div><div class="header-right"><div class="profile-selector" id="profileSelector"><button class="profile-selector-button" onclick="toggleProfileDropdown()" tabindex="0"><span id="currentProfile">Perfil</span><span>â–¼</span></button><div class="profile-dropdown" id="profileDropdown"><!-- OpÃ§Ãµes de perfil serÃ£o carregadas dinamicamente --></div></div><button class="logout-button" onclick="logout()" tabindex="0">Sair</button></div></header>
+    <header class="header"><div class="header-left"><button class="back-button" onclick="goBack()" tabindex="0">â† Voltar</button><h1 class="header-title" id="pageTitle">Dashboard</h1></div><div class="header-right"><div class="profile-selector" id="profileSelector"><button class="profile-selector-button" onclick="toggleProfileDropdown()" tabindex="0"><span id="currentProfile">Perfil</span><span>â–¼</span></button><div class="profile-dropdown" id="profileDropdown"><!-- OpÃ§Ãµes de perfil serÃ£o carregadas dinamicamente --></div></div><button class="logout-button" onclick="logout()" tabindex="0">Sair</button></div></header>
+    <!-- BotÃ£o do menu hamburguer -->
+    <button class="menu-button" onclick="toggleSidebar()" tabindex="0">â˜°</button>
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+    <!-- BotÃ£o do menu hamburguer -->
+    
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+        <!-- BotÃ£o do menu hamburguer -->
+        
+
+        <!-- Header -->
+        
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="Logo.png" alt="DOM" class="extracted-style-1">
+            </div>
+            <div class="sidebar-title">DOM v2</div>
+        </div>
+        
+        <div class="sidebar-user" id="sidebarUser">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h4 id="userName">UsuÃ¡rio</h4>
+                    <p id="userProfile">Perfil</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav" role="navigation">
+            <div class="nav-section">
+                <div class="nav-section-title">Principal</div>
+                <a href="dashboard.html" class="nav-item" id="nav-dashboard" tabindex="0">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="tasks-management.html" class="nav-item" id="nav-tasks" tabindex="0">
+                    <span class="nav-icon">ðŸ“</span>
+                    <span class="nav-text">Tarefas</span>
+                </a>
+                <a href="employees-management.html" class="nav-item" id="nav-employees" tabindex="0">
+                    <span class="nav-icon">ðŸ‘¥</span>
+                    <span class="nav-text">FuncionÃ¡rios</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Financeiro</div>
+                <a href="finance.html" class="nav-item" id="nav-finance" tabindex="0">
+                    <span class="nav-icon">ðŸ’°</span>
+                    <span class="nav-text">FinanÃ§as</span>
+                </a>
+                <a href="payments-management.html" class="nav-item" id="nav-payments" tabindex="0">
+                    <span class="nav-icon">ðŸ’³</span>
+                    <span class="nav-text">Pagamentos</span>
+                </a>
+                <a href="budget-management.html" class="nav-item" id="nav-budget" tabindex="0">
+                    <span class="nav-icon">ðŸ“‹</span>
+                    <span class="nav-text">OrÃ§amentos</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Recursos Humanos</div>
+                <a href="hr-management.html" class="nav-item" id="nav-hr" tabindex="0">
+                    <span class="nav-icon">ðŸ‘¨â€ðŸ’¼</span>
+                    <span class="nav-text">RH</span>
+                </a>
+                <a href="timeclock.html" class="nav-item" id="nav-timeclock" tabindex="0">
+                    <span class="nav-icon">â°</span>
+                    <span class="nav-text">Ponto</span>
+                </a>
+                <a href="advanced-timecard.html" class="nav-item" id="nav-advanced-timecard" tabindex="0">
+                    <span class="nav-icon">â±ï¸</span>
+                    <span class="nav-text">Ponto AvanÃ§ado</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Sistema</div>
+                <a href="notifications.html" class="nav-item" id="nav-notifications" tabindex="0">
+                    <span class="nav-icon">ðŸ””</span>
+                    <span class="nav-text">NotificaÃ§Ãµes</span>
+                </a>
+                <a href="reports.html" class="nav-item" id="nav-reports" tabindex="0">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">RelatÃ³rios</span>
+                </a>
+                <a href="settings.html" class="nav-item" id="nav-settings" tabindex="0">
+                    <span class="nav-icon">âš™ï¸</span>
+                    <span class="nav-text">ConfiguraÃ§Ãµes</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">AvanÃ§ado</div>
+                <a href="payment-integrations.html" class="nav-item" id="nav-payment-integrations" tabindex="0">
+                    <span class="nav-icon">ðŸ”—</span>
+                    <span class="nav-text">IntegraÃ§Ãµes</span>
+                </a>
+                <a href="communication.html" class="nav-item active" id="nav-communication" tabindex="0">
+                    <span class="nav-icon">ðŸ’¬</span>
+                    <span class="nav-text">ComunicaÃ§Ã£o</span>
+                </a>
+                <a href="gamification.html" class="nav-item" id="nav-gamification" tabindex="0">
+                    <span class="nav-icon">ðŸ†</span>
+                    <span class="nav-text">GamificaÃ§Ã£o</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header" class="extracted-style-2">
+            <div class="header-actions">
+                <div class="profile-selector">
+                <button class="profile-selector-button" onclick="toggleProfileDropdown()" tabindex="0">
+                    <span class="profile-icon" id="currentProfileIcon">ðŸ‘¤</span>
+                    <span class="profile-name" id="currentProfileName">Perfil</span>
+                    <span class="dropdown-arrow">â–¼</span>
+                </button>
+                
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-dropdown-header">
+                        <h4>Trocar Perfil</h4>
+                        <p>Selecione um perfil diferente</p>
+                    </div>
+                    
+                    <div class="profile-options" id="profileOptions">
+                        <!-- OpÃ§Ãµes serÃ£o carregadas dinamicamente -->
+                    </div>
+                    
+                    <div class="profile-dropdown-footer">
+                        <button onclick="confirmProfileChange()" tabindex="0">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+                
+                <button class="logout-button" onclick="logout()" tabindex="0">ðŸšª Sair</button>
+            </div>
+            <h1>ðŸ“¢ ComunicaÃ§Ã£o</h1>
+            <p>Gerencie mensagens, templates e notificaÃ§Ãµes</p>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Carregando dados de comunicaÃ§Ã£o...</p>
+        </div>
+
+        <!-- EstatÃ­sticas -->
+        <div id="stats" class="stats-grid" class="extracted-style-3">
+            <div class="stat-card">
+                <div class="stat-icon">ðŸ“¨</div>
+                <div class="stat-value" id="total-messages">0</div>
+                <div class="stat-label">Total de Mensagens</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">âœ…</div>
+                <div class="stat-value" id="delivered-messages">0</div>
+                <div class="stat-label">Entregues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">ðŸ“Š</div>
+                <div class="stat-value" id="delivery-rate">0%</div>
+                <div class="stat-label">Taxa de Entrega</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">ðŸ“</div>
+                <div class="stat-value" id="total-templates">0</div>
+                <div class="stat-label">Templates</div>
+            </div>
+        </div>
+
+        <!-- Abas -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('messages')" tabindex="0">ðŸ“¨ Mensagens</button>
+            <button class="tab" onclick="switchTab('templates')" tabindex="0">ðŸ“ Templates</button>
+            <button class="tab" onclick="switchTab('analytics')" tabindex="0">ðŸ“Š Analytics</button>
+        </div>
+
+        <!-- Aba Mensagens -->
+        <div id="messages-tab" class="tab-content active">
+            <div class="section-header">
+                <h2 class="section-title">HistÃ³rico de Mensagens</h2>
+                <button class="btn btn-primary" onclick="openNewMessageModal()" tabindex="0">âœ‰ï¸ Nova Mensagem</button>
+            </div>
+
+            <div id="messages-list">
+                <!-- Mensagens serÃ£o carregadas dinamicamente -->
+            </div>
+        </div>
+
+        <!-- Aba Templates -->
+        <div id="templates-tab" class="tab-content">
+            <div class="section-header">
+                <h2 class="section-title">Templates de Mensagem</h2>
+                <button class="btn btn-primary" onclick="openTemplateModal()" tabindex="0">ðŸ“ Novo Template</button>
+            </div>
+
+            <div id="templates-list">
+                <!-- Templates serÃ£o carregados dinamicamente -->
+            </div>
+        </div>
+
+        <!-- Aba Analytics -->
+        <div id="analytics-tab" class="tab-content">
+            <h2 class="section-title">Analytics de ComunicaÃ§Ã£o</h2>
+            
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3 class="analytics-title">ðŸ“Š Mensagens por Tipo</h3>
+                    <div id="type-analytics">
+                        <!-- Analytics por tipo serÃ£o carregados dinamicamente -->
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3 class="analytics-title">ðŸ“ˆ Status de Entrega</h3>
+                    <div id="status-analytics">
+                        <!-- Analytics por status serÃ£o carregados dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Mensagem -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">âœ‰ï¸ Nova Mensagem</h3>
+            </div>
+            <form id="message-form">
+                <div class="form-group">
+                    <label class="form-label">Tipo de Mensagem</label>
+                    <select id="message-type" class="form-select" required tabindex="0" aria-labelledby="message-type-label">
+                        <option value="email">E-mail</option>
+                        <option value="sms">SMS</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="push">Push Notification</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">DestinatÃ¡rios</label>
+                    <input id="message-recipients" aria-label="text input" type="text" id="message-recipients" class="form-input" placeholder="Digite os destinatÃ¡rios (separados por vÃ­rgula)" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Assunto</label>
+                    <input id="message-subject" aria-label="text input" type="text" id="message-subject" class="form-input" placeholder="Assunto da mensagem" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ConteÃºdo</label>
+                    <textarea id="message-content" class="form-textarea" placeholder="ConteÃºdo da mensagem" required tabindex="0"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeMessageModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" tabindex="0">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Novo Template -->
+    <div id="template-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ðŸ“ Novo Template</h3>
+            </div>
+            <form id="template-form">
+                <div class="form-group">
+                    <label class="form-label">Nome do Template</label>
+                    <input id="template-name" aria-label="text input" type="text" id="template-name" class="form-input" placeholder="Ex: Boas-vindas" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipo</label>
+                    <select id="template-type" class="form-select" required tabindex="0" aria-labelledby="template-type-label">
+                        <option value="email">E-mail</option>
+                        <option value="sms">SMS</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="push">Push Notification</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Assunto</label>
+                    <input id="template-subject" aria-label="text input" type="text" id="template-subject" class="form-input" placeholder="Assunto da mensagem" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ConteÃºdo</label>
+                    <textarea id="template-content" class="form-textarea" placeholder="ConteÃºdo do template (use {
+    {variavel;
+}} para variÃ¡veis)" required tabindex="0"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">VariÃ¡veis (separadas por vÃ­rgula)</label>
+                    <input id="template-variables" aria-label="text input" type="text" id="template-variables" class="form-input" placeholder="Ex: nome, valor, data" tabindex="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeTemplateModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" tabindex="0">Criar Template</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ConfiguraÃ§Ãµes da API
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // Estado da aplicaÃ§Ã£o
+        let currentTheme = 'theme-employer';
+        let messages = [];
+        let templates = [];
+
+        // InicializaÃ§Ã£o
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadTheme();
+    
+            loadCommunicationData();
+});
+
+        // Carregar tema
+        function loadTheme() {
+    
+            const savedTheme = localStorage.getItem('currentTheme') || 'theme-employer';
+    
+            applyTheme(savedTheme);
+}
+
+        // Aplicar tema
+        function applyTheme(theme) {
+    
+            document.body.className = theme;
+    
+            currentTheme = theme;
+    
+            localStorage.setItem('currentTheme', theme);
+}
+
+        // Carregar dados de comunicaÃ§Ã£o
+        async function loadCommunicationData() {
+    
+            showLoading(true);
+    
+            try {
+                // Carregar mensagens
+                const messagesResponse = await fetch(`${API_BASE_URL;
+}/communication/messages`);
+                const messagesData = await messagesResponse.json();
+                
+                if (messagesData.success) {
+    
+                    messages = messagesData.messages || [];
+}
+
+                // Carregar templates
+                const templatesResponse = await fetch(`${
+    API_BASE_URL;
+}/communication/templates`);
+                const templatesData = await templatesResponse.json();
+                
+                if (templatesData.success) {
+    
+                    templates = templatesData.templates || [];
+}
+
+                renderCommunication();
+            } catch (error) {
+    
+                console.error('Erro ao carregar dados:', error);
+    
+                loadMockData();
+} finally {
+    
+                showLoading(false);
+}
+        }
+
+        // Dados mockados como fallback
+        function loadMockData() {
+    
+            messages = [
+                {
+                    id: '1',
+                    type: 'email',
+                    recipient: 'maria.silva@email.com',
+                    subject: 'Bem-vinda ao DOM v2!',
+                    content: 'OlÃ¡ Maria! Seja bem-vinda ao nosso sistema de gestÃ£o domÃ©stica.',
+                    status: 'delivered',
+                    sentAt: '2025-01-27T10:30:00Z',
+                    deliveredAt: '2025-01-27T10:31:00Z',
+                    readAt: '2025-01-27T10:35:00Z'
+                ;
+},
+                {
+    
+                    id: '2',
+                    type: 'sms',
+                    recipient: '+55 11 99999-9999',
+                    subject: 'Lembrete de Pagamento',
+                    content: 'Seu pagamento vence em 3 dias. Valor: R$ 1.250,00',
+                    status: 'sent',
+                    sentAt: '2025-01-27T09:15:00Z'
+                ;
+},
+                {
+    
+                    id: '3',
+                    type: 'whatsapp',
+                    recipient: '+55 11 88888-8888',
+                    subject: 'ConfirmaÃ§Ã£o de Agendamento',
+                    content: 'Seu agendamento para limpeza foi confirmado para amanhÃ£ Ã s 14h.',
+                    status: 'delivered',
+                    sentAt: '2025-01-26T16:45:00Z',
+                    deliveredAt: '2025-01-26T16:46:00Z'
+                ;
+},
+                {
+    
+                    id: '4',
+                    type: 'push',
+                    recipient: 'JoÃ£o Silva',
+                    subject: 'Nova Tarefa AtribuÃ­da',
+                    content: 'VocÃª tem uma nova tarefa: "Organizar documentos"',
+                    status: 'failed',
+                    sentAt: '2025-01-26T14:20:00Z'
+                ;
+}
+            ];
+
+            templates = [
+                {
+    
+                    id: '1',
+                    name: 'Boas-vindas',
+                    type: 'email',
+                    subject: 'Bem-vindo ao DOM v2, {{nome;
+}}!',
+                    content: 'OlÃ¡ {
+    {nome;
+}}! Seja bem-vindo ao nosso sistema de gestÃ£o domÃ©stica. Estamos aqui para facilitar sua vida.',
+                    variables: ['nome'],
+                    usageCount: 45,
+                    createdAt: '2025-01-15T10:00:00Z'
+                },
+                {
+    
+                    id: '2',
+                    name: 'Lembrete de Pagamento',
+                    type: 'sms',
+                    subject: 'Lembrete de Pagamento',
+                    content: 'OlÃ¡ {{nome;
+}}! Seu pagamento de R$ {
+    {valor;
+}} vence em {
+    {dias;
+}} dias.',
+                    variables: ['nome', 'valor', 'dias'],
+                    usageCount: 23,
+                    createdAt: '2025-01-10T14:30:00Z'
+                },
+                {
+    
+                    id: '3',
+                    name: 'ConfirmaÃ§Ã£o de Agendamento',
+                    type: 'whatsapp',
+                    subject: 'Agendamento Confirmado',
+                    content: 'OlÃ¡ {{nome;
+}}! Seu agendamento para {
+    {servico;
+}} foi confirmado para {
+    {data;
+}} Ã s {
+    {hora;
+}}.',
+                    variables: ['nome', 'servico', 'data', 'hora'],
+                    usageCount: 12,
+                    createdAt: '2025-01-05T09:15:00Z'
+                }
+            ];
+
+            renderCommunication();
+        }
+
+        // Renderizar comunicaÃ§Ã£o
+        function renderCommunication() {
+    
+            updateStats();
+    
+            renderMessages();
+    
+            renderTemplates();
+    
+            renderAnalytics();
+    
+            
+            document.getElementById('stats').style.display = 'grid';
+}
+
+        // Atualizar estatÃ­sticas
+        function updateStats() {
+    
+            const deliveredMessages = messages.filter(m => m.status === 'delivered').length;
+    
+            const deliveryRate = messages.length > 0 ? Math.round((deliveredMessages / messages.length) * 100) : 0;
+    
+
+            document.getElementById('total-messages').textContent = messages.length;
+    
+            document.getElementById('delivered-messages').textContent = deliveredMessages;
+    
+            document.getElementById('delivery-rate').textContent = `${deliveryRate;
+}%`;
+            document.getElementById('total-templates').textContent = templates.length;
+        }
+
+        // Renderizar mensagens
+        function renderMessages() {
+    
+            const container = document.getElementById('messages-list');
+    
+            
+            if (messages.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">ðŸ“¨</div>
+                        <h3>Nenhuma mensagem encontrada</h3>
+                        <p>Envie sua primeira mensagem para comeÃ§ar</p>
+                    </div>
+                `;
+    
+                return;
+}
+
+            container.innerHTML = messages.map(message => `
+                <div class="message-card">
+                    <div class="message-header">
+                        <div class="message-info">
+                            <div class="message-icon">${
+    getTypeIcon(message.type);
+}</div>
+                            <div class="message-details">
+                                <h3>${
+    message.subject;
+}</h3>
+                                <p>Para: ${
+    message.recipient;
+}</p>
+                            </div>
+                        </div>
+                        <div class="message-status">
+                            <span class="status-badge status-${
+    message.status;
+}">${
+    getStatusText(message.status);
+}</span>
+                            <span class="type-badge">${
+    getTypeText(message.type);
+}</span>
+                        </div>
+                    </div>
+
+                    <div class="message-content">${
+    message.content;
+}</div>
+
+                    <div class="message-footer">
+                        <div class="message-timestamps">
+                            <span>Enviado: ${
+    new Date(message.sentAt).toLocaleString('pt-BR');
+}</span>
+                            ${
+    message.deliveredAt ? `<span>Entregue: ${new Date(message.deliveredAt).toLocaleString('pt-BR');
+}</span>` : ''}
+                            ${
+    message.readAt ? `<span>Lido: ${new Date(message.readAt).toLocaleString('pt-BR');
+}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Renderizar templates
+        function renderTemplates() {
+    
+            const container = document.getElementById('templates-list');
+    
+            
+            if (templates.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">ðŸ“</div>
+                        <h3>Nenhum template encontrado</h3>
+                        <p>Crie seu primeiro template para comeÃ§ar</p>
+                    </div>
+                `;
+    
+                return;
+}
+
+            container.innerHTML = templates.map(template => `
+                <div class="template-card">
+                    <div class="template-header">
+                        <div class="template-info">
+                            <div class="template-icon">${
+    getTypeIcon(template.type);
+}</div>
+                            <div class="template-details">
+                                <h3>${
+    template.name;
+}</h3>
+                                <p>${
+    template.subject;
+}</p>
+                            </div>
+                        </div>
+                        <div class="template-status">
+                            <span class="type-badge">${
+    getTypeText(template.type);
+}</span>
+                            <span class="usage-badge">${
+    template.usageCount;
+} usos</span>
+                        </div>
+                    </div>
+
+                    <div class="template-content">${
+    template.content;
+}</div>
+
+                    <div class="template-footer">
+                        <div>VariÃ¡veis: ${
+    template.variables.join(', ');
+}</div>
+                        <div class="template-actions">
+                            <button class="btn btn-secondary" onclick="editTemplate('${
+    template.id;
+}')" tabindex="0">âœï¸ Editar</button>
+                            <button class="btn btn-success" onclick="useTemplate('${
+    template.id;
+}')" tabindex="0">ðŸ“¤ Usar</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Renderizar analytics
+        function renderAnalytics() {
+    
+            renderTypeAnalytics();
+    
+            renderStatusAnalytics();
+}
+
+        // Renderizar analytics por tipo
+        function renderTypeAnalytics() {
+    
+            const container = document.getElementById('type-analytics');
+    
+            const types = ['email', 'sms', 'whatsapp', 'push'];
+    
+            
+            container.innerHTML = types.map(type => {
+                const count = messages.filter(m => m.type === type).length;
+    
+                const percentage = messages.length > 0 ? Math.round((count / messages.length) * 100) : 0;
+    
+                
+                return `
+                    <div class="analytics-item">
+                        <div class="analytics-icon">${getTypeIcon(type);
+}</div>
+                        <div class="analytics-content">
+                            <div class="analytics-header">
+                                <span class="analytics-label">${
+    getTypeText(type);
+}</span>
+                                <span class="analytics-count">${
+    count;
+} (${
+    percentage;
+}%)</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" class="extracted-style-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Renderizar analytics por status
+        function renderStatusAnalytics() {
+    
+            const container = document.getElementById('status-analytics');
+    
+            const statuses = ['delivered', 'sent', 'failed', 'pending'];
+    
+            
+            container.innerHTML = statuses.map(status => {
+                const count = messages.filter(m => m.status === status).length;
+    
+                const percentage = messages.length > 0 ? Math.round((count / messages.length) * 100) : 0;
+    
+                
+                return `
+                    <div class="analytics-item">
+                        <div class="extracted-style-5"></div>
+                        <div class="analytics-content">
+                            <div class="analytics-header">
+                                <span class="analytics-label">${getStatusText(status);
+}</span>
+                                <span class="analytics-count">${
+    count;
+} (${
+    percentage;
+}%)</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" class="extracted-style-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // FunÃ§Ãµes utilitÃ¡rias
+        function getStatusColor(status) {
+    
+            switch (status) {
+                case 'delivered': return '#10b981';
+    
+                case 'sent': return '#3b82f6';
+    
+                case 'failed': return '#ef4444';
+    
+                case 'pending': return '#f59e0b';
+    
+                default: return '#6b7280';
+}
+        }
+
+        function getStatusText(status) {
+    
+            switch (status) {
+                case 'delivered': return 'Entregue';
+    
+                case 'sent': return 'Enviado';
+    
+                case 'failed': return 'Falhou';
+    
+                case 'pending': return 'Pendente';
+    
+                default: return 'Desconhecido';
+}
+        }
+
+        function getTypeIcon(type) {
+    
+            switch (type) {
+                case 'email': return 'ðŸ“§';
+    
+                case 'sms': return 'ðŸ“±';
+    
+                case 'whatsapp': return 'ðŸ’¬';
+    
+                case 'push': return 'ðŸ””';
+    
+                default: return 'ðŸ“¨';
+}
+        }
+
+        function getTypeText(type) {
+    
+            switch (type) {
+                case 'email': return 'E-mail';
+    
+                case 'sms': return 'SMS';
+    
+                case 'whatsapp': return 'WhatsApp';
+    
+                case 'push': return 'Push';
+    
+                default: return type;
+}
+        }
+
+        // FunÃ§Ãµes de abas
+        function switchTab(tabName) {
+    
+            // Remover classe active de todas as abas
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+
+            // Adicionar classe active na aba selecionada
+            document.querySelector(`[onclick="switchTab('${tabName;
+}')"]`).classList.add('active');
+            document.getElementById(`${
+    tabName;
+}-tab`).classList.add('active');
+        }
+
+        // FunÃ§Ãµes de modal
+        function openNewMessageModal() {
+    
+            document.getElementById('message-modal').style.display = 'flex';
+}
+
+        function closeMessageModal() {
+    
+            document.getElementById('message-modal').style.display = 'none';
+    
+            document.getElementById('message-form').reset();
+}
+
+        function openTemplateModal() {
+    
+            document.getElementById('template-modal').style.display = 'flex';
+}
+
+        function closeTemplateModal() {
+    
+            document.getElementById('template-modal').style.display = 'none';
+    
+            document.getElementById('template-form').reset();
+}
+
+        // Fechar modais ao clicar fora
+        document.getElementById('message-modal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closeMessageModal();
+}
+        });
+
+        document.getElementById('template-modal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closeTemplateModal();
+}
+        });
+
+        // FormulÃ¡rio de mensagem
+        document.getElementById('message-form').addEventListener('submit', async function(e) {
+    
+            e.preventDefault();
+    
+            
+            const formData = {
+                type: document.getElementById('message-type').value,
+                recipients: document.getElementById('message-recipients').value,
+                subject: document.getElementById('message-subject').value,
+                content: document.getElementById('message-content').value
+            ;
+};
+
+            try {
+    
+                const response = await fetch(`${API_BASE_URL;
+}/communication/send`, {
+    
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' ;
+},
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+    
+                    closeMessageModal();
+    
+                    await loadCommunicationData();
+    
+                    showNotification('Mensagem enviada com sucesso!', 'success');
+} else {
+    
+                    showNotification('Erro ao enviar mensagem', 'error');
+}
+            } catch (error) {
+    
+                console.error('Erro ao enviar mensagem:', error);
+    
+                showNotification('Erro ao enviar mensagem', 'error');
+}
+        });
+
+        // FormulÃ¡rio de template
+        document.getElementById('template-form').addEventListener('submit', async function(e) {
+    
+            e.preventDefault();
+    
+            
+            const formData = {
+                name: document.getElementById('template-name').value,
+                type: document.getElementById('template-type').value,
+                subject: document.getElementById('template-subject').value,
+                content: document.getElementById('template-content').value,
+                variables: document.getElementById('template-variables').value.split(',').map(v => v.trim()).filter(v => v)
+            ;
+};
+
+            try {
+    
+                const response = await fetch(`${API_BASE_URL;
+}/communication/templates`, {
+    
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' ;
+},
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+    
+                    closeTemplateModal();
+    
+                    await loadCommunicationData();
+    
+                    showNotification('Template criado com sucesso!', 'success');
+} else {
+    
+                    showNotification('Erro ao criar template', 'error');
+}
+            } catch (error) {
+    
+                console.error('Erro ao criar template:', error);
+    
+                showNotification('Erro ao criar template', 'error');
+}
+        });
+
+        // FunÃ§Ãµes de template
+        function editTemplate(templateId) {
+    
+            showNotification(`Editando template ${templateId;
+}`, 'info');
+        }
+
+        function useTemplate(templateId) {
+    
+            showNotification(`Usando template ${templateId;
+}`, 'info');
+        }
+
+        // UtilitÃ¡rios
+        function showLoading(show) {
+    
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+}
+
+        function showNotification(message, type = 'info') {
+    
+            // ImplementaÃ§Ã£o simples de notificaÃ§Ã£o
+            showMessage('system.error');
+}
+    </script
+    <!-- Sidebar JavaScript -->
+    <script>
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio logado
+        function loadUserData() {
+    
+            const userData = localStorage.getItem('dom_v2_user');
+    
+            const token = localStorage.getItem('dom_v2_token');
+    
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+            
+            try {
+    
+                const user = JSON.parse(userData);
+    
+                console.log('UsuÃ¡rio logado:', user);
+    
+                return user;
+} catch (error) {
+    
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+        }
+
+        // FunÃ§Ã£o para atualizar sidebar com dados do usuÃ¡rio
+        function updateSidebar(user) {
+    
+            const userAvatar = document.getElementById('userAvatar');
+    
+            const userName = document.getElementById('userName');
+    
+            const userProfile = document.getElementById('userProfile');
+    
+            
+            if (userAvatar) {
+                userAvatar.textContent = user.name.charAt(0).toUpperCase();
+}
+            
+            if (userName) {
+    
+                userName.textContent = user.name;
+}
+            
+            if (userProfile) {
+    
+                const profileNames = {
+                    'EMPLOYER': 'Empregador',
+                    'EMPLOYEE': 'FuncionÃ¡rio',
+                    'FAMILY': 'Familiar',
+                    'ADMIN': 'Administrador',
+                    'user': 'UsuÃ¡rio'
+                ;
+};
+                userProfile.textContent = profileNames[user.profile] || 'UsuÃ¡rio';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar sidebar
+        function toggleSidebar() {
+    
+            const sidebar = document.getElementById('sidebar');
+    
+            const overlay = document.getElementById('sidebarOverlay');
+    
+            const mainContent = document.getElementById('mainContent');
+    
+            
+            sidebar.classList.toggle('open');
+    
+            overlay.classList.toggle('open');
+    
+            mainContent.classList.toggle('sidebar-open');
+}
+
+        // FunÃ§Ã£o para fechar sidebar
+        function closeSidebar() {
+    
+            const sidebar = document.getElementById('sidebar');
+    
+            const overlay = document.getElementById('sidebarOverlay');
+    
+            const mainContent = document.getElementById('mainContent');
+    
+            
+            sidebar.classList.remove('open');
+    
+            overlay.classList.remove('open');
+    
+            mainContent.classList.remove('sidebar-open');
+}
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+    
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+    
+                localStorage.removeItem('dom_v2_token');
+    
+                localStorage.removeItem('dom_v2_login_time');
+    
+                window.location.href = 'login-screen.html';
+}
+        }
+
+        // InicializaÃ§Ã£o do sidebar
+        function initSidebar() {
+    
+            const user = loadUserData();
+    
+            if (user) {
+                updateSidebar(user);
+}
+            
+            // Fechar sidebar ao clicar no overlay
+            const overlay = document.getElementById('sidebarOverlay');
+            if (overlay) {
+    
+                overlay.addEventListener('click', closeSidebar);
+}
+            
+            // Fechar sidebar ao pressionar ESC
+            document.addEventListener('keydown', function(e) {
+    
+                if (e.key === 'Escape') {
+                    closeSidebar();
+}
+            });
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            initSidebar();
+    
+            // Chamar funÃ§Ã£o de inicializaÃ§Ã£o especÃ­fica da pÃ¡gina se existir
+            if (typeof initPage === 'function') {
+                initPage();
+}
+        });
+    
+    // FunÃ§Ã£o para alternar dropdown de perfil
+    function toggleProfileDropdown() {
+    
+        const dropdown = document.getElementById('profileDropdown');
+    
+        const button = document.querySelector('.profile-selector-button');
+    
+        
+        dropdown.classList.toggle('open');
+    
+        button.classList.toggle('open');
+    
+        
+        if (dropdown.classList.contains('open')) {
+            loadProfileOptions();
+}
+    }
+
+    // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+    function loadProfileOptions() {
+    
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{;
+}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        // Simular mÃºltiplos perfis disponÃ­veis (em produÃ§Ã£o, viria da API)
+        const availableProfiles = [
+            {
+     id: 'EMPLOYER', name: 'Empregador', icon: 'ðŸ‘¨â€ðŸ’¼', description: 'Controle total' ;
+},
+            {
+     id: 'EMPLOYEE', name: 'FuncionÃ¡rio', icon: 'ðŸ‘·', description: 'Acesso limitado' ;
+},
+            {
+     id: 'FAMILY', name: 'Familiar', icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', description: 'VisualizaÃ§Ã£o' ;
+},
+            {
+     id: 'ADMIN', name: 'Administrador', icon: 'ðŸ”§', description: 'ConfiguraÃ§Ãµes' ;
+}
+        ];
+        
+        const optionsContainer = document.getElementById('profileOptions');
+        optionsContainer.innerHTML = '';
+        
+        availableProfiles.forEach(profile => {
+    
+            const option = document.createElement('div');
+    
+            option.className = 'profile-option';
+    
+            if (profile.id === currentProfile) {
+                option.classList.add('active');
+}
+            
+            option.innerHTML = `
+                <span class="option-icon">${
+    profile.icon;
+}</span>
+                <div class="option-info">
+                    <div class="option-name">${
+    profile.name;
+}</div>
+                    <div class="option-description">${
+    profile.description;
+}</div>
+                </div>
+                <span class="option-check">âœ“</span>
+            `;
+            
+            option.onclick = () => selectProfileOption(profile.id);
+            optionsContainer.appendChild(option);
+        });
+    }
+
+    // FunÃ§Ã£o para selecionar opÃ§Ã£o de perfil
+    function selectProfileOption(profileId) {
+    
+        // Remover seleÃ§Ã£o anterior
+        document.querySelectorAll('.profile-option').forEach(option => {
+            option.classList.remove('active');
+});
+        
+        // Selecionar nova opÃ§Ã£o
+        event.target.closest('.profile-option').classList.add('active');
+        
+        // Armazenar seleÃ§Ã£o temporÃ¡ria
+        window.tempSelectedProfile = profileId;
+    }
+
+    // FunÃ§Ã£o para confirmar mudanÃ§a de perfil
+    function confirmProfileChange() {
+    
+        if (window.tempSelectedProfile) {
+            const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{;
+}');
+            userData.selectedProfile = window.tempSelectedProfile;
+            localStorage.setItem('dom_v2_user', JSON.stringify(userData));
+            
+            // Atualizar interface
+            updateProfileSelector();
+            
+            // Fechar dropdown
+            toggleProfileDropdown();
+            
+            // Recarregar pÃ¡gina para aplicar mudanÃ§as
+            setTimeout(() => {
+    
+                window.location.reload();
+}, 500);
+        }
+    }
+
+    // FunÃ§Ã£o para atualizar seletor de perfil
+    function updateProfileSelector() {
+    
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{;
+}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        const profileInfo = getProfileInfo(currentProfile);
+        
+        const iconElement = document.getElementById('currentProfileIcon');
+        const nameElement = document.getElementById('currentProfileName');
+        
+        if (iconElement) iconElement.textContent = profileInfo.icon;
+        if (nameElement) nameElement.textContent = profileInfo.name;
+    }
+
+    // FunÃ§Ã£o para obter informaÃ§Ãµes do perfil
+    function getProfileInfo(profile) {
+    
+        const profiles = {
+            'EMPLOYER': { icon: 'ðŸ‘¨â€ðŸ’¼', name: 'Empregador' ;
+},
+            'EMPLOYEE': {
+     icon: 'ðŸ‘·', name: 'FuncionÃ¡rio' ;
+},
+            'FAMILY': {
+     icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', name: 'Familiar' ;
+},
+            'ADMIN': {
+     icon: 'ðŸ”§', name: 'Administrador' ;
+}
+        };
+        
+        return profiles[profile] || {
+     icon: 'ðŸ‘¤', name: 'UsuÃ¡rio' ;
+};
+    }
+
+    // Fechar dropdown ao clicar fora
+    document.addEventListener('click', function(e) {
+    
+        const selector = document.querySelector('.profile-selector');
+    
+        const dropdown = document.getElementById('profileDropdown');
+    
+        
+        if (selector && !selector.contains(e.target) && dropdown.classList.contains('open')) {
+            toggleProfileDropdown();
+}
+    });
+
+    // Atualizar seletor na inicializaÃ§Ã£o
+    document.addEventListener('DOMContentLoaded', function() {
+    
+        updateProfileSelector();
+});
+</script>>
+        </div>
+    </div>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+    
+            const userData = localStorage.getItem('dom_v2_user');
+    
+            const token = localStorage.getItem('dom_v2_token');
+    
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+            
+            try {
+    
+                const user = JSON.parse(userData);
+    
+                console.log('UsuÃ¡rio logado:', user);
+    
+                return user;
+} catch (error) {
+    
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+    
+            const currentProfile = document.getElementById('currentProfile');
+    
+            const profileSelector = document.getElementById('profileSelector');
+    
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+    
+                currentProfile.textContent = displayName;
+    
+                console.log('Nickname atualizado:', displayName);
+}
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+    
+                const userProfiles = user.profiles || [user.profile];
+    
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+    
+                    loadProfileOptions(userProfiles, user.profile);
+} else {
+    
+                    profileSelector.classList.remove('show');
+}
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+    
+            const dropdown = document.getElementById('profileDropdown');
+    
+            if (!dropdown) return;
+    
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            ;
+};
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+    
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            ;
+};
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        
+    
+    </script>
+    <script>
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+    
+            if (window.history.length > 1) {
+                window.history.back();
+} else {
+    
+                window.location.href = 'dashboard.html';
+}
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+    
+            const dropdown = document.getElementById('profileDropdown');
+    
+            dropdown.classList.toggle('show');
+}
+
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+    
+            const userData = localStorage.getItem('dom_v2_user');
+    
+            const token = localStorage.getItem('dom_v2_token');
+    
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+            
+            try {
+    
+                const user = JSON.parse(userData);
+    
+                console.log('UsuÃ¡rio logado:', user);
+    
+                return user;
+} catch (error) {
+    
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+    
+            const currentProfile = document.getElementById('currentProfile');
+    
+            const profileSelector = document.getElementById('profileSelector');
+    
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name;
+    
+                currentProfile.textContent = displayName;
+}
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+    
+                const userProfiles = user.profiles || [user.profile];
+    
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+    
+                    loadProfileOptions(userProfiles, user.profile);
+} else {
+    
+                    profileSelector.classList.remove('show');
+}
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+    
+            const dropdown = document.getElementById('profileDropdown');
+    
+            if (!dropdown) return;
+    
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            ;
+};
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+    
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            ;
+};
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+    
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+    
+                localStorage.removeItem('dom_v2_token');
+    
+                localStorage.removeItem('dom_v2_login_time');
+    
+                window.location.href = 'login-screen.html';
+}
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+    
+            const profileSelector = document.getElementById('profileSelector');
+    
+            const dropdown = document.getElementById('profileDropdown');
+    
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+}
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+    
+            const user = loadUserData();
+    
+            if (user) {
+                updateHeader(user);
+}
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+    
+            const userData = localStorage.getItem('dom_v2_user');
+    
+            const token = localStorage.getItem('dom_v2_token');
+    
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+            
+            try {
+    
+                const user = JSON.parse(userData);
+    
+                console.log('UsuÃ¡rio logado:', user);
+    
+                return user;
+} catch (error) {
+    
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+    
+                window.location.href = 'login-screen.html';
+    
+                return null;
+}
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+    
+            const currentProfile = document.getElementById('currentProfile');
+    
+            const profileSelector = document.getElementById('profileSelector');
+    
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+    
+                currentProfile.textContent = displayName;
+    
+                console.log('Nickname atualizado:', displayName);
+}
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+    
+                const userProfiles = user.profiles || [user.profile];
+    
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+    
+                    loadProfileOptions(userProfiles, user.profile);
+} else {
+    
+                    profileSelector.classList.remove('show');
+}
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+    
+            const dropdown = document.getElementById('profileDropdown');
+    
+            if (!dropdown) return;
+    
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            ;
+};
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+    
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            ;
+};
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+    
+            if (window.history.length > 1) {
+                window.history.back();
+} else {
+    
+                window.location.href = 'dashboard.html';
+}
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+    
+            const dropdown = document.getElementById('profileDropdown');
+    
+            dropdown.classList.toggle('show');
+}
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+    
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+    
+                localStorage.removeItem('dom_v2_token');
+    
+                localStorage.removeItem('dom_v2_login_time');
+    
+                window.location.href = 'login-screen.html';
+}
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+    
+            const profileSelector = document.getElementById('profileSelector');
+    
+            const dropdown = document.getElementById('profileDropdown');
+    
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+}
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+    
+            const user = loadUserData();
+    
+            if (user) {
+                updateHeader(user);
+}
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+    
+    </script>
+    <script src="js/messages-system.js"></script>
+</body>
+</html>
+

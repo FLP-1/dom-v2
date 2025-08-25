@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Telas - DOM v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            color: #666;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .btn.secondary {
+            background: #6c757d;
+        }
+        
+        .btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .screens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .screen-card {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .screen-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .screen-card.selected {
+            border-color: #667eea;
+            background: #e7f3ff;
+        }
+        
+        .screen-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .screen-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .screen-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.85em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-view {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-view:hover {
+            background: #218838;
+        }
+        
+        .btn-iframe {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-iframe:hover {
+            background: #138496;
+        }
+        
+        .btn-code {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-code:hover {
+            background: #e0a800;
+        }
+        
+        .viewer-area {
+            margin-top: 30px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            min-height: 400px;
+        }
+        
+        .viewer-header {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .viewer-content {
+            padding: 20px;
+            min-height: 350px;
+        }
+        
+        .viewer-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .code-container {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .success {
+            color: #155724;
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖥️ Visualizador de Telas</h1>
+            <p>DOM v2 - Sistema de Gestão</p>
+        </div>
+        
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalScreens">...</div>
+                <div class="stat-label">Total de Telas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="loginScreens">...</div>
+                <div class="stat-label">Telas de Login</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="dashboardScreens">...</div>
+                <div class="stat-label">Dashboards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="splashScreens">...</div>
+                <div class="stat-label">Splash Screens</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar telas por nome...">
+            <button class="btn" onclick="refreshScreens()">🔄 Atualizar</button>
+            <button class="btn secondary" onclick="clearViewer()">🗑️ Limpar</button>
+        </div>
+        
+        <div class="screens-grid" id="screensGrid">
+            <div class="loading">Carregando telas...</div>
+        </div>
+        
+        <div class="viewer-area hidden" id="viewerArea">
+            <div class="viewer-header">
+                <h3 id="viewerTitle">Nenhuma tela selecionada</h3>
+                <div>
+                    <button class="btn-small btn-view" onclick="openInNewTab()">🔗 Nova Aba</button>
+                    <button class="btn-small btn-code" onclick="toggleCodeView()">📝 Código</button>
+                    <button class="btn-small" onclick="closeViewer()" style="background: #dc3545; color: white;">✖ Fechar</button>
+                </div>
+            </div>
+            <div class="viewer-content" id="viewerContent">
+                <!-- Conteúdo da tela será carregado aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lista de telas conhecidas
+        const knownScreens = [
+            'index.html',
+            'app.html',
+            'splash.html',
+            'login-screen.html',
+            'dashboard.html',
+            'simple-app.html',
+            'simple-web.html',
+            'index-working.html',
+            'screen-viewer.html',
+            'advanced-timecard.html',
+            'employees-management.html',
+            'esocial-validation.html',
+            'payments-management.html',
+            'external-integrations.html',
+            'timeclock.html',
+            'test-messages.html',
+            'terms.html',
+            'start.html',
+            'users-management.html',
+            'terms-of-use.html',
+            'tasks-management.html',
+            'task-management.html',
+            'splash-screen.html',
+            'sidebar.html',
+            'showcase-telas.html',
+            'showcase-funcional.html',
+            'settings.html',
+            'screen-preview.html',
+            'screen-evaluation.html',
+            'reports.html',
+            'reports-management.html',
+            'reports-advanced-management.html',
+            'recruitment-management.html',
+            'quality-management.html',
+            'purchases-management.html',
+            'profile.html',
+            'profile-selector.html',
+            'profile-selector-modal.html',
+            'privacy.html',
+            'privacy-policy.html',
+            'plans.html',
+            'payment-integrations.html',
+            'notifications.html',
+            'notifications-management.html',
+            'navigation.html',
+            'main.html',
+            'integration-management.html',
+            'hr-management.html',
+            'header.html',
+            'gamification.html',
+            'gamification-management.html',
+            'financial-management.html',
+            'finance.html',
+            'documents-management.html',
+            'dashboard-family.html',
+            'dashboard-employer.html',
+            'dashboard-employee.html',
+            'dashboard-admin.html',
+            'communication.html',
+            'communication-management.html',
+            'budget-management.html',
+            'approvals-management.html'
+        ];
+
+        let screens = [];
+        let currentScreen = null;
+        let codeViewActive = false;
+
+        // Inicializar aplicação
+        async function init() {
+            await loadScreens();
+            setupEventListeners();
+            updateStats();
+        }
+
+        // Carregar informações das telas
+        async function loadScreens() {
+            screens = [];
+            
+            for (const screenName of knownScreens) {
+                try {
+                    const response = await fetch(screenName, { method: 'HEAD' });
+                    if (response.ok) {
+                        const screen = {
+                            name: screenName,
+                            title: getScreenTitle(screenName),
+                            type: getScreenType(screenName),
+                            size: response.headers.get('content-length') || 'N/A',
+                            lastModified: response.headers.get('last-modified') || 'N/A',
+                            accessible: true
+                        };
+                        screens.push(screen);
+                    }
+                } catch (error) {
+                    console.log(`Tela não encontrada: ${screenName}`);
+                }
+            }
+            
+            renderScreens();
+        }
+
+        // Obter título da tela baseado no nome
+        function getScreenTitle(name) {
+            const titles = {
+                'index.html': 'Página Inicial',
+                'app.html': 'Aplicação Principal',
+                'splash.html': 'Tela Splash',
+                'login-screen.html': 'Tela de Login',
+                'dashboard.html': 'Dashboard Principal',
+                'simple-app.html': 'App Simples',
+                'simple-web.html': 'Web Simples',
+                'index-working.html': 'Index Funcional',
+                'screen-viewer.html': 'Visualizador de Telas'
+            };
+            
+            return titles[name] || name.replace('.html', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        // Obter tipo da tela
+        function getScreenType(name) {
+            if (name.includes('login')) return 'Login';
+            if (name.includes('splash')) return 'Splash';
+            if (name.includes('dashboard')) return 'Dashboard';
+            if (name.includes('index')) return 'Index';
+            if (name.includes('app')) return 'App';
+            return 'Outras';
+        }
+
+        // Renderizar lista de telas
+        function renderScreens(filteredScreens = null) {
+            const grid = document.getElementById('screensGrid');
+            const screensToRender = filteredScreens || screens;
+            
+            if (screensToRender.length === 0) {
+                grid.innerHTML = '<div class="loading">Nenhuma tela encontrada</div>';
+                return;
+            }
+
+            grid.innerHTML = screensToRender.map(screen => `
+                <div class="screen-card" onclick="selectScreen('${screen.name}')" data-screen="${screen.name}">
+                    <div class="screen-title">${screen.title}</div>
+                    <div class="screen-info">
+                        <div><strong>Arquivo:</strong> ${screen.name}</div>
+                        <div><strong>Tipo:</strong> ${screen.type}</div>
+                        <div><strong>Tamanho:</strong> ${formatSize(screen.size)}</div>
+                        <div><strong>Status:</strong> ${screen.accessible ? '✅ OK' : '❌ Erro'}</div>
+                    </div>
+                    <div class="screen-actions">
+                        <button class="btn-small btn-view" onclick="event.stopPropagation(); viewScreen('${screen.name}')">👁️ Ver</button>
+                        <button class="btn-small btn-iframe" onclick="event.stopPropagation(); viewInFrame('${screen.name}')">🖼️ Frame</button>
+                        <button class="btn-small btn-code" onclick="event.stopPropagation(); viewCode('${screen.name}')">📝 Código</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Formatar tamanho do arquivo
+        function formatSize(bytes) {
+            if (bytes === 'N/A') return 'N/A';
+            const size = parseInt(bytes);
+            if (isNaN(size)) return 'N/A';
+            if (size < 1024) return size + ' B';
+            if (size < 1024 * 1024) return (size / 1024).toFixed(1) + ' KB';
+            return (size / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // Selecionar tela
+        function selectScreen(screenName) {
+            // Remover seleção anterior
+            document.querySelectorAll('.screen-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Adicionar seleção atual
+            const card = document.querySelector(`[data-screen="${screenName}"]`);
+            if (card) {
+                card.classList.add('selected');
+            }
+            
+            currentScreen = screenName;
+        }
+
+        // Visualizar tela
+        function viewScreen(screenName) {
+            selectScreen(screenName);
+            window.open(screenName, '_blank');
+        }
+
+        // Visualizar em frame
+        function viewInFrame(screenName) {
+            selectScreen(screenName);
+            showViewer(screenName, 'iframe');
+        }
+
+        // Visualizar código
+        function viewCode(screenName) {
+            selectScreen(screenName);
+            showViewer(screenName, 'code');
+        }
+
+        // Mostrar visualizador
+        async function showViewer(screenName, mode = 'iframe') {
+            const viewer = document.getElementById('viewerArea');
+            const title = document.getElementById('viewerTitle');
+            const content = document.getElementById('viewerContent');
+            
+            title.textContent = `${getScreenTitle(screenName)} (${screenName})`;
+            viewer.classList.remove('hidden');
+            
+            if (mode === 'iframe') {
+                content.innerHTML = `<iframe src="${screenName}" class="viewer-iframe"></iframe>`;
+                codeViewActive = false;
+            } else if (mode === 'code') {
+                try {
+                    const response = await fetch(screenName);
+                    const code = await response.text();
+                    content.innerHTML = `
+                        <div class="code-container">
+                            <pre>${escapeHtml(code)}</pre>
+                        </div>
+                    `;
+                    codeViewActive = true;
+                } catch (error) {
+                    content.innerHTML = `<div class="error">Erro ao carregar código: ${error.message}</div>`;
+                }
+            }
+            
+            currentScreen = screenName;
+        }
+
+        // Escapar HTML
+        function escapeHtml(html) {
+            const div = document.createElement('div');
+            div.textContent = html;
+            return div.innerHTML;
+        }
+
+        // Alternar visualização de código
+        function toggleCodeView() {
+            if (currentScreen) {
+                showViewer(currentScreen, codeViewActive ? 'iframe' : 'code');
+            }
+        }
+
+        // Abrir em nova aba
+        function openInNewTab() {
+            if (currentScreen) {
+                window.open(currentScreen, '_blank');
+            }
+        }
+
+        // Fechar visualizador
+        function closeViewer() {
+            document.getElementById('viewerArea').classList.add('hidden');
+            currentScreen = null;
+        }
+
+        // Limpar visualizador
+        function clearViewer() {
+            closeViewer();
+            document.querySelectorAll('.screen-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+        }
+
+        // Atualizar telas
+        function refreshScreens() {
+            document.getElementById('screensGrid').innerHTML = '<div class="loading">Carregando telas...</div>';
+            loadScreens();
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filtered = screens.filter(screen => 
+                    screen.name.toLowerCase().includes(query) ||
+                    screen.title.toLowerCase().includes(query) ||
+                    screen.type.toLowerCase().includes(query)
+                );
+                renderScreens(filtered);
+            });
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            const total = screens.length;
+            const login = screens.filter(s => s.type === 'Login').length;
+            const dashboard = screens.filter(s => s.type === 'Dashboard').length;
+            const splash = screens.filter(s => s.type === 'Splash').length;
+            
+            document.getElementById('totalScreens').textContent = total;
+            document.getElementById('loginScreens').textContent = login;
+            document.getElementById('dashboardScreens').textContent = dashboard;
+            document.getElementById('splashScreens').textContent = splash;
+        }
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
+

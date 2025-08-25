@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        .header p {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.9);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            color: #667eea;
+            background: white;
+            border: 2px solid #667eea;
+        }
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        .btn-danger {
+            color: white;
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        .card-small {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .card-small h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .card-small p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+        .alert-success {
+            color: #155724;
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .alert-error {
+            color: #721c24;
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        .alert-info {
+            color: #0c5460;
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            text-align: right;
+        }
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .card { padding: 20px; }
+            .header h1 { font-size: 2em; }
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .user-info { position: static; text-align: center; margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="user-info">
+        <div>Bem-vindo, Usuário</div>
+        <button class="logout-btn" onclick="logout()">Sair</button>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>DOM v2</h1>
+            <p>Dashboard Principal - Sistema Integrado de Gerenciamento</p>
+        </div>
+        
+        <div class="card">
+            <h2>Resumo do Sistema</h2>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">150</div>
+                    <div class="stat-label">Funcionários</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">25</div>
+                    <div class="stat-label">Projetos Ativos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">R$ 2.5M</div>
+                    <div class="stat-label">Orçamento Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Taxa de Sucesso</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Gerenciamento Principal</h2>
+            
+            <div class="grid grid-3">
+                <div class="card-small">
+                    <h3>👥 Funcionários</h3>
+                    <p>Gerencie dados dos funcionários</p>
+                    <button class="btn btn-primary" onclick="navigateTo('employees-management.html')">
+                        Gerenciar Funcionários
+                    </button>
+                </div>
+                
+                <div class="card-small">
+                    <h3>💰 Orçamentos</h3>
+                    <p>Controle financeiro e orçamentário</p>
+                    <button class="btn btn-primary" onclick="navigateTo('budget-management.html')">
+                        Gerenciar Orçamentos
+                    </button>
+                </div>
+                
+                <div class="card-small">
+                    <h3>💳 Pagamentos</h3>
+                    <p>Sistema de pagamentos e folha</p>
+                    <button class="btn btn-primary" onclick="navigateTo('payments-management.html')">
+                        Gerenciar Pagamentos
+                    </button>
+                </div>
+                
+                <div class="card-small">
+                    <h3>✅ Validações eSocial</h3>
+                    <p>Validações e conformidade</p>
+                    <button class="btn btn-primary" onclick="navigateTo('esocial-validation.html')">
+                        Validar eSocial
+                    </button>
+                </div>
+                
+                <div class="card-small">
+                    <h3>📋 Tarefas</h3>
+                    <p>Controle de tarefas e projetos</p>
+                    <button class="btn btn-primary" onclick="navigateTo('tasks-management.html')">
+                        Gerenciar Tarefas
+                    </button>
+                </div>
+                
+                <div class="card-small">
+                    <h3>📊 Relatórios</h3>
+                    <p>Relatórios e análises</p>
+                    <button class="btn btn-primary" onclick="navigateTo('reports-management.html')">
+                        Ver Relatórios
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Funcionalidades Avançadas</h2>
+            
+            <div class="grid grid-4">
+                <button class="btn btn-secondary" onclick="navigateTo('notifications-management.html')">
+                    🔔 Notificações
+                </button>
+                <button class="btn btn-secondary" onclick="navigateTo('settings.html')">
+                    ⚙️ Configurações
+                </button>
+                <button class="btn btn-secondary" onclick="navigateTo('communication.html')">
+                    💬 Comunicação
+                </button>
+                <button class="btn btn-secondary" onclick="navigateTo('timeclock.html')">
+                    ⏰ Ponto Eletrônico
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('Dashboard carregado com sucesso!');
+        
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+        
+        function navigateTo(page) {
+            console.log('Navegando para:', page);
+            window.location.href = page;
+        }
+        
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                showAlert('Logout realizado com sucesso!', 'success');
+                setTimeout(() => {
+                    navigateTo('login-screen.html');
+                }, 1000);
+            }
+        }
+        
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`http://localhost:3001/api${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                showAlert('Erro na comunicação com o servidor', 'error');
+            }
+        }
+        
+        // Carregar dados do dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard inicializado');
+            showAlert('Bem-vindo ao Dashboard DOM v2!', 'success');
+        });
+    </script>
+</body>
+</html>
+

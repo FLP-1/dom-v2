@@ -1,0 +1,555 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Sistema de Mensagens DOM v2</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        .test-container {
+    
+            margin: 0 auto;
+    
+            padding: 20px;
+    
+            max-width: 800px;
+}
+
+        .test-section {
+    
+            padding: 20px;
+    
+            background: white;
+    
+            border-radius: 12px;
+    
+            margin-bottom: 20px;
+    
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+        .test-section h3 {
+    
+            color: #1e293b;
+    
+            margin-bottom: 15px;
+    
+            font-size: 18px;
+}
+
+        .test-buttons {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    
+            gap: 10px;
+    
+            margin-bottom: 15px;
+}
+
+        .test-btn {
+    
+            padding: 12px 16px;
+    
+            border: none;
+    
+            color: white;
+    
+            background: #007AFF;
+    
+    transition: all 0.2s ease;
+    
+            border-radius: 8px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.2s ease;
+    
+            font-size: 14px;
+}
+
+        .test-btn:hover {
+    
+            background: #0056CC;
+    
+    transform: translateY(-1px);
+    
+            -webkit-transform: translateY(-1px);
+}
+
+        .test-btn.success {
+     background: #10B981;
+}
+        .test-btn.error {
+     background: #EF4444;
+}
+        .test-btn.warning {
+     background: #F59E0B;
+}
+        .test-btn.info {
+     background: #3B82F6;
+}
+
+        .test-btn.success:hover {
+     background: #059669;
+}
+        .test-btn.error:hover {
+     background: #DC2626;
+}
+        .test-btn.warning:hover {
+     background: #D97706;
+}
+        .test-btn.info:hover {
+     background: #2563EB;
+}
+
+        .stats-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    
+            gap: 15px;
+    
+            margin-top: 20px;
+}
+
+        .stat-card {
+    
+            padding: 15px;
+    
+            background: #f8fafc;
+    
+            border-radius: 8px;
+    
+            text-align: center;
+}
+
+        .stat-number {
+    
+            color: #007AFF;
+    
+            font-size: 24px;
+    
+            font-weight: bold;
+}
+
+        .stat-label {
+    
+            color: #64748b;
+    
+            font-size: 12px;
+    
+            margin-top: 5px;
+}
+
+        .old-alert-demo {
+    
+            margin: 10px 0;
+    
+            padding: 15px;
+    
+            border: 1px solid #fecaca;
+    
+            background: #fef2f2;
+    
+            border-radius: 8px;
+}
+
+        .new-message-demo {
+    
+            margin: 10px 0;
+    
+            padding: 15px;
+    
+            border: 1px solid #bbf7d0;
+    
+            background: #f0fdf4;
+    
+            border-radius: 8px;
+}
+
+        .code-example {
+    
+            margin: 10px 0;
+    
+            padding: 15px;
+    
+            color: #e2e8f0;
+    
+            background: #1e293b;
+    
+            border-radius: 8px;
+    
+            font-family: 'Courier New', monospace;
+    
+            font-size: 14px;
+    
+            overflow-x: auto;
+}
+    </style>
+</head>
+
+<body>
+    <!-- Container para o header reutilizÃ¡vel -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizÃ¡vel -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="test-container">
+            <h1>ðŸ§ª Teste - Sistema de Mensagens Centralizado</h1>
+            <p>DemonstraÃ§Ã£o prÃ¡tica da migraÃ§Ã£o de alerts hardcoded para o sistema centralizado.</p>
+
+            <!-- SeÃ§Ã£o de Testes por Categoria -->
+            <div class="test-section">
+                <h3>âœ… Mensagens de Sucesso</h3>
+                <div class="test-buttons">
+                    <button class="test-btn success" onclick="showMessage('employee.create.success')" tabindex="0">
+                        FuncionÃ¡rio Criado
+                    </button>
+                    <button class="test-btn success" onclick="showMessage('payment.process.success')" tabindex="0">
+                        Pagamento Processado
+                    </button>
+                    <button class="test-btn success" onclick="showMessage('budget.create.success')" tabindex="0">
+                        OrÃ§amento Criado
+                    </button>
+                    <button class="test-btn success" onclick="showMessage('documents.upload.success')" tabindex="0">
+                        Documento Enviado
+                    </button>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h3>âŒ Mensagens de Erro</h3>
+                <div class="test-buttons">
+                    <button class="test-btn error" onclick="showMessage('employee.load.error')" tabindex="0">
+                        Erro Carregar FuncionÃ¡rios
+                    </button>
+                    <button class="test-btn error" onclick="showMessage('payment.create.error')" tabindex="0">
+                        Erro Criar Pagamento
+                    </button>
+                    <button class="test-btn error" onclick="showMessage('system.server.error')" tabindex="0">
+                        Erro do Servidor
+                    </button>
+                    <button class="test-btn error" onclick="showMessage('validation.required')" tabindex="0">
+                        Campo ObrigatÃ³rio
+                    </button>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h3>âš ï¸ Mensagens de Aviso</h3>
+                <div class="test-buttons">
+                    <button class="test-btn warning" onclick="showMessage('validation.password.weak')" tabindex="0">
+                        Senha Fraca
+                    </button>
+                    <button class="test-btn warning" onclick="showMessage('reports.fields.required')" tabindex="0">
+                        Campos ObrigatÃ³rios
+                    </button>
+                    <button class="test-btn warning" onclick="showMessage('auth.session.expired')" tabindex="0">
+                        SessÃ£o Expirada
+                    </button>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h3>â„¹ï¸ Mensagens Informativas</h3>
+                <div class="test-buttons">
+                    <button class="test-btn info" onclick="showMessage('system.loading')" tabindex="0">
+                        Carregando...
+                    </button>
+                    <button class="test-btn info" onclick="showMessage('feature.coming.soon')" tabindex="0">
+                        Em Breve
+                    </button>
+                    <button class="test-btn info" onclick="showMessage('feature.import.soon')" tabindex="0">
+                        ImportaÃ§Ã£o em Breve
+                    </button>
+                </div>
+            </div>
+
+            <!-- SeÃ§Ã£o de ConfirmaÃ§Ãµes -->
+            <div class="test-section">
+                <h3>â“ ConfirmaÃ§Ãµes</h3>
+                <div class="test-buttons">
+                    <button class="test-btn" onclick="testConfirm('confirm.delete')" tabindex="0">
+                        Confirmar ExclusÃ£o
+                    </button>
+                    <button class="test-btn" onclick="testConfirm('confirm.logout')" tabindex="0">
+                        Confirmar Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- ComparaÃ§Ã£o Antes/Depois -->
+            <div class="test-section">
+                <h3>ðŸ“Š ComparaÃ§Ã£o: Antes vs Depois</h3>
+                
+                <h4>âŒ Antes (Hardcoded):</h4>
+                <div class="old-alert-demo">
+                    <button class="test-btn error" onclick="showMessage('employee.create.success')" tabindex="0">
+                        Alert Nativo (Antigo)
+                    </button>
+                </div>
+                <div class="code-example">
+// CÃ³digo antigo - hardcoded
+showMessage('employee.create.success');
+                </div>
+
+                <h4>âœ… Depois (Sistema Centralizado):</h4>
+                <div class="new-message-demo">
+                    <button class="test-btn success" onclick="showMessage('employee.create.success')" tabindex="0">
+                        Sistema Centralizado (Novo)
+                    </button>
+                </div>
+                <div class="code-example">
+// CÃ³digo novo - centralizado
+showMessage('employee.create.success');
+
+// Com customizaÃ§Ã£o
+showMessage('employee.create.error', {
+    
+    customText: 'Erro especÃ­fico: ' + error.message
+;
+});
+                </div>
+            </div>
+
+            <!-- EstatÃ­sticas do Sistema -->
+            <div class="test-section">
+                <h3>ðŸ“ˆ EstatÃ­sticas do Sistema</h3>
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+                <button class="test-btn" onclick="updateStats()" tabindex="0">ðŸ”„ Atualizar EstatÃ­sticas</button>
+            </div>
+
+            <!-- Teste de Performance -->
+            <div class="test-section">
+                <h3>âš¡ Teste de Performance</h3>
+                <p>Teste a velocidade de exibiÃ§Ã£o das mensagens:</p>
+                <div class="test-buttons">
+                    <button class="test-btn" onclick="performanceTest()" tabindex="0">
+                        ðŸš€ Teste 10 Mensagens RÃ¡pidas
+                    </button>
+                    <button class="test-btn" onclick="stressTest()" tabindex="0">
+                        ðŸ’ª Teste de Stress (50 mensagens)
+                    </button>
+                </div>
+                <div id="performanceResults"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/messages-system.js"></script>
+    <script src="js/components.js"></script>
+    <script>
+        // InicializaÃ§Ã£o da pÃ¡gina
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+    
+            componentManager.initPage('Teste - Sistema de Mensagens');
+    
+            
+            // Atualizar estatÃ­sticas iniciais
+            updateStats();
+});
+
+        // Teste de confirmaÃ§Ã£o
+        async function testawait messageSystem.confirm('confirm.delete') {
+    
+            try {
+                const result = await messageSystem.await messageSystem.confirm('confirm.delete');
+    
+                if (result) {
+                    showMessage('system.success', { 
+                        customText: 'ConfirmaÃ§Ã£o aceita!' 
+                    ;
+});
+                } else {
+    
+                    showMessage('system.info', { 
+                        customText: 'ConfirmaÃ§Ã£o cancelada.' 
+                    ;
+});
+                }
+            } catch (error) {
+    
+                showMessage('system.error', {
+                    customText: 'Erro no teste de confirmaÃ§Ã£o: ' + error.message
+                ;
+});
+            }
+        }
+
+        // Atualizar estatÃ­sticas
+        function updateStats() {
+    
+            if (!window.messageSystem) {
+                console.error('Sistema de mensagens nÃ£o disponÃ­vel');
+    
+                return;
+}
+
+            const stats = messageSystem.getStats();
+            const statsGrid = document.getElementById('statsGrid');
+            
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${
+    stats.total;
+}</div>
+                    <div class="stat-label">Total de Mensagens</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${
+    stats.byType.success;
+}</div>
+                    <div class="stat-label">Sucesso</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${
+    stats.byType.error;
+}</div>
+                    <div class="stat-label">Erro</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${
+    stats.byType.warning;
+}</div>
+                    <div class="stat-label">Aviso</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${
+    stats.byType.info;
+}</div>
+                    <div class="stat-label">Info</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${
+    Object.keys(stats.byCategory).length;
+}</div>
+                    <div class="stat-label">Categorias</div>
+                </div>
+            `;
+        }
+
+        // Teste de performance
+        function performanceTest() {
+    
+            const startTime = performance.now();
+    
+            const messages = [
+                'employee.create.success',
+                'payment.process.success',
+                'budget.create.success',
+                'documents.upload.success',
+                'timeclock.entry.success',
+                'profile.update.success',
+                'settings.notification.success',
+                'reports.financial.success',
+                'system.loading',
+                'feature.coming.soon'
+            ];
+    
+
+            messages.forEach((messageId, index) => {
+                setTimeout(() => {
+                    showMessage(messageId);
+    
+                    
+                    if (index === messages.length - 1) {
+                        const endTime = performance.now();
+    
+                        const duration = endTime - startTime;
+    
+                        
+                        setTimeout(() => {
+                            document.getElementById('performanceResults').innerHTML = `
+                                <div class="new-message-demo">
+                                    <strong>âœ… Teste concluÃ­do!</strong><br>
+                                    Tempo total: ${duration.toFixed(2);
+}ms<br>
+                                    MÃ©dia por mensagem: ${
+    (duration / messages.length).toFixed(2);
+}ms
+                                </div>
+                            `;
+                        }, 1000);
+                    }
+                }, index * 200);
+            });
+        }
+
+        // Teste de stress
+        function stressTest() {
+    
+            const startTime = performance.now();
+    
+            const messageTypes = ['success', 'error', 'warning', 'info'];
+    
+            
+            for (let i = 0;
+     i < 50;
+     i++) {
+                setTimeout(() => {
+                    const type = messageTypes[i % messageTypes.length];
+    
+                    showMessage('system.loading', {
+                        customText: `Mensagem de teste #${i + 1;
+} - ${
+    type;
+}`
+                    });
+                    
+                    if (i === 49) {
+    
+                        const endTime = performance.now();
+    
+                        const duration = endTime - startTime;
+    
+                        
+                        setTimeout(() => {
+                            document.getElementById('performanceResults').innerHTML = `
+                                <div class="new-message-demo">
+                                    <strong>ðŸ’ª Teste de stress concluÃ­do!</strong><br>
+                                    50 mensagens em ${duration.toFixed(2);
+}ms<br>
+                                    MÃ©dia: ${
+    (duration / 50).toFixed(2);
+}ms por mensagem<br>
+                                    <em>Sistema funcionando perfeitamente!</em>
+                                </div>
+                            `;
+                        }, 2000);
+                    }
+                }, i * 100);
+            }
+        }
+
+        // Adicionar informaÃ§Ãµes de debug
+        window.addEventListener('load', () => {
+    
+            console.log('ðŸ§ª PÃ¡gina de teste carregada');
+    
+            console.log('ðŸ“Š Sistema de mensagens:', window.messageSystem ? 'âœ… Ativo' : 'âŒ Inativo');
+    
+            console.log('ðŸ”§ Componentes:', window.componentManager ? 'âœ… Ativo' : 'âŒ Inativo');
+});
+    </script>
+</body>
+</html>
+
+
+
+
+

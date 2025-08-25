@@ -1,0 +1,1189 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Gestão de Documentos</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+        body {
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+        .container {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1400px;
+}
+        .header {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+        .header h1 {
+    display: flex;
+    color: #4a5568;
+    margin-bottom: 10px;
+    align-items: center;
+    gap: 10px;
+}
+        .header .icon {
+    color: #667eea;
+    font-size: 2em;
+}
+        .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+        .stat-card {
+    -webkit-transition: transform 0.3s ease;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: transform 0.3s ease;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+        .stat-card:hover {
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+}
+        .stat-number {
+    color: #667eea;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+        .stat-label {
+    color: #718096;
+    font-size: 0.9em;
+}
+        .main-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+}
+        .documents-section {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+        .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+        .btn {
+    -webkit-transition: all 0.3s ease;
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+        .btn:hover {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+        .btn-secondary {
+    background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+}
+        .btn-success {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+}
+        .btn-warning {
+    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+}
+        .btn-danger {
+    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+}
+        .filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+        .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+        .filter-group label {
+    color: #718096;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+        .filter-group select, .filter-group input {
+    -webkit-transition: border-color 0.3s ease;
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    transition: border-color 0.3s ease;
+    border-radius: 6px;
+    font-size: 14px;
+}
+        .filter-group select:focus, .filter-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+        .documents-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+        .document-item {
+    -webkit-transition: all 0.3s ease;
+    padding: 15px;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #e2e8f0;
+}
+        .document-item:hover {
+    -webkit-transform: translateX(5px);
+    transform: translateX(5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+        .document-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+        .document-name {
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+        .document-type {
+    padding: 4px 12px;
+    color: #4a5568;
+    background: #e2e8f0;
+    transform: uppercase;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 500;
+    text--webkit-transform: uppercase;
+}
+        .document-info {
+    color: #718096;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+        .document-meta {
+    display: flex;
+    color: #a0aec0;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+}
+        .document-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+        .btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+        .sidebar {
+    height: fit-content;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+        .sidebar h3 {
+    display: flex;
+    color: #4a5568;
+    margin-bottom: 15px;
+    align-items: center;
+    gap: 8px;
+}
+        .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+        .modal-content {
+    width: 90%;
+    margin: 5% auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    max-width: 600px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+        .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+        .modal-header h2 {
+    color: #4a5568;
+}
+        .close {
+    -webkit-transition: color 0.3s ease;
+    color: #a0aec0;
+    transition: color 0.3s ease;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+        .close:hover {
+    color: #4a5568;
+}
+        .form-group {
+    margin-bottom: 15px;
+}
+        .form-group label {
+    display: block;
+    color: #718096;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+        .form-group input, .form-group select, .form-group textarea {
+    -webkit-transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    transition: border-color 0.3s ease;
+    border-radius: 6px;
+    font-size: 14px;
+}
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+        .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+        .file-upload {
+    -webkit-transition: border-color 0.3s ease;
+    padding: 40px;
+    border: 2px dashed #e2e8f0;
+    transition: border-color 0.3s ease;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+        .file-upload:hover {
+    border-color: #667eea;
+}
+        .file-upload.dragover {
+    background: #f7fafc;
+    border-color: #667eea;
+}
+        .file-upload input[type="file"] {
+    display: none;
+}
+        .file-upload-icon {
+    color: #a0aec0;
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+        .file-upload-text {
+    color: #718096;
+    margin-bottom: 5px;
+}
+        .file-upload-hint {
+    color: #a0aec0;
+    font-size: 0.9em;
+}
+        .upload-progress {
+    width: 100%;
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+        .upload-progress-bar {
+    -webkit-transition: width 0.3s ease;
+    width: 0%;
+    height: 100%;
+    background: #667eea;
+    transition: width 0.3s ease;
+}
+        .loading {
+    padding: 40px;
+    color: #718096;
+    text-align: center;
+}
+        .error {
+    padding: 15px;
+    color: #c53030;
+    background: #fed7d7;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+        .success {
+    padding: 15px;
+    color: #2f855a;
+    background: #c6f6d5;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+        .document-preview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+        .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    color: #4a5568;
+    background: #e2e8f0;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+        @media (max-width: 768px) {
+    .main-content { grid-template-columns: 1fr;
+} .filters {
+    flex-direction: column;
+} .section-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+} }
+    </style>
+  <style>
+    .extracted-style-1 {
+    margin-top: 30px;
+}
+    .extracted-style-2 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+    .extracted-style-3 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+    .extracted-style-4 {
+    width: 100%;
+}
+    .extracted-style-5 {
+    display: none;
+    padding: 10px;
+    background: #f7fafc;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+    .extracted-style-6 {
+    display: none;
+}
+    .extracted-style-7 {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+    .extracted-style-8 {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+    .extracted-style-9 {
+    margin-bottom: 15px;
+}
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="icon">📄</span> Gestão de Documentos - DOM v2</h1>
+            <div class="stats-grid" id="statsGrid"></div>
+        </div>
+
+        <div class="main-content">
+            <div class="documents-section">
+                <div class="section-header">
+                    <h2>Gestão de Documentos</h2>
+                    <button class="btn" onclick="openUploadModal()" tabindex="0">📤 Enviar Documento</button>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Categoria</label>
+                        <select aria-label="Seleção" id="categoryFilter" tabindex="0">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Usuário</label>
+                        <select aria-label="Seleção" id="userFilter" tabindex="0">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Buscar</label>
+                        <input id="searchFilter" aria-label="text input" type="text" id="searchFilter" placeholder="Nome ou descrição..." tabindex="0">
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-secondary" onclick="loadDocuments()" tabindex="0">Filtrar</button>
+                    </div>
+                </div>
+
+                <div class="documents-list" id="documentsList"></div>
+            </div>
+
+            <div class="sidebar">
+                <h3><span>📊</span> Dashboard</h3>
+                <div id="dashboardStats"></div>
+
+                <h3 class="extracted-style-1"><span>📈</span> Relatórios</h3>
+                <button class="btn btn-secondary" class="extracted-style-2" onclick="loadDocumentsDashboard()" tabindex="0">Dashboard de Documentos</button>
+                <button class="btn btn-secondary" class="extracted-style-3" onclick="loadStorageReport()" tabindex="0">Relatório de Armazenamento</button>
+                <button class="btn btn-secondary" class="extracted-style-4" onclick="loadSharedDocuments()" tabindex="0">Documentos Compartilhados</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Enviar Documento</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="documentName">Nome do Documento *</label>
+                    <input id="documentName" aria-label="text input" type="text" id="documentName" required tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="documentDescription">Descrição</label>
+                    <textarea id="documentDescription" placeholder="Descreva o conteúdo do documento..." tabindex="0"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="documentCategory">Categoria</label>
+                    <select aria-label="Seleção" id="documentCategory" tabindex="0">
+                        <option value="Geral">Geral</option>
+                        <option value="Contratos">Contratos</option>
+                        <option value="Faturas">Faturas</option>
+                        <option value="Relatórios">Relatórios</option>
+                        <option value="Manuais">Manuais</option>
+                        <option value="Políticas">Políticas</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="documentTags">Tags</label>
+                    <input id="documentTags" aria-label="text input" type="text" id="documentTags" placeholder="tag1, tag2, tag3" tabindex="0">
+                </div>
+                <div class="form-group">
+                    <label for="documentUser">Usuário Responsável</label>
+                    <select aria-label="Seleção" id="documentUser" tabindex="0">
+                        <option value="">Selecionar usuário</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Arquivo *</label>
+                    <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
+                        <div class="file-upload-icon">📁</div>
+                        <div class="file-upload-text">Clique para selecionar ou arraste o arquivo</div>
+                        <div class="file-upload-hint">Máximo 10MB - PDF, DOC, XLS, TXT, JPG, PNG</div>
+                        <input id="fileInput" aria-label="file input" type="file" id="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.jpg,.jpeg,.png,.gif" tabindex="0">
+                    </div>
+                    <div id="fileInfo" class="extracted-style-5">
+                        <strong id="fileName"></strong><br>
+                        <span id="fileSize"></span>
+                    </div>
+                    <div class="upload-progress" id="uploadProgress" class="extracted-style-6">
+                        <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                    </div>
+                </div>
+                <div class="extracted-style-7">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn" tabindex="0">Enviar Documento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Compartilhar Documento</h2>
+                <span class="close" onclick="closeShareModal()">&times;</span>
+            </div>
+            <form id="shareForm">
+                <div class="form-group">
+                    <label for="shareUser">Usuário</label>
+                    <select aria-label="Seleção" id="shareUser" required tabindex="0">
+                        <option value="">Selecionar usuário</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sharePermissions">Permissões</label>
+                    <select aria-label="Seleção" id="sharePermissions" tabindex="0">
+                        <option value="read">Apenas leitura</option>
+                        <option value="write">Leitura e escrita</option>
+                    </select>
+                </div>
+                <div class="extracted-style-8">
+                    <button type="button" class="btn btn-secondary" onclick="closeShareModal()" tabindex="0">Cancelar</button>
+                    <button type="submit" class="btn" tabindex="0">Compartilhar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentDocumentId = null;
+        let documents = [];
+        let users = [];
+        const API_BASE = 'http://localhost:3001/api';
+
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            loadDocumentsStats();
+    
+            loadDocuments();
+    
+            loadDashboardStats();
+    
+            loadUsers();
+    
+            setupFileUpload();
+});
+
+        function setupFileUpload() {
+    
+            const fileUpload = document.getElementById('fileUpload');
+    
+            const fileInput = document.getElementById('fileInput');
+    
+
+            fileUpload.addEventListener('dragover', (e) => {
+                e.preventDefault();
+    
+                fileUpload.classList.add('dragover');
+});
+
+            fileUpload.addEventListener('dragleave', () => {
+    
+                fileUpload.classList.remove('dragover');
+});
+
+            fileUpload.addEventListener('drop', (e) => {
+    
+                e.preventDefault();
+    
+                fileUpload.classList.remove('dragover');
+    
+                const files = e.dataTransfer.files;
+    
+                if (files.length > 0) {
+                    fileInput.files = files;
+    
+                    handleFileSelect();
+}
+            });
+
+            fileInput.addEventListener('change', handleFileSelect);
+        }
+
+        function handleFileSelect() {
+    
+            const fileInput = document.getElementById('fileInput');
+    
+            const fileInfo = document.getElementById('fileInfo');
+    
+            const fileName = document.getElementById('fileName');
+    
+            const fileSize = document.getElementById('fileSize');
+    
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+    
+                fileName.textContent = file.name;
+    
+                fileSize.textContent = formatFileSize(file.size);
+    
+                fileInfo.style.display = 'block';
+    
+
+                // Auto-preencher nome do documento
+                const documentName = document.getElementById('documentName');
+    
+                if (!documentName.value) {
+                    documentName.value = file.name.replace(/\.[^/.]+$/, '');
+}
+            } else {
+    
+                fileInfo.style.display = 'none';
+}
+        }
+
+        function formatFileSize(bytes) {
+    
+            if (bytes === 0) return '0 Bytes';
+    
+            const k = 1024;
+    
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+        async function loadDocumentsStats() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/documents/reports/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+    
+                    const stats = data.data.summary;
+    
+                    document.getElementById('statsGrid').innerHTML = `
+                        <div class="stat-card">
+                            <div class="stat-number">${stats.totalDocuments;
+}</div>
+                            <div class="stat-label">Total de Documentos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${
+    formatFileSize(stats.totalSize);
+}</div>
+                            <div class="stat-label">Armazenamento Total</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${
+    formatFileSize(stats.avgSize);
+}</div>
+                            <div class="stat-label">Tamanho Médio</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${
+    stats.recentDocuments;
+}</div>
+                            <div class="stat-label">Documentos Recentes</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+    console.error('Erro ao carregar estatísticas de documentos:', error);
+}
+        }
+
+        async function loadDocuments() {
+    
+            try {
+                const categoryFilter = document.getElementById('categoryFilter').value;
+    
+                const userFilter = document.getElementById('userFilter').value;
+    
+                const searchFilter = document.getElementById('searchFilter').value;
+    
+
+                let url = `${API_BASE;
+}/documents?limit=100`;
+                if (categoryFilter) url += `&category=${
+    categoryFilter;
+}`;
+                if (userFilter) url += `&user_id=${
+    userFilter;
+}`;
+                if (searchFilter) url += `&search=${
+    searchFilter;
+}`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.success) {
+    
+                    documents = data.data.documents;
+    
+                    displayDocuments(documents);
+    
+                    updateFilters(data.data.statistics);
+} else {
+    showError('Erro ao carregar documentos: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao carregar documentos:', error);
+}
+        }
+
+        function displayDocuments(documents) {
+    
+            const documentsList = document.getElementById('documentsList');
+    
+            
+            if (documents.length === 0) {
+                documentsList.innerHTML = '<div class="loading">Nenhum documento encontrado</div>';
+    
+                return;
+}
+
+            documentsList.innerHTML = documents.map(doc => `
+                <div class="document-item">
+                    <div class="document-header">
+                        <div class="document-name">${
+    doc.name;
+}</div>
+                        <div class="document-type">${
+    getFileExtension(doc.file_name);
+}</div>
+                    </div>
+                    <div class="document-info">
+                        <div><strong>Descrição:</strong> ${
+    doc.description || 'Sem descrição';
+}</div>
+                        <div><strong>Categoria:</strong> ${
+    doc.category || 'Geral';
+}</div>
+                        <div><strong>Usuário:</strong> ${
+    doc.user ? doc.user.name : 'Não atribuído';
+}</div>
+                        ${
+    doc.tags && doc.tags.length > 0 ? `<div><strong>Tags:</strong> ${doc.tags.map(tag => `<span class="tag">${tag;
+}</span>`).join('')}</div>` : ''}
+                    </div>
+                    <div class="document-meta">
+                        <div>
+                            <span>📁 ${
+    formatFileSize(doc.file_size);
+}</span>
+                            <span>📅 ${
+    formatDate(doc.created_at);
+}</span>
+                        </div>
+                        <div>
+                            <span>👤 ${
+    doc.user ? doc.user.name : 'N/A';
+}</span>
+                            <span>📥 ${
+    doc.download_count || 0;
+} downloads</span>
+                        </div>
+                    </div>
+                    <div class="document-actions">
+                        <button class="btn btn-success btn-small" onclick="downloadDocument('${
+    doc.id;
+}')" tabindex="0">📥 Download</button>
+                        <button class="btn btn-secondary btn-small" onclick="editDocument('${
+    doc.id;
+}')" tabindex="0">✏️ Editar</button>
+                        <button class="btn btn-warning btn-small" onclick="shareDocument('${
+    doc.id;
+}')" tabindex="0">🔗 Compartilhar</button>
+                        <button class="btn btn-danger btn-small" onclick="deleteDocument('${
+    doc.id;
+}')" tabindex="0">🗑️ Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getFileExtension(filename) {
+    
+            if (!filename) return 'N/A';
+    
+            return filename.split('.').pop().toUpperCase();
+}
+
+        function updateFilters(stats) {
+    
+            const categoryFilter = document.getElementById('categoryFilter');
+    
+            const categories = Object.keys(stats.byCategory);
+    
+            categoryFilter.innerHTML = '<option value="">Todas</option>';
+    
+            categories.forEach(cat => {
+                categoryFilter.innerHTML += `<option value="${cat;
+}">${
+    cat;
+} (${
+    stats.byCategory[cat];
+})</option>`;
+            });
+        }
+
+        async function loadDashboardStats() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/documents/reports/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+    document.getElementById('dashboardStats').innerHTML = `
+                        <div class="extracted-style-9">
+                            <strong>Por Categoria:</strong><br>
+                            ${Object.entries(stats.byCategory).map(([cat, count]) => 
+                                `📁 ${cat;
+}: ${
+    count;
+}`
+                            ).join('<br>')}
+                        </div>
+                        <div>
+                            <strong>Por Tipo:</strong><br>
+                            ${
+    Object.entries(stats.byType).map(([type, count]) => 
+                                `📄 ${type;
+}: ${
+    count;
+}`
+                            ).join('<br>')}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+    console.error('Erro ao carregar dashboard:', error);
+}
+        }
+
+        async function loadUsers() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/users`);
+                const data = await response.json();
+                
+                if (data.success) {
+    
+                    users = data.data;
+    
+                    const select = document.getElementById('documentUser');
+    
+                    const shareSelect = document.getElementById('shareUser');
+    
+                    
+                    select.innerHTML = '<option value="">Selecionar usuário</option>';
+    
+                    shareSelect.innerHTML = '<option value="">Selecionar usuário</option>';
+    
+                    
+                    users.forEach(user => {
+                        select.innerHTML += `<option value="${user.id;
+}">${
+    user.name;
+}</option>`;
+                        shareSelect.innerHTML += `<option value="${
+    user.id;
+}">${
+    user.name;
+}</option>`;
+                    });
+                }
+            } catch (error) {
+    console.error('Erro ao carregar usuários:', error);
+}
+        }
+
+        function openUploadModal() {
+    
+            document.getElementById('modalTitle').textContent = 'Enviar Documento';
+    
+            document.getElementById('uploadForm').reset();
+    
+            document.getElementById('fileInfo').style.display = 'none';
+    
+            document.getElementById('uploadProgress').style.display = 'none';
+    
+            document.getElementById('uploadModal').style.display = 'block';
+}
+
+        function closeModal() {
+    
+            document.getElementById('uploadModal').style.display = 'none';
+    
+            currentDocumentId = null;
+}
+
+        function closeShareModal() {
+    
+            document.getElementById('shareModal').style.display = 'none';
+    
+            currentDocumentId = null;
+}
+
+        async function downloadDocument(documentId) {
+    
+            try {
+                window.open(`${API_BASE;
+}/documents/${
+    documentId;
+}/download`, '_blank');
+            } catch (error) {
+    console.error('Erro ao fazer download:', error);
+}
+        }
+
+        async function editDocument(documentId) {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/documents/${
+    documentId;
+}`);
+                const data = await response.json();
+                
+                if (data.success) {
+    document.getElementById('documentTags').value = doc.tags ? doc.tags.join(', ') : '';
+} else {
+    showError('Erro ao carregar documento: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao editar documento:', error);
+}
+        }
+
+        async function shareDocument(documentId) {
+    
+            currentDocumentId = documentId;
+    
+            document.getElementById('shareModal').style.display = 'block';
+}
+
+        async function deleteDocument(documentId) {
+    
+            if (!confirm('Tem certeza que deseja excluir este documento?')) return;
+    
+
+            try {
+                const response = await fetch(`${API_BASE;
+}/documents/${
+    documentId;
+}`, {
+    method: 'DELETE';
+});
+                const data = await response.json();
+                
+                if (data.success) {
+    
+                    showSuccess('Documento excluído com sucesso');
+    
+                    loadDocuments();
+    
+                    loadDocumentsStats();
+    
+                    loadDashboardStats();
+} else {
+    showError('Erro ao excluir documento: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao excluir documento:', error);
+}
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+    
+            e.preventDefault();
+    
+            
+            const formData = new FormData();
+    
+            const fileInput = document.getElementById('fileInput');
+    
+            
+            if (fileInput.files.length === 0 && !currentDocumentId) {
+                showError('Selecione um arquivo');
+    
+                return;
+}
+
+            if (fileInput.files.length > 0) {
+    
+                formData.append('file', fileInput.files[0]);
+}
+            
+            formData.append('name', document.getElementById('documentName').value);
+            formData.append('description', document.getElementById('documentDescription').value);
+            formData.append('category', document.getElementById('documentCategory').value);
+            formData.append('tags', document.getElementById('documentTags').value);
+            formData.append('user_id', document.getElementById('documentUser').value);
+
+            try {
+    
+                const url = currentDocumentId ? 
+                    `${API_BASE;
+}/documents/${
+    currentDocumentId;
+}` : 
+                    `${
+    API_BASE;
+}/documents`;
+                
+                const method = currentDocumentId ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+    method: method,
+                    body: currentDocumentId ? JSON.stringify(Object.fromEntries(formData)) : formData,
+                    headers: currentDocumentId ? { 'Content-Type': 'application/json';
+} : {}
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+    showSuccess(currentDocumentId ? 'Documento atualizado com sucesso' : 'Documento enviado com sucesso');
+} else {
+    showError('Erro ao salvar documento: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao salvar documento:', error);
+}
+        });
+
+        document.getElementById('shareForm').addEventListener('submit', async function(e) {
+    const formData = {
+                user_id: document.getElementById('shareUser').value,
+                permissions: document.getElementById('sharePermissions').value;
+};
+
+            try {
+    
+                const response = await fetch(`${API_BASE;
+}/documents/${
+    currentDocumentId;
+}/share`, {
+    method: 'POST',
+                    headers: { 'Content-Type': 'application/json';
+},
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+    
+                    showSuccess('Documento compartilhado com sucesso');
+    
+                    closeShareModal();
+} else {
+    showError('Erro ao compartilhar documento: ' + data.error);
+}
+            } catch (error) {
+    console.error('Erro ao compartilhar documento:', error);
+}
+        });
+
+        async function loadDocumentsDashboard() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/documents/reports/dashboard`);
+                const data = await response.json();
+                if (data.success) {
+    console.log('Documents Dashboard:', data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar dashboard de documentos:', error);
+}
+        }
+
+        async function loadStorageReport() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/documents/reports/storage`);
+                const data = await response.json();
+                if (data.success) {
+    console.log('Storage Report:', data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar relatório de armazenamento:', error);
+}
+        }
+
+        async function loadSharedDocuments() {
+    
+            try {
+                const response = await fetch(`${API_BASE;
+}/documents/shared/with-me`);
+                const data = await response.json();
+                if (data.success) {
+    console.log('Shared Documents:', data.data);
+}
+            } catch (error) {
+    console.error('Erro ao carregar documentos compartilhados:', error);
+}
+        }
+
+        function formatDate(dateString) {
+    
+            if (!dateString) return '';
+    
+            const date = new Date(dateString);
+    
+            return date.toLocaleDateString('pt-BR');
+}
+
+        function showSuccess(message) {
+    
+            const successDiv = document.createElement('div');
+    
+            successDiv.className = 'success';
+    
+            successDiv.textContent = message;
+    
+            document.querySelector('.container').insertBefore(successDiv, document.querySelector('.header'));
+    
+            setTimeout(() => successDiv.remove(), 5000);
+}
+
+        function showError(message) {
+    
+            const errorDiv = document.createElement('div');
+    
+            errorDiv.className = 'error';
+    
+            errorDiv.textContent = message;
+    
+            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.header'));
+    
+            setTimeout(() => errorDiv.remove(), 5000);
+}
+
+        window.onclick = function(event) {
+    
+            const uploadModal = document.getElementById('uploadModal');
+    
+            const shareModal = document.getElementById('shareModal');
+    
+            if (event.target === uploadModal) closeModal();
+    
+            if (event.target === shareModal) closeShareModal();
+}
+    </script>
+</body>
+</html>
+

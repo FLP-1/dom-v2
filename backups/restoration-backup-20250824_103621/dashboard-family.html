@@ -1,0 +1,2336 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Familiar - DOM v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+            color: #1f2937;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Familiar */
+        .header-family {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .family-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .family-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .family-details h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .family-role {
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .family-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .online-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .family-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .family-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+        }
+
+        .family-btn:hover {
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        /* MÃ©tricas Familiares */
+        .family-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-card.collaboration {
+            border-left-color: #ec4899;
+        }
+
+        .metric-card.communication {
+            border-left-color: #f97316;
+        }
+
+        .metric-card.tasks {
+            border-left-color: #8b5cf6;
+        }
+
+        .metric-card.events {
+            border-left-color: #10b981;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .metric-card.collaboration .metric-icon {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+        }
+
+        .metric-card.communication .metric-icon {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+            color: white;
+        }
+
+        .metric-card.tasks .metric-icon {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            color: white;
+        }
+
+        .metric-card.events .metric-icon {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* Tarefas Compartilhadas */
+        .shared-tasks {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .add-task-btn {
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .add-task-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            transition: background-color 0.2s ease;
+        }
+
+        .task-item:hover {
+            background: #f9fafb;
+        }
+
+        .task-item.high {
+            border-left-color: #ef4444;
+        }
+
+        .task-item.medium {
+            border-left-color: #f59e0b;
+        }
+
+        .task-item.low {
+            border-left-color: #10b981;
+        }
+
+        .task-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .task-checkbox.checked {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .task-meta {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .task-assignee {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .assignee-avatar {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: white;
+        }
+
+        .task-priority {
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .task-priority.high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .task-priority.medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .task-priority.low {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        /* ComunicaÃ§Ã£o */
+        .communication {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            background: #f9fafb;
+        }
+
+        .message-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+
+        .message-author {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #1f2937;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        .message-text {
+            font-size: 0.8rem;
+            color: #374151;
+        }
+
+        .message-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Eventos Familiares */
+        .family-events {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            background: #f9fafb;
+            border-left: 3px solid #ec4899;
+        }
+
+        .event-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ec4899, #f97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+        }
+
+        .event-content {
+            flex: 1;
+        }
+
+        .event-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .event-details {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .event-time {
+            font-size: 0.8rem;
+            color: #ec4899;
+            font-weight: 600;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header-family {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .family-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* AnimaÃ§Ãµes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .sidebar-user {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #007AFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #1e293b;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 122, 255, 0.1);
+            border-left-color: #007AFF;
+        }
+
+        .nav-item.active {
+            background: rgba(0, 122, 255, 0.15);
+            border-left-color: #007AFF;
+            color: #007AFF;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-left: 280px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -100%;
+                width: 100%;
+            }
+
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+
+            .header-actions {
+                position: static;
+                justify-content: center;
+                margin-top: 15px;
+            }
+        }
+
+        /* Profile Selector Styles */
+        .profile-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-selector-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .profile-selector-button .profile-icon {
+            font-size: 16px;
+        }
+
+        .profile-selector-button .profile-name {
+            font-weight: 500;
+        }
+
+        .profile-selector-button .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-selector-button.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .profile-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-header h4 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-dropdown-header p {
+            margin: 4px 0 0 0;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .profile-options {
+            padding: 8px 0;
+        }
+
+        .profile-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: #1e293b;
+            text-decoration: none;
+        }
+
+        .profile-option:hover {
+            background: #f8fafc;
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+        }
+
+        .profile-option .option-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .profile-option .option-info {
+            flex: 1;
+        }
+
+        .profile-option .option-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .profile-option .option-description {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .profile-option .option-check {
+            font-size: 16px;
+            color: #007AFF;
+            opacity: 0;
+        }
+
+        .profile-option.active .option-check {
+            opacity: 1;
+        }
+
+        .profile-dropdown-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-footer button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .profile-dropdown-footer button:hover {
+            background: #0056CC;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .profile-selector-button .profile-name {
+                display: none;
+            }
+            
+            .profile-dropdown {
+                right: -50px;
+                min-width: 180px;
+            }
+        }
+
+        
+    
+    
+        
+    
+    
+        
+    
+    
+    
+        
+    
+    /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+        /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+    </style>
+</head>
+<body>
+    <!-- BotÃ£o do menu hamburguer --><button class="menu-button" onclick="toggleSidebar()">â˜°</button><!-- Header --><header class="header"><div class="header-left"><button class="back-button" onclick="goBack()">â† Voltar</button><h1 class="header-title" id="pageTitle">Dashboard</h1></div><div class="header-right"><div class="profile-selector" id="profileSelector"><button class="profile-selector-button" onclick="toggleProfileDropdown()"><span id="currentProfile">Perfil</span><span>â–¼</span></button><div class="profile-dropdown" id="profileDropdown"><!-- OpÃ§Ãµes de perfil serÃ£o carregadas dinamicamente --></div></div><button class="logout-button" onclick="logout()">Sair</button></div></header>
+    <header class="header"><div class="header-left"><button class="back-button" onclick="goBack()">â† Voltar</button><h1 class="header-title" id="pageTitle">Dashboard</h1></div><div class="header-right"><div class="profile-selector" id="profileSelector"><button class="profile-selector-button" onclick="toggleProfileDropdown()"><span id="currentProfile">Perfil</span><span>â–¼</span></button><div class="profile-dropdown" id="profileDropdown"><!-- OpÃ§Ãµes de perfil serÃ£o carregadas dinamicamente --></div></div><button class="logout-button" onclick="logout()">Sair</button></div></header>
+    <!-- BotÃ£o do menu hamburguer -->
+    <button class="menu-button" onclick="toggleSidebar()">â˜°</button>
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+    <!-- BotÃ£o do menu hamburguer -->
+    
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+        <!-- BotÃ£o do menu hamburguer -->
+        
+
+        <!-- Header -->
+        
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="Logo.png" alt="DOM" style="width: 32px; height: 32px; border-radius: 6px;">
+            </div>
+            <div class="sidebar-title">DOM v2</div>
+        </div>
+        
+        <div class="sidebar-user" id="sidebarUser">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h4 id="userName">UsuÃ¡rio</h4>
+                    <p id="userProfile">Perfil</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Principal</div>
+                <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="tasks-management.html" class="nav-item" id="nav-tasks">
+                    <span class="nav-icon">ðŸ“</span>
+                    <span class="nav-text">Tarefas</span>
+                </a>
+                <a href="employees-management.html" class="nav-item" id="nav-employees">
+                    <span class="nav-icon">ðŸ‘¥</span>
+                    <span class="nav-text">FuncionÃ¡rios</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Financeiro</div>
+                <a href="finance.html" class="nav-item" id="nav-finance">
+                    <span class="nav-icon">ðŸ’°</span>
+                    <span class="nav-text">FinanÃ§as</span>
+                </a>
+                <a href="payments-management.html" class="nav-item" id="nav-payments">
+                    <span class="nav-icon">ðŸ’³</span>
+                    <span class="nav-text">Pagamentos</span>
+                </a>
+                <a href="budget-management.html" class="nav-item" id="nav-budget">
+                    <span class="nav-icon">ðŸ“‹</span>
+                    <span class="nav-text">OrÃ§amentos</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Recursos Humanos</div>
+                <a href="hr-management.html" class="nav-item" id="nav-hr">
+                    <span class="nav-icon">ðŸ‘¨â€ðŸ’¼</span>
+                    <span class="nav-text">RH</span>
+                </a>
+                <a href="timeclock.html" class="nav-item" id="nav-timeclock">
+                    <span class="nav-icon">â°</span>
+                    <span class="nav-text">Ponto</span>
+                </a>
+                <a href="advanced-timecard.html" class="nav-item" id="nav-advanced-timecard">
+                    <span class="nav-icon">â±ï¸</span>
+                    <span class="nav-text">Ponto AvanÃ§ado</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Sistema</div>
+                <a href="notifications.html" class="nav-item" id="nav-notifications">
+                    <span class="nav-icon">ðŸ””</span>
+                    <span class="nav-text">NotificaÃ§Ãµes</span>
+                </a>
+                <a href="reports.html" class="nav-item" id="nav-reports">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">RelatÃ³rios</span>
+                </a>
+                <a href="settings.html" class="nav-item" id="nav-settings">
+                    <span class="nav-icon">âš™ï¸</span>
+                    <span class="nav-text">ConfiguraÃ§Ãµes</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">AvanÃ§ado</div>
+                <a href="payment-integrations.html" class="nav-item" id="nav-payment-integrations">
+                    <span class="nav-icon">ðŸ”—</span>
+                    <span class="nav-text">IntegraÃ§Ãµes</span>
+                </a>
+                <a href="communication.html" class="nav-item" id="nav-communication">
+                    <span class="nav-icon">ðŸ’¬</span>
+                    <span class="nav-text">ComunicaÃ§Ã£o</span>
+                </a>
+                <a href="gamification.html" class="nav-item" id="nav-gamification">
+                    <span class="nav-icon">ðŸ†</span>
+                    <span class="nav-text">GamificaÃ§Ã£o</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+
+    <div class="container">
+        <!-- Header Familiar -->
+        <div class="header-family fade-in" style="position: relative;">
+            <div class="header-actions">
+                <div class="profile-selector">
+                <button class="profile-selector-button" onclick="toggleProfileDropdown()">
+                    <span class="profile-icon" id="currentProfileIcon">ðŸ‘¤</span>
+                    <span class="profile-name" id="currentProfileName">Perfil</span>
+                    <span class="dropdown-arrow">â–¼</span>
+                </button>
+                
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-dropdown-header">
+                        <h4>Trocar Perfil</h4>
+                        <p>Selecione um perfil diferente</p>
+                    </div>
+                    
+                    <div class="profile-options" id="profileOptions">
+                        <!-- OpÃ§Ãµes serÃ£o carregadas dinamicamente -->
+                    </div>
+                    
+                    <div class="profile-dropdown-footer">
+                        <button onclick="confirmProfileChange()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+                
+                <button class="logout-button" onclick="logout()">ðŸšª Sair</button>
+            </div>
+            <div class="family-info">
+                <div class="family-avatar">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦</div>
+                <div>
+                    <h1>FamÃ­lia Silva</h1>
+                    <div class="family-role">Membro Familiar</div>
+                </div>
+            </div>
+            <div class="family-status">
+                <div class="online-indicator">
+                    <div class="online-dot"></div>
+                    <span>4 online</span>
+                </div>
+                <div class="family-actions">
+                    <button class="family-btn">ðŸ“ž Chamada</button>
+                    <button class="family-btn">ðŸ“± Chat</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÃ©tricas Familiares -->
+        <div class="family-metrics fade-in">
+            <div class="metric-card collaboration">
+                <div class="metric-header">
+                    <div class="metric-icon">ðŸ¤</div>
+                </div>
+                <div class="metric-value">12</div>
+                <div class="metric-label">Tarefas Colaborativas</div>
+            </div>
+
+            <div class="metric-card communication">
+                <div class="metric-header">
+                    <div class="metric-icon">ðŸ’¬</div>
+                </div>
+                <div class="metric-value">8</div>
+                <div class="metric-label">Mensagens Hoje</div>
+            </div>
+
+            <div class="metric-card tasks">
+                <div class="metric-header">
+                    <div class="metric-icon">âœ…</div>
+                </div>
+                <div class="metric-value">15/20</div>
+                <div class="metric-label">Tarefas ConcluÃ­das</div>
+            </div>
+
+            <div class="metric-card events">
+                <div class="metric-header">
+                    <div class="metric-icon">ðŸ“…</div>
+                </div>
+                <div class="metric-value">3</div>
+                <div class="metric-label">Eventos Esta Semana</div>
+            </div>
+        </div>
+
+        <!-- Tarefas Compartilhadas -->
+        <div class="shared-tasks fade-in">
+            <div class="section-header">
+                <div class="section-title">ðŸ¤ Tarefas Compartilhadas</div>
+                <button class="add-task-btn">âž• Nova Tarefa</button>
+            </div>
+            <div class="task-list">
+                <div class="task-item high">
+                    <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                    <div class="task-content">
+                        <div class="task-title">Organizar jantar de domingo</div>
+                        <div class="task-meta">
+                            <div class="task-assignee">
+                                <div class="assignee-avatar">M</div>
+                                Maria â€¢ Hoje 18:00
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-priority high">Alta</div>
+                </div>
+                <div class="task-item medium">
+                    <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                    <div class="task-content">
+                        <div class="task-title">Limpar garagem</div>
+                        <div class="task-meta">
+                            <div class="task-assignee">
+                                <div class="assignee-avatar">J</div>
+                                JoÃ£o â€¢ AmanhÃ£ 14:00
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-priority medium">MÃ©dia</div>
+                </div>
+                <div class="task-item low">
+                    <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                    <div class="task-content">
+                        <div class="task-title">Organizar fotos</div>
+                        <div class="task-meta">
+                            <div class="task-assignee">
+                                <div class="assignee-avatar">A</div>
+                                Ana â€¢ SÃ¡bado 10:00
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-priority low">Baixa</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ComunicaÃ§Ã£o -->
+        <div class="communication fade-in">
+            <div class="section-header">
+                <div class="section-title">ðŸ’¬ ComunicaÃ§Ã£o Familiar</div>
+            </div>
+            <div class="message-list">
+                <div class="message-item">
+                    <div class="message-avatar">M</div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <div class="message-author">Maria</div>
+                            <div class="message-time">Agora</div>
+                        </div>
+                        <div class="message-text">AlguÃ©m pode ajudar com as compras?</div>
+                    </div>
+                </div>
+                <div class="message-item">
+                    <div class="message-avatar">J</div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <div class="message-author">JoÃ£o</div>
+                            <div class="message-time">5 min</div>
+                        </div>
+                        <div class="message-text">Posso ir! Preciso de algo especÃ­fico?</div>
+                    </div>
+                </div>
+                <div class="message-item">
+                    <div class="message-avatar">A</div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <div class="message-author">Ana</div>
+                            <div class="message-time">10 min</div>
+                        </div>
+                        <div class="message-text">NÃ£o esqueÃ§am do jantar de domingo!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="message-input">
+                <input type="text" placeholder="Digite sua mensagem..." id="messageInput">
+                <button class="send-btn" onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+
+        <!-- Eventos Familiares -->
+        <div class="family-events fade-in">
+            <div class="section-header">
+                <div class="section-title">ðŸ“… Eventos Familiares</div>
+            </div>
+            <div class="event-list">
+                <div class="event-item">
+                    <div class="event-icon">ðŸŽ‚</div>
+                    <div class="event-content">
+                        <div class="event-title">AniversÃ¡rio da Maria</div>
+                        <div class="event-details">CelebraÃ§Ã£o em famÃ­lia</div>
+                    </div>
+                    <div class="event-time">Hoje 19:00</div>
+                </div>
+                <div class="event-item">
+                    <div class="event-icon">ðŸ </div>
+                    <div class="event-content">
+                        <div class="event-title">Jantar de Domingo</div>
+                        <div class="event-details">Todos convidados</div>
+                    </div>
+                    <div class="event-time">Domingo 18:00</div>
+                </div>
+                <div class="event-item">
+                    <div class="event-icon">ðŸŽ¬</div>
+                    <div class="event-content">
+                        <div class="event-title">Noite de Cinema</div>
+                        <div class="event-details">Filme em famÃ­lia</div>
+                    </div>
+                    <div class="event-time">SÃ¡bado 20:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ConfiguraÃ§Ã£o da API
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // FunÃ§Ãµes de API
+        async function fetchFamilyData() {
+            try {
+                const [notificationsResponse, messagesResponse, groupsResponse] = await Promise.all([
+                    fetch(`${API_BASE_URL}/notifications`),
+                    fetch(`${API_BASE_URL}/messages`),
+                    fetch(`${API_BASE_URL}/groups`)
+                ]);
+
+                const notifications = await notificationsResponse.json();
+                const messages = await messagesResponse.json();
+                const groups = await groupsResponse.json();
+
+                return {
+                    notifications: notifications.success ? notifications.notifications : [],
+                    messages: messages.success ? messages.messages : [],
+                    groups: groups.success ? groups.groups : []
+                };
+            } catch (error) {
+                console.error('Erro ao buscar dados da famÃ­lia:', error);
+                return { notifications: [], messages: [], groups: [] };
+            }
+        }
+
+        async function fetchCommunicationStats() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/communication/stats`);
+                const data = await response.json();
+                return data.success ? data.stats : null;
+            } catch (error) {
+                console.error('Erro ao buscar estatÃ­sticas de comunicaÃ§Ã£o:', error);
+                return null;
+            }
+        }
+
+        // Toggle de tarefas
+        function toggleTask(checkbox) {
+            checkbox.classList.toggle('checked');
+            if (checkbox.classList.contains('checked')) {
+                checkbox.textContent = 'âœ“';
+            } else {
+                checkbox.textContent = '';
+            }
+        }
+
+        // Carregar dados dinÃ¢micos
+        async function loadDashboardData() {
+            try {
+                const data = await fetchFamilyData();
+                const commStats = await fetchCommunicationStats();
+                
+                // Atualizar mÃ©tricas com dados reais
+                updateMetrics(data, commStats);
+                
+                // Atualizar lista de tarefas compartilhadas
+                updateSharedTasks(data.notifications);
+                
+                // Atualizar notificaÃ§Ãµes
+                updateNotifications(data.notifications);
+                
+                // Atualizar mensagens recentes
+                updateRecentMessages(data.messages);
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados do dashboard:', error);
+            }
+        }
+
+        function updateMetrics(data, commStats) {
+            // NotificaÃ§Ãµes nÃ£o lidas
+            const unreadNotifications = data.notifications.filter(notif => !notif.read).length;
+            
+            // Tarefas compartilhadas (usando notificaÃ§Ãµes como proxy)
+            const sharedTasks = data.notifications.filter(notif => 
+                notif.type === 'task' && notif.category === 'shared'
+            ).length;
+            
+            // Mensagens nÃ£o lidas
+            const unreadMessages = data.messages.filter(msg => !msg.read).length;
+            
+            // EstatÃ­sticas de comunicaÃ§Ã£o
+            const communicationScore = commStats ? commStats.score || 85 : 85;
+            
+            // Atualizar cards de mÃ©tricas
+            const tasksElement = document.querySelector('.metric-card.tasks .metric-value');
+            const messagesElement = document.querySelector('.metric-card.messages .metric-value');
+            const notificationsElement = document.querySelector('.metric-card.notifications .metric-value');
+            const communicationElement = document.querySelector('.metric-card.communication .metric-value');
+            
+            if (tasksElement) tasksElement.textContent = sharedTasks.toString();
+            if (messagesElement) messagesElement.textContent = unreadMessages.toString();
+            if (notificationsElement) notificationsElement.textContent = unreadNotifications.toString();
+            if (communicationElement) communicationElement.textContent = `${communicationScore}%`;
+        }
+
+        function updateSharedTasks(notifications) {
+            const taskList = document.querySelector('.task-list');
+            if (!taskList) return;
+
+            const sharedTaskNotifications = notifications.filter(notif => 
+                notif.type === 'task' && notif.category === 'shared'
+            ).slice(0, 3);
+
+            if (sharedTaskNotifications.length === 0) {
+                taskList.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #6b7280;">
+                        Nenhuma tarefa compartilhada
+                    </div>
+                `;
+                return;
+            }
+
+            taskList.innerHTML = sharedTaskNotifications.map((task, index) => `
+                <div class="task-item ${index === 0 ? 'high' : index === 1 ? 'medium' : 'low'}">
+                    <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                    <div class="task-content">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-meta">${task.message}</div>
+                    </div>
+                    <div class="task-priority ${index === 0 ? 'high' : index === 1 ? 'medium' : 'low'}">
+                        ${index === 0 ? 'Alta' : index === 1 ? 'MÃ©dia' : 'Baixa'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateNotifications(notifications) {
+            const notificationBadge = document.querySelector('.notification-badge');
+            if (notificationBadge) {
+                const unreadCount = notifications.filter(notif => !notif.read).length;
+                notificationBadge.textContent = unreadCount.toString();
+                notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function updateRecentMessages(messages) {
+            const messageList = document.querySelector('.message-list');
+            if (!messageList) return;
+
+            const recentMessages = messages.slice(0, 3);
+
+            if (recentMessages.length === 0) {
+                messageList.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #6b7280;">
+                        Nenhuma mensagem recente
+                    </div>
+                `;
+                return;
+            }
+
+            messageList.innerHTML = recentMessages.map(message => `
+                <div class="message-item">
+                    <div class="message-avatar">${message.sender_name ? message.sender_name.charAt(0).toUpperCase() : 'U'}</div>
+                    <div class="message-info">
+                        <div class="message-sender">${message.sender_name || 'UsuÃ¡rio'}</div>
+                        <div class="message-preview">${message.content.substring(0, 50)}${message.content.length > 50 ? '...' : ''}</div>
+                    </div>
+                    <div class="message-time">${new Date(message.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            `).join('');
+        }
+
+        // InicializaÃ§Ã£o
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+    </script
+    <!-- Sidebar JavaScript -->
+    <script>
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio logado
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar sidebar com dados do usuÃ¡rio
+        function updateSidebar(user) {
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const userProfile = document.getElementById('userProfile');
+            
+            if (userAvatar) {
+                userAvatar.textContent = user.name.charAt(0).toUpperCase();
+            }
+            
+            if (userName) {
+                userName.textContent = user.name;
+            }
+            
+            if (userProfile) {
+                const profileNames = {
+                    'EMPLOYER': 'Empregador',
+                    'EMPLOYEE': 'FuncionÃ¡rio',
+                    'FAMILY': 'Familiar',
+                    'ADMIN': 'Administrador',
+                    'user': 'UsuÃ¡rio'
+                };
+                userProfile.textContent = profileNames[user.profile] || 'UsuÃ¡rio';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            mainContent.classList.toggle('sidebar-open');
+        }
+
+        // FunÃ§Ã£o para fechar sidebar
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // InicializaÃ§Ã£o do sidebar
+        function initSidebar() {
+            const user = loadUserData();
+            if (user) {
+                updateSidebar(user);
+            }
+            
+            // Fechar sidebar ao clicar no overlay
+            const overlay = document.getElementById('sidebarOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+            
+            // Fechar sidebar ao pressionar ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                }
+            });
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            initSidebar();
+            // Chamar funÃ§Ã£o de inicializaÃ§Ã£o especÃ­fica da pÃ¡gina se existir
+            if (typeof initPage === 'function') {
+                initPage();
+            }
+        });
+    
+    // FunÃ§Ã£o para alternar dropdown de perfil
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        const button = document.querySelector('.profile-selector-button');
+        
+        dropdown.classList.toggle('open');
+        button.classList.toggle('open');
+        
+        if (dropdown.classList.contains('open')) {
+            loadProfileOptions();
+        }
+    }
+
+    // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+    function loadProfileOptions() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        // Simular mÃºltiplos perfis disponÃ­veis (em produÃ§Ã£o, viria da API)
+        const availableProfiles = [
+            { id: 'EMPLOYER', name: 'Empregador', icon: 'ðŸ‘¨â€ðŸ’¼', description: 'Controle total' },
+            { id: 'EMPLOYEE', name: 'FuncionÃ¡rio', icon: 'ðŸ‘·', description: 'Acesso limitado' },
+            { id: 'FAMILY', name: 'Familiar', icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', description: 'VisualizaÃ§Ã£o' },
+            { id: 'ADMIN', name: 'Administrador', icon: 'ðŸ”§', description: 'ConfiguraÃ§Ãµes' }
+        ];
+        
+        const optionsContainer = document.getElementById('profileOptions');
+        optionsContainer.innerHTML = '';
+        
+        availableProfiles.forEach(profile => {
+            const option = document.createElement('div');
+            option.className = 'profile-option';
+            if (profile.id === currentProfile) {
+                option.classList.add('active');
+            }
+            
+            option.innerHTML = `
+                <span class="option-icon">${profile.icon}</span>
+                <div class="option-info">
+                    <div class="option-name">${profile.name}</div>
+                    <div class="option-description">${profile.description}</div>
+                </div>
+                <span class="option-check">âœ“</span>
+            `;
+            
+            option.onclick = () => selectProfileOption(profile.id);
+            optionsContainer.appendChild(option);
+        });
+    }
+
+    // FunÃ§Ã£o para selecionar opÃ§Ã£o de perfil
+    function selectProfileOption(profileId) {
+        // Remover seleÃ§Ã£o anterior
+        document.querySelectorAll('.profile-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // Selecionar nova opÃ§Ã£o
+        event.target.closest('.profile-option').classList.add('active');
+        
+        // Armazenar seleÃ§Ã£o temporÃ¡ria
+        window.tempSelectedProfile = profileId;
+    }
+
+    // FunÃ§Ã£o para confirmar mudanÃ§a de perfil
+    function confirmProfileChange() {
+        if (window.tempSelectedProfile) {
+            const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+            userData.selectedProfile = window.tempSelectedProfile;
+            localStorage.setItem('dom_v2_user', JSON.stringify(userData));
+            
+            // Atualizar interface
+            updateProfileSelector();
+            
+            // Fechar dropdown
+            toggleProfileDropdown();
+            
+            // Recarregar pÃ¡gina para aplicar mudanÃ§as
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+    }
+
+    // FunÃ§Ã£o para atualizar seletor de perfil
+    function updateProfileSelector() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        const profileInfo = getProfileInfo(currentProfile);
+        
+        const iconElement = document.getElementById('currentProfileIcon');
+        const nameElement = document.getElementById('currentProfileName');
+        
+        if (iconElement) iconElement.textContent = profileInfo.icon;
+        if (nameElement) nameElement.textContent = profileInfo.name;
+    }
+
+    // FunÃ§Ã£o para obter informaÃ§Ãµes do perfil
+    function getProfileInfo(profile) {
+        const profiles = {
+            'EMPLOYER': { icon: 'ðŸ‘¨â€ðŸ’¼', name: 'Empregador' },
+            'EMPLOYEE': { icon: 'ðŸ‘·', name: 'FuncionÃ¡rio' },
+            'FAMILY': { icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', name: 'Familiar' },
+            'ADMIN': { icon: 'ðŸ”§', name: 'Administrador' }
+        };
+        
+        return profiles[profile] || { icon: 'ðŸ‘¤', name: 'UsuÃ¡rio' };
+    }
+
+    // Fechar dropdown ao clicar fora
+    document.addEventListener('click', function(e) {
+        const selector = document.querySelector('.profile-selector');
+        const dropdown = document.getElementById('profileDropdown');
+        
+        if (selector && !selector.contains(e.target) && dropdown.classList.contains('open')) {
+            toggleProfileDropdown();
+        }
+    });
+
+    // Atualizar seletor na inicializaÃ§Ã£o
+    document.addEventListener('DOMContentLoaded', function() {
+        updateProfileSelector();
+    });
+</script>>
+        </div>
+    </div>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+                currentProfile.textContent = displayName;
+                console.log('Nickname atualizado:', displayName);
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        
+    
+    </script>
+    <script>
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name;
+                currentProfile.textContent = displayName;
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            const profileSelector = document.getElementById('profileSelector');
+            const dropdown = document.getElementById('profileDropdown');
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+            const user = loadUserData();
+            if (user) {
+                updateHeader(user);
+            }
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+                currentProfile.textContent = displayName;
+                console.log('Nickname atualizado:', displayName);
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            const profileSelector = document.getElementById('profileSelector');
+            const dropdown = document.getElementById('profileDropdown');
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+            const user = loadUserData();
+            if (user) {
+                updateHeader(user);
+            }
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+    
+    </script>
+    <script src="js/messages-system.js"></script>
+</body>
+</html>
+

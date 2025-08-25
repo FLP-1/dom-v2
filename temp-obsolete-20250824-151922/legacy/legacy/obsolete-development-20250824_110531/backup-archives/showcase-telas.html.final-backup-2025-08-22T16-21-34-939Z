@@ -1,0 +1,4501 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase de Telas - DOM v2</title>
+    
+    <!-- Componentes compartilhados -->
+    <link rel="stylesheet" href="components/styles.css">
+    
+    <style>
+        * {
+    
+            margin: 0;
+    
+            padding: 0;
+    
+            box-sizing: border-box;
+}
+
+        body {
+    
+            color: #333;
+    
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+            min-height: 100vh;
+}
+
+        .container {
+    
+            margin: 0 auto;
+    
+            padding: 20px;
+    
+            max-width: 1200px;
+}
+
+        .header {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+        .header h1 {
+    
+            color: #1976D2;
+    
+            font-size: 3rem;
+    
+            margin-bottom: 10px;
+    
+            font-weight: 700;
+}
+
+        .header p {
+    
+            color: #666;
+    
+            font-size: 1.2rem;
+    
+            margin-bottom: 30px;
+}
+
+        .stats {
+    
+            display: flex;
+    
+            justify-content: center;
+    
+            gap: 30px;
+    
+            flex-wrap: wrap;
+}
+
+        .stat-card {
+    
+            padding: 20px;
+    
+            color: white;
+    
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+    
+            border-radius: 15px;
+    
+            text-align: center;
+    
+            min-width: 150px;
+    
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+        .stat-card.warning {
+    
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+    
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+        .stat-card.gray {
+    
+            background: linear-gradient(135deg, #757575, #616161);
+    
+            box-shadow: 0 4px 15px rgba(117, 117, 117, 0.3);
+}
+
+        .stat-number {
+    
+            font-size: 2rem;
+    
+            font-weight: bold;
+    
+            margin-bottom: 5px;
+}
+
+        .stat-label {
+    
+            font-size: 0.9rem;
+    
+            opacity: 0.9;
+}
+
+        .filters {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+        .filters h3 {
+    
+            color: #1976D2;
+    
+            margin-bottom: 15px;
+    
+            font-size: 1.3rem;
+}
+
+        .filter-buttons {
+    
+            display: flex;
+    
+            gap: 10px;
+    
+            flex-wrap: wrap;
+}
+
+        .filter-btn {
+    
+            padding: 10px 20px;
+    
+            border: none;
+    
+            background: #f0f0f0;
+    
+    transition: all 0.3s ease;
+    
+            border-radius: 25px;
+    
+            cursor: pointer;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            font-weight: 500;
+}
+
+        .filter-btn.active {
+    
+            color: white;
+    
+            background: #1976D2;
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+    
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+}
+
+        .filter-btn:hover {
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+    
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+        .telas-grid {
+    
+            display: grid;
+    
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    
+            gap: 20px;
+    
+            margin-bottom: 30px;
+}
+
+        .tela-card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    -webkit-transition: all 0.3s ease;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.95);
+    transition: all 0.3s ease;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #1976D2;
+}
+
+        .tela-card:hover {
+    
+    transform: translateY(-5px);
+    
+            -webkit-transform: translateY(-5px);
+    
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+        .tela-header {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            margin-bottom: 15px;
+}
+
+        .tela-icon {
+    
+            display: flex;
+    
+            width: 60px;
+    
+            height: 60px;
+    
+            color: white;
+    
+            border-radius: 15px;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            font-size: 2rem;
+    
+            margin-right: 15px;
+}
+
+        .tela-info h3 {
+    
+            color: #1976D2;
+    
+            font-size: 1.3rem;
+    
+            margin-bottom: 5px;
+}
+
+        .tela-categoria {
+    
+            color: #666;
+    
+            font-size: 0.9rem;
+    
+            margin-bottom: 10px;
+}
+
+        .tela-status {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            gap: 8px;
+    
+            margin-bottom: 15px;
+}
+
+        .status-dot {
+    
+            width: 10px;
+    
+            height: 10px;
+    
+            border-radius: 50%;
+}
+
+        .status-dot.implementada {
+     background: #4CAF50;
+}
+        .status-dot.em-desenvolvimento {
+     background: #FF9800;
+}
+        .status-dot.planejada {
+     background: #757575;
+}
+
+        .status-text {
+    
+            color: #666;
+    
+            font-size: 0.9rem;
+}
+
+        .tela-descricao {
+    
+            color: #555;
+    
+            line-height: 1.5;
+    
+            margin-bottom: 15px;
+}
+
+        .tela-footer {
+    
+            display: flex;
+    
+            justify-content: space-between;
+    
+            align-items: center;
+}
+
+        .complexidade {
+    
+            padding: 5px 12px;
+    
+    transform: uppercase;
+    
+            border-radius: 15px;
+    
+            font-size: 0.8rem;
+    
+            font-weight: bold;
+    
+            text--webkit-transform: uppercase;
+}
+
+        .complexidade.baixa {
+     color: #2E7D32;
+     background: #E8F5E8;
+}
+        .complexidade.media {
+     color: #F57C00;
+     background: #FFF3E0;
+}
+        .complexidade.alta {
+     color: #C62828;
+     background: #FFEBEE;
+}
+
+        .funcionalidades {
+    
+            display: flex;
+    
+            flex-wrap: wrap;
+    
+            gap: 5px;
+}
+
+        .funcionalidade-tag {
+    
+            padding: 3px 8px;
+    
+            color: #1976D2;
+    
+            background: #E3F2FD;
+    
+            border-radius: 10px;
+    
+            font-size: 0.8rem;
+}
+
+        /* Modal */
+        .modal {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    -webkit--webkit-backdrop-filter: blur(5px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+        .modal-content {
+    
+            position: absolute;
+    
+            top: 50%;
+    
+            left: 50%;
+    
+            width: 90%;
+    
+            padding: 30px;
+    
+            background: white;
+    
+    transform: translate(-50%, -50%);
+    
+            -webkit-transform: translate(-50%, -50%);
+    
+            border-radius: 20px;
+    
+            max-width: 600px;
+    
+            max-height: 80vh;
+    
+            overflow-y: auto;
+    
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+        .modal-header {
+    
+            display: flex;
+    
+            align-items: center;
+    
+            margin-bottom: 20px;
+    
+            padding-bottom: 20px;
+    
+            border-bottom: 2px solid #f0f0f0;
+}
+
+        .modal-icon {
+    
+            display: flex;
+    
+            width: 70px;
+    
+            height: 70px;
+    
+            color: white;
+    
+            border-radius: 20px;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            font-size: 2.5rem;
+    
+            margin-right: 20px;
+}
+
+        .modal-info h2 {
+    
+            color: #1976D2;
+    
+            font-size: 1.8rem;
+    
+            margin-bottom: 5px;
+}
+
+        .modal-categoria {
+    
+            color: #666;
+    
+            font-size: 1rem;
+}
+
+        .close-btn {
+    
+            padding: 5px;
+    
+            border: none;
+    
+            color: #666;
+    
+            background: none;
+    
+            margin-left: auto;
+    
+            font-size: 2rem;
+    
+            cursor: pointer;
+}
+
+        .modal-body h3 {
+    
+            color: #1976D2;
+    
+            margin-bottom: 15px;
+    
+            font-size: 1.3rem;
+}
+
+        .modal-stats {
+    
+            display: grid;
+    
+            grid-template-columns: 1fr 1fr;
+    
+            gap: 15px;
+    
+            margin-bottom: 25px;
+}
+
+        .stat-item {
+    
+            padding: 15px;
+    
+            background: #f8f9fa;
+    
+            border-radius: 10px;
+    
+            text-align: center;
+}
+
+        .stat-label {
+    
+            color: #666;
+    
+            font-size: 0.9rem;
+    
+            margin-bottom: 5px;
+}
+
+        .stat-value {
+    
+            color: #333;
+    
+            font-size: 1.1rem;
+    
+            font-weight: bold;
+}
+
+        .funcionalidades-list {
+    
+            list-style: none;
+    
+            margin-bottom: 25px;
+}
+
+        .funcionalidades-list li {
+    
+            display: flex;
+    
+            padding: 8px 0;
+    
+            border-bottom: 1px solid #f0f0f0;
+    
+            align-items: center;
+}
+
+        .funcionalidades-list li:before {
+    
+            color: #4CAF50;
+    
+            content: "âœ“";
+    
+            font-weight: bold;
+    
+            margin-right: 10px;
+}
+
+        .modal-actions {
+    
+            display: flex;
+    
+            gap: 15px;
+}
+
+        .action-btn {
+    
+            display: flex;
+    
+            padding: 12px 20px;
+    
+            border: none;
+    
+    transition: all 0.3s ease;
+    
+            flex: 1;
+    
+            border-radius: 25px;
+    
+            cursor: pointer;
+    
+            font-weight: 600;
+    
+            -webkit-transition: all 0.3s ease;
+    
+            align-items: center;
+    
+            justify-content: center;
+    
+            gap: 8px;
+}
+
+        .action-btn.primary {
+    
+            color: white;
+    
+            background: #1976D2;
+}
+
+        .action-btn.success {
+    
+            color: white;
+    
+            background: #4CAF50;
+}
+
+        .action-btn:hover {
+    
+    transform: translateY(-2px);
+    
+            -webkit-transform: translateY(-2px);
+    
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+        .footer {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit--webkit-backdrop-filter: blur(10px);
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+        .footer h3 {
+    
+            color: #1976D2;
+    
+            margin-bottom: 10px;
+    
+            font-size: 1.5rem;
+}
+
+        .footer p {
+    
+            color: #666;
+    
+            line-height: 1.6;
+}
+
+        @media (max-width: 768px) {
+    
+            .header h1 {
+                font-size: 2rem;
+}
+            
+            .stats {
+    
+                flex-direction: column;
+    
+                align-items: center;
+}
+            
+            .telas-grid {
+    
+                grid-template-columns: 1fr;
+}
+            
+            .modal-content {
+    
+                width: 95%;
+    
+                padding: 20px;
+}
+            
+            .modal-stats {
+    
+                grid-template-columns: 1fr;
+}
+        }
+    </style>
+  <style>
+    .extracted-style-1 {
+     background-color: ${tela.cor;
+} }
+  </style>
+</head>
+<body>
+    <!-- Container para o header reutilizÃ¡vel -->
+    <div id="header-container"></div>
+    
+    <!-- Container para o sidebar reutilizÃ¡vel -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>ðŸŽ¨ Showcase de Telas</h1>
+            <p>DOM v2 - Sistema de GestÃ£o DomÃ©stica Inteligente</p>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">16</div>
+                    <div class="stat-label">Implementadas</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Em Desenvolvimento</div>
+                </div>
+                <div class="stat-card gray">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Planejadas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters">
+            <h3>ðŸ” Filtrar por Categoria:</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="todas" tabindex="0">Todas</button>
+                <button class="filter-btn" data-category="AutenticaÃ§Ã£o" tabindex="0">AutenticaÃ§Ã£o</button>
+                <button class="filter-btn" data-category="NavegaÃ§Ã£o" tabindex="0">NavegaÃ§Ã£o</button>
+                <button class="filter-btn" data-category="Produtividade" tabindex="0">Produtividade</button>
+                <button class="filter-btn" data-category="Recursos Humanos" tabindex="0">Recursos Humanos</button>
+                <button class="filter-btn" data-category="Financeiro" tabindex="0">Financeiro</button>
+                <button class="filter-btn" data-category="ComunicaÃ§Ã£o" tabindex="0">ComunicaÃ§Ã£o</button>
+                <button class="filter-btn" data-category="Compliance" tabindex="0">Compliance</button>
+            </div>
+        </div>
+
+        <!-- Grid de Telas -->
+        <div class="telas-grid" id="telasGrid">
+            <!-- As telas serÃ£o inseridas aqui via JavaScript -->
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3>ðŸš€ DOM v2 - Sistema de GestÃ£o DomÃ©stica</h3>
+            <p>Desenvolvido com Material Design 3, foco em acessibilidade e experiÃªncia do usuÃ¡rio. 
+               Sistema completo para gestÃ£o domÃ©stica com compliance PLD e funcionalidades avanÃ§adas.</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon">ðŸ›¡ï¸</div>
+                <div class="modal-info">
+                    <h2 id="modalTitle">Tela</h2>
+                    <div class="modal-categoria" id="modalCategoria">Categoria</div>
+                </div>
+                <button class="close-btn" onclick="closeModal()" tabindex="0">Ã—</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalDescription">DescriÃ§Ã£o da tela</p>
+                
+                <div class="modal-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value" id="modalStatus">Implementada</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Complexidade</div>
+                        <div class="stat-value" id="modalComplexidade">MÃ©dia</div>
+                    </div>
+                </div>
+
+                <h3>âœ¨ Funcionalidades Principais:</h3>
+                <ul class="funcionalidades-list" id="modalFuncionalidades">
+                    <!-- Funcionalidades serÃ£o inseridas aqui -->
+                </ul>
+
+                <div class="modal-actions">
+                    <button class="action-btn primary" onclick="visualizarTela()" tabindex="0">
+                        ðŸ‘ï¸ Visualizar Tela
+                    </button>
+                    <button class="action-btn success" onclick="verCodigo()" tabindex="0">
+                        ðŸ’» Ver CÃ³digo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const telas = [
+            {
+    
+                id: 'ultra-premium-login',
+                nome: 'Login Ultra Premium',
+                descricao: 'Tela de autenticaÃ§Ã£o sofisticada com seleÃ§Ã£o de perfil e validaÃ§Ãµes avanÃ§adas. Implementa compliance PLD com validaÃ§Ã£o de CPF/CNPJ e feedback visual em tempo real.',
+                categoria: 'AutenticaÃ§Ã£o',
+                icone: 'ðŸ›¡ï¸',
+                cor: '#1976D2',
+                status: 'implementada',
+                funcionalidades: ['SeleÃ§Ã£o de perfil (Empregador/Empregado/Familiar)', 'ValidaÃ§Ã£o CPF/CNPJ em tempo real', 'Feedback visual de seguranÃ§a', 'Compliance PLD integrado', 'Modo escuro/claro'],
+                complexidade: 'alta',
+                arquivo: 'UltraPremiumLoginScreen.tsx'
+            ;
+},
+            {
+    
+                id: 'premium-login',
+                nome: 'Login Premium',
+                descricao: 'VersÃ£o premium da tela de login com funcionalidades avanÃ§adas e design sofisticado.',
+                categoria: 'AutenticaÃ§Ã£o',
+                icone: 'ðŸ”',
+                cor: '#1976D2',
+                status: 'implementada',
+                funcionalidades: ['AutenticaÃ§Ã£o avanÃ§ada', 'Design premium', 'ValidaÃ§Ãµes robustas', 'Feedback visual', 'Acessibilidade'],
+                complexidade: 'alta',
+                arquivo: 'PremiumLoginScreen.tsx'
+            ;
+},
+            {
+    
+                id: 'login-basic',
+                nome: 'Login BÃ¡sico',
+                descricao: 'Tela de login padrÃ£o com funcionalidades essenciais e design limpo.',
+                categoria: 'AutenticaÃ§Ã£o',
+                icone: 'ðŸ‘¤',
+                cor: '#1976D2',
+                status: 'implementada',
+                funcionalidades: ['Login bÃ¡sico', 'ValidaÃ§Ã£o de campos', 'Design responsivo', 'Feedback de erro'],
+                complexidade: 'baixa',
+                arquivo: 'login-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'dashboard',
+                nome: 'Dashboard Principal',
+                descricao: 'Painel central com resumos, mÃ©tricas e acesso rÃ¡pido Ã s funcionalidades. Cards interativos com dados em tempo real e navegaÃ§Ã£o intuitiva.',
+                categoria: 'NavegaÃ§Ã£o',
+                icone: 'ðŸ ',
+                cor: '#4CAF50',
+                status: 'implementada',
+                funcionalidades: ['Cards de resumo interativos', 'MÃ©tricas em tempo real', 'NavegaÃ§Ã£o rÃ¡pida por categoria', 'Status de compliance visual', 'NotificaÃ§Ãµes integradas'],
+                complexidade: 'media',
+                arquivo: 'dashboard-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'simple-dashboard',
+                nome: 'Dashboard Simples',
+                descricao: 'VersÃ£o simplificada do dashboard com foco em usabilidade e performance.',
+                categoria: 'NavegaÃ§Ã£o',
+                icone: 'ðŸ“Š',
+                cor: '#4CAF50',
+                status: 'implementada',
+                funcionalidades: ['Interface simplificada', 'Performance otimizada', 'NavegaÃ§Ã£o intuitiva', 'Dados essenciais'],
+                complexidade: 'baixa',
+                arquivo: 'simple-dashboard.tsx'
+            ;
+},
+            {
+    
+                id: 'employer-dashboard',
+                nome: 'Dashboard Empregador',
+                descricao: 'Dashboard especÃ­fico para empregadores com funcionalidades de gestÃ£o avanÃ§ada.',
+                categoria: 'NavegaÃ§Ã£o',
+                icone: 'ðŸ‘”',
+                cor: '#4CAF50',
+                status: 'implementada',
+                funcionalidades: ['GestÃ£o de funcionÃ¡rios', 'Controle financeiro', 'RelatÃ³rios avanÃ§ados', 'Compliance PLD'],
+                complexidade: 'alta',
+                arquivo: 'EmployerDashboard.tsx'
+            ;
+},
+            {
+    
+                id: 'employee-dashboard',
+                nome: 'Dashboard FuncionÃ¡rio',
+                descricao: 'Dashboard personalizado para funcionÃ¡rios com foco em tarefas e produtividade.',
+                categoria: 'NavegaÃ§Ã£o',
+                icone: 'ðŸ‘·',
+                cor: '#4CAF50',
+                status: 'implementada',
+                funcionalidades: ['GestÃ£o de tarefas', 'Controle de horÃ¡rio', 'ComunicaÃ§Ã£o', 'RelatÃ³rios pessoais'],
+                complexidade: 'media',
+                arquivo: 'EmployeeDashboard.tsx'
+            ;
+},
+            {
+    
+                id: 'family-dashboard',
+                nome: 'Dashboard Familiar',
+                descricao: 'Dashboard para membros da famÃ­lia com funcionalidades de colaboraÃ§Ã£o.',
+                categoria: 'NavegaÃ§Ã£o',
+                icone: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦',
+                cor: '#4CAF50',
+                status: 'implementada',
+                funcionalidades: ['ColaboraÃ§Ã£o familiar', 'Compartilhamento de tarefas', 'ComunicaÃ§Ã£o interna', 'GestÃ£o compartilhada'],
+                complexidade: 'media',
+                arquivo: 'FamilyDashboard.tsx'
+            ;
+},
+            {
+    
+                id: 'admin-dashboard',
+                nome: 'Dashboard Administrador',
+                descricao: 'Dashboard administrativo com controle total do sistema e configuraÃ§Ãµes avanÃ§adas.',
+                categoria: 'NavegaÃ§Ã£o',
+                icone: 'âš™ï¸',
+                cor: '#4CAF50',
+                status: 'implementada',
+                funcionalidades: ['Controle total do sistema', 'ConfiguraÃ§Ãµes avanÃ§adas', 'RelatÃ³rios administrativos', 'GestÃ£o de usuÃ¡rios'],
+                complexidade: 'alta',
+                arquivo: 'AdminDashboard.tsx'
+            ;
+},
+            {
+    
+                id: 'tarefas',
+                nome: 'GestÃ£o de Tarefas',
+                descricao: 'Sistema completo de criaÃ§Ã£o, acompanhamento e conclusÃ£o de tarefas domÃ©sticas. Interface intuitiva com filtros avanÃ§ados e notificaÃ§Ãµes.',
+                categoria: 'Produtividade',
+                icone: 'âœ…',
+                cor: '#FF9800',
+                status: 'implementada',
+                funcionalidades: ['CriaÃ§Ã£o rÃ¡pida de tarefas', 'Filtros por categoria e prioridade', 'Acompanhamento de progresso visual', 'NotificaÃ§Ãµes automÃ¡ticas', 'HistÃ³rico completo'],
+                complexidade: 'media',
+                arquivo: 'tasks-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'funcionarios',
+                nome: 'GestÃ£o de FuncionÃ¡rios',
+                descricao: 'Controle completo da equipe domÃ©stica com compliance e performance. Sistema de avaliaÃ§Ã£o integrado com gestÃ£o de documentos.',
+                categoria: 'Recursos Humanos',
+                icone: 'ðŸ‘¥',
+                cor: '#9C27B0',
+                status: 'implementada',
+                funcionalidades: ['Cadastro completo de funcionÃ¡rios', 'Controle de documentos PLD', 'AvaliaÃ§Ã£o de performance', 'GestÃ£o de salÃ¡rios', 'RelatÃ³rios de compliance'],
+                complexidade: 'alta',
+                arquivo: 'employees-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'compras',
+                nome: 'Controle de Compras',
+                descricao: 'Sistema de gestÃ£o de compras e fornecedores com controle de orÃ§amento. AprovaÃ§Ã£o de compras e relatÃ³rios detalhados.',
+                categoria: 'Financeiro',
+                icone: 'ðŸ›’',
+                cor: '#2196F3',
+                status: 'implementada',
+                funcionalidades: ['Cadastro de fornecedores', 'Controle de orÃ§amento mensal', 'AprovaÃ§Ã£o de compras', 'RelatÃ³rios detalhados', 'IntegraÃ§Ã£o com pagamentos'],
+                complexidade: 'media',
+                arquivo: 'purchases-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'pagamentos',
+                nome: 'GestÃ£o de Pagamentos',
+                descricao: 'Sistema completo de pagamentos com compliance e fluxo de caixa. Controle de salÃ¡rios, contas e fornecedores.',
+                categoria: 'Financeiro',
+                icone: 'ðŸ’³',
+                cor: '#F44336',
+                status: 'implementada',
+                funcionalidades: ['Pagamento de salÃ¡rios automatizado', 'Contas a pagar com lembretes', 'Compliance PLD integrado', 'Fluxo de caixa em tempo real', 'RelatÃ³rios fiscais'],
+                complexidade: 'alta',
+                arquivo: 'payments-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'notificacoes',
+                nome: 'Sistema de NotificaÃ§Ãµes',
+                descricao: 'Central de notificaÃ§Ãµes com priorizaÃ§Ã£o e categorizaÃ§Ã£o inteligente. Modo silencioso e filtros avanÃ§ados.',
+                categoria: 'ComunicaÃ§Ã£o',
+                icone: 'ðŸ””',
+                cor: '#FF5722',
+                status: 'implementada',
+                funcionalidades: ['NotificaÃ§Ãµes em tempo real', 'PriorizaÃ§Ã£o automÃ¡tica', 'Filtros por categoria', 'Modo silencioso configurÃ¡vel', 'HistÃ³rico completo'],
+                complexidade: 'baixa',
+                arquivo: 'notifications-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'navegacao',
+                nome: 'NavegaÃ§Ã£o Principal',
+                descricao: 'Menu de navegaÃ§Ã£o adaptativo com acesso rÃ¡pido Ã s funcionalidades. Perfil de usuÃ¡rio e configuraÃ§Ãµes integradas.',
+                categoria: 'NavegaÃ§Ã£o',
+                icone: 'â˜°',
+                cor: '#607D8B',
+                status: 'implementada',
+                funcionalidades: ['Menu adaptativo por perfil', 'Acesso rÃ¡pido Ã s funcionalidades', 'Perfil de usuÃ¡rio integrado', 'ConfiguraÃ§Ãµes personalizadas', 'Busca global'],
+                complexidade: 'baixa',
+                arquivo: 'navigation-screen.tsx'
+            ;
+},
+            {
+    
+                id: 'orcamento',
+                nome: 'Controle de OrÃ§amento',
+                descricao: 'Sistema de planejamento e controle financeiro domÃ©stico. Alertas e relatÃ³rios para gestÃ£o eficiente.',
+                categoria: 'Financeiro',
+                icone: 'ðŸ“Š',
+                cor: '#795548',
+                status: 'em-desenvolvimento',
+                funcionalidades: ['Planejamento mensal detalhado', 'Controle de gastos por categoria', 'RelatÃ³rios grÃ¡ficos', 'Alertas de orÃ§amento', 'ProjeÃ§Ãµes financeiras'],
+                complexidade: 'media',
+                arquivo: 'budget/'
+            ;
+},
+            {
+    
+                id: 'documentos',
+                nome: 'GestÃ£o de Documentos',
+                descricao: 'Sistema completo de gestÃ£o de documentos com compliance PLD. Armazenamento seguro e controle de versÃµes.',
+                categoria: 'DocumentaÃ§Ã£o',
+                icone: 'ðŸ“„',
+                cor: '#607D8B',
+                status: 'planejada',
+                funcionalidades: ['Armazenamento seguro de documentos', 'Controle de versÃµes', 'Compliance PLD integrado', 'Busca avanÃ§ada', 'Compartilhamento controlado'],
+                complexidade: 'media',
+                arquivo: 'documents-screen.tsx'
+            ;
+},
+        ];
+
+        let categoriaAtual = 'todas';
+        let telaAtual = null;
+
+        // Renderizar telas
+        function renderizarTelas() {
+    
+            const grid = document.getElementById('telasGrid');
+    
+            const telasFiltradas = categoriaAtual === 'todas' 
+                ? telas 
+                : telas.filter(tela => tela.categoria === categoriaAtual);
+    
+
+            grid.innerHTML = telasFiltradas.map(tela => `
+                <div class="tela-card" onclick="abrirModal('${tela.id;
+}')">
+                    <div class="tela-header">
+                        <div class="tela-icon" class="extracted-style-1">${
+    tela.icone;
+}</div>
+                        <div class="tela-info">
+                            <h3>${
+    tela.nome;
+}</h3>
+                            <div class="tela-categoria">${
+    tela.categoria;
+}</div>
+                            <div class="tela-status">
+                                <div class="status-dot ${
+    tela.status;
+}"></div>
+                                <span class="status-text">
+                                    ${
+    tela.status === 'implementada' ? 'Implementada' :
+                                      tela.status === 'em-desenvolvimento' ? 'Em Desenvolvimento' : 'Planejada';
+}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="tela-descricao">${
+    tela.descricao;
+}</p>
+                    <div class="tela-footer">
+                        <div class="complexidade ${
+    tela.complexidade;
+}">${
+    tela.complexidade;
+}</div>
+                        <div class="funcionalidades">
+                            ${
+    tela.funcionalidades.slice(0, 2).map(f => `<span class="funcionalidade-tag">${f;
+}</span>`).join('')}
+                            ${
+    tela.funcionalidades.length > 2 ? `<span class="funcionalidade-tag">+${tela.funcionalidades.length - 2;
+} mais</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filtros
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+    
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    
+                this.classList.add('active');
+    
+                categoriaAtual = this.dataset.category.toLowerCase();
+    
+                renderizarTelas();
+});
+        });
+
+        // Modal
+        function abrirModal(telaId) {
+    
+            const tela = telas.find(t => t.id === telaId);
+    
+            if (!tela) return;
+    
+
+            telaAtual = tela;
+    
+
+            document.getElementById('modalIcon').textContent = tela.icone;
+    
+            document.getElementById('modalIcon').style.backgroundColor = tela.cor;
+    
+            document.getElementById('modalTitle').textContent = tela.nome;
+    
+            document.getElementById('modalCategoria').textContent = tela.categoria;
+    
+            document.getElementById('modalDescription').textContent = tela.descricao;
+    
+            document.getElementById('modalStatus').textContent = 
+                tela.status === 'implementada' ? 'Implementada' :
+                tela.status === 'em-desenvolvimento' ? 'Em Desenvolvimento' : 'Planejada';
+    
+            document.getElementById('modalComplexidade').textContent = tela.complexidade.toUpperCase();
+    
+
+            const funcionalidadesList = document.getElementById('modalFuncionalidades');
+    
+            funcionalidadesList.innerHTML = tela.funcionalidades.map(f => `<li>${f;
+}</li>`).join('');
+
+            // Atualizar botÃµes baseado no status
+            const visualizarBtn = document.querySelector('.action-btn.primary');
+            const codigoBtn = document.querySelector('.action-btn.success');
+            
+            if (tela.status === 'implementada') {
+    
+                visualizarBtn.textContent = 'ðŸ‘ï¸ Visualizar Tela';
+    
+                visualizarBtn.onclick = visualizarTela;
+    
+                codigoBtn.textContent = 'ðŸ’» Ver CÃ³digo';
+    
+                codigoBtn.onclick = verCodigo;
+} else if (tela.status === 'em-desenvolvimento') {
+    
+                visualizarBtn.textContent = 'ðŸš§ Em Desenvolvimento';
+    
+                visualizarBtn.onclick = () => showMessage('system.error');
+    
+                codigoBtn.textContent = 'ðŸ“ Ver Estrutura';
+    
+                codigoBtn.onclick = verEstrutura;
+} else {
+    
+                visualizarBtn.textContent = 'ðŸ“‹ Planejada';
+    
+                visualizarBtn.onclick = () => showMessage('system.error');
+    
+                codigoBtn.textContent = 'ðŸ“ Ver EspecificaÃ§Ã£o';
+    
+                codigoBtn.onclick = verEspecificacao;
+}
+
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+    
+            document.getElementById('modal').style.display = 'none';
+    
+            telaAtual = null;
+}
+
+        function visualizarTela() {
+    
+            if (!telaAtual) return;
+    
+            const visualizacaoWindow = window.open('', '_blank', 'width=400,height=700,scrollbars=yes,resizable=yes');
+    
+            
+            // Gerar conteÃºdo visual baseado no tipo de tela
+            let conteudoVisual = '';
+    
+            
+            switch(telaAtual.id) {
+                case 'ultra-premium-login':
+                    conteudoVisual = `
+                        <div class="tela-login">
+                            <div class="header-login">
+                                <div class="logo">ðŸ  DOM v2</div>
+                                <h1>Bem-vindo</h1>
+                                <p>Sistema de GestÃ£o DomÃ©stica</p>
+                            </div>
+                            <div class="perfil-selector">
+                                <div class="perfil-option active">ðŸ‘¨â€ðŸ’¼ Empregador</div>
+                                <div class="perfil-option">ðŸ‘· Empregado</div>
+                                <div class="perfil-option">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Familiar</div>
+                            </div>
+                            <div class="form-login">
+                                <div class="input-group">
+                                    <label>CPF/CNPJ</label>
+                                    <input id="input-1755878044094-k1yh0aj7e" aria-label="text input" type="text" placeholder="000.000.000-00" class="input-field" tabindex="0">
+                                </div>
+                                <div class="input-group">
+                                    <label>Senha</label>
+                                    <input id="input-1755878044094-xproohian" aria-label="password input" type="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" class="input-field" tabindex="0">
+                                </div>
+                                <button class="btn-login" tabindex="0">ðŸ” Entrar</button>
+                            </div>
+                            <div class="security-info">
+                                <div class="security-badge">ðŸ›¡ï¸ Compliance PLD</div>
+                                <div class="security-badge">ðŸ”’ Criptografia AES-256</div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'dashboard':
+                    conteudoVisual = `
+                        <div class="tela-dashboard">
+                            <div class="header-dashboard">
+                                <div class="user-info">
+                                    <div class="avatar">ðŸ‘¨â€ðŸ’¼</div>
+                                    <div class="user-details">
+                                        <h3>JoÃ£o Silva</h3>
+                                        <span>Empregador</span>
+                                    </div>
+                                </div>
+                                <div class="notifications">ðŸ””</div>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-icon">ðŸ’°</div>
+                                    <div class="stat-value">R$ 15.420</div>
+                                    <div class="stat-label">OrÃ§amento Mensal</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">ðŸ“‹</div>
+                                    <div class="stat-value">8</div>
+                                    <div class="stat-label">Tarefas Pendentes</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">ðŸ‘¥</div>
+                                    <div class="stat-value">5</div>
+                                    <div class="stat-label">FuncionÃ¡rios</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">ðŸ“Š</div>
+                                    <div class="stat-value">92%</div>
+                                    <div class="stat-label">EficiÃªncia</div>
+                                </div>
+                            </div>
+                            <div class="quick-actions">
+                                <h4>AÃ§Ãµes RÃ¡pidas</h4>
+                                <div class="action-buttons">
+                                    <button class="action-btn" tabindex="0">âž• Nova Tarefa</button>
+                                    <button class="action-btn" tabindex="0">ðŸ’° Registrar Gasto</button>
+                                    <button class="action-btn" tabindex="0">ðŸ‘¥ Gerenciar Equipe</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'tasks':
+                    conteudoVisual = `
+                        <div class="tela-tasks">
+                            <div class="header-tasks">
+                                <h2>ðŸ“‹ Tarefas</h2>
+                                <button class="btn-add" tabindex="0">âž•</button>
+                            </div>
+                            <div class="task-filters">
+                                <button class="filter-btn active" tabindex="0">Todas</button>
+                                <button class="filter-btn" tabindex="0">Pendentes</button>
+                                <button class="filter-btn" tabindex="0">ConcluÃ­das</button>
+                            </div>
+                            <div class="task-list">
+                                <div class="task-item">
+                                    <div class="task-checkbox">â˜</div>
+                                    <div class="task-content">
+                                        <div class="task-title">Limpar cozinha</div>
+                                        <div class="task-meta">Maria â€¢ Hoje â€¢ Alta</div>
+                                    </div>
+                                    <div class="task-priority high">ðŸ”¥</div>
+                                </div>
+                                <div class="task-item">
+                                    <div class="task-checkbox">â˜‘</div>
+                                    <div class="task-content">
+                                        <div class="task-title">Fazer compras</div>
+                                        <div class="task-meta">JoÃ£o â€¢ Ontem â€¢ MÃ©dia</div>
+                                    </div>
+                                    <div class="task-priority medium">âš¡</div>
+                                </div>
+                                <div class="task-item">
+                                    <div class="task-checkbox">â˜</div>
+                                    <div class="task-content">
+                                        <div class="task-title">Organizar documentos</div>
+                                        <div class="task-meta">Ana â€¢ AmanhÃ£ â€¢ Baixa</div>
+                                    </div>
+                                    <div class="task-priority low">ðŸ’¡</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'employees':
+                    conteudoVisual = `
+                        <div class="tela-employees">
+                            <div class="header-employees">
+                                <h2>ðŸ‘¥ FuncionÃ¡rios</h2>
+                                <button class="btn-add" tabindex="0">âž•</button>
+                            </div>
+                            <div class="employee-search">
+                                <input id="input-1755878044094-i97e147sn" aria-label="text input" type="text" placeholder="ðŸ” Buscar funcionÃ¡rio..." class="search-input" tabindex="0">
+                            </div>
+                            <div class="employee-list">
+                                <div class="employee-card">
+                                    <div class="employee-avatar">ðŸ‘©â€ðŸ³</div>
+                                    <div class="employee-info">
+                                        <div class="employee-name">Maria Santos</div>
+                                        <div class="employee-role">Cozinheira</div>
+                                        <div class="employee-status active">Ativa</div>
+                                    </div>
+                                    <div class="employee-actions">â‹®</div>
+                                </div>
+                                <div class="employee-card">
+                                    <div class="employee-avatar">ðŸ§¹</div>
+                                    <div class="employee-info">
+                                        <div class="employee-name">JoÃ£o Costa</div>
+                                        <div class="employee-role">Faxineiro</div>
+                                        <div class="employee-status active">Ativa</div>
+                                    </div>
+                                    <div class="employee-actions">â‹®</div>
+                                </div>
+                                <div class="employee-card">
+                                    <div class="employee-avatar">ðŸ‘¨â€ðŸ”§</div>
+                                    <div class="employee-info">
+                                        <div class="employee-name">Pedro Silva</div>
+                                        <div class="employee-role">ManutenÃ§Ã£o</div>
+                                        <div class="employee-status inactive">Inativa</div>
+                                    </div>
+                                    <div class="employee-actions">â‹®</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'purchases':
+                    conteudoVisual = `
+                        <div class="tela-purchases">
+                            <div class="header-purchases">
+                                <h2>ðŸ›’ Compras</h2>
+                                <button class="btn-add" tabindex="0">âž•</button>
+                            </div>
+                            <div class="purchase-summary">
+                                <div class="summary-card">
+                                    <div class="summary-value">R$ 2.450</div>
+                                    <div class="summary-label">Total do MÃªs</div>
+                                </div>
+                                <div class="summary-card">
+                                    <div class="summary-value">15</div>
+                                    <div class="summary-label">Itens Comprados</div>
+                                </div>
+                            </div>
+                            <div class="purchase-list">
+                                <div class="purchase-item">
+                                    <div class="purchase-icon">ðŸ¥©</div>
+                                    <div class="purchase-details">
+                                        <div class="purchase-name">Carne Bovina</div>
+                                        <div class="purchase-meta">Supermercado â€¢ R$ 45,90</div>
+                                    </div>
+                                    <div class="purchase-date">Hoje</div>
+                                </div>
+                                <div class="purchase-item">
+                                    <div class="purchase-icon">ðŸ¥¬</div>
+                                    <div class="purchase-details">
+                                        <div class="purchase-name">Verduras</div>
+                                        <div class="purchase-meta">Feira â€¢ R$ 23,50</div>
+                                    </div>
+                                    <div class="purchase-date">Ontem</div>
+                                </div>
+                                <div class="purchase-item">
+                                    <div class="purchase-icon">ðŸ§´</div>
+                                    <div class="purchase-details">
+                                        <div class="purchase-name">Produtos de Limpeza</div>
+                                        <div class="purchase-meta">FarmÃ¡cia â€¢ R$ 67,80</div>
+                                    </div>
+                                    <div class="purchase-date">2 dias</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'payments':
+                    conteudoVisual = `
+                        <div class="tela-payments">
+                            <div class="header-payments">
+                                <h2>ðŸ’³ Pagamentos</h2>
+                                <button class="btn-add" tabindex="0">âž•</button>
+                            </div>
+                            <div class="payment-overview">
+                                <div class="overview-card">
+                                    <div class="overview-icon">ðŸ’°</div>
+                                    <div class="overview-info">
+                                        <div class="overview-value">R$ 8.750</div>
+                                        <div class="overview-label">Total Pago</div>
+                                    </div>
+                                </div>
+                                <div class="overview-card">
+                                    <div class="overview-icon">â°</div>
+                                    <div class="overview-info">
+                                        <div class="overview-value">3</div>
+                                        <div class="overview-label">Pendentes</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-list">
+                                <div class="payment-item">
+                                    <div class="payment-icon">ðŸ‘©â€ðŸ³</div>
+                                    <div class="payment-details">
+                                        <div class="payment-name">Maria Santos</div>
+                                        <div class="payment-role">Cozinheira</div>
+                                    </div>
+                                    <div class="payment-amount">R$ 1.200</div>
+                                    <div class="payment-status paid">Pago</div>
+                                </div>
+                                <div class="payment-item">
+                                    <div class="payment-icon">ðŸ§¹</div>
+                                    <div class="payment-details">
+                                        <div class="payment-name">JoÃ£o Costa</div>
+                                        <div class="payment-role">Faxineiro</div>
+                                    </div>
+                                    <div class="payment-amount">R$ 800</div>
+                                    <div class="payment-status pending">Pendente</div>
+                                </div>
+                                <div class="payment-item">
+                                    <div class="payment-icon">ðŸ‘¨â€ðŸ”§</div>
+                                    <div class="payment-details">
+                                        <div class="payment-name">Pedro Silva</div>
+                                        <div class="payment-role">ManutenÃ§Ã£o</div>
+                                    </div>
+                                    <div class="payment-amount">R$ 1.500</div>
+                                    <div class="payment-status pending">Pendente</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'notifications':
+                    conteudoVisual = `
+                        <div class="tela-notifications">
+                            <div class="header-notifications">
+                                <h2>ðŸ”” NotificaÃ§Ãµes</h2>
+                                <button class="btn-clear" tabindex="0">Limpar</button>
+                            </div>
+                            <div class="notification-list">
+                                <div class="notification-item unread">
+                                    <div class="notification-icon urgent">ðŸš¨</div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Pagamento Pendente</div>
+                                        <div class="notification-message">JoÃ£o Costa aguarda pagamento de R$ 800</div>
+                                        <div class="notification-time">Agora</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon info">â„¹ï¸</div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Tarefa ConcluÃ­da</div>
+                                        <div class="notification-message">Maria concluiu "Limpar cozinha"</div>
+                                        <div class="notification-time">5 min</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon success">âœ…</div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Compra Registrada</div>
+                                        <div class="notification-message">Nova compra de R$ 45,90 registrada</div>
+                                        <div class="notification-time">1 hora</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon warning">âš ï¸</div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">OrÃ§amento Atingido</div>
+                                        <div class="notification-message">80% do orÃ§amento mensal utilizado</div>
+                                        <div class="notification-time">2 horas</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'premium-login':
+                    conteudoVisual = `
+                        <div class="tela-premium-login">
+                            <div class="header-premium">
+                                <div class="logo-premium">ðŸ  DOM Premium</div>
+                                <div class="premium-badge">â­ Premium</div>
+                            </div>
+                            <div class="welcome-section">
+                                <h1>Bem-vindo ao DOM</h1>
+                                <p>Sistema de GestÃ£o DomÃ©stica Premium</p>
+                            </div>
+                            <div class="login-form-premium">
+                                <div class="input-group-premium">
+                                    <label>Email ou CPF/CNPJ</label>
+                                    <input id="input-1755878044094-qhl61u1ek" aria-label="text input" type="text" placeholder="seu@email.com" class="input-premium" tabindex="0">
+                                    <div class="input-icon">ðŸ“§</div>
+                                </div>
+                                <div class="input-group-premium">
+                                    <label>Senha</label>
+                                    <input id="input-1755878044094-e36sn4cv5" aria-label="password input" type="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" class="input-premium" tabindex="0">
+                                    <div class="input-icon">ðŸ”’</div>
+                                </div>
+                                <div class="remember-section">
+                                    <label class="checkbox-label">
+                                        <input id="input-1755878044094-xv32lq4dj" aria-label="checkbox input" type="checkbox" tabindex="0"> Lembrar de mim
+                                    </label>
+                                    <a href="#" class="forgot-link" tabindex="0">Esqueci a senha</a>
+                                </div>
+                                <button class="btn-premium" tabindex="0">ðŸš€ Entrar no Sistema</button>
+                            </div>
+                            <div class="security-premium">
+                                <div class="security-item">ðŸ›¡ï¸ Compliance PLD</div>
+                                <div class="security-item">ðŸ” Criptografia AES-256</div>
+                                <div class="security-item">ðŸ“± AutenticaÃ§Ã£o 2FA</div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'login-basic':
+                    conteudoVisual = `
+                        <div class="tela-basic-login">
+                            <div class="header-basic">
+                                <div class="logo-basic">ðŸ  DOM</div>
+                            </div>
+                            <div class="login-form-basic">
+                                <h2>Entrar</h2>
+                                <div class="input-basic">
+                                    <input id="input-1755878044094-til42ehtd" aria-label="text input" type="text" placeholder="UsuÃ¡rio ou email" class="input-field-basic" tabindex="0">
+                                </div>
+                                <div class="input-basic">
+                                    <input id="input-1755878044094-oven5ljd9" aria-label="password input" type="password" placeholder="Senha" class="input-field-basic" tabindex="0">
+                                </div>
+                                <button class="btn-basic" tabindex="0">Entrar</button>
+                                <div class="links-basic">
+                                    <a href="#" tabindex="0">Criar conta</a>
+                                    <a href="#" tabindex="0">Esqueci a senha</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'simple-dashboard':
+                    conteudoVisual = `
+                        <div class="tela-simple-dashboard">
+                            <div class="header-simple">
+                                <h2>ðŸ“Š Dashboard</h2>
+                                <div class="user-simple">ðŸ‘¤ JoÃ£o</div>
+                            </div>
+                            <div class="stats-simple">
+                                <div class="stat-simple">
+                                    <div class="stat-number">R$ 12.450</div>
+                                    <div class="stat-label">OrÃ§amento</div>
+                                </div>
+                                <div class="stat-simple">
+                                    <div class="stat-number">5</div>
+                                    <div class="stat-label">Tarefas</div>
+                                </div>
+                                <div class="stat-simple">
+                                    <div class="stat-number">3</div>
+                                    <div class="stat-label">FuncionÃ¡rios</div>
+                                </div>
+                            </div>
+                            <div class="actions-simple">
+                                <button class="action-simple" tabindex="0">âž• Nova Tarefa</button>
+                                <button class="action-simple" tabindex="0">ðŸ’° Gasto</button>
+                                <button class="action-simple" tabindex="0">ðŸ‘¥ Equipe</button>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'employer-dashboard':
+                    conteudoVisual = `
+                        <div class="tela-employer-dashboard">
+                            <div class="header-employer">
+                                <div class="user-employer">
+                                    <div class="avatar-employer">ðŸ‘”</div>
+                                    <div class="user-details-employer">
+                                        <h3>JoÃ£o Silva</h3>
+                                        <span>Empregador</span>
+                                    </div>
+                                </div>
+                                <div class="notifications-employer">ðŸ”” <span class="badge">3</span></div>
+                            </div>
+                            <div class="employer-stats">
+                                <div class="stat-employer">
+                                    <div class="stat-icon-employer">ðŸ’°</div>
+                                    <div class="stat-info-employer">
+                                        <div class="stat-value-employer">R$ 18.750</div>
+                                        <div class="stat-label-employer">Folha Salarial</div>
+                                    </div>
+                                </div>
+                                <div class="stat-employer">
+                                    <div class="stat-icon-employer">ðŸ‘¥</div>
+                                    <div class="stat-info-employer">
+                                        <div class="stat-value-employer">5</div>
+                                        <div class="stat-label-employer">FuncionÃ¡rios</div>
+                                    </div>
+                                </div>
+                                <div class="stat-employer">
+                                    <div class="stat-icon-employer">ðŸ“Š</div>
+                                    <div class="stat-info-employer">
+                                        <div class="stat-value-employer">95%</div>
+                                        <div class="stat-label-employer">EficiÃªncia</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="employer-actions">
+                                <h4>GestÃ£o AvanÃ§ada</h4>
+                                <div class="action-grid-employer">
+                                    <button class="action-employer" tabindex="0">ðŸ‘¥ Gerenciar Equipe</button>
+                                    <button class="action-employer" tabindex="0">ðŸ’° Controle Financeiro</button>
+                                    <button class="action-employer" tabindex="0">ðŸ“Š RelatÃ³rios</button>
+                                    <button class="action-employer" tabindex="0">ðŸ›¡ï¸ Compliance</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'employee-dashboard':
+                    conteudoVisual = `
+                        <div class="tela-employee-dashboard">
+                            <div class="header-employee">
+                                <div class="user-employee">
+                                    <div class="avatar-employee">ðŸ‘·</div>
+                                    <div class="user-details-employee">
+                                        <h3>Maria Santos</h3>
+                                        <span>Cozinheira</span>
+                                    </div>
+                                </div>
+                                <div class="clock-employee">ðŸ• 08:30</div>
+                            </div>
+                            <div class="employee-stats">
+                                <div class="stat-employee">
+                                    <div class="stat-icon-employee">ðŸ“‹</div>
+                                    <div class="stat-info-employee">
+                                        <div class="stat-value-employee">3</div>
+                                        <div class="stat-label-employee">Tarefas Hoje</div>
+                                    </div>
+                                </div>
+                                <div class="stat-employee">
+                                    <div class="stat-icon-employee">â°</div>
+                                    <div class="stat-info-employee">
+                                        <div class="stat-value-employee">6h</div>
+                                        <div class="stat-label-employee">Horas Trabalhadas</div>
+                                    </div>
+                                </div>
+                                <div class="stat-employee">
+                                    <div class="stat-icon-employee">â­</div>
+                                    <div class="stat-info-employee">
+                                        <div class="stat-value-employee">4.8</div>
+                                        <div class="stat-label-employee">AvaliaÃ§Ã£o</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="employee-tasks">
+                                <h4>Minhas Tarefas</h4>
+                                <div class="task-list-employee">
+                                    <div class="task-employee">
+                                        <div class="task-checkbox-employee">â˜</div>
+                                        <div class="task-content-employee">
+                                            <div class="task-title-employee">Preparar almoÃ§o</div>
+                                            <div class="task-time-employee">09:00 - 12:00</div>
+                                        </div>
+                                        <div class="task-priority-employee high">ðŸ”¥</div>
+                                    </div>
+                                    <div class="task-employee">
+                                        <div class="task-checkbox-employee">â˜‘</div>
+                                        <div class="task-content-employee">
+                                            <div class="task-title-employee">Limpar cozinha</div>
+                                            <div class="task-time-employee">12:00 - 13:00</div>
+                                        </div>
+                                        <div class="task-priority-employee medium">âš¡</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'family-dashboard':
+                    conteudoVisual = `
+                        <div class="tela-family-dashboard">
+                            <div class="header-family">
+                                <div class="family-info">
+                                    <div class="family-avatar">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦</div>
+                                    <div class="family-details">
+                                        <h3>FamÃ­lia Silva</h3>
+                                        <span>4 membros</span>
+                                    </div>
+                                </div>
+                                <div class="family-menu">â˜°</div>
+                            </div>
+                            <div class="family-stats">
+                                <div class="stat-family">
+                                    <div class="stat-icon-family">ðŸ“‹</div>
+                                    <div class="stat-info-family">
+                                        <div class="stat-value-family">12</div>
+                                        <div class="stat-label-family">Tarefas Compartilhadas</div>
+                                    </div>
+                                </div>
+                                <div class="stat-family">
+                                    <div class="stat-icon-family">ðŸ’°</div>
+                                    <div class="stat-info-family">
+                                        <div class="stat-value-family">R$ 8.200</div>
+                                        <div class="stat-label-family">OrÃ§amento Familiar</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="family-members">
+                                <h4>Membros da FamÃ­lia</h4>
+                                <div class="members-list">
+                                    <div class="member-item">
+                                        <div class="member-avatar">ðŸ‘¨</div>
+                                        <div class="member-info">
+                                            <div class="member-name">JoÃ£o (Pai)</div>
+                                            <div class="member-tasks">3 tarefas</div>
+                                        </div>
+                                    </div>
+                                    <div class="member-item">
+                                        <div class="member-avatar">ðŸ‘©</div>
+                                        <div class="member-info">
+                                            <div class="member-name">Maria (MÃ£e)</div>
+                                            <div class="member-tasks">4 tarefas</div>
+                                        </div>
+                                    </div>
+                                    <div class="member-item">
+                                        <div class="member-avatar">ðŸ‘§</div>
+                                        <div class="member-info">
+                                            <div class="member-name">Ana (Filha)</div>
+                                            <div class="member-tasks">2 tarefas</div>
+                                        </div>
+                                    </div>
+                                    <div class="member-item">
+                                        <div class="member-avatar">ðŸ‘¦</div>
+                                        <div class="member-info">
+                                            <div class="member-name">Pedro (Filho)</div>
+                                            <div class="member-tasks">3 tarefas</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'admin-dashboard':
+                    conteudoVisual = `
+                        <div class="tela-admin-dashboard">
+                            <div class="header-admin">
+                                <div class="admin-info">
+                                    <div class="admin-avatar">âš™ï¸</div>
+                                    <div class="admin-details">
+                                        <h3>Administrador</h3>
+                                        <span>Sistema DOM v2</span>
+                                    </div>
+                                </div>
+                                <div class="admin-status">ðŸŸ¢ Online</div>
+                            </div>
+                            <div class="admin-stats">
+                                <div class="stat-admin">
+                                    <div class="stat-icon-admin">ðŸ‘¥</div>
+                                    <div class="stat-info-admin">
+                                        <div class="stat-value-admin">25</div>
+                                        <div class="stat-label-admin">UsuÃ¡rios Ativos</div>
+                                    </div>
+                                </div>
+                                <div class="stat-admin">
+                                    <div class="stat-icon-admin">ðŸ </div>
+                                    <div class="stat-info-admin">
+                                        <div class="stat-value-admin">8</div>
+                                        <div class="stat-label-admin">ResidÃªncias</div>
+                                    </div>
+                                </div>
+                                <div class="stat-admin">
+                                    <div class="stat-icon-admin">ðŸ“Š</div>
+                                    <div class="stat-info-admin">
+                                        <div class="stat-value-admin">99.9%</div>
+                                        <div class="stat-label-admin">Uptime</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="admin-controls">
+                                <h4>Controles Administrativos</h4>
+                                <div class="control-grid">
+                                    <button class="control-btn" tabindex="0">ðŸ‘¥ GestÃ£o de UsuÃ¡rios</button>
+                                    <button class="control-btn" tabindex="0">ðŸ  GestÃ£o de ResidÃªncias</button>
+                                    <button class="control-btn" tabindex="0">ðŸ“Š RelatÃ³rios Sistema</button>
+                                    <button class="control-btn" tabindex="0">âš™ï¸ ConfiguraÃ§Ãµes</button>
+                                    <button class="control-btn" tabindex="0">ðŸ›¡ï¸ SeguranÃ§a</button>
+                                    <button class="control-btn" tabindex="0">ðŸ’¾ Backup</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                case 'navegacao':
+                    conteudoVisual = `
+                        <div class="tela-navegacao">
+                            <div class="header-nav">
+                                <div class="user-nav">
+                                    <div class="avatar-nav">ðŸ‘¤</div>
+                                    <div class="user-info-nav">
+                                        <h3>JoÃ£o Silva</h3>
+                                        <span>Empregador</span>
+                                    </div>
+                                </div>
+                                <div class="search-nav">ðŸ”</div>
+                            </div>
+                            <div class="nav-menu">
+                                <div class="nav-section">
+                                    <h4>ðŸ  Principal</h4>
+                                    <div class="nav-item active">
+                                        <div class="nav-icon">ðŸ“Š</div>
+                                        <div class="nav-text">Dashboard</div>
+                                    </div>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">ðŸ“‹</div>
+                                        <div class="nav-text">Tarefas</div>
+                                    </div>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">ðŸ‘¥</div>
+                                        <div class="nav-text">FuncionÃ¡rios</div>
+                                    </div>
+                                </div>
+                                <div class="nav-section">
+                                    <h4>ðŸ’° Financeiro</h4>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">ðŸ›’</div>
+                                        <div class="nav-text">Compras</div>
+                                    </div>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">ðŸ’³</div>
+                                        <div class="nav-text">Pagamentos</div>
+                                    </div>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">ðŸ“Š</div>
+                                        <div class="nav-text">OrÃ§amento</div>
+                                    </div>
+                                </div>
+                                <div class="nav-section">
+                                    <h4>âš™ï¸ Sistema</h4>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">ðŸ””</div>
+                                        <div class="nav-text">NotificaÃ§Ãµes</div>
+                                    </div>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">ðŸ“„</div>
+                                        <div class="nav-text">Documentos</div>
+                                    </div>
+                                    <div class="nav-item">
+                                        <div class="nav-icon">âš™ï¸</div>
+                                        <div class="nav-text">ConfiguraÃ§Ãµes</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-footer">
+                                <div class="nav-item">
+                                    <div class="nav-icon">â“</div>
+                                    <div class="nav-text">Ajuda</div>
+                                </div>
+                                <div class="nav-item">
+                                    <div class="nav-icon">ðŸšª</div>
+                                    <div class="nav-text">Sair</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+    
+                    break;
+    
+                    
+                default:
+                    conteudoVisual = `
+                        <div class="tela-generica">
+                            <div class="header-generico">
+                                <h2>${telaAtual.icone;
+} ${
+    telaAtual.nome;
+}</h2>
+                                <p>${
+    telaAtual.descricao;
+}</p>
+                            </div>
+                            <div class="conteudo-generico">
+                                <div class="status-badge status-${
+    telaAtual.status;
+}">
+                                    ${
+    telaAtual.status === 'implementada' ? 'âœ… Implementada' :
+                                      telaAtual.status === 'em-desenvolvimento' ? 'ðŸš§ Em Desenvolvimento' : 'ðŸ“‹ Planejada';
+}
+                                </div>
+                                <div class="complexidade-badge">
+                                    Complexidade: ${
+    telaAtual.complexidade.toUpperCase();
+}
+                                </div>
+                                <div class="funcionalidades-lista">
+                                    <h4>Funcionalidades Principais:</h4>
+                                    <ul>
+                                        ${
+    telaAtual.funcionalidades.map(f => `<li>${f;
+}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            }
+            
+            const html = `
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>VisualizaÃ§Ã£o: ${
+    telaAtual.nome;
+}</title>
+                    <style>
+                        * {
+    
+                            margin: 0;
+    
+                            padding: 0;
+    
+                            box-sizing: border-box;
+}
+                        
+                        body {
+    
+                            display: flex;
+    
+                            height: 100vh;
+    
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+                            align-items: center;
+    
+                            justify-content: center;
+}
+                        
+                        .phone-container {
+    
+                            position: relative;
+    
+                            width: 375px;
+    
+                            height: 667px;
+    
+                            background: #fff;
+    
+                            border-radius: 30px;
+    
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    
+                            overflow: hidden;
+}
+                        
+                        .status-bar {
+    
+                            display: flex;
+    
+                            height: 44px;
+    
+                            padding: 0 20px;
+    
+                            color: white;
+    
+                            background: #000;
+    
+                            align-items: center;
+    
+                            justify-content: space-between;
+    
+                            font-size: 14px;
+}
+                        
+                        .app-content {
+    
+                            height: calc(100% - 44px);
+    
+                            background: #f8f9fa;
+    
+                            overflow-y: auto;
+}
+                        
+                        /* Estilos para Login */
+                        .tela-login {
+    
+                            display: flex;
+    
+                            height: 100%;
+    
+                            padding: 40px 20px;
+    
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+                            flex-direction: column;
+    
+                            justify-content: center;
+}
+                        
+                        .header-login {
+    
+                            text-align: center;
+    
+                            margin-bottom: 40px;
+}
+                        
+                        .logo {
+    
+                            font-size: 24px;
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .perfil-selector {
+    
+                            display: flex;
+    
+                            gap: 10px;
+    
+                            margin-bottom: 30px;
+}
+                        
+                        .perfil-option {
+    
+                            padding: 15px;
+    
+                            background: rgba(255,255,255,0.2);
+    
+                            flex: 1;
+    
+                            border-radius: 10px;
+    
+                            text-align: center;
+    
+                            cursor: pointer;
+}
+                        
+                        .perfil-option.active {
+    
+                            color: #333;
+    
+                            background: rgba(255,255,255,0.9);
+}
+                        
+                        .form-login {
+    
+                            margin-bottom: 30px;
+}
+                        
+                        .input-group {
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .input-group label {
+    
+                            display: block;
+    
+                            color: white;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .input-field {
+    
+                            width: 100%;
+    
+                            padding: 15px;
+    
+                            border: none;
+    
+                            background: rgba(255,255,255,0.9);
+    
+                            border-radius: 10px;
+}
+                        
+                        .btn-login {
+    
+                            width: 100%;
+    
+                            padding: 15px;
+    
+                            border: none;
+    
+                            color: white;
+    
+                            background: #4CAF50;
+    
+                            border-radius: 10px;
+    
+                            font-size: 16px;
+    
+                            cursor: pointer;
+}
+                        
+                        .security-info {
+    
+                            display: flex;
+    
+                            gap: 10px;
+    
+                            justify-content: center;
+}
+                        
+                        .security-badge {
+    
+                            padding: 8px 12px;
+    
+                            background: rgba(255,255,255,0.2);
+    
+                            border-radius: 20px;
+    
+                            font-size: 12px;
+}
+                        
+                        /* Estilos para Dashboard */
+                        .tela-dashboard {
+    
+                            padding: 20px;
+}
+                        
+                        .header-dashboard {
+    
+                            display: flex;
+    
+                            justify-content: space-between;
+    
+                            align-items: center;
+    
+                            margin-bottom: 30px;
+}
+                        
+                        .user-info {
+    
+                            display: flex;
+    
+                            align-items: center;
+    
+                            gap: 15px;
+}
+                        
+                        .avatar {
+    
+                            display: flex;
+    
+                            width: 50px;
+    
+                            height: 50px;
+    
+                            background: #667eea;
+    
+                            border-radius: 25px;
+    
+                            align-items: center;
+    
+                            justify-content: center;
+    
+                            font-size: 24px;
+}
+                        
+                        .stats-grid {
+    
+                            display: grid;
+    
+                            grid-template-columns: 1fr 1fr;
+    
+                            gap: 15px;
+    
+                            margin-bottom: 30px;
+}
+                        
+                        .stat-card {
+    
+                            padding: 20px;
+    
+                            background: white;
+    
+                            border-radius: 15px;
+    
+                            text-align: center;
+    
+                            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+                        
+                        .stat-icon {
+    
+                            font-size: 24px;
+    
+                            margin-bottom: 10px;
+}
+                        
+                        .stat-value {
+    
+                            font-size: 20px;
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .stat-label {
+    
+                            color: #666;
+    
+                            font-size: 12px;
+}
+                        
+                        .quick-actions {
+    
+                            padding: 20px;
+    
+                            background: white;
+    
+                            border-radius: 15px;
+    
+                            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+                        
+                        .action-buttons {
+    
+                            display: flex;
+    
+                            flex-direction: column;
+    
+                            gap: 10px;
+    
+                            margin-top: 15px;
+}
+                        
+                        .action-btn {
+    
+                            padding: 12px;
+    
+                            border: none;
+    
+                            color: white;
+    
+                            background: #667eea;
+    
+                            border-radius: 10px;
+    
+                            cursor: pointer;
+}
+                        
+                        /* Estilos para Tasks */
+                        .tela-tasks {
+    
+                            padding: 20px;
+}
+                        
+                        .header-tasks {
+    
+                            display: flex;
+    
+                            justify-content: space-between;
+    
+                            align-items: center;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .btn-add {
+    
+                            width: 40px;
+    
+                            height: 40px;
+    
+                            border: none;
+    
+                            color: white;
+    
+                            background: #4CAF50;
+    
+                            border-radius: 20px;
+    
+                            font-size: 20px;
+    
+                            cursor: pointer;
+}
+                        
+                        .task-filters {
+    
+                            display: flex;
+    
+                            gap: 10px;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .filter-btn {
+    
+                            padding: 8px 16px;
+    
+                            border: none;
+    
+                            background: #f0f0f0;
+    
+                            border-radius: 20px;
+    
+                            cursor: pointer;
+}
+                        
+                        .filter-btn.active {
+    
+                            color: white;
+    
+                            background: #667eea;
+}
+                        
+                        .task-list {
+    
+                            display: flex;
+    
+                            flex-direction: column;
+    
+                            gap: 10px;
+}
+                        
+                        .task-item {
+    
+                            display: flex;
+    
+                            padding: 15px;
+    
+                            background: white;
+    
+                            align-items: center;
+    
+                            gap: 15px;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .task-checkbox {
+    
+                            font-size: 20px;
+    
+                            cursor: pointer;
+}
+                        
+                        .task-content {
+    
+                            flex: 1;
+}
+                        
+                        .task-title {
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .task-meta {
+    
+                            color: #666;
+    
+                            font-size: 12px;
+}
+                        
+                        .task-priority {
+    
+                            font-size: 16px;
+}
+                        
+                        .task-priority.high {
+     color: #f44336;
+}
+                        .task-priority.medium {
+     color: #ff9800;
+}
+                        .task-priority.low {
+     color: #4CAF50;
+}
+                        
+                        /* Estilos para Employees */
+                        .tela-employees {
+    
+                            padding: 20px;
+}
+                        
+                        .header-employees {
+    
+                            display: flex;
+    
+                            justify-content: space-between;
+    
+                            align-items: center;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .employee-search {
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .search-input {
+    
+                            width: 100%;
+    
+                            padding: 12px;
+    
+                            border: 1px solid #ddd;
+    
+                            border-radius: 10px;
+}
+                        
+                        .employee-list {
+    
+                            display: flex;
+    
+                            flex-direction: column;
+    
+                            gap: 10px;
+}
+                        
+                        .employee-card {
+    
+                            display: flex;
+    
+                            padding: 15px;
+    
+                            background: white;
+    
+                            align-items: center;
+    
+                            gap: 15px;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .employee-avatar {
+    
+                            display: flex;
+    
+                            width: 50px;
+    
+                            height: 50px;
+    
+                            background: #667eea;
+    
+                            border-radius: 25px;
+    
+                            align-items: center;
+    
+                            justify-content: center;
+    
+                            font-size: 24px;
+}
+                        
+                        .employee-info {
+    
+                            flex: 1;
+}
+                        
+                        .employee-name {
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .employee-role {
+    
+                            color: #666;
+    
+                            font-size: 14px;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .employee-status {
+    
+                            display: inline-block;
+    
+                            padding: 2px 8px;
+    
+                            font-size: 12px;
+    
+                            border-radius: 10px;
+}
+                        
+                        .employee-status.active {
+    
+                            color: #4CAF50;
+    
+                            background: #e8f5e8;
+}
+                        
+                        .employee-status.inactive {
+    
+                            color: #f44336;
+    
+                            background: #ffeaea;
+}
+                        
+                        .employee-actions {
+    
+                            font-size: 20px;
+    
+                            cursor: pointer;
+}
+                        
+                        /* Estilos para Purchases */
+                        .tela-purchases {
+    
+                            padding: 20px;
+}
+                        
+                        .header-purchases {
+    
+                            display: flex;
+    
+                            justify-content: space-between;
+    
+                            align-items: center;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .purchase-summary {
+    
+                            display: flex;
+    
+                            gap: 15px;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .summary-card {
+    
+                            padding: 20px;
+    
+                            background: white;
+    
+                            flex: 1;
+    
+                            border-radius: 10px;
+    
+                            text-align: center;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .summary-value {
+    
+                            font-size: 18px;
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .summary-label {
+    
+                            color: #666;
+    
+                            font-size: 12px;
+}
+                        
+                        .purchase-list {
+    
+                            display: flex;
+    
+                            flex-direction: column;
+    
+                            gap: 10px;
+}
+                        
+                        .purchase-item {
+    
+                            display: flex;
+    
+                            padding: 15px;
+    
+                            background: white;
+    
+                            align-items: center;
+    
+                            gap: 15px;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .purchase-icon {
+    
+                            display: flex;
+    
+                            width: 40px;
+    
+                            height: 40px;
+    
+                            background: #f0f0f0;
+    
+                            border-radius: 20px;
+    
+                            align-items: center;
+    
+                            justify-content: center;
+    
+                            font-size: 20px;
+}
+                        
+                        .purchase-details {
+    
+                            flex: 1;
+}
+                        
+                        .purchase-name {
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .purchase-meta {
+    
+                            color: #666;
+    
+                            font-size: 12px;
+}
+                        
+                        .purchase-date {
+    
+                            color: #999;
+    
+                            font-size: 12px;
+}
+                        
+                        /* Estilos para Payments */
+                        .tela-payments {
+    
+                            padding: 20px;
+}
+                        
+                        .header-payments {
+    
+                            display: flex;
+    
+                            justify-content: space-between;
+    
+                            align-items: center;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .payment-overview {
+    
+                            display: flex;
+    
+                            gap: 15px;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .overview-card {
+    
+                            display: flex;
+    
+                            padding: 15px;
+    
+                            background: white;
+    
+                            flex: 1;
+    
+                            align-items: center;
+    
+                            gap: 15px;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .overview-icon {
+    
+                            font-size: 24px;
+}
+                        
+                        .overview-value {
+    
+                            font-size: 18px;
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .overview-label {
+    
+                            color: #666;
+    
+                            font-size: 12px;
+}
+                        
+                        .payment-list {
+    
+                            display: flex;
+    
+                            flex-direction: column;
+    
+                            gap: 10px;
+}
+                        
+                        .payment-item {
+    
+                            display: flex;
+    
+                            padding: 15px;
+    
+                            background: white;
+    
+                            align-items: center;
+    
+                            gap: 15px;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .payment-icon {
+    
+                            display: flex;
+    
+                            width: 40px;
+    
+                            height: 40px;
+    
+                            color: white;
+    
+                            background: #667eea;
+    
+                            border-radius: 20px;
+    
+                            align-items: center;
+    
+                            justify-content: center;
+    
+                            font-size: 20px;
+}
+                        
+                        .payment-details {
+    
+                            flex: 1;
+}
+                        
+                        .payment-name {
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .payment-role {
+    
+                            color: #666;
+    
+                            font-size: 12px;
+}
+                        
+                        .payment-amount {
+    
+                            color: #667eea;
+    
+                            font-weight: bold;
+}
+                        
+                        .payment-status {
+    
+                            padding: 4px 8px;
+    
+                            font-size: 12px;
+    
+                            border-radius: 10px;
+}
+                        
+                        .payment-status.paid {
+    
+                            color: #4CAF50;
+    
+                            background: #e8f5e8;
+}
+                        
+                        .payment-status.pending {
+    
+                            color: #ff9800;
+    
+                            background: #fff3e0;
+}
+                        
+                        /* Estilos para Notifications */
+                        .tela-notifications {
+    
+                            padding: 20px;
+}
+                        
+                        .header-notifications {
+    
+                            display: flex;
+    
+                            justify-content: space-between;
+    
+                            align-items: center;
+    
+                            margin-bottom: 20px;
+}
+                        
+                        .btn-clear {
+    
+                            padding: 8px 16px;
+    
+                            border: none;
+    
+                            color: white;
+    
+                            background: #f44336;
+    
+                            border-radius: 10px;
+    
+                            cursor: pointer;
+}
+                        
+                        .notification-list {
+    
+                            display: flex;
+    
+                            flex-direction: column;
+    
+                            gap: 10px;
+}
+                        
+                        .notification-item {
+    
+                            display: flex;
+    
+                            padding: 15px;
+    
+                            background: white;
+    
+                            gap: 15px;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .notification-item.unread {
+    
+                            border-left: 4px solid #667eea;
+}
+                        
+                        .notification-icon {
+    
+                            font-size: 20px;
+}
+                        
+                        .notification-content {
+    
+                            flex: 1;
+}
+                        
+                        .notification-title {
+    
+                            font-weight: bold;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .notification-message {
+    
+                            color: #666;
+    
+                            font-size: 14px;
+    
+                            margin-bottom: 5px;
+}
+                        
+                        .notification-time {
+    
+                            color: #999;
+    
+                            font-size: 12px;
+}
+                        
+                        /* Estilos para telas genÃ©ricas */
+                        .tela-generica {
+    
+                            padding: 20px;
+}
+                        
+                        .header-generico {
+    
+                            text-align: center;
+    
+                            margin-bottom: 30px;
+}
+                        
+                        .status-badge {
+    
+                            display: inline-block;
+    
+                            padding: 8px 16px;
+    
+                            border-radius: 20px;
+    
+                            margin-bottom: 20px;
+    
+                            font-weight: bold;
+}
+                        
+                        .status-implementada {
+     color: #4CAF50;
+     background: #e8f5e8;
+}
+                        .status-em-desenvolvimento {
+     color: #ff9800;
+     background: #fff3e0;
+}
+                        .status-planejada {
+     color: #2196F3;
+     background: #e3f2fd;
+}
+                        
+                        .complexidade-badge {
+    
+                            padding: 10px;
+    
+                            background: #f0f0f0;
+    
+                            border-radius: 10px;
+    
+                            margin-bottom: 20px;
+    
+                            text-align: center;
+}
+                        
+                        .funcionalidades-lista {
+    
+                            padding: 20px;
+    
+                            background: white;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                        
+                        .funcionalidades-lista ul {
+    
+                            margin-top: 10px;
+    
+                            padding-left: 20px;
+}
+                        
+                                                   .funcionalidades-lista li {
+    
+                               margin-bottom: 8px;
+}
+                           
+                           /* Estilos para Premium Login */
+                           .tela-premium-login {
+    
+                               display: flex;
+    
+                               height: 100%;
+    
+                               padding: 40px 20px;
+    
+                               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+                               flex-direction: column;
+    
+                               justify-content: center;
+}
+                           
+                           .header-premium {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .logo-premium {
+    
+                               color: white;
+    
+                               font-size: 20px;
+    
+                               font-weight: bold;
+}
+                           
+                           .premium-badge {
+    
+                               padding: 5px 10px;
+    
+                               color: white;
+    
+                               background: rgba(255,255,255,0.2);
+    
+                               border-radius: 15px;
+    
+                               font-size: 12px;
+}
+                           
+                           .welcome-section {
+    
+                               text-align: center;
+    
+                               margin-bottom: 40px;
+}
+                           
+                           .welcome-section h1 {
+    
+                               color: white;
+    
+                               font-size: 24px;
+    
+                               margin-bottom: 10px;
+}
+                           
+                           .welcome-section p {
+    
+                               color: rgba(255,255,255,0.8);
+    
+                               font-size: 14px;
+}
+                           
+                           .login-form-premium {
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .input-group-premium {
+    
+                               position: relative;
+    
+                               margin-bottom: 20px;
+}
+                           
+                           .input-group-premium label {
+    
+                               display: block;
+    
+                               color: white;
+    
+                               margin-bottom: 5px;
+    
+                               font-size: 14px;
+}
+                           
+                           .input-premium {
+    
+                               width: 100%;
+    
+                               padding: 15px 45px 15px 15px;
+    
+                               border: none;
+    
+                               background: rgba(255,255,255,0.9);
+    
+                               border-radius: 10px;
+    
+                               font-size: 16px;
+}
+                           
+                           .input-icon {
+    
+                               position: absolute;
+    
+                               top: 50%;
+    
+                               right: 15px;
+    
+                               color: #666;
+    
+    transform: translateY(-50%);
+    
+                               -webkit-transform: translateY(-50%);
+    
+                               font-size: 18px;
+}
+                           
+                           .remember-section {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 20px;
+}
+                           
+                           .checkbox-label {
+    
+                               display: flex;
+    
+                               color: white;
+    
+                               font-size: 14px;
+    
+                               align-items: center;
+    
+                               gap: 8px;
+}
+                           
+                           .forgot-link {
+    
+                               color: rgba(255,255,255,0.8);
+    
+                               font-size: 14px;
+    
+                               text-decoration: none;
+}
+                           
+                           .btn-premium {
+    
+                               width: 100%;
+    
+                               padding: 15px;
+    
+                               border: none;
+    
+                               color: white;
+    
+                               background: #4CAF50;
+    
+                               border-radius: 10px;
+    
+                               font-size: 16px;
+    
+                               cursor: pointer;
+}
+                           
+                           .security-premium {
+    
+                               display: flex;
+    
+                               gap: 10px;
+    
+                               justify-content: center;
+    
+                               flex-wrap: wrap;
+}
+                           
+                           .security-item {
+    
+                               padding: 8px 12px;
+    
+                               color: white;
+    
+                               background: rgba(255,255,255,0.2);
+    
+                               border-radius: 20px;
+    
+                               font-size: 12px;
+}
+                           
+                           /* Estilos para Basic Login */
+                           .tela-basic-login {
+    
+                               display: flex;
+    
+                               height: 100%;
+    
+                               padding: 40px 20px;
+    
+                               background: #f8f9fa;
+    
+                               flex-direction: column;
+    
+                               justify-content: center;
+}
+                           
+                           .header-basic {
+    
+                               text-align: center;
+    
+                               margin-bottom: 40px;
+}
+                           
+                           .logo-basic {
+    
+                               color: #333;
+    
+                               font-size: 24px;
+    
+                               font-weight: bold;
+}
+                           
+                           .login-form-basic {
+    
+                               padding: 30px;
+    
+                               background: white;
+    
+                               border-radius: 15px;
+    
+                               box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+                           
+                           .login-form-basic h2 {
+    
+                               color: #333;
+    
+                               text-align: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .input-basic {
+    
+                               margin-bottom: 20px;
+}
+                           
+                           .input-field-basic {
+    
+                               width: 100%;
+    
+                               padding: 12px;
+    
+                               border: 1px solid #ddd;
+    
+                               border-radius: 8px;
+    
+                               font-size: 16px;
+}
+                           
+                           .btn-basic {
+    
+                               width: 100%;
+    
+                               padding: 12px;
+    
+                               border: none;
+    
+                               color: white;
+    
+                               background: #1976D2;
+    
+                               border-radius: 8px;
+    
+                               font-size: 16px;
+    
+                               cursor: pointer;
+    
+                               margin-bottom: 20px;
+}
+                           
+                           .links-basic {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               font-size: 14px;
+}
+                           
+                           .links-basic a {
+    
+                               color: #1976D2;
+    
+                               text-decoration: none;
+}
+                           
+                           /* Estilos para Simple Dashboard */
+                           .tela-simple-dashboard {
+    
+                               padding: 20px;
+}
+                           
+                           .header-simple {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .user-simple {
+    
+                               color: #666;
+    
+                               font-size: 16px;
+}
+                           
+                           .stats-simple {
+    
+                               display: grid;
+    
+                               grid-template-columns: 1fr 1fr 1fr;
+    
+                               gap: 15px;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .stat-simple {
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               border-radius: 10px;
+    
+                               text-align: center;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .stat-number {
+    
+                               font-size: 18px;
+    
+                               font-weight: bold;
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .actions-simple {
+    
+                               display: flex;
+    
+                               flex-direction: column;
+    
+                               gap: 10px;
+}
+                           
+                           .action-simple {
+    
+                               padding: 12px;
+    
+                               border: none;
+    
+                               color: white;
+    
+                               background: #667eea;
+    
+                               border-radius: 10px;
+    
+                               cursor: pointer;
+}
+                           
+                           /* Estilos para Employer Dashboard */
+                           .tela-employer-dashboard {
+    
+                               padding: 20px;
+}
+                           
+                           .header-employer {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .user-employer {
+    
+                               display: flex;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+}
+                           
+                           .avatar-employer {
+    
+                               display: flex;
+    
+                               width: 50px;
+    
+                               height: 50px;
+    
+                               color: white;
+    
+                               background: #1976D2;
+    
+                               border-radius: 25px;
+    
+                               align-items: center;
+    
+                               justify-content: center;
+    
+                               font-size: 24px;
+}
+                           
+                           .user-details-employer h3 {
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .notifications-employer {
+    
+                               position: relative;
+    
+                               font-size: 20px;
+}
+                           
+                           .badge {
+    
+                               position: absolute;
+    
+                               top: -5px;
+    
+                               right: -5px;
+    
+                               padding: 2px 6px;
+    
+                               color: white;
+    
+                               background: #f44336;
+    
+                               border-radius: 10px;
+    
+                               font-size: 10px;
+}
+                           
+                           .employer-stats {
+    
+                               display: flex;
+    
+                               flex-direction: column;
+    
+                               gap: 15px;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .stat-employer {
+    
+                               display: flex;
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .stat-icon-employer {
+    
+                               font-size: 24px;
+}
+                           
+                           .stat-value-employer {
+    
+                               font-size: 18px;
+    
+                               font-weight: bold;
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .stat-label-employer {
+    
+                               color: #666;
+    
+                               font-size: 12px;
+}
+                           
+                           .employer-actions {
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .action-grid-employer {
+    
+                               display: grid;
+    
+                               grid-template-columns: 1fr 1fr;
+    
+                               gap: 10px;
+    
+                               margin-top: 15px;
+}
+                           
+                           .action-employer {
+    
+                               padding: 12px;
+    
+                               border: none;
+    
+                               color: white;
+    
+                               background: #1976D2;
+    
+                               border-radius: 8px;
+    
+                               cursor: pointer;
+    
+                               font-size: 14px;
+}
+                           
+                           /* Estilos para Employee Dashboard */
+                           .tela-employee-dashboard {
+    
+                               padding: 20px;
+}
+                           
+                           .header-employee {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .user-employee {
+    
+                               display: flex;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+}
+                           
+                           .avatar-employee {
+    
+                               display: flex;
+    
+                               width: 50px;
+    
+                               height: 50px;
+    
+                               color: white;
+    
+                               background: #FF9800;
+    
+                               border-radius: 25px;
+    
+                               align-items: center;
+    
+                               justify-content: center;
+    
+                               font-size: 24px;
+}
+                           
+                           .clock-employee {
+    
+                               color: #666;
+    
+                               font-size: 18px;
+}
+                           
+                           .employee-stats {
+    
+                               display: flex;
+    
+                               flex-direction: column;
+    
+                               gap: 15px;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .stat-employee {
+    
+                               display: flex;
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .stat-icon-employee {
+    
+                               font-size: 24px;
+}
+                           
+                           .stat-value-employee {
+    
+                               font-size: 18px;
+    
+                               font-weight: bold;
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .stat-label-employee {
+    
+                               color: #666;
+    
+                               font-size: 12px;
+}
+                           
+                           .employee-tasks {
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .task-list-employee {
+    
+                               display: flex;
+    
+                               flex-direction: column;
+    
+                               gap: 10px;
+    
+                               margin-top: 15px;
+}
+                           
+                           .task-employee {
+    
+                               display: flex;
+    
+                               padding: 15px;
+    
+                               background: #f8f9fa;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+    
+                               border-radius: 8px;
+}
+                           
+                           .task-checkbox-employee {
+    
+                               font-size: 18px;
+    
+                               cursor: pointer;
+}
+                           
+                           .task-content-employee {
+    
+                               flex: 1;
+}
+                           
+                           .task-title-employee {
+    
+                               font-weight: bold;
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .task-time-employee {
+    
+                               color: #666;
+    
+                               font-size: 12px;
+}
+                           
+                           .task-priority-employee {
+    
+                               font-size: 16px;
+}
+                           
+                           .task-priority-employee.high {
+     color: #f44336;
+}
+                           .task-priority-employee.medium {
+     color: #ff9800;
+}
+                           
+                           /* Estilos para Family Dashboard */
+                           .tela-family-dashboard {
+    
+                               padding: 20px;
+}
+                           
+                           .header-family {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .family-info {
+    
+                               display: flex;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+}
+                           
+                           .family-avatar {
+    
+                               display: flex;
+    
+                               width: 50px;
+    
+                               height: 50px;
+    
+                               color: white;
+    
+                               background: #9C27B0;
+    
+                               border-radius: 25px;
+    
+                               align-items: center;
+    
+                               justify-content: center;
+    
+                               font-size: 24px;
+}
+                           
+                           .family-menu {
+    
+                               font-size: 20px;
+    
+                               cursor: pointer;
+}
+                           
+                           .family-stats {
+    
+                               display: flex;
+    
+                               gap: 15px;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .stat-family {
+    
+                               display: flex;
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               flex: 1;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .stat-icon-family {
+    
+                               font-size: 24px;
+}
+                           
+                           .stat-value-family {
+    
+                               font-size: 18px;
+    
+                               font-weight: bold;
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .stat-label-family {
+    
+                               color: #666;
+    
+                               font-size: 12px;
+}
+                           
+                           .family-members {
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .members-list {
+    
+                               display: flex;
+    
+                               flex-direction: column;
+    
+                               gap: 15px;
+    
+                               margin-top: 15px;
+}
+                           
+                           .member-item {
+    
+                               display: flex;
+    
+                               padding: 15px;
+    
+                               background: #f8f9fa;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+    
+                               border-radius: 8px;
+}
+                           
+                           .member-avatar {
+    
+                               display: flex;
+    
+                               width: 40px;
+    
+                               height: 40px;
+    
+                               color: white;
+    
+                               background: #9C27B0;
+    
+                               border-radius: 20px;
+    
+                               align-items: center;
+    
+                               justify-content: center;
+    
+                               font-size: 20px;
+}
+                           
+                           .member-name {
+    
+                               font-weight: bold;
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .member-tasks {
+    
+                               color: #666;
+    
+                               font-size: 12px;
+}
+                           
+                           /* Estilos para Admin Dashboard */
+                           .tela-admin-dashboard {
+    
+                               padding: 20px;
+}
+                           
+                           .header-admin {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .admin-info {
+    
+                               display: flex;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+}
+                           
+                           .admin-avatar {
+    
+                               display: flex;
+    
+                               width: 50px;
+    
+                               height: 50px;
+    
+                               color: white;
+    
+                               background: #607D8B;
+    
+                               border-radius: 25px;
+    
+                               align-items: center;
+    
+                               justify-content: center;
+    
+                               font-size: 24px;
+}
+                           
+                           .admin-status {
+    
+                               color: #4CAF50;
+    
+                               font-size: 14px;
+}
+                           
+                           .admin-stats {
+    
+                               display: flex;
+    
+                               flex-direction: column;
+    
+                               gap: 15px;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .stat-admin {
+    
+                               display: flex;
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .stat-icon-admin {
+    
+                               font-size: 24px;
+}
+                           
+                           .stat-value-admin {
+    
+                               font-size: 18px;
+    
+                               font-weight: bold;
+    
+                               margin-bottom: 5px;
+}
+                           
+                           .stat-label-admin {
+    
+                               color: #666;
+    
+                               font-size: 12px;
+}
+                           
+                           .admin-controls {
+    
+                               padding: 20px;
+    
+                               background: white;
+    
+                               border-radius: 10px;
+    
+                               box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+                           
+                           .control-grid {
+    
+                               display: grid;
+    
+                               grid-template-columns: 1fr 1fr;
+    
+                               gap: 10px;
+    
+                               margin-top: 15px;
+}
+                           
+                           .control-btn {
+    
+                               padding: 12px;
+    
+                               border: none;
+    
+                               color: white;
+    
+                               background: #607D8B;
+    
+                               border-radius: 8px;
+    
+                               cursor: pointer;
+    
+                               font-size: 12px;
+}
+                           
+                           /* Estilos para NavegaÃ§Ã£o */
+                           .tela-navegacao {
+    
+                               height: 100%;
+    
+                               padding: 20px;
+    
+                               background: #f8f9fa;
+}
+                           
+                           .header-nav {
+    
+                               display: flex;
+    
+                               justify-content: space-between;
+    
+                               align-items: center;
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .user-nav {
+    
+                               display: flex;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+}
+                           
+                           .avatar-nav {
+    
+                               display: flex;
+    
+                               width: 50px;
+    
+                               height: 50px;
+    
+                               color: white;
+    
+                               background: #667eea;
+    
+                               border-radius: 25px;
+    
+                               align-items: center;
+    
+                               justify-content: center;
+    
+                               font-size: 24px;
+}
+                           
+                           .search-nav {
+    
+                               font-size: 20px;
+    
+                               cursor: pointer;
+}
+                           
+                           .nav-menu {
+    
+                               flex: 1;
+}
+                           
+                           .nav-section {
+    
+                               margin-bottom: 30px;
+}
+                           
+                           .nav-section h4 {
+    
+                               color: #666;
+    
+                               margin-bottom: 15px;
+    
+                               font-size: 14px;
+}
+                           
+                           .nav-item {
+    
+                               display: flex;
+    
+                               padding: 15px;
+    
+    transition: background 0.3s;
+    
+                               align-items: center;
+    
+                               gap: 15px;
+    
+                               margin-bottom: 10px;
+    
+                               border-radius: 10px;
+    
+                               cursor: pointer;
+    
+                               -webkit-transition: background 0.3s;
+}
+                           
+                           .nav-item:hover {
+    
+                               background: white;
+}
+                           
+                           .nav-item.active {
+    
+                               color: white;
+    
+                               background: #667eea;
+}
+                           
+                           .nav-icon {
+    
+                               font-size: 20px;
+}
+                           
+                           .nav-text {
+    
+                               font-size: 16px;
+}
+                           
+                           .nav-footer {
+    
+                               margin-top: auto;
+    
+                               border-top: 1px solid #ddd;
+    
+                               padding-top: 20px;
+}
+                       </style>
+                   </head>
+                   <body>
+                       <div class="phone-container">
+                           <div class="status-bar">
+                               <span>9:41</span>
+                               <span>ðŸ“¶ ðŸ“¶ ðŸ“¶ ðŸ“¶</span>
+                           </div>
+                           <div class="app-content">
+                               ${
+    conteudoVisual;
+}
+                           </div>
+                       </div>
+                   </body>
+                   </html>
+               `;
+               visualizacaoWindow.document.write(html);
+               visualizacaoWindow.document.close();
+           }
+
+        function verCodigo() {
+    
+            if (!telaAtual || !telaAtual.arquivo) return;
+    
+            
+            const codigoWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    
+            
+            const html = `
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>CÃ³digo: ${telaAtual.nome;
+}</title>
+                    <style>
+                        * {
+    
+                            margin: 0;
+    
+                            padding: 0;
+    
+                            box-sizing: border-box;
+}
+                        
+                        body {
+    
+                            padding: 20px;
+    
+                            color: #d4d4d4;
+    
+                            background: #1e1e1e;
+    
+                            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    
+                            line-height: 1.6;
+}
+                        
+                        .codigo-container {
+    
+                            padding: 20px;
+    
+                            background: #252526;
+    
+                            border-radius: 10px;
+    
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+                        
+                        .header-codigo {
+    
+                            display: flex;
+    
+                            justify-content: space-between;
+    
+                            align-items: center;
+    
+                            margin-bottom: 20px;
+    
+                            padding-bottom: 15px;
+    
+                            border-bottom: 1px solid #404040;
+}
+                        
+                        .titulo-codigo {
+    
+                            color: #4CAF50;
+    
+                            font-size: 1.2rem;
+}
+                        
+                        .arquivo-codigo {
+    
+                            color: #FF9800;
+    
+                            font-size: 0.9rem;
+}
+                        
+                        .codigo-content {
+    
+                            padding: 15px;
+    
+                            border: 1px solid #404040;
+    
+                            background: #1e1e1e;
+    
+                            border-radius: 5px;
+    
+                            overflow-x: auto;
+}
+                        
+                        .linha-codigo {
+    
+                            color: #d4d4d4;
+    
+                            font-size: 0.9rem;
+}
+                        
+                        .comentario {
+     color: #6A9955;
+}
+                        .string {
+     color: #CE9178;
+}
+                        .keyword {
+     color: #569CD6;
+}
+                        .function {
+     color: #DCDCAA;
+}
+                        .number {
+     color: #B5CEA8;
+}
+                        
+                        .info-codigo {
+    
+                            padding: 15px;
+    
+                            background: #2d2d30;
+    
+                            margin-top: 20px;
+    
+                            border-radius: 5px;
+    
+                            border-left: 4px solid #4CAF50;
+}
+                        
+                        .info-codigo h4 {
+    
+                            color: #4CAF50;
+    
+                            margin-bottom: 10px;
+}
+                        
+                        .info-codigo p {
+    
+                            color: #d4d4d4;
+    
+                            font-size: 0.9rem;
+}
+                    </style>
+                </head>
+                <body>
+                    <div class="codigo-container">
+                        <div class="header-codigo">
+                            <div class="titulo-codigo">${
+    telaAtual.nome;
+}</div>
+                            <div class="arquivo-codigo">${
+    telaAtual.arquivo;
+}</div>
+                        </div>
+                        
+                        <div class="codigo-content">
+                            <div class="linha-codigo"><span class="comentario">// Arquivo: ${
+    telaAtual.arquivo;
+}</span></div>
+                            <div class="linha-codigo"><span class="comentario">// Tela: ${
+    telaAtual.nome;
+}</span></div>
+                            <div class="linha-codigo"><span class="comentario">// Categoria: ${
+    telaAtual.categoria;
+}</span></div>
+                            <div class="linha-codigo"><span class="comentario">// Status: ${
+    telaAtual.status;
+}</span></div>
+                            <div class="linha-codigo"></div>
+                            <div class="linha-codigo"><span class="keyword">import</span> <span class="string">React</span> <span class="keyword">from</span> <span class="string">'react'</span>;</div>
+                            <div class="linha-codigo"><span class="keyword">import</span> {
+     <span class="function">View</span>, <span class="function">Text</span>, <span class="function">StyleSheet</span> ;
+} <span class="keyword">from</span> <span class="string">'react-native'</span>;</div>
+                            <div class="linha-codigo"></div>
+                            <div class="linha-codigo"><span class="keyword">export default function</span> <span class="function">${
+    telaAtual.nome.replace(/\s+/g, '');
+}</span>() {
+    </div>
+                            <div class="linha-codigo">  <span class="keyword">return</span> (</div>
+                            <div class="linha-codigo">    &lt;
+    <span class="function">View</span> <span class="keyword">style</span>={<span class="function">styles</span>.<span class="function">container</span>;
+}&gt;</div>
+                            <div class="linha-codigo">      &lt;<span class="function">Text</span>&gt;${
+    telaAtual.nome;
+}&lt;/<span class="function">Text</span>&gt;</div>
+                            <div class="linha-codigo">    &lt;/<span class="function">View</span>&gt;</div>
+                            <div class="linha-codigo">  );</div>
+                            <div class="linha-codigo">}</div>
+                            <div class="linha-codigo"></div>
+                            <div class="linha-codigo"><span class="keyword">const</span> <span class="function">styles</span> = <span class="function">StyleSheet</span>.<span class="function">create</span>({
+    </div>
+                            <div class="linha-codigo">  <span class="function">container</span>: {</div>
+                            <div class="linha-codigo">    <span class="function">flex</span>: <span class="number">1</span>,</div>
+                            <div class="linha-codigo">    <span class="function">justifyContent</span>: <span class="string">'center'</span>,</div>
+                            <div class="linha-codigo">    <span class="function">alignItems</span>: <span class="string">'center'</span></div>
+                            <div class="linha-codigo">  ;
+}</div>
+                            <div class="linha-codigo">});</div>
+                        </div>
+                        
+                        <div class="info-codigo">
+                            <h4>ðŸ“ LocalizaÃ§Ã£o do Arquivo:</h4>
+                            <p><strong>frontend/src/screens/${
+    telaAtual.arquivo;
+}</strong></p>
+                            <p>Este arquivo contÃ©m a implementaÃ§Ã£o completa da tela ${
+    telaAtual.nome;
+}.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            codigoWindow.document.write(html);
+            codigoWindow.document.close();
+        }
+
+        function verEstrutura() {
+    
+            if (!telaAtual) return;
+    
+            showMessage('system.error');
+}
+
+        function verEspecificacao() {
+    
+            if (!telaAtual) return;
+    
+            showMessage('system.error');
+}
+
+        // Fechar modal ao clicar fora
+        document.getElementById('modal').addEventListener('click', function(e) {
+    
+            if (e.target === this) {
+                closeModal();
+}
+        });
+
+        // Inicializar
+        renderizarTelas();
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/messages-system.js"></script>`n    <script src="js/components.js"></script>
+    <script>
+        // InicializaÃ§Ã£o da pÃ¡gina
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            // Inicializar sistema de componentes
+            const componentManager = new ComponentManager();
+    
+            componentManager.initPage('Showcase de Telas');
+});
+    </script>
+</body>
+</html> 

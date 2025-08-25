@@ -1,0 +1,481 @@
+{
+  "timestamp": "2025-08-22T16:21:35.023Z",
+  "summary": {
+    "totalProcessed": 61,
+    "totalModified": 30,
+    "totalErrors": 3,
+    "successRate": "49.18%"
+  },
+  "modifications": [
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\advanced-timecard.html",
+      "modifications": 10,
+      "details": [
+        "aria-labelledby adicionado para select com id: employee-filter",
+        "aria-labelledby adicionado para select com id: period-filter",
+        "CSS reordenado: background-clip após -webkit-background-clip",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\advanced-timecard.html.final-backup-2025-08-22T16-21-34-597Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\app.html",
+      "modifications": 1,
+      "details": [
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\app.html.final-backup-2025-08-22T16-21-34-620Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\budget-management.html",
+      "modifications": 14,
+      "details": [
+        "aria-labelledby adicionado para select com id: statusFilter",
+        "aria-labelledby adicionado para select com id: categoryFilter",
+        "aria-labelledby adicionado para select com id: budgetCategory",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\budget-management.html.final-backup-2025-08-22T16-21-34-632Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\communication.html",
+      "modifications": 14,
+      "details": [
+        "aria-labelledby adicionado para select com id: message-type",
+        "aria-labelledby adicionado para select com id: template-type",
+        "CSS reordenado: background-clip após -webkit-background-clip",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\communication.html.final-backup-2025-08-22T16-21-34-649Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-admin.html",
+      "modifications": 6,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\dashboard-admin.html.final-backup-2025-08-22T16-21-34-666Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-employee.html",
+      "modifications": 7,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\dashboard-employee.html.final-backup-2025-08-22T16-21-34-673Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-employer.html",
+      "modifications": 6,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\dashboard-employer.html.final-backup-2025-08-22T16-21-34-684Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard-family.html",
+      "modifications": 8,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\dashboard-family.html.final-backup-2025-08-22T16-21-34-692Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\dashboard.html",
+      "modifications": 7,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\dashboard.html.final-backup-2025-08-22T16-21-34-705Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\employees-management.html",
+      "modifications": 5,
+      "details": [
+        "aria-labelledby adicionado para select com id: statusFilter",
+        "aria-labelledby adicionado para select com id: departmentFilter",
+        "aria-labelledby adicionado para select com id: department",
+        "aria-labelledby adicionado para select com id: status",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\employees-management.html.final-backup-2025-08-22T16-21-34-722Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\finance.html",
+      "modifications": 6,
+      "details": [
+        "aria-labelledby adicionado para select com id: transactionType",
+        "aria-labelledby adicionado para select com id: transactionCategory",
+        "aria-labelledby adicionado para select com id: billCategory",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\finance.html.final-backup-2025-08-22T16-21-34-743Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\gamification.html",
+      "modifications": 13,
+      "details": [
+        "CSS reordenado: background-clip após -webkit-background-clip",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\gamification.html.final-backup-2025-08-22T16-21-34-771Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\index-working.html",
+      "modifications": 1,
+      "details": [
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\index-working.html.final-backup-2025-08-22T16-21-34-786Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\navigation.html",
+      "modifications": 1,
+      "details": [
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\navigation.html.final-backup-2025-08-22T16-21-34-810Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\notifications.html",
+      "modifications": 6,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\notifications.html.final-backup-2025-08-22T16-21-34-824Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\payment-integrations.html",
+      "modifications": 12,
+      "details": [
+        "aria-labelledby adicionado para select com id: provider-select",
+        "aria-labelledby adicionado para select com id: environment",
+        "CSS reordenado: background-clip após -webkit-background-clip",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\payment-integrations.html.final-backup-2025-08-22T16-21-34-832Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\payments-management.html",
+      "modifications": 8,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\payments-management.html.final-backup-2025-08-22T16-21-34-841Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\plans.html",
+      "modifications": 4,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\plans.html.final-backup-2025-08-22T16-21-34-850Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\privacy-policy.html",
+      "modifications": 1,
+      "details": [
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\privacy-policy.html.final-backup-2025-08-22T16-21-34-856Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\profile.html",
+      "modifications": 1,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\profile.html.final-backup-2025-08-22T16-21-34-873Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\reports-advanced-management.html",
+      "modifications": 6,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\reports-advanced-management.html.final-backup-2025-08-22T16-21-34-891Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\reports.html",
+      "modifications": 9,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\reports.html.final-backup-2025-08-22T16-21-34-905Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\screen-preview.html",
+      "modifications": 8,
+      "details": [
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "aria-label genérico adicionado para select",
+        "CSS reordenado: animation após -webkit-animation"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\screen-preview.html.final-backup-2025-08-22T16-21-34-918Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\settings.html",
+      "modifications": 14,
+      "details": [
+        "aria-labelledby adicionado para select com id: userRegion",
+        "aria-labelledby adicionado para select com id: userProfile",
+        "aria-labelledby adicionado para select com id: userLanguage",
+        "aria-labelledby adicionado para select com id: themeSelect",
+        "aria-labelledby adicionado para select com id: colorScheme",
+        "aria-labelledby adicionado para select com id: fontSize",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\settings.html.final-backup-2025-08-22T16-21-34-923Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\showcase-funcional.html",
+      "modifications": 6,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\showcase-funcional.html.final-backup-2025-08-22T16-21-34-932Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\showcase-telas.html",
+      "modifications": 6,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\showcase-telas.html.final-backup-2025-08-22T16-21-34-939Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\splash-screen.html",
+      "modifications": 3,
+      "details": [
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: animation após -webkit-animation",
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\splash-screen.html.final-backup-2025-08-22T16-21-34-956Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\tasks-management.html",
+      "modifications": 6,
+      "details": [
+        "aria-labelledby adicionado para select com id: taskPriority",
+        "aria-labelledby adicionado para select com id: taskAssignee",
+        "aria-labelledby adicionado para select com id: taskStatus",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: animation após -webkit-animation",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\tasks-management.html.final-backup-2025-08-22T16-21-34-983Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\terms-of-use.html",
+      "modifications": 1,
+      "details": [
+        "Meta theme-color corrigido para compatibilidade Firefox"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\terms-of-use.html.final-backup-2025-08-22T16-21-34-990Z"
+    },
+    {
+      "success": true,
+      "file": "C:\\dom-v2\\frontend\\public\\timeclock.html",
+      "modifications": 7,
+      "details": [
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: transition após -webkit-transition",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter",
+        "CSS reordenado: backdrop-filter após -webkit-backdrop-filter"
+      ],
+      "backupPath": "C:\\dom-v2\\frontend\\public\\timeclock.html.final-backup-2025-08-22T16-21-35-006Z"
+    }
+  ],
+  "errors": [],
+  "backups": [
+    "C:\\dom-v2\\frontend\\public\\advanced-timecard.html.final-backup-2025-08-22T16-21-34-597Z",
+    "C:\\dom-v2\\frontend\\public\\app.html.final-backup-2025-08-22T16-21-34-620Z",
+    "C:\\dom-v2\\frontend\\public\\budget-management.html.final-backup-2025-08-22T16-21-34-632Z",
+    "C:\\dom-v2\\frontend\\public\\communication.html.final-backup-2025-08-22T16-21-34-649Z",
+    "C:\\dom-v2\\frontend\\public\\dashboard-admin.html.final-backup-2025-08-22T16-21-34-666Z",
+    "C:\\dom-v2\\frontend\\public\\dashboard-employee.html.final-backup-2025-08-22T16-21-34-673Z",
+    "C:\\dom-v2\\frontend\\public\\dashboard-employer.html.final-backup-2025-08-22T16-21-34-684Z",
+    "C:\\dom-v2\\frontend\\public\\dashboard-family.html.final-backup-2025-08-22T16-21-34-692Z",
+    "C:\\dom-v2\\frontend\\public\\dashboard.html.final-backup-2025-08-22T16-21-34-705Z",
+    "C:\\dom-v2\\frontend\\public\\employees-management.html.final-backup-2025-08-22T16-21-34-722Z",
+    "C:\\dom-v2\\frontend\\public\\finance.html.final-backup-2025-08-22T16-21-34-743Z",
+    "C:\\dom-v2\\frontend\\public\\gamification.html.final-backup-2025-08-22T16-21-34-771Z",
+    "C:\\dom-v2\\frontend\\public\\index-working.html.final-backup-2025-08-22T16-21-34-786Z",
+    "C:\\dom-v2\\frontend\\public\\navigation.html.final-backup-2025-08-22T16-21-34-810Z",
+    "C:\\dom-v2\\frontend\\public\\notifications.html.final-backup-2025-08-22T16-21-34-824Z",
+    "C:\\dom-v2\\frontend\\public\\payment-integrations.html.final-backup-2025-08-22T16-21-34-832Z",
+    "C:\\dom-v2\\frontend\\public\\payments-management.html.final-backup-2025-08-22T16-21-34-841Z",
+    "C:\\dom-v2\\frontend\\public\\plans.html.final-backup-2025-08-22T16-21-34-850Z",
+    "C:\\dom-v2\\frontend\\public\\privacy-policy.html.final-backup-2025-08-22T16-21-34-856Z",
+    "C:\\dom-v2\\frontend\\public\\profile.html.final-backup-2025-08-22T16-21-34-873Z",
+    "C:\\dom-v2\\frontend\\public\\reports-advanced-management.html.final-backup-2025-08-22T16-21-34-891Z",
+    "C:\\dom-v2\\frontend\\public\\reports.html.final-backup-2025-08-22T16-21-34-905Z",
+    "C:\\dom-v2\\frontend\\public\\screen-preview.html.final-backup-2025-08-22T16-21-34-918Z",
+    "C:\\dom-v2\\frontend\\public\\settings.html.final-backup-2025-08-22T16-21-34-923Z",
+    "C:\\dom-v2\\frontend\\public\\showcase-funcional.html.final-backup-2025-08-22T16-21-34-932Z",
+    "C:\\dom-v2\\frontend\\public\\showcase-telas.html.final-backup-2025-08-22T16-21-34-939Z",
+    "C:\\dom-v2\\frontend\\public\\splash-screen.html.final-backup-2025-08-22T16-21-34-956Z",
+    "C:\\dom-v2\\frontend\\public\\tasks-management.html.final-backup-2025-08-22T16-21-34-983Z",
+    "C:\\dom-v2\\frontend\\public\\terms-of-use.html.final-backup-2025-08-22T16-21-34-990Z",
+    "C:\\dom-v2\\frontend\\public\\timeclock.html.final-backup-2025-08-22T16-21-35-006Z"
+  ]
+}

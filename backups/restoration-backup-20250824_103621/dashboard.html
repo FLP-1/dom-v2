@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Principal - DOM v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1f2937;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .sidebar-user {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #007AFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #1e293b;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 122, 255, 0.1);
+            border-left-color: #007AFF;
+        }
+
+        .nav-item.active {
+            background: rgba(0, 122, 255, 0.15);
+            border-left-color: #007AFF;
+            color: #007AFF;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Overlay */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-left: 280px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #64748b;
+            margin: 0;
+        }
+
+        .header-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Profile Selector Styles */
+        .profile-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-selector-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .profile-selector-button .profile-icon {
+            font-size: 16px;
+        }
+
+        .profile-selector-button .profile-name {
+            font-weight: 500;
+        }
+
+        .profile-selector-button .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-selector-button.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .profile-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-header h4 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-dropdown-header p {
+            margin: 4px 0 0 0;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .profile-options {
+            padding: 8px 0;
+        }
+
+        .profile-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: #1e293b;
+            text-decoration: none;
+        }
+
+        .profile-option:hover {
+            background: #f8fafc;
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+        }
+
+        .profile-option .option-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .profile-option .option-info {
+            flex: 1;
+        }
+
+        .profile-option .option-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .profile-option .option-description {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .profile-option .option-check {
+            font-size: 16px;
+            color: #007AFF;
+            opacity: 0;
+        }
+
+        .profile-option.active .option-check {
+            opacity: 1;
+        }
+
+        .profile-dropdown-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-footer button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .profile-dropdown-footer button:hover {
+            background: #0056CC;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .profile-selector-button .profile-name {
+                display: none;
+            }
+            
+            .profile-dropdown {
+                right: -50px;
+                min-width: 180px;
+            }
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        /* Métricas Principais */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Cards de Navegação */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .nav-card {
+            background: white;
+            border: none;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            min-height: 120px;
+            min-width: 280px;
+            border-left: 4px solid;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-card:active {
+            transform: scale(0.98);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .card-icon {
+            font-size: 32px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #64748b;
+            margin: 0;
+        }
+
+        .card-value {
+            margin-top: auto;
+            padding: 8px 12px;
+            border-radius: 8px;
+            align-self: flex-start;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Cores dos cards */
+        .nav-card.finance { border-left-color: #10b981; }
+        .nav-card.finance .card-value { background: #10b98115; color: #10b981; }
+
+        .nav-card.tasks { border-left-color: #3b82f6; }
+        .nav-card.tasks .card-value { background: #3b82f615; color: #3b82f6; }
+
+        .nav-card.employees { border-left-color: #8b5cf6; }
+        .nav-card.employees .card-value { background: #8b5cf615; color: #8b5cf6; }
+
+        .nav-card.payments { border-left-color: #059669; }
+        .nav-card.payments .card-value { background: #05966915; color: #059669; }
+
+        .nav-card.timeclock { border-left-color: #06b6d4; }
+        .nav-card.timeclock .card-value { background: #06b6d415; color: #06b6d4; }
+
+        .nav-card.budget { border-left-color: #7c3aed; }
+        .nav-card.budget .card-value { background: #7c3aed15; color: #7c3aed; }
+
+        .nav-card.notifications { border-left-color: #ef4444; }
+        .nav-card.notifications .card-value { background: #ef444415; color: #ef4444; }
+
+        .nav-card.hr { border-left-color: #0891b2; }
+        .nav-card.hr .card-value { background: #0891b215; color: #0891b2; }
+
+        .nav-card.reports { border-left-color: #f59e0b; }
+        .nav-card.reports .card-value { background: #f59e0b15; color: #f59e0b; }
+
+        .nav-card.advancedTimeCard { border-left-color: #0d9488; }
+        .nav-card.advancedTimeCard .card-value { background: #0d948815; color: #0d9488; }
+
+        .nav-card.paymentIntegrations { border-left-color: #dc2626; }
+        .nav-card.paymentIntegrations .card-value { background: #dc262615; color: #dc2626; }
+
+        .nav-card.communication { border-left-color: #2563eb; }
+        .nav-card.communication .card-value { background: #2563eb15; color: #2563eb; }
+
+        .nav-card.gamification { border-left-color: #fbbf24; }
+        .nav-card.gamification .card-value { background: #fbbf2415; color: #fbbf24; }
+
+        .nav-card.profile { border-left-color: #6b7280; }
+        .nav-card.profile .card-value { background: #6b728015; color: #6b7280; }
+
+        .nav-card.users { border-left-color: #374151; }
+        .nav-card.users .card-value { background: #37415115; color: #374151; }
+
+        .nav-card.settings { border-left-color: #4b5563; }
+        .nav-card.settings .card-value { background: #4b556315; color: #4b5563; }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 18px;
+            color: #64748b;
+        }
+
+        /* Gráfico de Documentos */
+        .chart-container {
+            margin-top: 15px;
+        }
+
+        .chart-bar {
+            height: 20px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .chart-segment {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .chart-segment.completed {
+            background: #10b981;
+        }
+
+        .chart-segment.pending {
+            background: #f59e0b;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-color.completed {
+            background: #10b981;
+        }
+
+        .legend-color.pending {
+            background: #f59e0b;
+        }
+
+        /* Categorias de Documentos */
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .category-icon {
+            font-size: 24px;
+        }
+
+        .category-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #1e293b;
+        }
+
+        .category-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Métricas de Performance */
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .metric-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-indicator.healthy {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-indicator.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -100%;
+                width: 100%;
+            }
+
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-actions {
+                position: static;
+                justify-content: center;
+                margin-top: 15px;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    
+        /* Profile Selector Styles */
+        .profile-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-selector-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .profile-selector-button .profile-icon {
+            font-size: 16px;
+        }
+
+        .profile-selector-button .profile-name {
+            font-weight: 500;
+        }
+
+        .profile-selector-button .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-selector-button.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .profile-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-header h4 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-dropdown-header p {
+            margin: 4px 0 0 0;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .profile-options {
+            padding: 8px 0;
+        }
+
+        .profile-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: #1e293b;
+            text-decoration: none;
+        }
+
+        .profile-option:hover {
+            background: #f8fafc;
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+        }
+
+        .profile-option .option-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .profile-option .option-info {
+            flex: 1;
+        }
+
+        .profile-option .option-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .profile-option .option-description {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .profile-option .option-check {
+            font-size: 16px;
+            color: #007AFF;
+            opacity: 0;
+        }
+
+        .profile-option.active .option-check {
+            opacity: 1;
+        }
+
+        .profile-dropdown-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-footer button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .profile-dropdown-footer button:hover {
+            background: #0056CC;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .profile-selector-button .profile-name {
+                display: none;
+            }
+            
+            .profile-dropdown {
+                right: -50px;
+                min-width: 180px;
+            }
+        }
+
+        
+    
+    
+        
+    
+    
+        
+    
+    
+    
+        
+    
+    /* Header com botão voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+        /* Header com botão voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+    </style>
+    <link rel="stylesheet" href="components/styles.css">
+</head>
+    <script src="js/messages-system.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/profile-manager.js"></script>
+<script>
+    // Inicializar componentes
+    document.addEventListener('DOMContentLoaded', function() {
+        initPage('Dashboard');
+    });
+</script>
+<body>
+    <!-- Containers para componentes -->
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <div class="main-content">
+        <div class="container">
+
+            <!-- Mensagem de Erro -->
+            <div id="errorMessage" style="display: none; background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #fecaca;"></div>
+
+            <!-- Métricas Principais -->
+            <div class="metrics-grid fade-in">
+                <div class="metric-card">
+                    <div class="metric-value" id="totalDocuments">0</div>
+                    <div class="metric-label">Total de Documentos</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value" id="pendingDocuments">0</div>
+                    <div class="metric-label">Documentos Pendentes</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value" id="completedDocuments">0</div>
+                    <div class="metric-label">Documentos Concluídos</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value" id="systemStatus">OK</div>
+                    <div class="metric-label">Status do Sistema</div>
+                </div>
+            </div>
+
+            <!-- Gráfico de Documentos -->
+            <div class="metric-card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; color: #1e293b;">Progresso de Documentos</h3>
+                <div id="documentsChart"></div>
+            </div>
+
+            <!-- Categorias de Documentos -->
+            <div class="metric-card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; color: #1e293b;">Categorias de Documentos</h3>
+                <div id="categoriesList" style="display: grid; gap: 10px;">
+                    <!-- Categorias serão carregadas dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Métricas de Performance -->
+            <div class="metric-card" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; color: #1e293b;">Performance do Sistema</h3>
+                <div id="performanceMetrics" style="display: grid; gap: 8px;">
+                    <!-- Métricas serão carregadas dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Cards de Navegação -->
+            <div class="cards-grid fade-in" id="cardsGrid">
+                <!-- Cards serão carregados dinamicamente via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração da API
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // Dados dos cards de navegação
+        const dashboardCards = [
+            {
+                id: 'finance',
+                title: 'Finanças',
+                icon: '💰',
+                description: 'Gestão financeira completa',
+                route: 'finance.html'
+            },
+            {
+                id: 'tasks',
+                title: 'Tarefas',
+                icon: '📝',
+                description: 'Organize suas atividades',
+                route: 'tasks-management.html'
+            },
+            {
+                id: 'employees',
+                title: 'Funcionários',
+                icon: '👥',
+                description: 'Gerencie sua equipe',
+                route: 'employees-management.html'
+            },
+            {
+                id: 'payments',
+                title: 'Pagamentos',
+                icon: '💳',
+                description: 'Controle de pagamentos',
+                route: 'payments-management.html'
+            },
+            {
+                id: 'timeclock',
+                title: 'Ponto',
+                icon: '⏰',
+                description: 'Controle de presença',
+                route: 'timeclock.html'
+            },
+            {
+                id: 'budget',
+                title: 'Orçamentos',
+                icon: '📋',
+                description: 'Planejamento financeiro',
+                route: 'budget-management.html'
+            },
+            {
+                id: 'notifications',
+                title: 'Notificações',
+                icon: '🔔',
+                description: 'Mensagens e alertas',
+                route: 'notifications.html'
+            },
+            {
+                id: 'hr',
+                title: 'Recursos Humanos',
+                icon: '👨‍💼',
+                description: 'Gestão de RH',
+                route: 'hr-management.html'
+            },
+            {
+                id: 'reports',
+                title: 'Relatórios',
+                icon: '📊',
+                description: 'Visualize dados e métricas',
+                route: 'reports.html'
+            },
+            {
+                id: 'advancedTimeCard',
+                title: 'Ponto Avançado',
+                icon: '⏱️',
+                description: 'Controle detalhado de horas',
+                route: 'advanced-timecard.html'
+            },
+            {
+                id: 'paymentIntegrations',
+                title: 'Integrações',
+                icon: '🔗',
+                description: 'Stripe, PIX e outros',
+                route: 'payment-integrations.html'
+            },
+            {
+                id: 'communication',
+                title: 'Comunicação',
+                icon: '💬',
+                description: 'Chat e mensagens',
+                route: 'communication.html'
+            },
+            {
+                id: 'gamification',
+                title: 'Gamificação',
+                icon: '🏆',
+                description: 'Sistema de recompensas',
+                route: 'gamification.html'
+            },
+            {
+                id: 'profile',
+                title: 'Perfil',
+                icon: '👤',
+                description: 'Configurações pessoais',
+                route: 'profile.html'
+            },
+            {
+                id: 'documents',
+                title: 'Documentos',
+                icon: '📄',
+                description: 'Gestão de documentos e arquivos',
+                route: 'documents-management.html'
+            },
+            {
+                id: 'users',
+                title: 'Usuários',
+                icon: '👥',
+                description: 'Gestão de usuários',
+                route: 'users-management.html'
+            },
+            {
+                id: 'settings',
+                title: 'Configurações',
+                icon: '⚙️',
+                description: 'Configurações do sistema',
+                route: 'settings.html'
+            }
+        ];
+
+        // Funções de API
+        async function fetchDashboardData() {
+            try {
+                const [paymentsResponse, employeesResponse, budgetsResponse, notificationsResponse, timeclockResponse] = await Promise.all([
+                    fetch(`${API_BASE_URL}/payments`),
+                    fetch(`${API_BASE_URL}/employees`),
+                    fetch(`${API_BASE_URL}/budgets`),
+                    fetch(`${API_BASE_URL}/notifications`),
+                    fetch(`${API_BASE_URL}/timeclock`)
+                ]);
+
+                const payments = await paymentsResponse.json();
+                const employees = await employeesResponse.json();
+                const budgets = await budgetsResponse.json();
+                const notifications = await notificationsResponse.json();
+                const timeclock = await timeclockResponse.json();
+
+                return {
+                    payments: payments.success ? payments.payments : [],
+                    employees: employees.success ? employees.employees : [],
+                    budgets: budgets.success ? budgets.budgets : [],
+                    notifications: notifications.success ? notifications.notifications : [],
+                    timeclock: timeclock.success ? timeclock.time_entries : []
+                };
+            } catch (error) {
+                console.error('Erro ao buscar dados do dashboard:', error);
+                return {
+                    payments: [],
+                    employees: [],
+                    budgets: [],
+                    notifications: [],
+                    timeclock: []
+                };
+            }
+        }
+
+        // Função para calcular métricas
+        function calculateMetrics(data) {
+            const pendingPayments = data.payments.filter(p => p.status === 'pending').length;
+            const activeEmployees = data.employees.filter(e => e.status === 'active').length;
+            const activeBudgets = data.budgets.filter(b => b.status === 'active').length;
+            const unreadNotifications = data.notifications.filter(n => !n.read).length;
+            const todayEntries = data.timeclock.filter(t => {
+                const today = new Date().toISOString().split('T')[0];
+                return t.date === today;
+            });
+
+            return {
+                pendingPayments,
+                activeEmployees,
+                activeBudgets,
+                unreadNotifications,
+                todayEntries: todayEntries.length
+            };
+        }
+
+        // Função para renderizar cards
+        function renderCards(data) {
+            const metrics = calculateMetrics(data);
+            const cardsGrid = document.getElementById('cardsGrid');
+            
+            const cardsHTML = dashboardCards.map(card => {
+                let value = '';
+                
+                // Definir valores baseados nos dados reais
+                switch (card.id) {
+                    case 'finance':
+                        value = 'R$ 0,00'; // Será calculado dinamicamente
+                        break;
+                    case 'tasks':
+                        value = '0 pendentes'; // Será calculado dinamicamente
+                        break;
+                    case 'employees':
+                        value = `${metrics.activeEmployees} ativos`;
+                        break;
+                    case 'payments':
+                        value = `${metrics.pendingPayments} pendentes`;
+                        break;
+                    case 'timeclock':
+                        value = metrics.todayEntries > 0 ? 'Online' : 'Offline';
+                        break;
+                    case 'budget':
+                        value = `${metrics.activeBudgets} ativos`;
+                        break;
+                    case 'notifications':
+                        value = `${metrics.unreadNotifications} novas`;
+                        break;
+                    case 'hr':
+                        value = `${metrics.activeEmployees} funcionários`;
+                        break;
+                    case 'reports':
+                        value = '24h';
+                        break;
+                    case 'advancedTimeCard':
+                        value = '0h/mês'; // Será calculado dinamicamente
+                        break;
+                    case 'paymentIntegrations':
+                        value = '0 ativas'; // Será calculado dinamicamente
+                        break;
+                    case 'communication':
+                        value = '0 conversas'; // Será calculado dinamicamente
+                        break;
+                    case 'gamification':
+                        value = '0 pontos'; // Será calculado dinamicamente
+                        break;
+                    case 'profile':
+                        value = 'Ativo';
+                        break;
+                    case 'users':
+                        value = '0 cadastrados'; // Será calculado dinamicamente
+                        break;
+                    case 'settings':
+                        value = 'Admin';
+                        break;
+                    default:
+                        value = '';
+                }
+
+                return `
+                    <a href="${card.route}" class="nav-card ${card.id}">
+                        <div class="card-header">
+                            <span class="card-icon">${card.icon}</span>
+                            <div>
+                                <div class="card-title">${card.title}</div>
+                                <div class="card-description">${card.description}</div>
+                            </div>
+                        </div>
+                        ${value ? `<div class="card-value">${value}</div>` : ''}
+                    </a>
+                `;
+            }).join('');
+
+            cardsGrid.innerHTML = cardsHTML;
+        }
+
+        // Função para atualizar métricas principais
+        function updateMainMetrics(data) {
+            const metrics = calculateMetrics(data);
+            
+            // Total de acessos (simulado baseado em funcionários ativos)
+            document.getElementById('totalAccess').textContent = metrics.activeEmployees * 50;
+            
+            // Uptime (sempre 100% por enquanto)
+            document.getElementById('uptime').textContent = '100%';
+            
+            // Tempo médio (simulado)
+            document.getElementById('avgTime').textContent = '2.3s';
+        }
+
+        // Função para carregar dados
+        async function loadDashboardData() {
+            try {
+                const data = await fetchDashboardData();
+                
+                // Atualizar métricas principais
+                updateMainMetrics(data);
+                
+                // Renderizar cards
+                renderCards(data);
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados do dashboard:', error);
+                
+                // Fallback com dados básicos
+                document.getElementById('totalAccess').textContent = '0';
+                document.getElementById('uptime').textContent = '100%';
+                document.getElementById('avgTime').textContent = '0s';
+                
+                // Renderizar cards com dados vazios
+                renderCards({
+                    payments: [],
+                    employees: [],
+                    budgets: [],
+                    notifications: [],
+                    timeclock: []
+                });
+            }
+        }
+
+        // Função para carregar dados do usuário logado
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('Usuário não logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('Usuário logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // Função para atualizar header com dados do usuário
+        function updateHeader(user) {
+            const headerTitle = document.querySelector('.header h1');
+            const headerSubtitle = document.querySelector('.header p');
+            
+            if (headerTitle) {
+                headerTitle.textContent = `Bem-vindo, ${user.name}!`;
+            }
+            
+            if (headerSubtitle) {
+                const profileNames = {
+                    'EMPLOYER': 'Empregador',
+                    'EMPLOYEE': 'Funcionário',
+                    'FAMILY': 'Familiar',
+                    'ADMIN': 'Administrador',
+                    'user': 'Usuário'
+                };
+                headerSubtitle.textContent = `Dashboard ${profileNames[user.profile] || 'Principal'} - DOM v2`;
+            }
+        }
+
+        // Função para atualizar sidebar com dados do usuário
+        function updateSidebar(user) {
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const userProfile = document.getElementById('userProfile');
+            
+            if (userAvatar) {
+                userAvatar.textContent = user.name.charAt(0).toUpperCase();
+            }
+            
+            if (userName) {
+                userName.textContent = user.name;
+            }
+            
+            if (userProfile) {
+                const profileNames = {
+                    'EMPLOYER': 'Empregador',
+                    'EMPLOYEE': 'Funcionário',
+                    'FAMILY': 'Familiar',
+                    'ADMIN': 'Administrador',
+                    'user': 'Usuário'
+                };
+                userProfile.textContent = profileNames[user.profile] || 'Usuário';
+            }
+        }
+
+        // Função para alternar sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            mainContent.classList.toggle('sidebar-open');
+        }
+
+        // Função para fechar sidebar
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            mainContent.classList.remove('sidebar-open');
+        }
+
+        // Função de logout
+        function logout() {
+            if (await messageSystem.confirm('confirm.logout')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = loadUserData();
+            if (user) {
+                updateHeader(user);
+                updateSidebar(user);
+                loadDashboardData();
+            }
+            
+            // Fechar sidebar ao clicar no overlay
+            document.getElementById('overlay').addEventListener('click', closeSidebar);
+            
+            // Fechar sidebar ao pressionar ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                }
+            });
+        });
+    
+    // Função para alternar dropdown de perfil
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        const button = document.querySelector('.profile-selector-button');
+        
+        dropdown.classList.toggle('open');
+        button.classList.toggle('open');
+        
+        if (dropdown.classList.contains('open')) {
+            loadProfileOptions();
+        }
+    }
+
+    // Função para carregar opções de perfil
+    function loadProfileOptions() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        // Simular múltiplos perfis disponíveis (em produção, viria da API)
+        const availableProfiles = [
+            { id: 'EMPLOYER', name: 'Empregador', icon: '👨‍💼', description: 'Controle total' },
+            { id: 'EMPLOYEE', name: 'Funcionário', icon: '👷', description: 'Acesso limitado' },
+            { id: 'FAMILY', name: 'Familiar', icon: '👨‍👩‍👧‍👦', description: 'Visualização' },
+            { id: 'ADMIN', name: 'Administrador', icon: '🔧', description: 'Configurações' }
+        ];
+        
+        const optionsContainer = document.getElementById('profileOptions');
+        optionsContainer.innerHTML = '';
+        
+        availableProfiles.forEach(profile => {
+            const option = document.createElement('div');
+            option.className = 'profile-option';
+            if (profile.id === currentProfile) {
+                option.classList.add('active');
+            }
+            
+            option.innerHTML = `
+                <span class="option-icon">${profile.icon}</span>
+                <div class="option-info">
+                    <div class="option-name">${profile.name}</div>
+                    <div class="option-description">${profile.description}</div>
+                </div>
+                <span class="option-check">✓</span>
+            `;
+            
+            option.onclick = () => selectProfileOption(profile.id);
+            optionsContainer.appendChild(option);
+        });
+    }
+
+    // Função para selecionar opção de perfil
+    function selectProfileOption(profileId) {
+        // Remover seleção anterior
+        document.querySelectorAll('.profile-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // Selecionar nova opção
+        event.target.closest('.profile-option').classList.add('active');
+        
+        // Armazenar seleção temporária
+        window.tempSelectedProfile = profileId;
+    }
+
+    // Função para confirmar mudança de perfil
+    function confirmProfileChange() {
+        if (window.tempSelectedProfile) {
+            const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+            userData.selectedProfile = window.tempSelectedProfile;
+            localStorage.setItem('dom_v2_user', JSON.stringify(userData));
+            
+            // Atualizar interface
+            updateProfileSelector();
+            
+            // Fechar dropdown
+            toggleProfileDropdown();
+            
+            // Recarregar página para aplicar mudanças
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+    }
+
+    // Função para atualizar seletor de perfil
+    function updateProfileSelector() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        const profileInfo = getProfileInfo(currentProfile);
+        
+        const iconElement = document.getElementById('currentProfileIcon');
+        const nameElement = document.getElementById('currentProfileName');
+        
+        if (iconElement) iconElement.textContent = profileInfo.icon;
+        if (nameElement) nameElement.textContent = profileInfo.name;
+    }
+
+    // Função para obter informações do perfil
+    function getProfileInfo(profile) {
+        const profiles = {
+            'EMPLOYER': { icon: '👨‍💼', name: 'Empregador' },
+            'EMPLOYEE': { icon: '👷', name: 'Funcionário' },
+            'FAMILY': { icon: '👨‍👩‍👧‍👦', name: 'Familiar' },
+            'ADMIN': { icon: '🔧', name: 'Administrador' }
+        };
+        
+        return profiles[profile] || { icon: '👤', name: 'Usuário' };
+    }
+
+    // Fechar dropdown ao clicar fora
+    document.addEventListener('click', function(e) {
+        const selector = document.querySelector('.profile-selector');
+        const dropdown = document.getElementById('profileDropdown');
+        
+        if (selector && !selector.contains(e.target) && dropdown.classList.contains('open')) {
+            toggleProfileDropdown();
+        }
+    });
+
+    // Atualizar seletor na inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        updateProfileSelector();
+    });
+</script>
+    <script>
+        // Inicialização do sistema de mensagens
+        let messageSystem = null;
+        
+        // Aguardar carregamento do DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sistema de mensagens se disponível
+            try {
+                if (typeof MessageSystemWeb !== 'undefined') {
+                    messageSystem = new MessageSystemWeb();
+                }
+            } catch (error) {
+                console.warn('Sistema de mensagens não disponível:', error);
+            }
+        });
+    </script>
+        // Função para carregar dados do usuário
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('Usuário não logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('Usuário logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // Função para atualizar header com dados do usuário
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponível, senão nome
+                const displayName = user.nickname || user.name || 'Usuário';
+                currentProfile.textContent = displayName;
+                console.log('Nickname atualizado:', displayName);
+            }
+            
+            // Mostrar seletor apenas se usuário tem múltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // Função para carregar opções de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'Funcionário',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile(\'' + profile + '\')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // Função para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        
+    
+    </script>
+    <script>
+        // Função para voltar
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // Função para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Função para carregar dados do usuário
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('Usuário não logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('Usuário logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // Função para atualizar header com dados do usuário
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponível, senão nome
+                const displayName = user.nickname || user.name;
+                currentProfile.textContent = displayName;
+            }
+            
+            // Mostrar seletor apenas se usuário tem múltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // Função para carregar opções de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'Funcionário',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile(\'' + profile + '\')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // Função para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // Função de logout
+        async function logout() {
+            try {
+                if (typeof messageSystem !== 'undefined' && messageSystem && await messageSystem.confirm('confirm.logout')) {
+                    localStorage.removeItem('dom_v2_user');
+                    localStorage.removeItem('dom_v2_token');
+                    localStorage.removeItem('dom_v2_login_time');
+                    window.location.href = 'login-screen.html';
+                } else {
+                    // Fallback se messageSystem não estiver disponível
+                    if (confirm('Deseja realmente sair?')) {
+                        localStorage.removeItem('dom_v2_user');
+                        localStorage.removeItem('dom_v2_token');
+                        localStorage.removeItem('dom_v2_login_time');
+                        window.location.href = 'login-screen.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro no logout:', error);
+                // Fallback em caso de erro
+                if (confirm('Deseja realmente sair?')) {
+                    localStorage.removeItem('dom_v2_user');
+                    localStorage.removeItem('dom_v2_token');
+                    localStorage.removeItem('dom_v2_login_time');
+                    window.location.href = 'login-screen.html';
+                }
+            }
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            const profileSelector = document.getElementById('profileSelector');
+            const dropdown = document.getElementById('profileDropdown');
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+    </script>
+</body>
+</html>

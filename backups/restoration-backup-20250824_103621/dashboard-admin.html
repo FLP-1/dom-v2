@@ -1,0 +1,2114 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador - DOM v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #1f2937;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Administrativo */
+        .header-admin {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .user-details h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .notification-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .notification-btn:hover {
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* MÃ©tricas Administrativas */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-card.users {
+            border-left-color: #3b82f6;
+        }
+
+        .metric-card.system {
+            border-left-color: #10b981;
+        }
+
+        .metric-card.security {
+            border-left-color: #f59e0b;
+        }
+
+        .metric-card.alerts {
+            border-left-color: #ef4444;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .metric-icon {
+            font-size: 2rem;
+        }
+
+        .metric-trend {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .metric-trend.positive {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .metric-trend.negative {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        /* AÃ§Ãµes Administrativas */
+        .admin-actions {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-actions h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* SeÃ§Ãµes Principais */
+        .main-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .view-all-btn {
+            background: none;
+            border: 1px solid #d1d5db;
+            color: #6b7280;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .view-all-btn:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        /* Lista de UsuÃ¡rios */
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .user-item:hover {
+            background: #f9fafb;
+        }
+
+        .user-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-info-small {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .user-email {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .user-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .user-status.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .user-status.inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Alertas do Sistema */
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            transition: background-color 0.2s ease;
+        }
+
+        .alert-item:hover {
+            background: #f9fafb;
+        }
+
+        .alert-item.critical {
+            border-left-color: #ef4444;
+        }
+
+        .alert-item.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .alert-item.info {
+            border-left-color: #3b82f6;
+        }
+
+        .alert-icon {
+            font-size: 1.2rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .alert-message {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .alert-time {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header-admin {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .main-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* AnimaÃ§Ãµes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .sidebar-user {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #007AFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #1e293b;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 122, 255, 0.1);
+            border-left-color: #007AFF;
+        }
+
+        .nav-item.active {
+            background: rgba(0, 122, 255, 0.15);
+            border-left-color: #007AFF;
+            color: #007AFF;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-left: 280px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -100%;
+                width: 100%;
+            }
+
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+
+            .header-actions {
+                position: static;
+                justify-content: center;
+                margin-top: 15px;
+            }
+        }
+
+        /* Profile Selector Styles */
+        .profile-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-selector-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .profile-selector-button .profile-icon {
+            font-size: 16px;
+        }
+
+        .profile-selector-button .profile-name {
+            font-weight: 500;
+        }
+
+        .profile-selector-button .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-selector-button.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .profile-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-header h4 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-dropdown-header p {
+            margin: 4px 0 0 0;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .profile-options {
+            padding: 8px 0;
+        }
+
+        .profile-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: #1e293b;
+            text-decoration: none;
+        }
+
+        .profile-option:hover {
+            background: #f8fafc;
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+        }
+
+        .profile-option .option-icon {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .profile-option .option-info {
+            flex: 1;
+        }
+
+        .profile-option .option-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .profile-option .option-description {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .profile-option .option-check {
+            font-size: 16px;
+            color: #007AFF;
+            opacity: 0;
+        }
+
+        .profile-option.active .option-check {
+            opacity: 1;
+        }
+
+        .profile-dropdown-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #e1e5e9;
+            text-align: center;
+        }
+
+        .profile-dropdown-footer button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .profile-dropdown-footer button:hover {
+            background: #0056CC;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .profile-selector-button .profile-name {
+                display: none;
+            }
+            
+            .profile-dropdown {
+                right: -50px;
+                min-width: 180px;
+            }
+        }
+
+        
+    
+    
+        
+    
+    
+        
+    
+    
+    
+        
+    
+    /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+        /* Header com botÃ£o voltar e seletor condicional */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-selector {
+            position: relative;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .profile-selector.show {
+            display: block;
+        }
+
+        .profile-selector-button {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-selector-button:hover {
+            background: rgba(0, 122, 255, 0.2);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-option:last-child {
+            border-bottom: none;
+        }
+
+        .profile-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .profile-option.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+
+        .menu-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    
+    </style>
+</head>
+<body>
+    <!-- BotÃ£o do menu hamburguer --><button class="menu-button" onclick="toggleSidebar()">â˜°</button><!-- Header --><header class="header"><div class="header-left"><button class="back-button" onclick="goBack()">â† Voltar</button><h1 class="header-title" id="pageTitle">Dashboard</h1></div><div class="header-right"><div class="profile-selector" id="profileSelector"><button class="profile-selector-button" onclick="toggleProfileDropdown()"><span id="currentProfile">Perfil</span><span>â–¼</span></button><div class="profile-dropdown" id="profileDropdown"><!-- OpÃ§Ãµes de perfil serÃ£o carregadas dinamicamente --></div></div><button class="logout-button" onclick="logout()">Sair</button></div></header>
+    <header class="header"><div class="header-left"><button class="back-button" onclick="goBack()">â† Voltar</button><h1 class="header-title" id="pageTitle">Dashboard</h1></div><div class="header-right"><div class="profile-selector" id="profileSelector"><button class="profile-selector-button" onclick="toggleProfileDropdown()"><span id="currentProfile">Perfil</span><span>â–¼</span></button><div class="profile-dropdown" id="profileDropdown"><!-- OpÃ§Ãµes de perfil serÃ£o carregadas dinamicamente --></div></div><button class="logout-button" onclick="logout()">Sair</button></div></header>
+    <!-- BotÃ£o do menu hamburguer -->
+    <button class="menu-button" onclick="toggleSidebar()">â˜°</button>
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+    <!-- BotÃ£o do menu hamburguer -->
+    
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    <!-- BotÃ£o do menu hamburguer --><!-- Header -->
+    
+        <!-- BotÃ£o do menu hamburguer -->
+        
+
+        <!-- Header -->
+        
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="Logo.png" alt="DOM" style="width: 32px; height: 32px; border-radius: 6px;">
+            </div>
+            <div class="sidebar-title">DOM v2</div>
+        </div>
+        
+        <div class="sidebar-user" id="sidebarUser">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h4 id="userName">UsuÃ¡rio</h4>
+                    <p id="userProfile">Perfil</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Principal</div>
+                <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="tasks-management.html" class="nav-item" id="nav-tasks">
+                    <span class="nav-icon">ðŸ“</span>
+                    <span class="nav-text">Tarefas</span>
+                </a>
+                <a href="employees-management.html" class="nav-item" id="nav-employees">
+                    <span class="nav-icon">ðŸ‘¥</span>
+                    <span class="nav-text">FuncionÃ¡rios</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Financeiro</div>
+                <a href="finance.html" class="nav-item" id="nav-finance">
+                    <span class="nav-icon">ðŸ’°</span>
+                    <span class="nav-text">FinanÃ§as</span>
+                </a>
+                <a href="payments-management.html" class="nav-item" id="nav-payments">
+                    <span class="nav-icon">ðŸ’³</span>
+                    <span class="nav-text">Pagamentos</span>
+                </a>
+                <a href="budget-management.html" class="nav-item" id="nav-budget">
+                    <span class="nav-icon">ðŸ“‹</span>
+                    <span class="nav-text">OrÃ§amentos</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Recursos Humanos</div>
+                <a href="hr-management.html" class="nav-item" id="nav-hr">
+                    <span class="nav-icon">ðŸ‘¨â€ðŸ’¼</span>
+                    <span class="nav-text">RH</span>
+                </a>
+                <a href="timeclock.html" class="nav-item" id="nav-timeclock">
+                    <span class="nav-icon">â°</span>
+                    <span class="nav-text">Ponto</span>
+                </a>
+                <a href="advanced-timecard.html" class="nav-item" id="nav-advanced-timecard">
+                    <span class="nav-icon">â±ï¸</span>
+                    <span class="nav-text">Ponto AvanÃ§ado</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Sistema</div>
+                <a href="notifications.html" class="nav-item" id="nav-notifications">
+                    <span class="nav-icon">ðŸ””</span>
+                    <span class="nav-text">NotificaÃ§Ãµes</span>
+                </a>
+                <a href="reports.html" class="nav-item" id="nav-reports">
+                    <span class="nav-icon">ðŸ“Š</span>
+                    <span class="nav-text">RelatÃ³rios</span>
+                </a>
+                <a href="settings.html" class="nav-item" id="nav-settings">
+                    <span class="nav-icon">âš™ï¸</span>
+                    <span class="nav-text">ConfiguraÃ§Ãµes</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">AvanÃ§ado</div>
+                <a href="payment-integrations.html" class="nav-item" id="nav-payment-integrations">
+                    <span class="nav-icon">ðŸ”—</span>
+                    <span class="nav-text">IntegraÃ§Ãµes</span>
+                </a>
+                <a href="communication.html" class="nav-item" id="nav-communication">
+                    <span class="nav-icon">ðŸ’¬</span>
+                    <span class="nav-text">ComunicaÃ§Ã£o</span>
+                </a>
+                <a href="gamification.html" class="nav-item" id="nav-gamification">
+                    <span class="nav-icon">ðŸ†</span>
+                    <span class="nav-text">GamificaÃ§Ã£o</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+
+    <div class="container">
+        <!-- Header Administrativo -->
+        <div class="header-admin fade-in" style="position: relative;">
+            <div class="header-actions">
+                <div class="profile-selector">
+                <button class="profile-selector-button" onclick="toggleProfileDropdown()">
+                    <span class="profile-icon" id="currentProfileIcon">ðŸ‘¤</span>
+                    <span class="profile-name" id="currentProfileName">Perfil</span>
+                    <span class="dropdown-arrow">â–¼</span>
+                </button>
+                
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-dropdown-header">
+                        <h4>Trocar Perfil</h4>
+                        <p>Selecione um perfil diferente</p>
+                    </div>
+                    
+                    <div class="profile-options" id="profileOptions">
+                        <!-- OpÃ§Ãµes serÃ£o carregadas dinamicamente -->
+                    </div>
+                    
+                    <div class="profile-dropdown-footer">
+                        <button onclick="confirmProfileChange()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+                
+                <button class="logout-button" onclick="logout()">ðŸšª Sair</button>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <div class="user-details">
+                    <h1>Administrador do Sistema</h1>
+                    <div class="user-role">Administrador</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="notification-btn">
+                    ðŸ””
+                    <div class="notification-badge">0</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- MÃ©tricas Administrativas -->
+        <div class="metrics-grid fade-in">
+            <div class="metric-card users">
+                <div class="metric-header">
+                    <div class="metric-icon">ðŸ‘¥</div>
+                    <div class="metric-trend positive">+2</div>
+                </div>
+                <div class="metric-value">0</div>
+                <div class="metric-label">UsuÃ¡rios Ativos</div>
+            </div>
+
+            <div class="metric-card system">
+                <div class="metric-header">
+                    <div class="metric-icon">ðŸ–¥ï¸</div>
+                    <div class="metric-trend positive">100%</div>
+                </div>
+                <div class="metric-value">100%</div>
+                <div class="metric-label">Sistema Online</div>
+            </div>
+
+            <div class="metric-card security">
+                <div class="metric-header">
+                    <div class="metric-icon">ðŸ›¡ï¸</div>
+                    <div class="metric-trend positive">OK</div>
+                </div>
+                <div class="metric-value">100%</div>
+                <div class="metric-label">SeguranÃ§a</div>
+            </div>
+
+            <div class="metric-card alerts">
+                <div class="metric-header">
+                    <div class="metric-icon">âš ï¸</div>
+                    <div class="metric-trend negative">0</div>
+                </div>
+                <div class="metric-value">0</div>
+                <div class="metric-label">Alertas CrÃ­ticos</div>
+            </div>
+        </div>
+
+        <!-- AÃ§Ãµes Administrativas -->
+        <div class="admin-actions fade-in">
+            <h2>âš™ï¸ AÃ§Ãµes Administrativas</h2>
+            <div class="actions-grid">
+                <a href="#" class="action-btn">
+                    ðŸ‘¥ Gerenciar UsuÃ¡rios
+                </a>
+                <a href="#" class="action-btn">
+                    ðŸ”§ ConfiguraÃ§Ãµes
+                </a>
+                <a href="#" class="action-btn">
+                    ðŸ“Š RelatÃ³rios
+                </a>
+                <a href="#" class="action-btn">
+                    ðŸ”’ SeguranÃ§a
+                </a>
+            </div>
+        </div>
+
+        <!-- SeÃ§Ãµes Principais -->
+        <div class="main-sections fade-in">
+            <!-- UsuÃ¡rios -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">ðŸ‘¥ UsuÃ¡rios do Sistema</div>
+                    <button class="view-all-btn">Ver Todos</button>
+                </div>
+                <div class="user-list" id="userList">
+                    <!-- Dados serÃ£o carregados via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Alertas do Sistema -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">âš ï¸ Alertas do Sistema</div>
+                    <button class="view-all-btn">Ver Todos</button>
+                </div>
+                <div class="alert-list" id="alertList">
+                    <!-- Dados serÃ£o carregados via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ConfiguraÃ§Ã£o da API
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // FunÃ§Ãµes de API
+        async function fetchAdminData() {
+            try {
+                const [usersResponse, notificationsResponse, systemStatsResponse] = await Promise.all([
+                    fetch(`${API_BASE_URL}/admin/users`),
+                    fetch(`${API_BASE_URL}/notifications`),
+                    fetch(`${API_BASE_URL}/admin/users/stats/summary`)
+                ]);
+
+                const users = await usersResponse.json();
+                const notifications = await notificationsResponse.json();
+                const systemStats = await systemStatsResponse.json();
+
+                return {
+                    users: users.success ? users.users : [],
+                    notifications: notifications.success ? notifications.notifications : [],
+                    systemStats: systemStats.success ? systemStats.stats : {}
+                };
+            } catch (error) {
+                console.error('Erro ao buscar dados administrativos:', error);
+                return { users: [], notifications: [], systemStats: {} };
+            }
+        }
+
+        // Carregar dados dinÃ¢micos
+        async function loadDashboardData() {
+            try {
+                const data = await fetchAdminData();
+                
+                // Atualizar mÃ©tricas com dados reais
+                updateMetrics(data);
+                
+                // Atualizar lista de usuÃ¡rios
+                updateUserList(data.users);
+                
+                // Atualizar alertas do sistema
+                updateAlertList(data.notifications);
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados do dashboard:', error);
+            }
+        }
+
+        function updateMetrics(data) {
+            // UsuÃ¡rios ativos
+            const activeUsers = data.users.filter(user => user.status === 'active').length;
+            
+            // NotificaÃ§Ãµes crÃ­ticas
+            const criticalAlerts = data.notifications.filter(notif => 
+                notif.priority === 'high' && !notif.read
+            ).length;
+            
+            // Sistema online (sempre 100% por enquanto)
+            const systemStatus = 100;
+            
+            // SeguranÃ§a (sempre 100% por enquanto)
+            const securityStatus = 100;
+            
+            // Atualizar cards de mÃ©tricas
+            const usersElement = document.querySelector('.metric-card.users .metric-value');
+            const systemElement = document.querySelector('.metric-card.system .metric-value');
+            const securityElement = document.querySelector('.metric-card.security .metric-value');
+            const alertsElement = document.querySelector('.metric-card.alerts .metric-value');
+            
+            if (usersElement) usersElement.textContent = activeUsers.toString();
+            if (systemElement) systemElement.textContent = `${systemStatus}%`;
+            if (securityElement) securityElement.textContent = `${securityStatus}%`;
+            if (alertsElement) alertsElement.textContent = criticalAlerts.toString();
+        }
+
+        function updateUserList(users) {
+            const userList = document.getElementById('userList');
+            if (!userList) return;
+
+            if (users.length === 0) {
+                userList.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #6b7280;">
+                        Nenhum usuÃ¡rio encontrado
+                    </div>
+                `;
+                return;
+            }
+
+            userList.innerHTML = users.slice(0, 5).map(user => `
+                <div class="user-item">
+                    <div class="user-avatar-small">${user.name ? user.name.charAt(0).toUpperCase() : 'U'}</div>
+                    <div class="user-info-small">
+                        <div class="user-name">${user.name || 'UsuÃ¡rio'}</div>
+                        <div class="user-email">${user.email || 'email@exemplo.com'}</div>
+                    </div>
+                    <div class="user-status ${user.status === 'active' ? 'active' : 'inactive'}">
+                        ${user.status === 'active' ? 'Ativo' : 'Inativo'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateAlertList(notifications) {
+            const alertList = document.getElementById('alertList');
+            if (!alertList) return;
+
+            const criticalNotifications = notifications.filter(notif => 
+                notif.priority === 'high' && !notif.read
+            ).slice(0, 3);
+
+            if (criticalNotifications.length === 0) {
+                alertList.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #6b7280;">
+                        Nenhum alerta crÃ­tico
+                    </div>
+                `;
+                return;
+            }
+
+            alertList.innerHTML = criticalNotifications.map(notif => `
+                <div class="alert-item critical">
+                    <div class="alert-icon">âš ï¸</div>
+                    <div class="alert-content">
+                        <div class="alert-title">${notif.title}</div>
+                        <div class="alert-message">${notif.message}</div>
+                    </div>
+                    <div class="alert-time">${new Date(notif.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            `).join('');
+        }
+
+        // InicializaÃ§Ã£o
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+    </script
+    <!-- Sidebar JavaScript -->
+    <script>
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio logado
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar sidebar com dados do usuÃ¡rio
+        function updateSidebar(user) {
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const userProfile = document.getElementById('userProfile');
+            
+            if (userAvatar) {
+                userAvatar.textContent = user.name.charAt(0).toUpperCase();
+            }
+            
+            if (userName) {
+                userName.textContent = user.name;
+            }
+            
+            if (userProfile) {
+                const profileNames = {
+                    'EMPLOYER': 'Empregador',
+                    'EMPLOYEE': 'FuncionÃ¡rio',
+                    'FAMILY': 'Familiar',
+                    'ADMIN': 'Administrador',
+                    'user': 'UsuÃ¡rio'
+                };
+                userProfile.textContent = profileNames[user.profile] || 'UsuÃ¡rio';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            mainContent.classList.toggle('sidebar-open');
+        }
+
+        // FunÃ§Ã£o para fechar sidebar
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // InicializaÃ§Ã£o do sidebar
+        function initSidebar() {
+            const user = loadUserData();
+            if (user) {
+                updateSidebar(user);
+            }
+            
+            // Fechar sidebar ao clicar no overlay
+            const overlay = document.getElementById('sidebarOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+            
+            // Fechar sidebar ao pressionar ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                }
+            });
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            initSidebar();
+            // Chamar funÃ§Ã£o de inicializaÃ§Ã£o especÃ­fica da pÃ¡gina se existir
+            if (typeof initPage === 'function') {
+                initPage();
+            }
+        });
+    
+    // FunÃ§Ã£o para alternar dropdown de perfil
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        const button = document.querySelector('.profile-selector-button');
+        
+        dropdown.classList.toggle('open');
+        button.classList.toggle('open');
+        
+        if (dropdown.classList.contains('open')) {
+            loadProfileOptions();
+        }
+    }
+
+    // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+    function loadProfileOptions() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        // Simular mÃºltiplos perfis disponÃ­veis (em produÃ§Ã£o, viria da API)
+        const availableProfiles = [
+            { id: 'EMPLOYER', name: 'Empregador', icon: 'ðŸ‘¨â€ðŸ’¼', description: 'Controle total' },
+            { id: 'EMPLOYEE', name: 'FuncionÃ¡rio', icon: 'ðŸ‘·', description: 'Acesso limitado' },
+            { id: 'FAMILY', name: 'Familiar', icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', description: 'VisualizaÃ§Ã£o' },
+            { id: 'ADMIN', name: 'Administrador', icon: 'ðŸ”§', description: 'ConfiguraÃ§Ãµes' }
+        ];
+        
+        const optionsContainer = document.getElementById('profileOptions');
+        optionsContainer.innerHTML = '';
+        
+        availableProfiles.forEach(profile => {
+            const option = document.createElement('div');
+            option.className = 'profile-option';
+            if (profile.id === currentProfile) {
+                option.classList.add('active');
+            }
+            
+            option.innerHTML = `
+                <span class="option-icon">${profile.icon}</span>
+                <div class="option-info">
+                    <div class="option-name">${profile.name}</div>
+                    <div class="option-description">${profile.description}</div>
+                </div>
+                <span class="option-check">âœ“</span>
+            `;
+            
+            option.onclick = () => selectProfileOption(profile.id);
+            optionsContainer.appendChild(option);
+        });
+    }
+
+    // FunÃ§Ã£o para selecionar opÃ§Ã£o de perfil
+    function selectProfileOption(profileId) {
+        // Remover seleÃ§Ã£o anterior
+        document.querySelectorAll('.profile-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // Selecionar nova opÃ§Ã£o
+        event.target.closest('.profile-option').classList.add('active');
+        
+        // Armazenar seleÃ§Ã£o temporÃ¡ria
+        window.tempSelectedProfile = profileId;
+    }
+
+    // FunÃ§Ã£o para confirmar mudanÃ§a de perfil
+    function confirmProfileChange() {
+        if (window.tempSelectedProfile) {
+            const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+            userData.selectedProfile = window.tempSelectedProfile;
+            localStorage.setItem('dom_v2_user', JSON.stringify(userData));
+            
+            // Atualizar interface
+            updateProfileSelector();
+            
+            // Fechar dropdown
+            toggleProfileDropdown();
+            
+            // Recarregar pÃ¡gina para aplicar mudanÃ§as
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+    }
+
+    // FunÃ§Ã£o para atualizar seletor de perfil
+    function updateProfileSelector() {
+        const userData = JSON.parse(localStorage.getItem('dom_v2_user') || '{}');
+        const currentProfile = userData.selectedProfile || userData.profile || 'user';
+        
+        const profileInfo = getProfileInfo(currentProfile);
+        
+        const iconElement = document.getElementById('currentProfileIcon');
+        const nameElement = document.getElementById('currentProfileName');
+        
+        if (iconElement) iconElement.textContent = profileInfo.icon;
+        if (nameElement) nameElement.textContent = profileInfo.name;
+    }
+
+    // FunÃ§Ã£o para obter informaÃ§Ãµes do perfil
+    function getProfileInfo(profile) {
+        const profiles = {
+            'EMPLOYER': { icon: 'ðŸ‘¨â€ðŸ’¼', name: 'Empregador' },
+            'EMPLOYEE': { icon: 'ðŸ‘·', name: 'FuncionÃ¡rio' },
+            'FAMILY': { icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', name: 'Familiar' },
+            'ADMIN': { icon: 'ðŸ”§', name: 'Administrador' }
+        };
+        
+        return profiles[profile] || { icon: 'ðŸ‘¤', name: 'UsuÃ¡rio' };
+    }
+
+    // Fechar dropdown ao clicar fora
+    document.addEventListener('click', function(e) {
+        const selector = document.querySelector('.profile-selector');
+        const dropdown = document.getElementById('profileDropdown');
+        
+        if (selector && !selector.contains(e.target) && dropdown.classList.contains('open')) {
+            toggleProfileDropdown();
+        }
+    });
+
+    // Atualizar seletor na inicializaÃ§Ã£o
+    document.addEventListener('DOMContentLoaded', function() {
+        updateProfileSelector();
+    });
+</script>>
+        </div>
+    </div>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+        
+    
+    </script>
+    <script>
+        
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+                currentProfile.textContent = displayName;
+                console.log('Nickname atualizado:', displayName);
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        
+    
+    </script>
+    <script>
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name;
+                currentProfile.textContent = displayName;
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            const profileSelector = document.getElementById('profileSelector');
+            const dropdown = document.getElementById('profileDropdown');
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+            const user = loadUserData();
+            if (user) {
+                updateHeader(user);
+            }
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+    </script>
+    <script>
+        
+        // FunÃ§Ã£o para carregar dados do usuÃ¡rio
+        function loadUserData() {
+            const userData = localStorage.getItem('dom_v2_user');
+            const token = localStorage.getItem('dom_v2_token');
+            
+            if (!userData || !token) {
+                console.log('UsuÃ¡rio nÃ£o logado, redirecionando para login');
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                console.log('UsuÃ¡rio logado:', user);
+                return user;
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuÃ¡rio:', error);
+                window.location.href = 'login-screen.html';
+                return null;
+            }
+        }
+
+        // FunÃ§Ã£o para atualizar header com dados do usuÃ¡rio
+        function updateHeader(user) {
+            const currentProfile = document.getElementById('currentProfile');
+            const profileSelector = document.getElementById('profileSelector');
+            
+            if (currentProfile) {
+                // Usar nickname se disponÃ­vel, senÃ£o nome
+                const displayName = user.nickname || user.name || 'UsuÃ¡rio';
+                currentProfile.textContent = displayName;
+                console.log('Nickname atualizado:', displayName);
+            }
+            
+            // Mostrar seletor apenas se usuÃ¡rio tem mÃºltiplos perfis
+            if (profileSelector) {
+                const userProfiles = user.profiles || [user.profile];
+                if (userProfiles.length > 1) {
+                    profileSelector.classList.add('show');
+                    loadProfileOptions(userProfiles, user.profile);
+                } else {
+                    profileSelector.classList.remove('show');
+                }
+            }
+        }
+
+        // FunÃ§Ã£o para carregar opÃ§Ãµes de perfil
+        function loadProfileOptions(profiles, currentProfile) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (!dropdown) return;
+            
+            const profileNames = {
+                'EMPLOYER': 'Empregador',
+                'EMPLOYEE': 'FuncionÃ¡rio',
+                'FAMILY': 'Familiar',
+                'ADMIN': 'Administrador'
+            };
+            
+            dropdown.innerHTML = profiles.map(profile => 
+                '<div class="profile-option ' + (profile === currentProfile ? 'active' : '') + '" ' +
+                'onclick="switchProfile('' + profile + '')">' +
+                (profileNames[profile] || profile) +
+                '</div>'
+            ).join('');
+        }
+
+        // FunÃ§Ã£o para trocar perfil
+        function switchProfile(profile) {
+            const profileRoutes = {
+                'EMPLOYER': 'dashboard-employer.html',
+                'EMPLOYEE': 'dashboard-employee.html',
+                'FAMILY': 'dashboard-family.html',
+                'ADMIN': 'dashboard-admin.html'
+            };
+            
+            const route = profileRoutes[profile] || 'dashboard.html';
+            window.location.href = route;
+        }
+
+        // FunÃ§Ã£o para voltar
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // FunÃ§Ã£o para alternar dropdown de perfil
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // FunÃ§Ã£o de logout
+        function logout() {
+            if (await messageSystem.await messageSystem.confirm('confirm.delete')) {
+                localStorage.removeItem('dom_v2_user');
+                localStorage.removeItem('dom_v2_token');
+                localStorage.removeItem('dom_v2_login_time');
+                window.location.href = 'login-screen.html';
+            }
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            const profileSelector = document.getElementById('profileSelector');
+            const dropdown = document.getElementById('profileDropdown');
+            
+            if (profileSelector && !profileSelector.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // InicializaÃ§Ã£o do header
+        function initHeader() {
+            const user = loadUserData();
+            if (user) {
+                updateHeader(user);
+            }
+        }
+
+        // Executar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', initHeader);
+    
+    </script>
+    <script src="js/messages-system.js"></script>
+</body>
+</html>
+

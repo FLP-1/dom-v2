@@ -1,0 +1,221 @@
+# Script simples para reescrever arquivos HTML
+Write-Host "=== REESCRITA SIMPLES DE ARQUIVOS HTML ===" -ForegroundColor Yellow
+
+# Criar backup
+$backupDir = "C:\dom-v2\backups\html-backup-$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
+
+Write-Host "Backup criado em: $backupDir" -ForegroundColor Cyan
+
+# Lista de arquivos principais
+$files = @(
+    "frontend\public\esocial-validation.html",
+    "frontend\public\dashboard.html",
+    "frontend\public\login-screen.html",
+    "frontend\public\employees-management.html",
+    "frontend\public\budget-management.html"
+)
+
+# Fazer backup
+foreach ($file in $files) {
+    if (Test-Path $file) {
+        $backupPath = Join-Path $backupDir (Split-Path $file -Leaf)
+        Copy-Item $file $backupPath
+        Write-Host "Backup: $file" -ForegroundColor Gray
+    }
+}
+
+# Template HTML base
+$htmlTemplate = @'
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM v2 - Sistema Integrado</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        .header p {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.9);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+        .alert-success {
+            color: #155724;
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .alert-error {
+            color: #721c24;
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        .alert-info {
+            color: #0c5460;
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .card { padding: 20px; }
+            .header h1 { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DOM v2</h1>
+            <p>Sistema Integrado de Gerenciamento</p>
+        </div>
+        
+        <div class="card">
+            <h2>Bem-vindo ao Sistema</h2>
+            <p>Esta é uma versão limpa e funcional do sistema DOM v2.</p>
+            
+            <div style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="navigateTo('dashboard.html')">
+                    Dashboard
+                </button>
+                <button class="btn btn-primary" onclick="navigateTo('employees-management.html')">
+                    Funcionários
+                </button>
+                <button class="btn btn-primary" onclick="navigateTo('budget-management.html')">
+                    Orçamentos
+                </button>
+                <button class="btn btn-primary" onclick="navigateTo('esocial-validation.html')">
+                    Validações eSocial
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('Página carregada com sucesso!');
+        
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+        
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+        
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`http://localhost:3001/api${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                showAlert('Erro na comunicação com o servidor', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
+'@
+
+# Reescrever arquivos
+Write-Host "`nReescrevendo arquivos..." -ForegroundColor Cyan
+
+foreach ($file in $files) {
+    if (Test-Path $file) {
+        $htmlTemplate | Set-Content $file -Encoding UTF8
+        Write-Host "✓ Reescrito: $file" -ForegroundColor Green
+    }
+}
+
+Write-Host "`n=== REESCRITA CONCLUÍDA ===" -ForegroundColor Yellow
+Write-Host "Arquivos reescritos com sucesso!" -ForegroundColor Green
+Write-Host "Backup salvo em: $backupDir" -ForegroundColor Cyan
